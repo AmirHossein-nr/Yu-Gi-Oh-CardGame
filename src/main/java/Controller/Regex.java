@@ -1,5 +1,8 @@
 package Controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Regex {
 
     public static String menuEnter = "^menu enter (\\w+)";
@@ -19,5 +22,8 @@ public class Regex {
     public static String removeCardFromDeck = " ";
     public static String showAllDecks = "^deck show (--all|-a)$";
 
-
+    public static Matcher getMatcher(String input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(input);
+    }
 }

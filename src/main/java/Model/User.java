@@ -8,7 +8,7 @@ public class User {
     private String username;
     private String password;
     private String nickName;
-    private static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<User> allUsers = new ArrayList<User>();
     private long score;
     private long lifePoint;
     private long money;
@@ -33,6 +33,27 @@ public class User {
 
     public void setScore(long score) {
         this.score = score;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public static User getUserByUsername(String username) {
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     @Override

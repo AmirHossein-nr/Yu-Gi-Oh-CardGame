@@ -1,5 +1,7 @@
 package View.Menu;
 
+import Model.User;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,6 +10,7 @@ public abstract class Menu {
     private Menu parentMenu;
     private ArrayList<Menu> subMenus;
     protected static Scanner scanner;
+    protected static User loggedUser;
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;
@@ -42,9 +45,45 @@ public abstract class Menu {
         Menu nextMenu = null;
     }
 
+    public void menuExit() {
+        if (parentMenu == null) {
+            System.exit(1);
+        } else {
+            Menu nextMenu = this.getParentMenu();
+            nextMenu.execute();
+        }
+    }
+
+    public void menuEnter(String name) {
+        if (loggedUser != null) {
+            Menu nextMenu;
+            for (Menu menu : subMenus) {
+                if (menu.getName().equals(name)) {
+                    nextMenu = menu;
+                    nextMenu.execute();
+                }
+            }
+            System.out.println("menu navigation is not possible");
+        } else {
+            System.out.println("please login first");
+        }
+    }
 
     public void showName() {
         System.out.println(this.name);
+    }
+
+    public void logoutUser() {
+        if (loggedUser == null) {
+            System.out.println("You are not even logged in!!!");
+            // TO DOC NAGOFTE CHE KONIM
+        } else {
+            loggedUser = null;
+            // Suspicious
+            while (this.getParentMenu() != null) {
+                this.menuExit();
+            }
+        }
     }
 
 }
