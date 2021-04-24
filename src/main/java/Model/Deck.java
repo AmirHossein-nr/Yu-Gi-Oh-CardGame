@@ -16,4 +16,5 @@ public class Deck {
     public SideDeck getSideDeck() {
         return sideDeck;
     }
+
 }

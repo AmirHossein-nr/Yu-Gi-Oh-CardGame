@@ -40,8 +40,8 @@ public abstract class Menu {
 
     public void execute() {
         Menu nextMenu = null;
-
     }
+
 
     public void showName() {
         System.out.println(this.name);

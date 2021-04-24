@@ -3,13 +3,12 @@ package Model;
 import java.util.ArrayList;
 
 public class User {
-    private ArrayList<Deck> Decks;
-    private ArrayList<MainDeck> mainDecks;
-    private ArrayList<SideDeck> sideDecks;
+
+    private ArrayList<Deck> decks;
     private String username;
     private String password;
     private String nickName;
-    private static ArrayList<User> allUsernames = new ArrayList<>();
+    private static ArrayList<User> allUsers = new ArrayList<>();
     private long score;
     private long lifePoint;
     private long money;
@@ -35,5 +34,10 @@ public class User {
     public void setScore(long score) {
         this.score = score;
     }
-    //getMainDeck
+
+    @Override
+    public String toString() {
+        return nickName +
+                ": " + score;
+    }
 }
