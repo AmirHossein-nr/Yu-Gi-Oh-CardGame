@@ -1,6 +1,7 @@
 package Controller;
 
-import Controller.Menu.Menu;
+import View.Menu.LoginMenu;
+import View.Menu.Menu;
 
 import java.util.Scanner;
 
@@ -9,7 +10,11 @@ public class GameController {
 
     public void run() {
         Menu.setScanner(this.scanner);
-
+        Menu loginMenu = new LoginMenu();
+        loginMenu.execute();
         // RUN THE MENUS CODE
     }
+
+
+
 }
