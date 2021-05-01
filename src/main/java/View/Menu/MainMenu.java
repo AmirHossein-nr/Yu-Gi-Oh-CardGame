@@ -1,7 +1,10 @@
 package View.Menu;
 
 
+import Controller.Regex;
+
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
 
@@ -16,6 +19,29 @@ public class MainMenu extends Menu {
         subMenus.add(new ImportExport(this));
         this.setSubMenus(subMenus);
     }
+
+    @Override
+    public void execute() {
+        String input = scanner.nextLine();
+        input = editSpaces(input);
+        if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
+            this.showName();
+            this.execute();
+        } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
+            this.menuExit();
+        } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
+            Matcher matcher = Regex.getMatcher(input, Regex.menuEnter);
+            if (matcher.find()) {
+                this.menuEnter(matcher.group(1));
+            }
+        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
+            this.logoutUser();
+        } else {
+            System.out.println("invalid command!");
+            this.execute();
+        }
+    }
+
 
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
