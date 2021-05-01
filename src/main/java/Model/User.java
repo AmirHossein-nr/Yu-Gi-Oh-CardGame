@@ -18,9 +18,10 @@ public class User {
         allUsers = new ArrayList<>();
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String nickName) {
         this.username = username;
         this.password = password;
+        setNickName(nickName);
         decks = new ArrayList<>();
         allUsers.add(this);
     }

@@ -30,6 +30,9 @@ public class LoginMenu extends Menu {
             boolean flag = login(Regex.getMatcher(input, Regex.loginUser));
             if (!flag)
                 this.execute();
+            System.out.println("user logged in successfully!");
+            this.getSubMenus().get(0).execute();
+            //MainMenu
         } else if (Regex.getMatcher(input, Regex.createUser).find()) {
             register(Regex.getMatcher(input, Regex.createUser));
             this.execute();
@@ -54,8 +57,7 @@ public class LoginMenu extends Menu {
                 System.out.println("user with nickname " + nickname + " already exists");
                 return;
             }
-            user = new User(username, password);
-            user.setNickName(nickname);
+            user = new User(username, password, nickname);
             //todo set Initial money
             System.out.println("user created successfully!");
         }
@@ -71,7 +73,6 @@ public class LoginMenu extends Menu {
                 return false;
             }
             loggedUser = user;
-            this.getSubMenus().get(0).execute();
             return true;
         }
         return false;
