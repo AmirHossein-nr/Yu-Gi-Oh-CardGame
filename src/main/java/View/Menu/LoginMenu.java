@@ -26,13 +26,14 @@ public class LoginMenu extends Menu {
         } else if (Regex.getMatcher(input, Regex.loginUser).find()) {
             // login method
         } else if (Regex.getMatcher(input, Regex.createUser).find()) {
-            // create methid
+            // create method
             this.execute();
         } else {
             System.out.println("invalid command");
             this.execute();
         }
     }
+
     // login
     // register
     //
