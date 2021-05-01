@@ -8,7 +8,13 @@
     <artifactId>project-team-59</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
+    </properties>
+
     <dependencies>
+
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
@@ -16,6 +22,8 @@
             <version>4.4</version>
             <scope>test</scope>
         </dependency>
+
+
     </dependencies>
-    
+
 </project>

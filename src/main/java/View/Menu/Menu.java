@@ -15,6 +15,7 @@ public abstract class Menu {
     public Menu(String name, Menu parentMenu) {
         this.name = name;
         this.parentMenu = parentMenu;
+        subMenus = new ArrayList<>();
     }
 
     public static void setScanner(Scanner scanner) {
@@ -76,7 +77,7 @@ public abstract class Menu {
     public void logoutUser() {
         if (loggedUser == null) {
             System.out.println("You are not even logged in!!!");
-            // TO DOC NAGOFTE CHE KONIM
+            this.execute();
         } else {
             loggedUser = null;
             // Suspicious

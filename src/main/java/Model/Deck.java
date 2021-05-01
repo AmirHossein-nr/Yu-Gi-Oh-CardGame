@@ -1,5 +1,6 @@
 package Model;
 
+
 public class Deck {
     private final MainDeck mainDeck;
     private final SideDeck sideDeck;
