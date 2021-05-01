@@ -30,8 +30,10 @@ public class LoginMenu extends Menu {
             boolean flag = login(Regex.getMatcher(input, Regex.loginUser));
             if (!flag)
                 this.execute();
-            System.out.println("user logged in successfully!");
-            this.getSubMenus().get(0).execute();
+            else {
+                System.out.println("user logged in successfully!");
+                this.getSubMenus().get(0).execute();
+            }
             //MainMenu
         } else if (Regex.getMatcher(input, Regex.createUser).find()) {
             register(Regex.getMatcher(input, Regex.createUser));
