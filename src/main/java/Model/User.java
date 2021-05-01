@@ -14,9 +14,15 @@ public class User {
     private long money;
     private boolean isArtificial;
 
+    static {
+        allUsers = new ArrayList<>();
+    }
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        decks = new ArrayList<>();
+        allUsers.add(this);
     }
 
     public void setPassword(String password) {
@@ -50,6 +56,15 @@ public class User {
     public static User getUserByUsername(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public static User getUserByNickname(String nickName) {
+        for (User user : allUsers) {
+            if (user.getNickName().equals(nickName)) {
                 return user;
             }
         }
