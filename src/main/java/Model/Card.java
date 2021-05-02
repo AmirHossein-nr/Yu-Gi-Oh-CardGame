@@ -1,25 +1,31 @@
 package Model;
 
+
 public class Card {
     private String name;
     private String description;
     private Boolean isOccupied;
     private Boolean isAttackPosition;
     private Boolean isSelected;
-    private Type type;
+    private Type cardType;
+    private Integer price;
 
 
     public Card(String name, Type type) {
         setName(name);
-        setType(type);
+        setCardType(type);
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setCardType(Type cardType) {
+        this.cardType = cardType;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public void setSelected(Boolean selected) {
@@ -38,12 +44,16 @@ public class Card {
         isAttackPosition = attackPosition;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
     public String getName() {
         return name;
     }
 
-    public Type getType() {
-        return type;
+    public Type getCardType() {
+        return cardType;
     }
 
     public String getDescription() {
