@@ -1,15 +1,17 @@
 package View.Menu;
 
+import Controller.Regex;
 import Model.*;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.SerializablePermission;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
 import java.util.List;
+import java.util.regex.Matcher;
 
 
 public class Shop extends Menu {
@@ -18,6 +20,7 @@ public class Shop extends Menu {
     static {
         allCards = new ArrayList<>();
     }
+
 
     public Shop(Menu parentMenu) {
         super("Shop Menu", parentMenu);
@@ -164,6 +167,60 @@ public class Shop extends Menu {
                 return Attribute.WIND;
         }
         return null;
+    }
+
+    private String editSpaces(String string) {
+        return string.replaceAll("(\\s)+", " ");
+    }
+
+    @Override
+    public void execute() {
+        String input = scanner.nextLine();
+        input = editSpaces(input);
+        Matcher matcher;
+
+        if ((matcher = Regex.getMatcher(input, Regex.buyCardInShop)).find()) {
+            Regex.getMatcher(input, Regex.buyCardInShop);
+            Card finalCard = null;
+            String name = matcher.group(1);
+            for (Card card : allCards) {
+                if (card.getName().equals(name)) {
+                    finalCard = card;
+                    break;
+                }
+            }
+
+            if (finalCard == null) {
+                System.out.println("there is no card with this name");
+                this.execute();
+            } else if (loggedUser.getMoney() < finalCard.getPrice()) {
+                System.out.println("not enough money");
+                this.execute();
+            } else {
+                loggedUser.setMoney(loggedUser.getMoney() - finalCard.getPrice());
+                loggedUser.getAllCards().add(finalCard);
+                this.execute();
+            }
+        }
+
+        else if ((matcher = Regex.getMatcher(input, Regex.showAllInShop)).find()) {
+            //todo Alphabetically
+            for (Card card : allCards) {
+                System.out.println(card.toString());
+                System.out.println("-----------------------");
+            }
+        } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
+            this.menuExit();
+        } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
+            this.menuEnter(input);
+        }
+        else if(Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
+           showName();
+           this.execute();
+        } else {
+            System.out.println("invalid command!");
+            this.execute();
+        }
     }
 }
 

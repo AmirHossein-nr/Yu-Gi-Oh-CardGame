@@ -5,11 +5,12 @@ import java.util.Collections;
 
 public class User {
 
+    private static ArrayList<User> allUsers;
     private ArrayList<Deck> decks;
+    private ArrayList<Card> allCards;
     private String username;
     private String password;
     private String nickName;
-    private static ArrayList<User> allUsers;
     private long score;
     private long lifePoint;
     private long money;
@@ -24,6 +25,7 @@ public class User {
         this.password = password;
         setNickName(nickName);
         decks = new ArrayList<>();
+        allCards = new ArrayList<>();
         allUsers.add(this);
     }
 
@@ -41,6 +43,22 @@ public class User {
 
     public void setScore(long score) {
         this.score = score;
+    }
+
+    public ArrayList<Card> getAllCards() {
+        return allCards;
+    }
+
+    public ArrayList<Deck> getDecks() {
+        return decks;
+    }
+
+    public long getMoney() {
+        return money;
+    }
+
+    public long getLifePoint() {
+        return lifePoint;
     }
 
     public String getUsername() {
@@ -82,7 +100,7 @@ public class User {
     }
 
     public static void sortAllUsers() {
-        for (int i = allUsers.size() - 2; i >= 0 ; i--) {
+        for (int i = allUsers.size() - 2; i >= 0; i--) {
             for (int j = 0; j <= allUsers.size() - 2; j++) {
                 if (allUsers.get(j).score > allUsers.get(j + 1).score) {
                     Collections.swap(allUsers, j, j + 1);

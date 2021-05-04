@@ -33,6 +33,7 @@ public class MainMenu extends Menu {
             Matcher matcher = Regex.getMatcher(input, Regex.menuEnter);
             if (matcher.find()) {
                 this.menuEnter(matcher.group(1));
+                this.execute();
             }
         } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
             this.logoutUser();

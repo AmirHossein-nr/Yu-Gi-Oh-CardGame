@@ -60,7 +60,7 @@ public class LoginMenu extends Menu {
                 return;
             }
             user = new User(username, password, nickname);
-            //todo set Initial money
+            user.setMoney(100000);
             System.out.println("user created successfully!");
         }
     }

@@ -72,4 +72,9 @@ public class Card {
         return isAttackPosition;
     }
 
+    @Override
+    public String toString() {
+        return
+                name + ':' + price;
+    }
 }

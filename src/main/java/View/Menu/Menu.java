@@ -58,14 +58,19 @@ public abstract class Menu {
 
     public void menuEnter(String name) {
         if (loggedUser != null) {
-            Menu nextMenu;
+            Menu nextMenu = null;
             for (Menu menu : subMenus) {
                 if (menu.getName().equals(name)) {
                     nextMenu = menu;
-                    nextMenu.execute();
+                    break;
                 }
             }
-            System.out.println("menu navigation is not possible");
+            if (nextMenu == null)
+                System.out.println("menu navigation is not possible");
+            else {
+                System.out.println("You Entered Menu :" + nextMenu.getName());
+                nextMenu.execute();
+            }
         } else {
             System.out.println("please login first");
         }

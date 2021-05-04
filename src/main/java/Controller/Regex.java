@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Regex {
 
-    public static String menuEnter = "^menu enter (\\w+)";
+    public static String menuEnter = "^menu enter (.*)";
     public static String menuExit = "^menu exit$";
     public static String showCurrentMenu = "^menu show-current$";
     public static String createUser = "^user create(?=.*( --username (\\w+)))(?=.*( --password (\\w+)))(?=.*( --nickname (\\w+)))";
@@ -21,6 +21,8 @@ public class Regex {
     public static String addCardToDeck = "^deck add-card(?=.*( --card (\\w+)))(?=.*( --deck (\\w+)))(?=.*( --side))?";
     public static String removeCardFromDeck = "^deck rm-card(?=.*( --card (\\w+)))(?=.*( --deck (\\w+)))(?=.*( --side))?";
     public static String showAllDecks = "^deck show (--all|-a)$";
+    public static String buyCardInShop = "^shop buy (.*)$";
+    public static String showAllInShop = "^shop show --all$";
 
     public static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
