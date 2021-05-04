@@ -12,7 +12,7 @@ public class MainMenu extends Menu {
         super("Main Menu", parentMenu);
         ArrayList<Menu> subMenus = new ArrayList<>();
         subMenus.add(new Duel(this));
-        subMenus.add(new Deck(this));
+        subMenus.add(new DeckMenu(this));
         subMenus.add(new ScoreBoard(this));
         subMenus.add(new Profile(this));
         subMenus.add(new Shop(this));

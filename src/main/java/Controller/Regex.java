@@ -23,6 +23,8 @@ public class Regex {
     public static String showAllDecks = "^deck show (--all|-a)$";
     public static String buyCardInShop = "^shop buy (.*)$";
     public static String showAllInShop = "^shop show --all$";
+    public static String newGame = "^duel (?=.(--new))(?=.(--second-player (\\w+)))(?=.*(--rounds (\\d+)))";
+
 
     public static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);

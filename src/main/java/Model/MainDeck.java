@@ -6,6 +6,7 @@ public class MainDeck {
     private ArrayList<Card> cardsInMainDeck;
     private String deckName;
     private Boolean isActive;
+    private Boolean isValid;
 
     public MainDeck(String deckName, Boolean isActive) {
         new ArrayList<>();
@@ -40,6 +41,8 @@ public class MainDeck {
         this.deckName = deckName;
     }
 
+    public void setValid(Boolean flag) {this.isValid = flag;}
+
     public ArrayList<Card> getCardsInMainDeck() {
         return cardsInMainDeck;
     }
@@ -52,6 +55,9 @@ public class MainDeck {
         return deckName;
     }
 
+    public Boolean getValid() {
+        return isValid;
+    }
 
     @Override
     public String toString() {
