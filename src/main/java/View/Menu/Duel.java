@@ -7,60 +7,66 @@ import Model.User;
 import java.util.regex.Matcher;
 
 public class Duel extends Menu {
+
+    private boolean isGameStarted = false;
+    private User rivalUser;
+    private User currentUser;
+
     public Duel(Menu parentMenu) {
         super("Duel Menu", parentMenu);
     }
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
-        input = editSpaces(input);
-        Matcher matcher ;
-        if ((matcher= Regex.getMatcher(input, Regex.newGame)).find()){
-            User rivalUser = null;
-            for (User user : User.getAllUsers()) {
-                if (user.getUsername().equals(matcher.group(3))){
-                    rivalUser = user;
-                    break;
-                }
-            }
-            if (rivalUser == null){
-                System.out.println("there is no player with this username");
-                this.execute();
-            }
-            else if (!hasActiveDeck(loggedUser)){
-                System.out.println(loggedUser.getUsername() + " has no active deck");
-                this.execute();
-            }
-            else if (!hasActiveDeck(rivalUser)) {
-                System.out.println(rivalUser.getUsername() + " has no active deck");
-                this.execute();
-            }
-            else if (!isValid(loggedUser)){
-                System.out.println(loggedUser.getUsername() + "’s deck is invalid");
-                this.execute();
-            }
-            else if (!isValid(rivalUser)){
-                System.out.println(rivalUser.getUsername() + "’s deck is invalid");
-                this.execute();
-            }
-            else if (Integer.parseInt(matcher.group(5))!=1 && Integer.parseInt(matcher.group(5))!=3) {
+
+        if (isGameStarted) {
+
+
+        } else {
+            String input = scanner.nextLine();
+            input = editSpaces(input);
+            Matcher matcher;
+
+            if ((matcher = Regex.getMatcher(input, Regex.newGame)).find()) {
+                rivalUser = User.getUserByUsername(matcher.group(3));
+
+                if (rivalUser == null) {
+                    System.out.println("there is no player with this username");
+                    this.execute();
+                } else if (!hasActiveDeck(loggedUser)) {
+                    System.out.println(loggedUser.getUsername() + " has no active deck");
+                    this.execute();
+                } else if (!hasActiveDeck(rivalUser)) {
+                    System.out.println(rivalUser.getUsername() + " has no active deck");
+                    this.execute();
+                } else if (!isValid(loggedUser)) {
+                    System.out.println(loggedUser.getUsername() + "’s deck is invalid");
+                    this.execute();
+                } else if (!isValid(rivalUser)) {
+                    System.out.println(rivalUser.getUsername() + "’s deck is invalid");
+                    this.execute();
+                } else if (Integer.parseInt(matcher.group(5)) != 1 && Integer.parseInt(matcher.group(5)) != 3) {
                     System.out.println("number of rounds is not supported");
                     this.execute();
-            }
-            //TODO ai duel
-            else {
+                }
+
+                isGameStarted = true;
+                this.execute();
+
+            } else {
                 System.out.println("invalid command!");
                 this.execute();
             }
 
+            //TODO ai duel
         }
-
     }
+
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
     }
-    private boolean hasActiveDeck (User user) {
+
+    private boolean hasActiveDeck(User user) {
 
         for (Deck deck : user.getDecks()) {
             if (deck.getMainDeck().getActive())
@@ -68,7 +74,8 @@ public class Duel extends Menu {
         }
         return false;
     }
-    private boolean isValid (User user){
+
+    private boolean isValid(User user) {
         for (Deck deck : user.getDecks()) {
             if (deck.getMainDeck().getActive()) {
                 if (deck.getMainDeck().getValid()) {
