@@ -222,5 +222,12 @@ public class Shop extends Menu {
             this.execute();
         }
     }
+    public static Card getCardByName (String name) {
+        for (Card card : allCards) {
+            if (card.getName().equals(name))
+                return card;
+        }
+        return null;
+    }
 }
 

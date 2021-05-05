@@ -4,19 +4,17 @@ import java.util.ArrayList;
 
 public class MainDeck {
     private ArrayList<Card> cardsInMainDeck;
-    private String deckName;
     private Boolean isActive;
     private Boolean isValid;
 
-    public MainDeck(String deckName, Boolean isActive) {
+    public MainDeck(Boolean isActive) {
         new ArrayList<>();
-        setDeckName(deckName);
         setActive(isActive);
     }
 
     //todo COMPLETE HERE !
 
-    private String printMonsters() {
+    public String printMonsters() {
         ArrayList<Card> monsters = new ArrayList<>();
 
         for (Card card : cardsInMainDeck) {
@@ -37,9 +35,7 @@ public class MainDeck {
         this.cardsInMainDeck = cardsInMainDeck;
     }
 
-    public void setDeckName(String deckName) {
-        this.deckName = deckName;
-    }
+
 
     public void setValid(Boolean flag) {this.isValid = flag;}
 
@@ -51,22 +47,11 @@ public class MainDeck {
         return isActive;
     }
 
-    public String getDeckName() {
-        return deckName;
-    }
+
 
     public Boolean getValid() {
         return isValid;
     }
 
-    @Override
-    public String toString() {
-        return "Deck: " + this.getDeckName() +
-                "\nMain deck" +
-                "\nMonsters:" +
-                printMonsters() +
-                ", deckName='" + deckName + '\'' +
-                ", isActive=" + isActive +
-                '}';
-    }
+
 }

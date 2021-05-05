@@ -4,17 +4,13 @@ import java.util.ArrayList;
 
 public class SideDeck {
     private ArrayList<Card> cardsInSideDeck;
-    private String deckName;
     private Boolean isActive;
 
-    public SideDeck(String deckName, Boolean isActive) {
-        setDeckName(deckName);
+    public SideDeck(Boolean isActive) {
         setActive(isActive);
     }
 
-    public void setDeckName(String deckName) {
-        this.deckName = deckName;
-    }
+
 
     public void setActive(Boolean active) {
         isActive = active;
@@ -24,9 +20,7 @@ public class SideDeck {
         this.cardsInSideDeck = cardsInSideDeck;
     }
 
-    public String getDeckName() {
-        return deckName;
-    }
+
 
     public Boolean getActive() {
         return isActive;
