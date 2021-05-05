@@ -9,12 +9,15 @@ public class Deck {
     private final MainDeck mainDeck;
     private final SideDeck sideDeck;
     private boolean isActive;
-
+    private boolean isValid;
 
     public Deck(MainDeck mainDeck, SideDeck sideDeck) {
         this.mainDeck = mainDeck;
         this.sideDeck = sideDeck;
+    }
 
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 
     public void setName(String name) {
@@ -23,6 +26,10 @@ public class Deck {
 
     public String getName() {
         return name;
+    }
+
+    public boolean getValid() {
+        return isValid;
     }
 
     public void setActive(boolean active) {
@@ -41,12 +48,21 @@ public class Deck {
         return sideDeck;
     }
 
-    public static Deck getDeckByDeckName (String name, User user) {
-        for (Deck deck: user.getDecks()) {
+    public static Deck getDeckByDeckName(String name, User user) {
+        for (Deck deck : user.getDecks()) {
             if (deck.getName().equals(name))
                 return deck;
         }
         return null;
     }
 
+    @Override
+    public String toString() {
+        if (this.getValid())
+            return this.name + ": main deck " + this.getMainDeck().getCardsInMainDeck().size() + ", side deck "
+                    + this.getSideDeck().getCardsInSideDeck().size() + ", valid";
+        else
+            return this.name + ": main deck " + this.getMainDeck().getCardsInMainDeck().size() + ", side deck "
+                    + this.getSideDeck().getCardsInSideDeck().size() + ", invalid";
+    }
 }

@@ -24,7 +24,8 @@ public class Regex {
     public static String buyCardInShop = "^shop buy (.*)$";
     public static String showAllInShop = "^shop show --all$";
     public static String newGame = "^duel (?=.(--new))(?=.(--second-player (\\w+)))(?=.*(--rounds (\\d+)))";
-
+    public static String showOneDeck = "^deck show(?=.*( --deck-name (\\w+)))(?=.*( --side))?";
+    public static String showCards = "^deck show --cards";
 
     public static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);

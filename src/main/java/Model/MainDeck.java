@@ -15,14 +15,24 @@ public class MainDeck {
     //todo COMPLETE HERE !
 
     public String printMonsters() {
-        ArrayList<Card> monsters = new ArrayList<>();
 
         for (Card card : cardsInMainDeck) {
             if (card instanceof Monster) {
-                monsters.add(card);
                 System.out.println(card.getName() + ": " + card.getDescription());
             }
         }
+        //todo Alphabetically
+        return "";
+    }
+
+    public String printSpellsTraps() {
+
+        for (Card card : cardsInMainDeck) {
+            if (card instanceof Spell || card instanceof Trap) {
+                System.out.println(card.getName() + ": " + card.getDescription());
+            }
+        }
+        //todo Alphabetically
 
         return "";
     }
@@ -36,8 +46,9 @@ public class MainDeck {
     }
 
 
-
-    public void setValid(Boolean flag) {this.isValid = flag;}
+    public void setValid(Boolean flag) {
+        this.isValid = flag;
+    }
 
     public ArrayList<Card> getCardsInMainDeck() {
         return cardsInMainDeck;
@@ -48,10 +59,15 @@ public class MainDeck {
     }
 
 
-
     public Boolean getValid() {
         return isValid;
     }
 
+    @Override
+    public String toString() {
+        return "Main Deck :\n" +
+                printMonsters() + "\nSpells and Traps :\n" +
+                printSpellsTraps();
+    }
 
 }

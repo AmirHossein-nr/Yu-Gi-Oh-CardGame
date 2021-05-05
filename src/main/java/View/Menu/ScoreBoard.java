@@ -5,7 +5,7 @@ import Model.User;
 
 import java.util.regex.Matcher;
 
-public class ScoreBoard extends Menu{
+public class ScoreBoard extends Menu {
     public ScoreBoard(Menu parentMenu) {
         super("ScoreBoard Menu", parentMenu);
     }
@@ -27,6 +27,7 @@ public class ScoreBoard extends Menu{
         } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
             this.logoutUser();
         } else if (Regex.getMatcher(input, Regex.showScoreBoard).find()) {
+            User.sortAllUsers();
             showScoreBoard();
             this.execute();
         } else {
