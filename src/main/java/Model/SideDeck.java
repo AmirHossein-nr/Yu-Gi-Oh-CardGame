@@ -43,7 +43,6 @@ public class SideDeck {
     }
 
 
-
     public Boolean getActive() {
         return isActive;
     }

@@ -16,6 +16,18 @@ public class Spell extends Card {
     }
 
     @Override
+    public Object clone() {
+        Spell spell = new Spell(this.getName(),this.getCardType());
+        spell.setDescription(this.getDescription());
+        spell.setPrice(this.getPrice());
+        spell.setStatus(this.getStatus());
+        spell.setAttackPosition(this.getAttackPosition());
+        spell.setOccupied(this.getOccupied());
+        spell.setSelected(this.getSelected());
+        return spell;
+    }
+
+    @Override
     public String toString() {
         return "Name: " + this.getName() +
                 "\nSpell" +

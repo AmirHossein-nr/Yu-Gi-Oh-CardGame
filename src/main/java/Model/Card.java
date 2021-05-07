@@ -16,6 +16,7 @@ public class Card {
         setCardType(type);
     }
 
+
     public void setName(String name) {
         this.name = name;
     }

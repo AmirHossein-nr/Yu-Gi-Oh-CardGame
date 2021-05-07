@@ -198,12 +198,21 @@ public class Shop extends Menu {
                 this.execute();
             } else {
                 loggedUser.setMoney(loggedUser.getMoney() - finalCard.getPrice());
-                loggedUser.getAllCards().add(finalCard);
+                Card card = null;
+                if (finalCard instanceof Monster) {
+                    Monster finalMonster = (Monster) finalCard;
+                    card = (Monster) finalMonster.clone();
+                } else if (finalCard instanceof Spell) {
+                    Spell finalSpell = (Spell) finalCard;
+                    card = (Spell) finalSpell.clone();
+                } else if (finalCard instanceof Trap) {
+                    Trap finalTrap = (Trap) finalCard;
+                    card = (Trap) finalTrap.clone();
+                }
+                loggedUser.getAllCards().add(card);
                 this.execute();
             }
-        }
-
-        else if ((matcher = Regex.getMatcher(input, Regex.showAllInShop)).find()) {
+        } else if ((matcher = Regex.getMatcher(input, Regex.showAllInShop)).find()) {
             //todo Alphabetically
             for (Card card : allCards) {
                 System.out.println(card.toString());
@@ -213,16 +222,16 @@ public class Shop extends Menu {
             this.menuExit();
         } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
             this.menuEnter(input);
-        }
-        else if(Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-           showName();
-           this.execute();
+        } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
+            showName();
+            this.execute();
         } else {
             System.out.println("invalid command!");
             this.execute();
         }
     }
-    public static Card getCardByName (String name) {
+
+    public static Card getCardByName(String name) {
         for (Card card : allCards) {
             if (card.getName().equals(name))
                 return card;

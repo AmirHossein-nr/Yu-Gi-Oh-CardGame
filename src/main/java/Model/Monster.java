@@ -17,6 +17,22 @@ public class Monster extends Card {
         super.setDescription(description);
     }
 
+    @Override
+    public Object clone() {
+        Monster monster = new Monster(getName(),getCardType());
+        monster.setAttribute(this.getAttribute());
+        monster.setPrice(this.getPrice());
+        monster.setDescription(this.getDescription());
+        monster.setMonsterType(this.getMonsterType());
+        monster.setLevel(this.getLevel());
+        monster.setOccupied(this.getOccupied());
+        monster.setDefencePower(this.getDefencePower());
+        monster.setAttackPower(this.getAttackPower());
+        monster.setSelected(this.getSelected());
+        monster.setAttackPosition(this.getAttackPosition());
+        return monster;
+    }
+
     public void setMonsterType(Type monsterType) {
         this.monsterType = monsterType;
     }
