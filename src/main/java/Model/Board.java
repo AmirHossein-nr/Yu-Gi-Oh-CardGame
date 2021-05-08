@@ -1,19 +1,22 @@
 package Model;
 
+import java.sql.Array;
 import java.util.ArrayList;
 
 public class Board {
 
     private Deck deck;
+    private ArrayList<Card> deckZone;
     private Card fieldZone;
-    private ArrayList<Card> allCards;
+    //private ArrayList<Card> allCards;
     private ArrayList<Card> monstersZone;
     private ArrayList<Card> spellsAndTrapsZone;
     private ArrayList<Card> graveYard;
     private ArrayList<Card> cardsInHand;
 
     public Board() {
-        allCards = new ArrayList<>();
+        deckZone = new ArrayList<>(deck.getMainDeck().getCardsInMainDeck());
+        //allCards = new ArrayList<>();
         monstersZone = new ArrayList<>();
         spellsAndTrapsZone = new ArrayList<>();
         graveYard = new ArrayList<>();
@@ -28,8 +31,12 @@ public class Board {
         this.fieldZone = fieldZone;
     }
 
-    public ArrayList<Card> getAllCards() {
-        return allCards;
+ //   public ArrayList<Card> getAllCards() {
+ //       return allCards;
+ //   }
+
+    public ArrayList<Card> getDeckZone() {
+        return deckZone;
     }
 
     public ArrayList<Card> getCardsInHand() {

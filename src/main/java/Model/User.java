@@ -15,6 +15,7 @@ public class User {
     private long lifePoint;
     private long money;
     private boolean isArtificial;
+    private Board board;
 
     static {
         allUsers = new ArrayList<>();
@@ -41,8 +42,16 @@ public class User {
         this.money = money;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     public void setScore(long score) {
         this.score = score;
+    }
+
+    public void setLifePoint(long lifePoint) {
+        this.lifePoint = lifePoint;
     }
 
     public ArrayList<Card> getAllCards() {
@@ -51,6 +60,10 @@ public class User {
 
     public ArrayList<Deck> getDecks() {
         return decks;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public long getMoney() {

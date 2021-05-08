@@ -1,8 +1,7 @@
 package View.Menu;
 
 import Controller.Regex;
-import Model.Deck;
-import Model.User;
+import Model.*;
 
 import java.util.regex.Matcher;
 
@@ -49,7 +48,10 @@ public class Duel extends Menu {
                     System.out.println("number of rounds is not supported");
                     this.execute();
                 }
-
+                setBoards(loggedUser, rivalUser);
+                loggedUser.setLifePoint(8000);
+                rivalUser.setLifePoint(8000);
+                currentUser = loggedUser;
                 isGameStarted = true;
                 this.execute();
 
@@ -64,6 +66,14 @@ public class Duel extends Menu {
 
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
+    }
+
+    private User getOpponentOfCurrentUser() {
+        if (currentUser == loggedUser) {
+            return rivalUser;
+        } else {
+            return loggedUser;
+        }
     }
 
     private boolean hasActiveDeck(User user) {
@@ -85,5 +95,116 @@ public class Duel extends Menu {
             }
         }
         return false;
+    }
+
+    private void setBoards(User user1, User user2) {
+        Board board1 = new Board();
+        Board board2 = new Board();
+
+        for(Deck deck : user1.getDecks()) {
+            if (deck.isActive() || deck.getValid()) {
+                board1.setDeck(deck);
+                break;
+            }
+        }
+        for(Deck deck : user2.getDecks()) {
+            if (deck.isActive() || deck.getValid()) {
+                board2.setDeck(deck);
+                break;
+            }
+        }
+
+        user1.setBoard(board1);
+        user2.setBoard(board2);
+    }
+
+    private void playGameWithOneRound() {
+
+    }
+
+    private void playGameWithThreeRound() {
+
+    }
+
+    private void printBoard() {
+        StringBuilder board = new StringBuilder();
+        board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser().getLifePoint()).append("\n");
+        board.append("\t");
+        for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getCardsInHand().size(); i++) {
+            board.append("c\t");
+        }
+        board.append("\n");
+        board.append(getOpponentOfCurrentUser().getBoard().getDeckZone().size()).append("\n\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(3))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(1))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(0))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(2))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(4))).append("\n");
+        board.append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(3))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(1))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(2))).append("\t");
+        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(4))).append("\n");
+        board.append(getOpponentOfCurrentUser().getBoard().getGraveYard().size()).append("\t\t\t\t\t\t");
+        if (getOpponentOfCurrentUser().getBoard().getFieldZone() instanceof Spell) {
+            board.append("O");
+        } else {
+            board.append("E");
+        }
+        board.append("\n\n--------------------------\n\n");
+        if (currentUser.getBoard().getFieldZone() instanceof Spell) {
+            board.append("O");
+        } else {
+            board.append("E");
+        }
+        board.append("\t\t\t\t\t\t").append(currentUser.getBoard().getGraveYard().size()).append("\n\t");
+        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(4))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(2))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(0))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(1))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(3))).append("\n");
+        board.append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(4))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(2))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(0))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(1))).append("\t");
+        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(3))).append("\n");
+        board.append("\t\t\t\t\t\t").append(currentUser.getBoard().getDeckZone().size()).append("\n");
+        board.append("\t");
+        for (int i = 0; i < currentUser.getBoard().getCardsInHand().size(); i++) {
+            board.append("c\t");
+        }
+        board.append("\n");
+        board.append(currentUser.getNickName()).append(":").append(currentUser.getLifePoint()).append("\n");
+
+    }
+
+    private String toStringInBoard(Card card) {
+        if (card instanceof Monster) {
+            if (card == null) {
+                return "E";
+            } else if (card.getOccupied()) {
+                if (card.getAttackPosition()) {
+                    return "OO";
+                } else {
+                    return "DO";
+                }
+            } else {
+                if (card.getAttackPosition()) {
+                    return "OH";
+                } else {
+                    return "DH";
+                }
+            }
+        } else {
+            if (card == null) {
+                return "E";
+            } else if (card.getOccupied()) {
+                return "O";
+            } else {
+                return "H";
+            }
+        }
     }
 }
