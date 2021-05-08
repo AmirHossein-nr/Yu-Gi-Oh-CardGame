@@ -212,6 +212,7 @@ public class DeckMenu extends Menu {
                 System.out.println(card.toString());
             }
             //todo Alphabetically
+            loggedUser.sortAllCardsOfUser();
             this.execute();
         } else {
             System.out.println("invalid command!");
