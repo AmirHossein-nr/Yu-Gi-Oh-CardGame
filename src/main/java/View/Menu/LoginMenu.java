@@ -34,7 +34,7 @@ public class LoginMenu extends Menu {
                 System.out.println("user logged in successfully!");
                 this.getSubMenus().get(0).execute();
             }
-            //MainMenu
+            this.getSubMenus().get(0).execute();
         } else if (Regex.getMatcher(input, Regex.createUser).find()) {
             register(Regex.getMatcher(input, Regex.createUser));
             this.execute();
@@ -79,8 +79,6 @@ public class LoginMenu extends Menu {
         }
         return false;
     }
-
-    //todo menu enter-----
 
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");

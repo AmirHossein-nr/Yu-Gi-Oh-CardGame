@@ -214,7 +214,7 @@ public class Shop extends Menu {
                 this.execute();
             }
         } else if ((matcher = Regex.getMatcher(input, Regex.showAllInShop)).find()) {
-            //todo Alphabetically
+
             sortAllCards();
             for (Card card : allCards) {
                 System.out.println(card.toString());

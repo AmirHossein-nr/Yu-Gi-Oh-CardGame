@@ -211,7 +211,6 @@ public class DeckMenu extends Menu {
             for (Card card : loggedUser.getAllCards()) {
                 System.out.println(card.toString());
             }
-            //todo Alphabetically
             loggedUser.sortAllCardsOfUser();
             this.execute();
         } else {
