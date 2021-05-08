@@ -111,7 +111,14 @@ public class DeckMenu extends Menu {
                 this.execute();
             }
 
-            Card card = Shop.getCardByName(cardName);
+            Card card = null;
+            if (Shop.getCardByName(cardName) instanceof Monster)
+                card = (Monster) ((Monster) Shop.getCardByName(cardName)).clone();
+            else if (Shop.getCardByName(cardName) instanceof Spell)
+                card = (Spell) ((Spell) Shop.getCardByName(cardName)).clone();
+            else if (Shop.getCardByName(cardName) instanceof Trap)
+                card = (Trap) ((Trap) Shop.getCardByName(cardName)).clone();
+
             int counter = 0;
             for (Card myCard : deck.getMainDeck().getCardsInMainDeck()) {
                 if (myCard.getName().equals(cardName))
