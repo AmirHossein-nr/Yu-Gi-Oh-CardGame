@@ -213,6 +213,15 @@ public class DeckMenu extends Menu {
             }
             loggedUser.sortAllCardsOfUser();
             this.execute();
+        } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
+            this.menuExit();
+        } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
+            this.showName();
+            this.execute();
+        } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
+            this.menuEnter(matcher.group(1));
+        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
+            this.logoutUser();
         } else {
             System.out.println("invalid command!");
             this.execute();
