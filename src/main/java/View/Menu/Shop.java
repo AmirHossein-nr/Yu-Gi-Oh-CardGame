@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -214,6 +215,7 @@ public class Shop extends Menu {
             }
         } else if ((matcher = Regex.getMatcher(input, Regex.showAllInShop)).find()) {
             //todo Alphabetically
+            sortAllCards();
             for (Card card : allCards) {
                 System.out.println(card.toString());
                 System.out.println("-----------------------");
@@ -228,6 +230,16 @@ public class Shop extends Menu {
         } else {
             System.out.println("invalid command!");
             this.execute();
+        }
+    }
+
+    public static void sortAllCards() {
+        for (int i = allCards.size() - 2; i >= 0; i--) {
+            for (int j = 0; j <= allCards.size() - 2; j++) {
+                if (allCards.get(j).getName().compareTo(allCards.get(j + 1).getName()) > 0) {
+                    Collections.swap(allCards, j, j + 1);
+                }
+            }
         }
     }
 
