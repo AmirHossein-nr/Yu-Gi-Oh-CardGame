@@ -10,6 +10,7 @@ public class Duel extends Menu {
     private boolean isGameStarted = false;
     private User rivalUser;
     private User currentUser;
+    private int numberOfRounds = 0;
 
     public Duel(Menu parentMenu) {
         super("Duel Menu", parentMenu);
@@ -20,12 +21,16 @@ public class Duel extends Menu {
 
         if (isGameStarted) {
 
+            if (numberOfRounds == 1)
+                playGameWithOneRound();
+
+            else
+                playGameWithThreeRound();
 
         } else {
             String input = scanner.nextLine();
             input = editSpaces(input);
             Matcher matcher;
-
             if ((matcher = Regex.getMatcher(input, Regex.newGame)).find()) {
                 rivalUser = User.getUserByUsername(matcher.group(3));
 
@@ -48,6 +53,7 @@ public class Duel extends Menu {
                     System.out.println("number of rounds is not supported");
                     this.execute();
                 }
+                numberOfRounds = Integer.parseInt(matcher.group(5));
                 setBoards(loggedUser, rivalUser);
                 loggedUser.setLifePoint(8000);
                 rivalUser.setLifePoint(8000);
@@ -88,10 +94,7 @@ public class Duel extends Menu {
     private boolean isValid(User user) {
         for (Deck deck : user.getDecks()) {
             if (deck.getMainDeck().getActive()) {
-                if (deck.getMainDeck().getValid()) {
-                    return true;
-                }
-                return false;
+                return deck.getMainDeck().getValid();
             }
         }
         return false;
@@ -101,13 +104,13 @@ public class Duel extends Menu {
         Board board1 = new Board();
         Board board2 = new Board();
 
-        for(Deck deck : user1.getDecks()) {
+        for (Deck deck : user1.getDecks()) {
             if (deck.isActive() || deck.getValid()) {
                 board1.setDeck(deck);
                 break;
             }
         }
-        for(Deck deck : user2.getDecks()) {
+        for (Deck deck : user2.getDecks()) {
             if (deck.isActive() || deck.getValid()) {
                 board2.setDeck(deck);
                 break;
@@ -119,6 +122,7 @@ public class Duel extends Menu {
     }
 
     private void playGameWithOneRound() {
+        printBoard();
 
     }
 
@@ -182,6 +186,7 @@ public class Duel extends Menu {
 
     private String toStringInBoard(Card card) {
         if (card instanceof Monster) {
+
             if (card == null) {
                 return "E";
             } else if (card.getOccupied()) {
@@ -207,4 +212,5 @@ public class Duel extends Menu {
             }
         }
     }
+
 }
