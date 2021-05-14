@@ -2,14 +2,16 @@ package Model;
 
 public class Monster extends Card {
 
-    Type monsterType;
-    Attribute attribute;
-    int attackPower;
-    int defencePower;
-    int level;
+    private Type monsterType;
+    private Attribute attribute;
+    private int attackPower;
+    private int defencePower;
+    private int level;
+    private boolean canBeAttacked;
 
     public Monster(String name, Type cardType) {
         super(name, cardType);
+        setCanBeAttacked(true);
     }
 
     @Override
@@ -53,6 +55,14 @@ public class Monster extends Card {
         this.level = level;
     }
 
+    public void setCanBeAttacked(boolean canBeAttacked) {
+        this.canBeAttacked = canBeAttacked;
+    }
+
+    public boolean getCanBeAttacked () {
+        return canBeAttacked;
+    }
+
     public Attribute getAttribute() {
         return attribute;
     }
@@ -73,6 +83,8 @@ public class Monster extends Card {
         return level;
     }
 
+
+
     @Override
     public String toString() {
 
@@ -83,5 +95,4 @@ public class Monster extends Card {
                 "\nDEF: " + defencePower +
                 "\nDescription: " + this.getDescription();
     }
-
 }
