@@ -71,13 +71,7 @@ public class Duel extends Menu {
                     this.execute();
                 }
                 numberOfRounds = Integer.parseInt(matcher.group(5));
-                setBoards(loggedUser, rivalUser);
-                loggedUser.setLifePoint(8000);
-                rivalUser.setLifePoint(8000);
-                currentUser = loggedUser;
-                phase = Phase.DRAW;
-                shuffleDeckZones();
-                isFirstTurn = true;
+                resetPlayersAttributes(loggedUser);
                 isGameStarted = true;
                 this.execute();
             } else {
@@ -142,9 +136,47 @@ public class Duel extends Menu {
         user2.setBoard(board2);
     }
 
-    private void playGameWithOneRound(String input) {
-        printBoard();
+    private void resetPlayersAttributes(User user) {
+        setBoards(loggedUser, rivalUser);
+        loggedUser.setLifePoint(8000);
+        rivalUser.setLifePoint(8000);
+        currentUser = user;
+        phase = Phase.DRAW;
+        shuffleDeckZones();
+        isFirstTurn = true;
+        for (int i = 0; i < 6; i++) {
+            drawCard(loggedUser);
+            drawCard(rivalUser);
+        }
+    }
 
+    private void playFirstRound() {
+        phase = Phase.MAIN_ONE;
+        System.out.println(phase);
+    }
+
+    private void drawCard(User user) {
+        Card card;
+        card = user.getBoard().getDeckZone().get(0);
+        user.getBoard().getDeckZone().remove(0);
+        user.getBoard().getCardsInHand().add(card);
+    }
+
+    private void playGameWithOneRound(String input) {
+    }
+
+    private void nextPhase() {
+        if (phase == Phase.DRAW) {
+            phase = Phase.STANDBY;
+        }else if (phase == Phase.STANDBY) {
+            phase = Phase.MAIN_ONE;
+        } else if (phase == Phase.MAIN_ONE) {
+            phase = Phase.BATTLE;
+        } else if (phase == Phase.BATTLE) {
+            phase = Phase.MAIN_TWO;
+        } else if (phase == Phase.MAIN_TWO) {
+            phase = Phase.END;
+        }
     }
 
     private void playGameWithThreeRound() {
@@ -240,6 +272,8 @@ public class Duel extends Menu {
         setAndSummonedCards.clear();
         attackedCards.clear();
         hasSummonedOrSet = false;
+        phase = Phase.DRAW;
+        System.out.println(phase);
     }
 
     private void shuffleDeckZones() {
