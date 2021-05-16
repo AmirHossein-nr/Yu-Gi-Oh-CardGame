@@ -1,5 +1,7 @@
 package Model;
 
+import View.Menu.Shop;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -128,13 +130,7 @@ public class User {
     }
 
     public void sortAllCardsOfUser() {
-        for (int i = allCards.size() - 2; i >= 0; i--) {
-            for (int j = 0; j <= allCards.size() - 2; j++) {
-                if (allCards.get(j).getName().compareTo(allCards.get(j + 1).getName()) > 0) {
-                    Collections.swap(allCards, j, j + 1);
-                }
-            }
-        }
+        Shop.sortCards(allCards);
     }
 
     @Override

@@ -38,7 +38,17 @@ public class Duel extends Menu {
             String input = scanner.nextLine();
             input = editSpaces(input);
             Matcher matcher;
-            if ((matcher = Regex.getMatcher(input, Regex.newGame)).find()) {
+            if (Regex.getMatcher(input, Regex.menuExit).find()) {
+                this.menuExit();
+            } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
+                this.menuEnter(matcher.group(1));
+                this.execute();
+            } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
+                this.showName();
+                this.execute();
+            } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
+                this.logoutUser();
+            } else if ((matcher = Regex.getMatcher(input, Regex.newGame)).find()) {
                 rivalUser = User.getUserByUsername(matcher.group(3));
 
                 if (rivalUser == null) {
@@ -94,15 +104,16 @@ public class Duel extends Menu {
     private boolean hasActiveDeck(User user) {
 
         for (Deck deck : user.getDecks()) {
-            if (deck.getMainDeck().getActive())
+            if (deck.getActive())
                 return true;
         }
         return false;
     }
 
     private boolean isValid(User user) {
+
         for (Deck deck : user.getDecks()) {
-            if (deck.getMainDeck().getActive()) {
+            if (deck.getActive()) {
                 return deck.getMainDeck().getValid();
             }
         }
@@ -119,13 +130,14 @@ public class Duel extends Menu {
                 break;
             }
         }
+        board1.setZones();
         for (Deck deck : user2.getDecks()) {
             if (deck.isActive() || deck.getValid()) {
                 board2.setDeck(deck);
                 break;
             }
         }
-
+        board2.setZones();
         user1.setBoard(board1);
         user2.setBoard(board2);
     }
@@ -140,6 +152,7 @@ public class Duel extends Menu {
     }
 
     private void printBoard() {
+
         StringBuilder board = new StringBuilder();
         board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser().getLifePoint()).append("\n");
         board.append("\t");

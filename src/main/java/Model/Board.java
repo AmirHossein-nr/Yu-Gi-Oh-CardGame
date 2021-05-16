@@ -15,12 +15,16 @@ public class Board {
     private ArrayList<Card> cardsInHand;
 
     public Board() {
-        deckZone = new ArrayList<>(deck.getMainDeck().getCardsInMainDeck());
+
         //allCards = new ArrayList<>();
         monstersZone = new ArrayList<>();
         spellsAndTrapsZone = new ArrayList<>();
         graveYard = new ArrayList<>();
         cardsInHand = new ArrayList<>();
+    }
+
+    public void setZones() {
+        deckZone = new ArrayList<>(deck.getMainDeck().getCardsInMainDeck());
     }
 
     public void setDeck(Deck deck) {
@@ -31,9 +35,9 @@ public class Board {
         this.fieldZone = fieldZone;
     }
 
- //   public ArrayList<Card> getAllCards() {
- //       return allCards;
- //   }
+    //   public ArrayList<Card> getAllCards() {
+    //       return allCards;
+    //   }
 
     public ArrayList<Card> getDeckZone() {
         return deckZone;

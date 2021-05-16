@@ -43,7 +43,7 @@ public abstract class Menu {
         return parentMenu;
     }
 
-    public void execute(){
+    public void execute() {
         Menu nextMenu = null;
     }
 
@@ -56,11 +56,11 @@ public abstract class Menu {
         }
     }
 
-    public void menuEnter(String name) {
+    public void menuEnter(String input) {
         if (loggedUser != null) {
             Menu nextMenu = null;
             for (Menu menu : subMenus) {
-                if (menu.getName().equals(name)) {
+                if (menu.getName().equalsIgnoreCase(input)) {
                     nextMenu = menu;
                     break;
                 }
@@ -87,9 +87,11 @@ public abstract class Menu {
         } else {
             loggedUser = null;
             // Suspicious
-            while (this.getParentMenu() != null) {
-                this.menuExit();
+            Menu menu = this;
+            while (menu.getParentMenu() != null) {
+                menu = menu.getParentMenu();
             }
+            menu.execute();
         }
     }
 

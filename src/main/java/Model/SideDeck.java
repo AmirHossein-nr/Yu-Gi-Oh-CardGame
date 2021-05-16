@@ -1,5 +1,7 @@
 package Model;
 
+import View.Menu.Shop;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,6 +10,7 @@ public class SideDeck {
     private Boolean isActive;
 
     public SideDeck(Boolean isActive) {
+        cardsInSideDeck = new ArrayList<>();
         setActive(isActive);
     }
 
@@ -51,13 +54,7 @@ public class SideDeck {
     }
 
     public void sortCardsInSideDeck() {
-        for (int i = cardsInSideDeck.size() - 2; i >= 0; i--) {
-            for (int j = 0; j <= cardsInSideDeck.size() - 2; j++) {
-                if (cardsInSideDeck.get(j).getName().compareTo(cardsInSideDeck.get(j + 1).getName()) > 0) {
-                    Collections.swap(cardsInSideDeck, j, j + 1);
-                }
-            }
-        }
+        Shop.sortCards(cardsInSideDeck);
     }
 
     @Override

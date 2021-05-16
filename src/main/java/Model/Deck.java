@@ -48,6 +48,10 @@ public class Deck {
         return sideDeck;
     }
 
+    public boolean getActive() {
+        return isActive;
+    }
+
     public static Deck getDeckByDeckName(String name, User user) {
         for (Deck deck : user.getDecks()) {
             if (deck.getName().equals(name))
@@ -65,4 +69,6 @@ public class Deck {
             return this.name + ": main deck " + this.getMainDeck().getCardsInMainDeck().size() + ", side deck "
                     + this.getSideDeck().getCardsInSideDeck().size() + ", invalid";
     }
+
+
 }

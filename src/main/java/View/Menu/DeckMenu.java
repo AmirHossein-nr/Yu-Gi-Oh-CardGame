@@ -3,6 +3,7 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class DeckMenu extends Menu {
@@ -29,6 +30,7 @@ public class DeckMenu extends Menu {
                     System.out.println("deck with name " + name + " already exists");
                 } else {
                     Deck deck = new Deck(new MainDeck(false), new SideDeck(false));
+                    deck.setName(name);
                     loggedUser.getDecks().add(deck);
                 }
                 this.execute();
@@ -64,6 +66,7 @@ public class DeckMenu extends Menu {
                 for (Deck deck : loggedUser.getDecks()) {
                     if (deck.getName().equals(name)) {
                         deck.setActive(true);
+                        deck.getMainDeck().setActive(true);
                         System.out.println("deck activated successfully");
                         flag = true;
                         break;
@@ -79,6 +82,8 @@ public class DeckMenu extends Menu {
             String cardName = matcher.group(2);
             String isSide = matcher.group(5);
             boolean flag = false;
+            cardName = cardName.trim();
+
             for (Card card : loggedUser.getAllCards()) {
                 if (card.getName().equals(cardName)) {
                     flag = true;
@@ -135,6 +140,16 @@ public class DeckMenu extends Menu {
 
             if (counter >= 3) {
                 System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+                this.execute();
+            }
+            int j = 0;
+            for (Card myCard : loggedUser.getAllCards()) {
+                if (myCard.getName().equals(cardName))
+                    j++;
+            }
+            //todo We Added here (it wasn't in Document)!
+            if (j <= counter) {
+                System.out.println("You have Used all of Your Cards :" + cardName + " that You Bought !");
                 this.execute();
             }
             if (isSide == null) {
@@ -220,8 +235,10 @@ public class DeckMenu extends Menu {
             this.execute();
         } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
             this.menuEnter(matcher.group(1));
+            this.execute();
         } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
             this.logoutUser();
+            this.execute();
         } else {
             System.out.println("invalid command!");
             this.execute();

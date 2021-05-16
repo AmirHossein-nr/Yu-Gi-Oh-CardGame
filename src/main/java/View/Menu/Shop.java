@@ -42,6 +42,7 @@ public class Shop extends Menu {
             List<String[]> monsters = csvReader.readAll();
             for (String[] string : monsters) {
                 String name = string[0];
+                name = name.trim();
                 if (name.equals("Name"))
                     continue;
                 Integer level = Integer.parseInt(string[1]);
@@ -76,6 +77,7 @@ public class Shop extends Menu {
             List<String[]> spellsAndTraps = csvReader.readAll();
             for (String[] strings : spellsAndTraps) {
                 String name = strings[0];
+                name = name.trim();
                 if (name.equals("Name"))
                     continue;
                 String type = strings[1];
@@ -181,9 +183,10 @@ public class Shop extends Menu {
         Matcher matcher;
 
         if ((matcher = Regex.getMatcher(input, Regex.buyCardInShop)).find()) {
-            Regex.getMatcher(input, Regex.buyCardInShop);
+
             Card finalCard = null;
             String name = matcher.group(1);
+            name = name.trim();
             for (Card card : allCards) {
                 if (card.getName().equals(name)) {
                     finalCard = card;
@@ -220,6 +223,7 @@ public class Shop extends Menu {
                 System.out.println(card.toString());
                 System.out.println("-----------------------");
             }
+            this.execute();
         } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
             this.menuExit();
         } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
@@ -234,6 +238,10 @@ public class Shop extends Menu {
     }
 
     public static void sortAllCards() {
+        sortCards(allCards);
+    }
+
+    public static void sortCards(ArrayList<Card> allCards) {
         for (int i = allCards.size() - 2; i >= 0; i--) {
             for (int j = 0; j <= allCards.size() - 2; j++) {
                 if (allCards.get(j).getName().compareTo(allCards.get(j + 1).getName()) > 0) {
@@ -244,6 +252,7 @@ public class Shop extends Menu {
     }
 
     public static Card getCardByName(String name) {
+        name = name.trim();
         for (Card card : allCards) {
             if (card.getName().equals(name))
                 return card;
