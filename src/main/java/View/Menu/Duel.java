@@ -144,7 +144,6 @@ public class Duel extends Menu {
 
     private void playGameWithOneRound(String input) {
         printBoard();
-
     }
 
     private void playGameWithThreeRound() {
@@ -152,58 +151,62 @@ public class Duel extends Menu {
     }
 
     private void printBoard() {
-
-        StringBuilder board = new StringBuilder();
-        board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser().getLifePoint()).append("\n");
-        board.append("\t");
-        for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getCardsInHand().size(); i++) {
-            board.append("c\t");
+        try {
+            StringBuilder board = new StringBuilder();
+            board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser().getLifePoint()).append("\n");
+            board.append("\t");
+            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getCardsInHand().size(); i++) {
+                board.append("c\t");
+            }
+            board.append("\n");
+            board.append(getOpponentOfCurrentUser().getBoard().getDeckZone().size()).append("\n\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(3))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(1))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(0))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(2))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(4))).append("\n");
+            board.append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(3))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(1))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(2))).append("\t");
+            board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(4))).append("\n");
+            board.append(getOpponentOfCurrentUser().getBoard().getGraveYard().size()).append("\t\t\t\t\t\t");
+            if (getOpponentOfCurrentUser().getBoard().getFieldZone() instanceof Spell) {
+                board.append("O");
+            } else {
+                board.append("E");
+            }
+            board.append("\n\n--------------------------\n\n");
+            if (currentUser.getBoard().getFieldZone() instanceof Spell) {
+                board.append("O");
+            } else {
+                board.append("E");
+            }
+            board.append("\t\t\t\t\t\t").append(currentUser.getBoard().getGraveYard().size()).append("\n\t");
+            board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(4))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(2))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(0))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(1))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(3))).append("\n");
+            board.append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(4))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(2))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(0))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(1))).append("\t");
+            board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(3))).append("\n");
+            board.append("\t\t\t\t\t\t").append(currentUser.getBoard().getDeckZone().size()).append("\n");
+            board.append("\t");
+            for (int i = 0; i < currentUser.getBoard().getCardsInHand().size(); i++) {
+                board.append("c\t");
+            }
+            board.append("\n");
+            board.append(currentUser.getNickName()).append(":").append(currentUser.getLifePoint()).append("\n");
+            System.out.println(board);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("EXCEPTION OCCURRED !");
         }
-        board.append("\n");
-        board.append(getOpponentOfCurrentUser().getBoard().getDeckZone().size()).append("\n\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(3))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(1))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(0))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(2))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(4))).append("\n");
-        board.append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(3))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(1))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(2))).append("\t");
-        board.append(toStringInBoard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(4))).append("\n");
-        board.append(getOpponentOfCurrentUser().getBoard().getGraveYard().size()).append("\t\t\t\t\t\t");
-        if (getOpponentOfCurrentUser().getBoard().getFieldZone() instanceof Spell) {
-            board.append("O");
-        } else {
-            board.append("E");
-        }
-        board.append("\n\n--------------------------\n\n");
-        if (currentUser.getBoard().getFieldZone() instanceof Spell) {
-            board.append("O");
-        } else {
-            board.append("E");
-        }
-        board.append("\t\t\t\t\t\t").append(currentUser.getBoard().getGraveYard().size()).append("\n\t");
-        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(4))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(2))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(0))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(1))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getMonstersZone().get(3))).append("\n");
-        board.append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(4))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(2))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(0))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(1))).append("\t");
-        board.append(toStringInBoard(currentUser.getBoard().getSpellsAndTrapsZone().get(3))).append("\n");
-        board.append("\t\t\t\t\t\t").append(currentUser.getBoard().getDeckZone().size()).append("\n");
-        board.append("\t");
-        for (int i = 0; i < currentUser.getBoard().getCardsInHand().size(); i++) {
-            board.append("c\t");
-        }
-        board.append("\n");
-        board.append(currentUser.getNickName()).append(":").append(currentUser.getLifePoint()).append("\n");
-
     }
 
     private String toStringInBoard(Card card) {

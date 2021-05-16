@@ -18,7 +18,17 @@ public class Board {
 
         //allCards = new ArrayList<>();
         monstersZone = new ArrayList<>();
+        monstersZone.add(null);
+        monstersZone.add(null);
+        monstersZone.add(null);
+        monstersZone.add(null);
+        monstersZone.add(null);
         spellsAndTrapsZone = new ArrayList<>();
+        spellsAndTrapsZone.add(null);
+        spellsAndTrapsZone.add(null);
+        spellsAndTrapsZone.add(null);
+        spellsAndTrapsZone.add(null);
+        spellsAndTrapsZone.add(null);
         graveYard = new ArrayList<>();
         cardsInHand = new ArrayList<>();
     }
