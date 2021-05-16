@@ -17,10 +17,12 @@ public class LoginMenu extends Menu {
     public void execute() {
         String input = scanner.nextLine();
         input = editSpaces(input);
+        Matcher matcher;
         if (Regex.getMatcher(input, Regex.menuExit).find()) {
             this.menuExit();
-        } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
-            this.menuEnter(input);
+        } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
+            this.menuEnter(matcher.group(1));
+            this.execute();
         } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
             this.showName();
             this.execute();

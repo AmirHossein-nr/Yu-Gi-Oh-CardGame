@@ -18,10 +18,10 @@ public class Regex {
     public static String createDeck = "^deck create (\\w+)$";
     public static String deleteDeck = "^deck delete (\\w+)$";
     public static String activateDeck = "^deck set-activate (\\w+)$";
-    public static String addCardToDeck = "^deck add-card(?=.*( --card (\\w+)))(?=.*( --deck (\\w+)))(?=.*( --side))?";
-    public static String removeCardFromDeck = "^deck rm-card(?=.*( --card (\\w+)))(?=.*( --deck (\\w+)))(?=.*( --side))?";
+    public static String addCardToDeck = "^deck add-card(?=.*( --card (\\w+[\\-\\'\\,]*\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*)))(?=.*( --deck (\\w+)))(?=.*( --side))?";
+    public static String removeCardFromDeck = "^deck rm-card(?=.*( --card (\\w+[\\-\\'\\,]*\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*)))(?=.*( --deck (\\w+)))(?=.*( --side))?";
     public static String showAllDecks = "^deck show (--all|-a)$";
-    public static String buyCardInShop = "^shop buy (.*)$";
+    public static String buyCardInShop = "^shop buy (.*)";
     public static String showAllInShop = "^shop show --all$";
     public static String newGame = "^duel (?=.*(--new))(?=.*(--second-player (\\w+)))(?=.*(--rounds (\\d+)))";
     public static String showOneDeck = "^deck show(?=.*( --deck-name (\\w+)))(?=.*( --side))?";

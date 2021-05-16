@@ -22,6 +22,7 @@ public class Profile extends Menu {
             this.logoutUser();
         } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
             this.menuEnter(matcher.group(1));
+            this.execute();
         } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
             this.showName();
         } else if ((matcher = Regex.getMatcher(input, Regex.changeNickname)).find()) {

@@ -1,5 +1,7 @@
 package Model;
 
+import View.Menu.Shop;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,11 +11,11 @@ public class MainDeck {
     private Boolean isValid;
 
     public MainDeck(Boolean isActive) {
-        new ArrayList<>();
+        cardsInMainDeck = new ArrayList<>();
         setActive(isActive);
+        setValid(false);
     }
 
-    //todo COMPLETE HERE !
 
     public String printMonsters() {
         sortCardsInMainDeck();
@@ -60,17 +62,13 @@ public class MainDeck {
 
 
     public Boolean getValid() {
+        if (cardsInMainDeck.size() >= 40)
+            isValid = true;
         return isValid;
     }
 
     public void sortCardsInMainDeck() {
-        for (int i = cardsInMainDeck.size() - 2; i >= 0; i--) {
-            for (int j = 0; j <= cardsInMainDeck.size() - 2; j++) {
-                if (cardsInMainDeck.get(j).getName().compareTo(cardsInMainDeck.get(j + 1).getName()) > 0) {
-                    Collections.swap(cardsInMainDeck, j, j + 1);
-                }
-            }
-        }
+        Shop.sortCards(cardsInMainDeck);
     }
 
     @Override
