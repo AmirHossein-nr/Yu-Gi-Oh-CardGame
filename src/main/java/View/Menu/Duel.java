@@ -163,20 +163,8 @@ public class Duel extends Menu {
     }
 
     private void playGameWithOneRound(String input) {
-    }
+        printBoard();
 
-    private void nextPhase() {
-        if (phase == Phase.DRAW) {
-            phase = Phase.STANDBY;
-        }else if (phase == Phase.STANDBY) {
-            phase = Phase.MAIN_ONE;
-        } else if (phase == Phase.MAIN_ONE) {
-            phase = Phase.BATTLE;
-        } else if (phase == Phase.BATTLE) {
-            phase = Phase.MAIN_TWO;
-        } else if (phase == Phase.MAIN_TWO) {
-            phase = Phase.END;
-        }
     }
 
     private void playGameWithThreeRound() {
@@ -272,8 +260,6 @@ public class Duel extends Menu {
         setAndSummonedCards.clear();
         attackedCards.clear();
         hasSummonedOrSet = false;
-        phase = Phase.DRAW;
-        System.out.println(phase);
     }
 
     private void shuffleDeckZones() {
