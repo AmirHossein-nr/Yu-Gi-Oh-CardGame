@@ -3,6 +3,8 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 
 public class Duel extends Menu {
@@ -11,6 +13,11 @@ public class Duel extends Menu {
     private User rivalUser;
     private User currentUser;
     private int numberOfRounds = 0;
+    private boolean hasSummonedOrSet;
+    private ArrayList<Card> setAndSummonedCards = new ArrayList<>();
+    private ArrayList<Card> attackedCards = new ArrayList<>();
+    private Phase phase;
+    private boolean isFirstTurn;
 
     public Duel(Menu parentMenu) {
         super("Duel Menu", parentMenu);
@@ -20,13 +27,13 @@ public class Duel extends Menu {
     public void execute() {
 
         if (isGameStarted) {
-
-            if (numberOfRounds == 1)
-                playGameWithOneRound();
-
-            else
-                playGameWithThreeRound();
-
+            if (numberOfRounds == 1) {
+                String input = scanner.nextLine();
+                input = editSpaces(input);
+                playGameWithOneRound(input);
+            }
+            else {
+            }
         } else {
             String input = scanner.nextLine();
             input = editSpaces(input);
@@ -58,9 +65,11 @@ public class Duel extends Menu {
                 loggedUser.setLifePoint(8000);
                 rivalUser.setLifePoint(8000);
                 currentUser = loggedUser;
+                phase = Phase.DRAW;
+                shuffleDeckZones();
+                isFirstTurn = true;
                 isGameStarted = true;
                 this.execute();
-
             } else {
                 System.out.println("invalid command!");
                 this.execute();
@@ -121,7 +130,7 @@ public class Duel extends Menu {
         user2.setBoard(board2);
     }
 
-    private void playGameWithOneRound() {
+    private void playGameWithOneRound(String input) {
         printBoard();
 
     }
@@ -213,4 +222,15 @@ public class Duel extends Menu {
         }
     }
 
+    private void changeTurn() {
+        currentUser = getOpponentOfCurrentUser();
+        setAndSummonedCards.clear();
+        attackedCards.clear();
+        hasSummonedOrSet = false;
+    }
+
+    private void shuffleDeckZones() {
+        Collections.shuffle(currentUser.getBoard().getDeckZone());
+        Collections.shuffle(rivalUser.getBoard().getDeckZone());
+    }
 }
