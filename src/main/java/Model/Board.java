@@ -34,7 +34,7 @@ public class Board {
     }
 
     public void setZones() {
-        deckZone = new ArrayList<>(deck.getMainDeck().getCardsInMainDeck());
+        deckZone.addAll(deck.getMainDeck().getCardsInMainDeck());
     }
 
     public void setDeck(Deck deck) {
