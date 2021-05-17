@@ -58,6 +58,7 @@ public class Game {
             return;
         endPhaseRun();
     }
+
     private void playFirstTurn() {
         System.out.println(Phase.DRAW);
         printBoard();
@@ -66,6 +67,7 @@ public class Game {
         mainPhaseOneRun();
         endPhaseRun();
     }
+
     private void printBoard() {
 
         StringBuilder board = new StringBuilder();
@@ -120,6 +122,7 @@ public class Game {
         board.append(currentUser.getNickName()).append(":").append(currentUser.getLifePoint()).append("\n");
 
     }
+
     private String toStringInBoard(Card card) {
         if (card instanceof Monster) {
 
@@ -148,6 +151,7 @@ public class Game {
             }
         }
     }
+
     private User getOpponentOfCurrentUser() {
         if (currentUser == loggedUser) {
             return rivalUser;
@@ -155,9 +159,11 @@ public class Game {
             return loggedUser;
         }
     }
+
     static String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
     }
+
     private void resetPlayersAttributes(User user) {
         setBoards(loggedUser, rivalUser);
         loggedUser.setLifePoint(8000);
@@ -170,23 +176,27 @@ public class Game {
         }
         turn = 1;
     }
+
     ////////
     private void changeTurn() {
         currentUser = getOpponentOfCurrentUser();
         setAndSummonedCards.clear();
         attackedCards.clear();
-        summonedOrSetMonster = null;
+        Monster summonedOrSetMonster = null;
     }
+
     private void shuffleDeckZones() {
         Collections.shuffle(currentUser.getBoard().getDeckZone());
         Collections.shuffle(rivalUser.getBoard().getDeckZone());
     }
+
     private void drawCard(User user) {
         Card card;
         card = user.getBoard().getDeckZone().get(0);
         user.getBoard().getDeckZone().remove(0);
         user.getBoard().getCardsInHand().add(card);
     }
+
     private void setBoards(User user1, User user2) {
         Board board1 = new Board();
         Board board2 = new Board();
@@ -208,35 +218,42 @@ public class Game {
         user1.setBoard(board1);
         user2.setBoard(board2);
     }
+
     private ArrayList<Card> setAndSummonedCards = new ArrayList<>();
     private ArrayList<Card> attackedCards = new ArrayList<>();
+
     ////////
     private void drawPhaseRun() {
         System.out.println(Phase.DRAW);
         printBoard();
 
     }
+
     private void standbyPhaseRun() {
         System.out.println(Phase.STANDBY);
         printBoard();
 
     }
+
     private void mainPhaseOneRun() {
         System.out.println(Phase.MAIN_ONE);
         printBoard();
 
 
     }
+
     private void battlePhaseRun() {
         System.out.println(Phase.BATTLE);
         printBoard();
 
     }
+
     private void mainPhaseTwoRun() {
         System.out.println(Phase.MAIN_TWO);
         printBoard();
 
     }
+
     private void endPhaseRun() {
         System.out.println(Phase.END);
         printBoard();

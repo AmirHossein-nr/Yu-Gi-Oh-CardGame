@@ -22,6 +22,10 @@ public abstract class Menu {
         Menu.scanner = scanner;
     }
 
+    public static void setLoggedUser(User loggedUser) {
+        Menu.loggedUser = loggedUser;
+    }
+
     public void setParentMenu(Menu parentMenu) {
         this.parentMenu = parentMenu;
     }
@@ -86,7 +90,6 @@ public abstract class Menu {
             this.execute();
         } else {
             loggedUser = null;
-            // Suspicious
             Menu menu = this;
             while (menu.getParentMenu() != null) {
                 menu = menu.getParentMenu();

@@ -46,25 +46,34 @@ public class LoginMenu extends Menu {
         }
     }
 
-    private void register(Matcher matcher) {
+    public void register(Matcher matcher) {
         if (matcher.find()) {
             String username = matcher.group(2);
             String nickname = matcher.group(6);
             String password = matcher.group(4);
-            User user = User.getUserByUsername(username);
-            if (user != null) {
-                System.out.println("user with username " + username + " already exists");
-                return;
-            }
-            user = User.getUserByNickname(nickname);
-            if (user != null) {
-                System.out.println("user with nickname " + nickname + " already exists");
-                return;
-            }
-            user = new User(username, password, nickname);
-            user.setMoney(100000);
-            System.out.println("user created successfully!");
+
+            createUser(username, password, nickname);
         }
+    }
+
+    private void createUser(String username, String password, String nickname) {
+        User user = User.getUserByUsername(username);
+        if (user != null) {
+            System.out.println("user with username " + username + " already exists");
+            return;
+        }
+        user = User.getUserByNickname(nickname);
+        if (user != null) {
+            System.out.println("user with nickname " + nickname + " already exists");
+            return;
+        }
+        user = new User(username, password, nickname);
+        user.setMoney(100000);
+        System.out.print("user created successfully!\n");
+    }
+
+    public boolean loginUser(Matcher matcher) {
+        return login(matcher);
     }
 
     private boolean login(Matcher matcher) {

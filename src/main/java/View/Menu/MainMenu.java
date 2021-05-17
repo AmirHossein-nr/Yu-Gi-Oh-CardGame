@@ -1,6 +1,5 @@
 package View.Menu;
 
-
 import Controller.Regex;
 
 import java.util.ArrayList;
