@@ -180,19 +180,16 @@ public class Shop extends Menu {
     public void execute() {
         String input = scanner.nextLine();
         input = editSpaces(input);
-        Matcher matcher;
+        Matcher matcher = null;
+        runShopMenu(input);
+    }
 
+    private void runShopMenu(String input) {
+
+        Matcher matcher;
         if ((matcher = Regex.getMatcher(input, Regex.buyCardInShop)).find()) {
 
-            Card finalCard = null;
-            String name = matcher.group(1);
-            name = name.trim();
-            for (Card card : allCards) {
-                if (card.getName().equals(name)) {
-                    finalCard = card;
-                    break;
-                }
-            }
+            Card finalCard = getFinalCard(matcher);
 
             if (finalCard == null) {
                 System.out.println("there is no card with this name");
@@ -201,28 +198,12 @@ public class Shop extends Menu {
                 System.out.println("not enough money");
                 this.execute();
             } else {
-                loggedUser.setMoney(loggedUser.getMoney() - finalCard.getPrice());
-                Card card = null;
-                if (finalCard instanceof Monster) {
-                    Monster finalMonster = (Monster) finalCard;
-                    card = (Monster) finalMonster.clone();
-                } else if (finalCard instanceof Spell) {
-                    Spell finalSpell = (Spell) finalCard;
-                    card = (Spell) finalSpell.clone();
-                } else if (finalCard instanceof Trap) {
-                    Trap finalTrap = (Trap) finalCard;
-                    card = (Trap) finalTrap.clone();
-                }
-                loggedUser.getAllCards().add(card);
+                buyCardForUser(finalCard);
                 this.execute();
             }
-        } else if ((matcher = Regex.getMatcher(input, Regex.showAllInShop)).find()) {
+        } else if ((Regex.getMatcher(input, Regex.showAllInShop)).find()) {
 
-            sortAllCards();
-            for (Card card : allCards) {
-                System.out.println(card.toString());
-                System.out.println("-----------------------");
-            }
+            showAllCards();
             this.execute();
         } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
             this.menuExit();
@@ -237,7 +218,44 @@ public class Shop extends Menu {
         }
     }
 
-    public static void sortAllCards() {
+    public void showAllCards() {
+        sortAllCards();
+        for (Card card : allCards) {
+            System.out.println(card.toString());
+            System.out.println("-----------------------");
+        }
+    }
+
+    private void buyCardForUser(Card finalCard) {
+        loggedUser.setMoney(loggedUser.getMoney() - finalCard.getPrice());
+        Card card = null;
+        if (finalCard instanceof Monster) {
+            Monster finalMonster = (Monster) finalCard;
+            card = (Monster) finalMonster.clone();
+        } else if (finalCard instanceof Spell) {
+            Spell finalSpell = (Spell) finalCard;
+            card = (Spell) finalSpell.clone();
+        } else if (finalCard instanceof Trap) {
+            Trap finalTrap = (Trap) finalCard;
+            card = (Trap) finalTrap.clone();
+        }
+        loggedUser.getAllCards().add(card);
+    }
+
+    public Card getFinalCard(Matcher matcher) {
+        Card finalCard = null;
+        String name = matcher.group(1);
+        name = name.trim();
+        for (Card card : allCards) {
+            if (card.getName().equals(name)) {
+                finalCard = card;
+                break;
+            }
+        }
+        return finalCard;
+    }
+
+    private static void sortAllCards() {
         sortCards(allCards);
     }
 
@@ -259,5 +277,6 @@ public class Shop extends Menu {
         }
         return null;
     }
+
 }
 
