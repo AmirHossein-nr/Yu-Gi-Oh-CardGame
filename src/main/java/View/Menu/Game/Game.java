@@ -1,10 +1,12 @@
 package View.Menu.Game;
 
+import Controller.Regex;
 import Model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class Game {
     Scanner scanner;
@@ -16,7 +18,13 @@ public class Game {
     int numberOfRounds;
     int round = 1;
     int turn = 1;
+    Phase currentPhase = Phase.DRAW;
     Card selectedCard;
+    Card normalSummonOrSetCard = null;
+    //private ArrayList<Card> setAndSummonedCards = new ArrayList<>();
+    ArrayList<Card> attackedCards = new ArrayList<>();
+    Spell activatedRitualCard = null;
+
 
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
@@ -25,14 +33,18 @@ public class Game {
         currentUser = loggedUser;
         this.numberOfRounds = numberOfRounds;
         this.scanner = scanner;
+        loggedUser.setLifePoint(8000);
+        rivalUser.setLifePoint(8000);
     }
 
     public void run() {
         while (round <= numberOfRounds) {
             resetPlayersAttributes(currentUser);
             playFirstTurn();
+            turn++;
             while (winnerOfDuel == null) {
                 playTurn();
+                turn++;
             }
             // todo
             round++;
@@ -177,24 +189,9 @@ public class Game {
         turn = 1;
     }
 
-    ////////
-    private void changeTurn() {
-        currentUser = getOpponentOfCurrentUser();
-        setAndSummonedCards.clear();
-        attackedCards.clear();
-        Monster summonedOrSetMonster = null;
-    }
-
     private void shuffleDeckZones() {
         Collections.shuffle(currentUser.getBoard().getDeckZone());
         Collections.shuffle(rivalUser.getBoard().getDeckZone());
-    }
-
-    private void drawCard(User user) {
-        Card card;
-        card = user.getBoard().getDeckZone().get(0);
-        user.getBoard().getDeckZone().remove(0);
-        user.getBoard().getCardsInHand().add(card);
     }
 
     private void setBoards(User user1, User user2) {
@@ -219,44 +216,162 @@ public class Game {
         user2.setBoard(board2);
     }
 
-    private ArrayList<Card> setAndSummonedCards = new ArrayList<>();
-    private ArrayList<Card> attackedCards = new ArrayList<>();
-
-    ////////
-    private void drawPhaseRun() {
-        System.out.println(Phase.DRAW);
-        printBoard();
-
+    public void setSelectedCard(Card selectedCard) {
+        this.selectedCard = selectedCard;
     }
 
+    public void deselectCard() {
+        if (selectedCard == null) {
+            System.out.println("no card is selected yet");
+        } else {
+            setSelectedCard(null);
+            System.out.println("card deselected");
+        }
+    }
+
+    ////////
+    private void changeTurn() {
+        currentUser = getOpponentOfCurrentUser();
+        //setAndSummonedCards.clear();
+        attackedCards.clear();
+        normalSummonOrSetCard = null;
+    }
+    ////////
+
+    private void drawPhaseRun() {
+        currentPhase = Phase.DRAW;
+        System.out.println(Phase.DRAW);
+        printBoard();
+        if (!canCurrentUserDraw()) {
+            winnerOfDuel = getOpponentOfCurrentUser();
+            return;
+        } else {
+            drawCard(currentUser);
+        }
+        String input;
+        while (true) {
+            input = scanner.nextLine();
+            input = editSpaces(input);
+            if (Regex.getMatcher(input, Regex.selectCard).find()) {
+                // todo
+            } else if (input.equals("select -d")) {
+                deselectCard();
+            } else if (input.equals("next phase")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+    private boolean canCurrentUserDraw() {
+        if (currentUser.getBoard().getDeckZone().size() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private void drawCard(User user) {
+        Card card;
+        card = user.getBoard().getDeckZone().get(0);
+        user.getBoard().getDeckZone().remove(0);
+        user.getBoard().getCardsInHand().add(card);
+        System.out.println("new card added to the hand :" + card.getName());
+    }
+
+
+
     private void standbyPhaseRun() {
+        currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
         printBoard();
 
     }
 
+
+
     private void mainPhaseOneRun() {
+        currentPhase = Phase.MAIN_ONE;
         System.out.println(Phase.MAIN_ONE);
         printBoard();
+        String input;
+        Matcher matcher;
+        while (true) {
+            input = scanner.nextLine();
+            input = editSpaces(input);
+            if (Regex.getMatcher(input, Regex.selectCard).find()) {
+                // todo
+            } else if (input.equals("select -d")) {
+                deselectCard();
+            } else if (input.equals("next phase")) {
+                if (activatedRitualCard != null) {
+                    System.out.println("you should ritual summon right now");
+                    continue;
+                } else {
+                    return;
+                }
+            } else if (input.equals("summon")) {
 
+            }
+        }
+    }
+    private void summon(boolean isSpecialSummon) {
+        if (selectedCard == null) {
+            System.out.println("no card is selected yet");
+            return;
+        }
+        if (!(selectedCard instanceof Monster) || !currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
+            System.out.println("you can’t summon this card");
+            return;
+        }
+        if (((Monster) selectedCard).isSpecialSummonOnly()) {
+            System.out.println("you can’t summon this card");
+            return;
+        }
+        if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
+            System.out.println("action not allowed in this phase");
+            return;
+        }
+        Monster monster = (Monster) selectedCard;
+        if (activatedRitualCard != null) {
+            if (monster.getCardType() == Type.RITUAL) {
+                ritualSummon(monster);
+            } else {
+                System.out.println("you should ritual summon right now");
+            }
+            return;
+        }
+        if (monster.getLevel() <= 4) {
+
+        }
 
     }
+    private void ritualSummon(Monster monster) {
+    }
+
+
 
     private void battlePhaseRun() {
+        currentPhase = Phase.BATTLE;
         System.out.println(Phase.BATTLE);
         printBoard();
 
     }
 
+
+
     private void mainPhaseTwoRun() {
+        currentPhase = Phase.MAIN_TWO;
         System.out.println(Phase.MAIN_TWO);
         printBoard();
 
     }
 
-    private void endPhaseRun() {
-        System.out.println(Phase.END);
-        printBoard();
 
+
+    private void endPhaseRun() {
+        currentPhase = Phase.END;
+        System.out.println(Phase.END);
+        changeTurn();
+        System.out.println("its " + currentUser.getNickName() + "’s turn");
     }
 }

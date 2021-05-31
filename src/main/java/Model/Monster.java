@@ -8,6 +8,7 @@ public class Monster extends Card {
     private int defencePower;
     private int level;
     private boolean canBeAttacked;
+    private boolean specialSummonOnly;
 
     public Monster(String name, Type cardType) {
         super(name, cardType);
@@ -59,6 +60,11 @@ public class Monster extends Card {
         this.canBeAttacked = canBeAttacked;
     }
 
+    public void setSpecialSummonOnly(boolean specialSummonOnly) {
+        this.specialSummonOnly = specialSummonOnly;
+    }
+
+
     public boolean getCanBeAttacked () {
         return canBeAttacked;
     }
@@ -83,7 +89,13 @@ public class Monster extends Card {
         return level;
     }
 
+    public boolean isCanBeAttacked() {
+        return canBeAttacked;
+    }
 
+    public boolean isSpecialSummonOnly() {
+        return specialSummonOnly;
+    }
 
     @Override
     public String toString() {

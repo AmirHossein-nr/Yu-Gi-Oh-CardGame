@@ -13,6 +13,7 @@ public class Board {
     private ArrayList<Card> spellsAndTrapsZone;
     private ArrayList<Card> graveYard;
     private ArrayList<Card> cardsInHand;
+    //private ArrayList<>
 
     public Board() {
 
