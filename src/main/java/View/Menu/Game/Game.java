@@ -314,16 +314,12 @@ public class Game {
             }
         }
     }
-    private void summon(boolean isSpecialSummon) {
+    private void summon() {
         if (selectedCard == null) {
             System.out.println("no card is selected yet");
             return;
         }
         if (!(selectedCard instanceof Monster) || !currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
-            System.out.println("you can’t summon this card");
-            return;
-        }
-        if (((Monster) selectedCard).isSpecialSummonOnly()) {
             System.out.println("you can’t summon this card");
             return;
         }
@@ -340,12 +336,166 @@ public class Game {
             }
             return;
         }
-        if (monster.getLevel() <= 4) {
-
+        if (selectedCard.getName().equals("Gate Guardian")) {
+            if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
+                System.out.println("there are not enough cards for tribute");
+            } else {
+                tributeSummon(3, true);
+                return;
+            }
         }
-
+        if (selectedCard.getName().equals("The Tricky")) {
+            System.out.println("do you want to normal summon or special summon? (answer with \"normal\"/\"special\")");
+            String answer;
+            while (true) {
+                answer = scanner.nextLine();
+                answer = editSpaces(answer);
+                if (answer.equals("normal")) {
+                    if (normalSummonOrSetCard != null) {
+                        System.out.println("you already summoned/set on this turn");
+                        return;
+                    } else {
+                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
+                            System.out.println("there are not enough cards for tribute");
+                            return;
+                        } else {
+                            tributeSummon(1, false);
+                            return;
+                        }
+                    }
+                } else if (answer.equals("special")) {
+                    if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                        System.out.println("monster card zone is full");
+                        return;
+                    }
+                    if (currentUser.getBoard().getCardsInHand().size() < 2) {
+                        System.out.println("there are not enough cards for tribute");
+                        return;
+                    }
+                    specialSummonTheTricky();
+                    return;
+                } else if (answer.equals("cancel")) {
+                    System.out.println("action canceled");
+                    return;
+                } else {
+                    System.out.println("please type normal or special (or cancel)");
+                }
+            }
+        }
+        if (normalSummonOrSetCard != null) {
+            System.out.println("you already summoned/set on this turn");
+            return;
+        }
+        if (monster.getLevel() <= 4) {
+            if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                System.out.println("monster card zone is full");
+            } else {
+                addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                System.out.println("summoned successfully");
+            }
+        } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
+            if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
+                System.out.println("there are not enough cards for tribute");
+            } else {
+                tributeSummon(1, false);
+            }
+        } else if (monster.getLevel() > 6) {
+            if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+                System.out.println("there are not enough cards for tribute");
+            } else {
+                tributeSummon(2, false);
+            }
+        }
     }
+    private void addMonsterFromHandToMonsterZone(Card monsterCard, Boolean isOccupied, Boolean isAttackPosition) {
+        currentUser.getBoard().getCardsInHand().remove(monsterCard);
+        for (Card card : currentUser.getBoard().getMonstersZone()) {
+            if (card == null) {
+                card = monsterCard;
+            }
+        }
+        monsterCard.setOccupied(isOccupied);
+        monsterCard.setAttackPosition(isAttackPosition);
+    }
+    // todo
     private void ritualSummon(Monster monster) {
+    }
+    private void tributeSummon(int tributeNumber, boolean isSpecial) {
+        System.out.println("enter number of " + tributeNumber + " cards in monster zone to tribute (or cancel)");
+        ArrayList<Card> monstersToTribute = new ArrayList<>();
+        String numberString;
+        while (monstersToTribute.size() < tributeNumber) {
+            numberString = scanner.nextLine();
+            numberString = editSpaces(numberString);
+            if (numberString.equals("cancel")) {
+                System.out.println("action canceled");
+                return;
+            } else if (!numberString.matches("\\d+")) {
+                System.out.println("enter a number");
+            } else {
+                int number = Integer.parseInt(numberString);
+                if (number < 1 || number > 5) {
+                    System.out.println("enter a correct number");
+                } else if (monstersToTribute.contains(currentUser.getBoard().getMonstersZone().get(number - 1))) {
+                    System.out.println("This card is already selected");
+                } else if (currentUser.getBoard().getMonstersZone().get(number - 1) == null) {
+                    System.out.println("there is no monster on this address");
+                } else {
+                    monstersToTribute.add(currentUser.getBoard().getMonstersZone().get(number - 1));
+                }
+            }
+        }
+        for (Card card : monstersToTribute) {
+            tributeMonster(card);
+        }
+        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+        if (!isSpecial) {
+            normalSummonOrSetCard = selectedCard;
+        }
+        System.out.println("summoned successfully");
+    }
+    private void tributeMonster(Card monsterCard) {
+        for (Card card : currentUser.getBoard().getMonstersZone()) {
+            if (card == monsterCard) {
+                card = null;
+                currentUser.getBoard().getGraveYard().add(monsterCard);
+            }
+        }
+    }
+    private void specialSummonTheTricky() {
+        System.out.println("Enter the number of card in your hand to tribute (or cancel)");
+        String numberString;
+        while (true) {
+            numberString = scanner.nextLine();
+            numberString = editSpaces(numberString);
+            if (numberString.matches("\\d+")) {
+                int number = Integer.parseInt(numberString);
+                if (number >= 1 && number <= currentUser.getBoard().getCardsInHand().size()) {
+                    Card cardToTribute = currentUser.getBoard().getCardsInHand().get(number - 1);
+                    if (cardToTribute == selectedCard) {
+                        System.out.println("You cant tribute this card select another card");
+                    } else {
+                        currentUser.getBoard().getCardsInHand().remove(cardToTribute);
+                        currentUser.getBoard().getGraveYard().add(cardToTribute);
+                        currentUser.getBoard().getCardsInHand().remove(selectedCard);
+                        for (Card card : currentUser.getBoard().getMonstersZone()) {
+                            if (card == null) {
+                                card = selectedCard;
+                            }
+                        }
+                        System.out.println("summoned successfully");
+                        return;
+                    }
+                } else {
+                    System.out.println("please enter a correct number");
+                }
+            } else if (numberString.equals("cancel")) {
+                System.out.println("action canceled");
+                return;
+            } else {
+                System.out.println("enter a number");
+            }
+        }
     }
 
 

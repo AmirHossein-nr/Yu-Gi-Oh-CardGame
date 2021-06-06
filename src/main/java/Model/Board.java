@@ -13,7 +13,6 @@ public class Board {
     private ArrayList<Card> spellsAndTrapsZone;
     private ArrayList<Card> graveYard;
     private ArrayList<Card> cardsInHand;
-    //private ArrayList<>
 
     public Board() {
 
@@ -76,5 +75,15 @@ public class Board {
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public int numberOfMonstersOnBoard() {
+        int number = 0;
+        for (Card card : monstersZone) {
+            if (card != null) {
+                number++;
+            }
+        }
+        return number;
     }
 }
