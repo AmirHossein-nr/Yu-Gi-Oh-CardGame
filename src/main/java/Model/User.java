@@ -14,7 +14,7 @@ public class User {
     private String password;
     private String nickName;
     private long score;
-    private long lifePoint;
+    private int lifePoint;
     private long money;
     private boolean isArtificial;
     private Board board;
@@ -52,7 +52,7 @@ public class User {
         this.score = score;
     }
 
-    public void setLifePoint(long lifePoint) {
+    public void setLifePoint(int lifePoint) {
         this.lifePoint = lifePoint;
     }
 
@@ -72,7 +72,7 @@ public class User {
         return money;
     }
 
-    public long getLifePoint() {
+    public int getLifePoint() {
         return lifePoint;
     }
 

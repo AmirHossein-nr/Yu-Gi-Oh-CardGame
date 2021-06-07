@@ -86,4 +86,14 @@ public class Board {
         }
         return number;
     }
+
+    public int numberOfSpellAndTrapsOnBoard() {
+        int number = 0;
+        for (Card card : spellsAndTrapsZone) {
+            if (card != null) {
+                number++;
+            }
+        }
+        return number;
+    }
 }
