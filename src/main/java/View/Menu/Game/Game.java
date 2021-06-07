@@ -14,7 +14,7 @@ public class Game {
     User loggedUser;
     User rivalUser;
     User currentUser;
-    User winnerOfDuel;
+    User winnerOfDuel = null;
     int numberOfRounds;
     int round = 1;
     int turn = 1;
@@ -37,21 +37,74 @@ public class Game {
         this.scanner = scanner;
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
+        loggedUser.setMaxLifePoint(0);
+        rivalUser.setMaxLifePoint(0);
+        loggedUser.setNumberOfWinsInGame(0);
+        rivalUser.setNumberOfWinsInGame(0);
     }
 
     public void run() {
         while (round <= numberOfRounds) {
-            resetPlayersAttributes(currentUser);
+            if (numberOfRounds == 3) {
+                if (loggedUser.getNumberOfWinsInGame() == 2 || rivalUser.getNumberOfWinsInGame() == 2) {
+                    break;
+                }
+            }
+            if (round == 1) {
+                resetPlayersAttributes(loggedUser);
+            } else {
+                if (winnerOfDuel == loggedUser) {
+                    resetPlayersAttributes(rivalUser);
+                } else {
+                    resetPlayersAttributes(loggedUser);
+                }
+            }
             playFirstTurn();
             turn++;
             while (winnerOfDuel == null) {
                 playTurn();
                 turn++;
             }
-            // todo
+            finishRound();
             round++;
         }
-        // todo
+        finishGame();
+    }
+
+    private void finishRound() {
+        if (loggedUser.getMaxLifePoint() < loggedUser.getLifePoint()) {
+            loggedUser.setMaxLifePoint(loggedUser.getLifePoint());
+        }
+        if (rivalUser.getMaxLifePoint() < rivalUser.getLifePoint()) {
+            rivalUser.setMaxLifePoint(rivalUser.getLifePoint());
+        }
+        winnerOfDuel.setNumberOfWinsInGame(winnerOfDuel.getNumberOfWinsInGame() + 1);
+        User loserOfDuel;
+        if (winnerOfDuel == loggedUser) {
+            loserOfDuel = rivalUser;
+        } else {
+            loserOfDuel = loggedUser;
+        }
+        System.out.println(winnerOfDuel.getUsername() + " won the game and the score is: " + winnerOfDuel.getNumberOfWinsInGame() + "-" + loserOfDuel.getNumberOfWinsInGame());
+    }
+    private void finishGame() {
+        User winner;
+        User loser;
+        if (loggedUser.getNumberOfWinsInGame() > rivalUser.getNumberOfWinsInGame()) {
+            winner = loggedUser;
+            loser = rivalUser;
+        } else {
+            winner = rivalUser;
+            loser = loggedUser;
+        }
+        System.out.println(winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame() + "-" + loser.getNumberOfWinsInGame());
+        /* todo score and money
+        * score of winner is ( numberOfRounds * 1000 )
+        * money of winner is ( numberOfRounds * ( 1000 + winner.getMaxLifePoint ) )
+        * loser gets no score
+        * money of loser if ( numberOfRounds * 100 )
+        * numberOfRounds is either 1 or 3
+        */
     }
 
     private void playTurn() {
@@ -188,6 +241,7 @@ public class Game {
             drawCard(loggedUser);
             drawCard(rivalUser);
         }
+        winnerOfDuel = null;
         turn = 1;
     }
 
@@ -216,6 +270,10 @@ public class Game {
         board2.setZones();
         user1.setBoard(board1);
         user2.setBoard(board2);
+        board1.getAllCards().addAll(board1.getDeck().getMainDeck().getCardsInMainDeck());
+        board1.getAllCards().addAll(board1.getDeck().getSideDeck().getCardsInSideDeck());
+        board2.getAllCards().addAll(board2.getDeck().getMainDeck().getCardsInMainDeck());
+        board2.getAllCards().addAll(board2.getDeck().getSideDeck().getCardsInSideDeck());
     }
 
     public void setSelectedCard(Card selectedCard) {
@@ -239,7 +297,9 @@ public class Game {
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
     }
-    ////////
+
+
+
 
     private void drawPhaseRun() {
         currentPhase = Phase.DRAW;
@@ -263,6 +323,11 @@ public class Game {
                 return;
             } else if (input.equals("show graveyard")) {
                 showGraveyard();
+            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+                showSelectedCard();
+            } else if (input.equals("surrender")) {
+                winnerOfDuel = getOpponentOfCurrentUser();
+                return;
             } else {
                 System.out.println("invalid command");
             }
@@ -324,6 +389,11 @@ public class Game {
                 flipSummon();
             } else if (input.equals("show graveyard")) {
                 showGraveyard();
+            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+                showSelectedCard();
+            } else if (input.equals("surrender")) {
+                winnerOfDuel = getOpponentOfCurrentUser();
+                return;
             } else {
                 System.out.println("invalid command");
             }
@@ -648,6 +718,11 @@ public class Game {
                 if (directAttack()) {
                     return;
                 }
+            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+                showSelectedCard();
+            } else if (input.equals("surrender")) {
+                winnerOfDuel = getOpponentOfCurrentUser();
+                return;
             } else {
                 System.out.println("invalid command");
             }
@@ -823,6 +898,11 @@ public class Game {
                 showGraveyard();
             } else if (input.equals("flip-summon")) {
                 flipSummon();
+            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+                showSelectedCard();
+            } else if (input.equals("surrender")) {
+                winnerOfDuel = getOpponentOfCurrentUser();
+                return;
             } else {
                 System.out.println("invalid command");
             }
@@ -832,6 +912,10 @@ public class Game {
     // todo activate in enemy turn
     // todo ritual activation and tribute and summon and inactive spell :|
     // todo all the spell cards with special summon and and you should special summon right now to all methods
+    // todo chain
+    // todo cheat
+    // todo AI
+    // todo standby phase
     private void showGraveyard() {
         if (currentUser.getBoard().getGraveYard().size() == 0) {
             System.out.println("graveyard empty");
@@ -848,6 +932,17 @@ public class Game {
                 return;
             }
         }
+    }
+    private void showSelectedCard() {
+        if (selectedCard == null) {
+            System.out.println("no card is selected yet");
+            return;
+        }
+        if (getOpponentOfCurrentUser().getBoard().getAllCards().contains(selectedCard) && !selectedCard.getOccupied()) {
+            System.out.println("card is not visible");
+            return;
+        }
+        System.out.println(selectedCard.getName() + ":" + selectedCard.getDescription());
     }
 
 
