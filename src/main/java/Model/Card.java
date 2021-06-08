@@ -5,6 +5,7 @@ public class Card {
     private String name;
     private String description;
     private Boolean isOccupied;
+    private Boolean newOccupationState;
     private Boolean isAttackPosition;
     private Boolean isSelected;
     private Type cardType;
@@ -41,8 +42,16 @@ public class Card {
         isOccupied = occupied;
     }
 
+    public void setNewOccupationState(Boolean newOccupationState) {
+        this.newOccupationState = newOccupationState;
+    }
+
     public void setAttackPosition(Boolean attackPosition) {
         isAttackPosition = attackPosition;
+    }
+
+    public Boolean getNewOccupationState() {
+        return newOccupationState;
     }
 
     public Integer getPrice() {

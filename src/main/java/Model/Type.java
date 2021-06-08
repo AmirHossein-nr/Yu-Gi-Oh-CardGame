@@ -23,4 +23,6 @@ public enum Type {
     QUICK_PLAY,
     FIELD,
     EQUIP,
+    SPELL,
+    TRAP
 }

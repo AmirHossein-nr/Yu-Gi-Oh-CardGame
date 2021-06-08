@@ -8,6 +8,8 @@ public class Monster extends Card {
     private int defencePower;
     private int level;
     private boolean canBeAttacked;
+    private boolean isAttacked;
+    private Card equippedWith;
 
     public Monster(String name, Type cardType) {
         super(name, cardType);
@@ -43,6 +45,10 @@ public class Monster extends Card {
         this.attribute = attribute;
     }
 
+    public void setIsAttacked(boolean isAttacked) {
+        this.isAttacked = isAttacked;
+    }
+
     public void setAttackPower(int attackPower) {
         this.attackPower = attackPower;
     }
@@ -57,6 +63,14 @@ public class Monster extends Card {
 
     public void setCanBeAttacked(boolean canBeAttacked) {
         this.canBeAttacked = canBeAttacked;
+    }
+
+    public void setEquippedWith(Card equippedWith) {
+        this.equippedWith = equippedWith;
+    }
+
+    public Card getEquippedWith() {
+        return equippedWith;
     }
 
     public boolean getCanBeAttacked () {
@@ -83,6 +97,9 @@ public class Monster extends Card {
         return level;
     }
 
+    public boolean getIsAttacked () {
+        return isAttacked;
+    }
 
 
     @Override

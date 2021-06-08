@@ -3,12 +3,21 @@ package Model;
 public class Spell extends Card {
 
     private String status;
+    private Icon icon;
     public Spell(String name, Type type) {
         super(name, type);
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setIcon(Icon icon) {
+        this.icon = icon;
+    }
+
+    public Icon getIcon() {
+        return icon;
     }
 
     public String getStatus() {

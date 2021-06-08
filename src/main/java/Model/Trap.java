@@ -3,6 +3,8 @@ package Model;
 public class Trap extends Card {
 
     private String status;
+    private  Boolean canBeActive = true;
+    private boolean isDestructive = false;
 
     public Trap(String name, Type type) {
         super(name, type);
@@ -10,6 +12,22 @@ public class Trap extends Card {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setDestructive(boolean destructive) {
+        isDestructive = destructive;
+    }
+
+    public boolean getIsDestructive () {
+        return isDestructive;
+    }
+
+    public void setCanBeActive(Boolean canBeActive) {
+        this.canBeActive = canBeActive;
+    }
+
+    public Boolean getCanBeActive() {
+        return canBeActive;
     }
 
     public String getStatus() {

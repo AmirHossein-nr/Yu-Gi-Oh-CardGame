@@ -3,7 +3,6 @@ package Controller;
 import Model.*;
 
 public class Action {
-    //effect    //condition
     private String name;
     int monstersInField;
 
