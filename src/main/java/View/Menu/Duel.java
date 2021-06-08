@@ -52,6 +52,7 @@ public class Duel extends Menu {
             }
             int numberOfRounds = Integer.parseInt(matcher.group(5));
             new Game(loggedUser, rivalUser, numberOfRounds, scanner).run();
+            this.execute();
         } else {
             System.out.println("invalid command!");
             this.execute();

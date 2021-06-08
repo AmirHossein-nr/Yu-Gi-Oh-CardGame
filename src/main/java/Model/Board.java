@@ -8,7 +8,7 @@ public class Board {
     private Deck deck;
     private ArrayList<Card> deckZone;
     private Card fieldZone;
-    //private ArrayList<Card> allCards;
+    private ArrayList<Card> allCards;
     private ArrayList<Card> monstersZone;
     private ArrayList<Card> spellsAndTrapsZone;
     private ArrayList<Card> graveYard;
@@ -16,7 +16,7 @@ public class Board {
 
     public Board() {
 
-        //allCards = new ArrayList<>();
+        allCards = new ArrayList<>();
         monstersZone = new ArrayList<>();
         monstersZone.add(null);
         monstersZone.add(null);
@@ -45,9 +45,9 @@ public class Board {
         this.fieldZone = fieldZone;
     }
 
-    //   public ArrayList<Card> getAllCards() {
-    //       return allCards;
-    //   }
+    public ArrayList<Card> getAllCards() {
+        return allCards;
+    }
 
     public ArrayList<Card> getDeckZone() {
         return deckZone;
@@ -75,5 +75,25 @@ public class Board {
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public int numberOfMonstersOnBoard() {
+        int number = 0;
+        for (Card card : monstersZone) {
+            if (card != null) {
+                number++;
+            }
+        }
+        return number;
+    }
+
+    public int numberOfSpellAndTrapsOnBoard() {
+        int number = 0;
+        for (Card card : spellsAndTrapsZone) {
+            if (card != null) {
+                number++;
+            }
+        }
+        return number;
     }
 }

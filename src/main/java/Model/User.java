@@ -14,7 +14,9 @@ public class User {
     private String password;
     private String nickName;
     private long score;
-    private long lifePoint;
+    private int lifePoint;
+    private int maxLifePoint;
+    private int numberOfWinsInGame;
     private long money;
     private boolean isArtificial;
     private Board board;
@@ -52,8 +54,16 @@ public class User {
         this.score = score;
     }
 
-    public void setLifePoint(long lifePoint) {
+    public void setLifePoint(int lifePoint) {
         this.lifePoint = lifePoint;
+    }
+
+    public void setMaxLifePoint(int maxLifePoint) {
+        this.maxLifePoint = maxLifePoint;
+    }
+
+    public void setNumberOfWinsInGame(int numberOfWinsInGame) {
+        this.numberOfWinsInGame = numberOfWinsInGame;
     }
 
     public ArrayList<Card> getAllCards() {
@@ -72,8 +82,16 @@ public class User {
         return money;
     }
 
-    public long getLifePoint() {
+    public int getLifePoint() {
         return lifePoint;
+    }
+
+    public int getMaxLifePoint() {
+        return maxLifePoint;
+    }
+
+    public int getNumberOfWinsInGame() {
+        return numberOfWinsInGame;
     }
 
     public String getUsername() {
