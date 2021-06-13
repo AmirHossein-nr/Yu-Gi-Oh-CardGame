@@ -2,8 +2,8 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.*;
+import Model.Zahra.SideDeck;
 
-import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class DeckMenu extends Menu {

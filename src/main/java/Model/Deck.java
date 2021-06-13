@@ -1,8 +1,6 @@
 package Model;
 
-import Model.User;
-
-import java.util.ArrayList;
+import Model.Zahra.SideDeck;
 
 public class Deck {
     private String name;

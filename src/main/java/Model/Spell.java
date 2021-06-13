@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Zahra.Icon;
+
 public class Spell extends Card {
 
     private String status;

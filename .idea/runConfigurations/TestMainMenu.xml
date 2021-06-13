@@ -11,7 +11,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="Model.*" />
+        <option name="PATTERN" value="Model.Zahra.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
