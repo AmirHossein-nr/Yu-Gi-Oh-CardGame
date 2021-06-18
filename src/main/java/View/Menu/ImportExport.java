@@ -1,7 +1,12 @@
 package View.Menu;
 
+import Controller.JsonController;
 import Controller.Regex;
+import Model.Monster;
+import Model.Spell;
+import Model.Trap;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 public class ImportExport extends Menu {
@@ -27,19 +32,58 @@ public class ImportExport extends Menu {
         } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
             this.logoutUser();
         } else if ((matcher = Regex.getMatcher(input, Regex.importCard)).find()) {
-            importCard(matcher.group(1));
+            try {
+                importCard(matcher.group(1));
+            } catch (Exception ignored) {
+            }
         } else if (Regex.getMatcher(input, Regex.exportCard).find()) {
-            exportCard(matcher.group(1));
+            try {
+                exportCard(matcher.group(1));
+            } catch (Exception ignored) {
+            }
         } else {
             System.out.println("invalid command!");
             this.execute();
         }
     }
 
-    private void exportCard(String group) {
+    private void exportCard(String group) throws IOException {
+        System.out.println("please Enter Card Type :");
+        while (true) {
+            String type = scanner.nextLine().trim();
+            if (!type.equalsIgnoreCase("monster") && !type.equalsIgnoreCase("spell")
+                    && !type.equalsIgnoreCase("trap")) {
+                System.out.println("Wrong Type ! Please Try again ...");
+                continue;
+            }
+            JsonController.writeCard(group, type);
+            System.out.println("Imported Successfully !");
+            break;
+        }
     }
 
-    private void importCard(String group) {
+    private void importCard(String group) throws Exception {
+        System.out.println("please Enter Card Type :");
+        while (true) {
+            String type = scanner.nextLine().trim();
+            if (!type.equalsIgnoreCase("monster") && !type.equalsIgnoreCase("spell")
+                    && !type.equalsIgnoreCase("trap")) {
+                System.out.println("Wrong Type ! Please Try again ...");
+                continue;
+            }
+            if (type.equalsIgnoreCase("monster")) {
+                Monster monster = (Monster) JsonController.readCard(group, type);
+                loggedUser.getAllCards().add(monster);
+            } else if (type.equalsIgnoreCase("spell")) {
+                Spell spell = (Spell) JsonController.readCard(group, type);
+                loggedUser.getAllCards().add(spell);
+            } else {
+                Trap trap = (Trap) JsonController.readCard(group, type);
+                loggedUser.getAllCards().add(trap);
+            }
+            System.out.println("Imported Successfully !");
+            break;
+        }
     }
 
     private String editSpaces(String string) {
