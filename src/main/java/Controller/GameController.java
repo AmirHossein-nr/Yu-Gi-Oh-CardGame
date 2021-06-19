@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class GameController {
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public void run() {
         Menu.setScanner(this.scanner);

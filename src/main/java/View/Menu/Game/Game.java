@@ -28,7 +28,6 @@ public class Game {
     Spell activatedRitualCard = null;
 
 
-
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         this.loggedUser = loggedUser;
         this.rivalUser = rivalUser;
@@ -85,8 +84,10 @@ public class Game {
         } else {
             loserOfDuel = loggedUser;
         }
-        System.out.println(winnerOfDuel.getUsername() + " won the game and the score is: " + winnerOfDuel.getNumberOfWinsInGame() + "-" + loserOfDuel.getNumberOfWinsInGame());
+        System.out.println(winnerOfDuel.getUsername() + " won the game and the score is: "
+                + winnerOfDuel.getNumberOfWinsInGame() + "-" + loserOfDuel.getNumberOfWinsInGame());
     }
+
     private void finishGame() {
         User winner;
         User loser;
@@ -99,12 +100,12 @@ public class Game {
         }
         System.out.println(winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame() + "-" + loser.getNumberOfWinsInGame());
         /* todo score and money
-        * score of winner is ( numberOfRounds * 1000 )
-        * money of winner is ( numberOfRounds * ( 1000 + winner.getMaxLifePoint ) )
-        * loser gets no score
-        * money of loser if ( numberOfRounds * 100 )
-        * numberOfRounds is either 1 or 3
-        */
+         * score of winner is ( numberOfRounds * 1000 )
+         * money of winner is ( numberOfRounds * ( 1000 + winner.getMaxLifePoint ) )
+         * loser gets no score
+         * money of loser if ( numberOfRounds * 100 )
+         * numberOfRounds is either 1 or 3
+         */
     }
 
     private void playTurn() {
@@ -138,7 +139,8 @@ public class Game {
     private void printBoard() {
 
         StringBuilder board = new StringBuilder();
-        board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser().getLifePoint()).append("\n");
+        board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser()
+                .getLifePoint()).append("\n");
         board.append("\t");
         for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getCardsInHand().size(); i++) {
             board.append("c\t");
@@ -192,7 +194,6 @@ public class Game {
 
     private String toStringInBoard(Card card) {
         if (card instanceof Monster) {
-
             if (card == null) {
                 return "E";
             } else if (card.getOccupied()) {
@@ -298,9 +299,6 @@ public class Game {
         setPositionedCards.clear();
     }
 
-
-
-
     private void drawPhaseRun() {
         currentPhase = Phase.DRAW;
         System.out.println(Phase.DRAW);
@@ -333,6 +331,7 @@ public class Game {
             }
         }
     }
+
     private boolean canCurrentUserDraw() {
         if (currentUser.getBoard().getDeckZone().size() != 0) {
             return true;
@@ -340,6 +339,7 @@ public class Game {
             return false;
         }
     }
+
     private void drawCard(User user) {
         Card card;
         card = user.getBoard().getDeckZone().get(0);
@@ -349,15 +349,11 @@ public class Game {
     }
 
 
-
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
         printBoard();
-
     }
-
-
 
     private void mainPhaseOneRun() {
         currentPhase = Phase.MAIN_ONE;
@@ -375,7 +371,6 @@ public class Game {
             } else if (input.equals("next phase")) {
                 if (activatedRitualCard != null) {
                     System.out.println("you should ritual summon right now");
-                    continue;
                 } else {
                     return;
                 }
@@ -399,6 +394,7 @@ public class Game {
             }
         }
     }
+
     private void summon() {
         if (selectedCard == null) {
             System.out.println("no card is selected yet");
@@ -435,69 +431,77 @@ public class Game {
             while (true) {
                 answer = scanner.nextLine();
                 answer = editSpaces(answer);
-                if (answer.equals("0")) {
-                    if (normalSummonOrSetCard != null) {
-                        System.out.println("you already summoned/set on this turn");
-                    } else if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                        System.out.println("monster card zone is full");
-                    } else {
-                        ((Monster) selectedCard).setAttackPower(1900);
-                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                        System.out.println("summoned successfully");
-                        normalSummonOrSetCard = selectedCard;
-                        selectedCard = null;
-                    }
-                } else if (answer.equals("2")) {
-                    if (normalSummonOrSetCard != null) {
-                        System.out.println("you already summoned/set on this turn");
-                    } else if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                        System.out.println("there are not enough cards for tribute");
-                    } else {
-                        tributeSummon(2, false);
-                    }
-                } else if (answer.equals("3")) {
-                    if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                        System.out.println("there are not enough cards for tribute");
-                    } else {
-                        // todo are cards that enemy control monsters or everything also here we are moving cards to grave yard so they should de active
-                        System.out.println("\"attack\" or \"defence\"?");
-                        String answer1 = scanner.nextLine();
-                        while (!answer1.equals("attack") && !answer1.equals("defence") && !answer1.equals("cancel")) {
-                            System.out.println("type \"attack\" or \"defence\" or cancel");
-                            answer1 = scanner.nextLine();
-                        }
-                        if (answer1.equals("cancel")) {
-                            System.out.println("action canceled");
-                            return;
-                        } else if (answer1.equals("attack")) {
-                            tributeSummon(3, true);
+                switch (answer) {
+                    case "0":
+                        if (normalSummonOrSetCard != null) {
+                            System.out.println("you already summoned/set on this turn");
+                        } else if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                            System.out.println("monster card zone is full");
                         } else {
-                            tributeSet(3, true);
+                            ((Monster) selectedCard).setAttackPower(1900);
+                            addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                            System.out.println("summoned successfully");
+                            normalSummonOrSetCard = selectedCard;
+                            selectedCard = null;
                         }
-                        for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
-                            if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                                getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i));
-                                getOpponentOfCurrentUser().getBoard().getMonstersZone().set(i, null);
+                        break;
+                    case "2":
+                        if (normalSummonOrSetCard != null) {
+                            System.out.println("you already summoned/set on this turn");
+                        } else if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+                            System.out.println("there are not enough cards for tribute");
+                        } else {
+                            tributeSummon(2, false);
+                        }
+                        break;
+                    case "3":
+                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+                            System.out.println("there are not enough cards for tribute");
+                        } else {
+                            // todo are cards that enemy control monsters or everything also here we are moving cards
+                            //  to grave yard so they should de active
+                            System.out.println("\"attack\" or \"defence\"?");
+                            String answer1 = scanner.nextLine();
+                            while (!answer1.equals("attack") && !answer1.equals("defence") && !answer1.equals("cancel")) {
+                                System.out.println("type \"attack\" or \"defence\" or cancel");
+                                answer1 = scanner.nextLine();
                             }
-                        }
-                        for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
-                            if (getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
-                                getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i));
-                                getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().set(i, null);
+                            if (answer1.equals("cancel")) {
+                                System.out.println("action canceled");
+                                return;
+                            } else if (answer1.equals("attack")) {
+                                tributeSummon(3, true);
+                            } else {
+                                tributeSet(3, true);
                             }
+                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
+                                if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
+                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
+                                            .getBoard().getMonstersZone().get(i));
+                                    getOpponentOfCurrentUser().getBoard().getMonstersZone().set(i, null);
+                                }
+                            }
+                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
+                                if (getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
+                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
+                                            .getBoard().getSpellsAndTrapsZone().get(i));
+                                    getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().set(i, null);
+                                }
+                            }
+                            if (getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
+                                Card zoneSpell = getOpponentOfCurrentUser().getBoard().getFieldZone();
+                                getOpponentOfCurrentUser().getBoard().getGraveYard().add(zoneSpell);
+                                getOpponentOfCurrentUser().getBoard().setFieldZone(null);
+                            }
+                            System.out.println("destroyed all cards that opponent control");
                         }
-                        if (getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
-                            Card zoneSpell = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                            getOpponentOfCurrentUser().getBoard().getGraveYard().add(zoneSpell);
-                            getOpponentOfCurrentUser().getBoard().setFieldZone(null);
-                        }
-                        System.out.println("destroyed all cards that opponent control");
-                    }
-                } else if (answer.equals("cancel")) {
-                    System.out.println("action canceled");
-                    return;
-                } else {
-                    System.out.println("type \"0\" or \"2\" or \"3\" or cancel");
+                        break;
+                    case "cancel":
+                        System.out.println("action canceled");
+                        return;
+                    default:
+                        System.out.println("type \"0\" or \"2\" or \"3\" or cancel");
+                        break;
                 }
             }
         }
@@ -507,35 +511,37 @@ public class Game {
             while (true) {
                 answer = scanner.nextLine();
                 answer = editSpaces(answer);
-                if (answer.equals("normal")) {
-                    if (normalSummonOrSetCard != null) {
-                        System.out.println("you already summoned/set on this turn");
-                        return;
-                    } else {
-                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                            System.out.println("there are not enough cards for tribute");
+                switch (answer) {
+                    case "normal":
+                        if (normalSummonOrSetCard != null) {
+                            System.out.println("you already summoned/set on this turn");
                             return;
                         } else {
-                            tributeSummon(1, false);
+                            if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
+                                System.out.println("there are not enough cards for tribute");
+                                return;
+                            } else {
+                                tributeSummon(1, false);
+                                return;
+                            }
+                        }
+                    case "special":
+                        if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                            System.out.println("monster card zone is full");
                             return;
                         }
-                    }
-                } else if (answer.equals("special")) {
-                    if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                        System.out.println("monster card zone is full");
+                        if (currentUser.getBoard().getCardsInHand().size() < 2) {
+                            System.out.println("there are not enough cards for tribute");
+                            return;
+                        }
+                        specialSummonTheTricky();
                         return;
-                    }
-                    if (currentUser.getBoard().getCardsInHand().size() < 2) {
-                        System.out.println("there are not enough cards for tribute");
+                    case "cancel":
+                        System.out.println("action canceled");
                         return;
-                    }
-                    specialSummonTheTricky();
-                    return;
-                } else if (answer.equals("cancel")) {
-                    System.out.println("action canceled");
-                    return;
-                } else {
-                    System.out.println("please type normal or special (or cancel)");
+                    default:
+                        System.out.println("please type normal or special (or cancel)");
+                        break;
                 }
             }
         }
@@ -572,8 +578,10 @@ public class Game {
             }
         }
     }
+
     private void activateTerratiger() {
-        System.out.println("do you want to summon a level 4 or less monster from your hand in defence position? (\"yes\"/\"no\")");
+        System.out.println("do you want to summon a level 4 or less monster from your hand in defence position?" +
+                " (\"yes\"/\"no\")");
         while (true) {
             String answer = scanner.nextLine();
             answer = editSpaces(answer);
@@ -611,6 +619,7 @@ public class Game {
             }
         }
     }
+
     private void addMonsterFromHandToMonsterZone(Card monsterCard, Boolean isOccupied, Boolean isAttackPosition) {
         currentUser.getBoard().getCardsInHand().remove(monsterCard);
         for (Card card : currentUser.getBoard().getMonstersZone()) {
@@ -622,44 +631,17 @@ public class Game {
         monsterCard.setAttackPosition(isAttackPosition);
         putOnMonsterZoneCards.add(monsterCard);
     }
+
     private void ritualSummon(Monster monster) {
     } // todo
+
     private void tributeSummon(int tributeNumber, boolean isSpecial) {
-        System.out.println("enter number of " + tributeNumber + " cards in monster zone to tribute (or cancel)");
-        ArrayList<Card> monstersToTribute = new ArrayList<>();
-        String numberString;
-        while (monstersToTribute.size() < tributeNumber) {
-            numberString = scanner.nextLine();
-            numberString = editSpaces(numberString);
-            if (numberString.equals("cancel")) {
-                System.out.println("action canceled");
-                return;
-            } else if (!numberString.matches("\\d+")) {
-                System.out.println("enter a number");
-            } else {
-                int number = Integer.parseInt(numberString);
-                if (number < 1 || number > 5) {
-                    System.out.println("enter a correct number");
-                } else if (monstersToTribute.contains(currentUser.getBoard().getMonstersZone().get(number - 1))) {
-                    System.out.println("This card is already selected");
-                } else if (currentUser.getBoard().getMonstersZone().get(number - 1) == null) {
-                    System.out.println("there is no monster on this address");
-                } else {
-                    monstersToTribute.add(currentUser.getBoard().getMonstersZone().get(number - 1));
-                }
-            }
-        }
-        for (int i = 0; i < monstersToTribute.size(); i++) {
-            tributeMonster(monstersToTribute.get(i));
-        }
-        addMonsterFromHandToMonsterZone(selectedCard, true, true);
-        if (!isSpecial) {
-            normalSummonOrSetCard = selectedCard;
-        }
+        if (doTributeSummon(tributeNumber, isSpecial)) return;
         System.out.println("summoned successfully");
         selectedCard = null;
     }
-    private void tributeSet(int tributeNumber, boolean isSpecial) {
+
+    private boolean doTributeSummon(int tributeNumber, boolean isSpecial) {
         System.out.println("enter number of " + tributeNumber + " cards in monster zone to tribute (or cancel)");
         ArrayList<Card> monstersToTribute = new ArrayList<>();
         String numberString;
@@ -668,7 +650,7 @@ public class Game {
             numberString = editSpaces(numberString);
             if (numberString.equals("cancel")) {
                 System.out.println("action canceled");
-                return;
+                return true;
             } else if (!numberString.matches("\\d+")) {
                 System.out.println("enter a number");
             } else {
@@ -684,16 +666,22 @@ public class Game {
                 }
             }
         }
-        for (int i = 0; i < monstersToTribute.size(); i++) {
-            tributeMonster(monstersToTribute.get(i));
+        for (Card card : monstersToTribute) {
+            tributeMonster(card);
         }
         addMonsterFromHandToMonsterZone(selectedCard, true, true);
         if (!isSpecial) {
             normalSummonOrSetCard = selectedCard;
         }
+        return false;
+    }
+
+    private void tributeSet(int tributeNumber, boolean isSpecial) {
+        if (doTributeSummon(tributeNumber, isSpecial)) return;
         System.out.println("set successfully");
         selectedCard = null;
     }
+
     private void tributeMonster(Card monsterCard) {
         for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
             if (currentUser.getBoard().getMonstersZone().get(i) == monsterCard) {
@@ -702,6 +690,7 @@ public class Game {
             }
         }
     }
+
     private void specialSummonTheTricky() {
         System.out.println("Enter the number of card in your hand to tribute (or cancel)");
         String numberString;
@@ -733,6 +722,7 @@ public class Game {
             }
         }
     }
+
     private void set() {
         if (activatedRitualCard != null) {
             System.out.println("you should ritual summon right now");
@@ -790,6 +780,7 @@ public class Game {
             selectedCard = null;
         }
     }
+
     private void addSpellOrTrapFromHandToZone(Card SpellOrTrapZone, boolean isOccupied) {
         currentUser.getBoard().getCardsInHand().remove(SpellOrTrapZone);
         for (Card card : currentUser.getBoard().getSpellsAndTrapsZone()) {
@@ -800,19 +791,9 @@ public class Game {
         SpellOrTrapZone.setOccupied(isOccupied);
         putOnSpellTrapZoneCards.add(SpellOrTrapZone);
     }
+
     private void setPositionAttackDefense(String input) {
-        if (activatedRitualCard != null) {
-            System.out.println("you should ritual summon right now");
-            return;
-        }
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-            return;
-        }
-        if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
-            System.out.println("you can’t change this card position");
-            return;
-        }
+        if (changePosition()) return;
         if (!selectedCard.getOccupied()) {
             System.out.println("you can’t change this card position");
             return;
@@ -823,7 +804,8 @@ public class Game {
         }
         String[] inputSplit = input.split("\\s");
         String attackOrDefense = inputSplit[2];
-        if ((selectedCard.getAttackPosition() && attackOrDefense.equals("attack")) || (!selectedCard.getAttackPosition() && attackOrDefense.equals("defense"))) {
+        if ((selectedCard.getAttackPosition() && attackOrDefense.equals("attack"))
+                || (!selectedCard.getAttackPosition() && attackOrDefense.equals("defense"))) {
             System.out.println("this card is already in the wanted position");
             return;
         }
@@ -836,24 +818,31 @@ public class Game {
         setPositionedCards.add(selectedCard);
         selectedCard = null;
     }
-    private void flipSummon() {
+
+    private boolean changePosition() {
         if (activatedRitualCard != null) {
             System.out.println("you should ritual summon right now");
-            return;
+            return true;
         }
         if (selectedCard == null) {
             System.out.println("no card is selected yet");
-            return;
+            return true;
         }
         if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
             System.out.println("you can’t change this card position");
-            return;
+            return true;
         }
+        return false;
+    }
+
+    private void flipSummon() {
+        if (changePosition()) return;
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
             System.out.println("action not allowed in this phase");
             return;
         }
-        if ((!selectedCard.getAttackPosition() && !selectedCard.getOccupied()) || putOnMonsterZoneCards.contains(selectedCard)) {
+        if ((!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
+                || putOnMonsterZoneCards.contains(selectedCard)) {
             System.out.println("you can’t flip summon this card");
             return;
         }
@@ -862,7 +851,6 @@ public class Game {
         System.out.println("flip summoned successfully");
         // todo flip effects
     }
-
 
 
     private void battlePhaseRun() {
@@ -899,23 +887,9 @@ public class Game {
             }
         }
     }
+
     private boolean attack(String input) { // return true if duel has winner and false if duel does not have winner
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-            return false;
-        }
-        if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
-            System.out.println("you can’t attack with this card");
-            return false;
-        }
-        if (!(currentPhase == Phase.BATTLE)) {
-            System.out.println("you can’t do this action in this phase");
-            return false;
-        }
-        if (attackedCards.contains(selectedCard)) {
-            System.out.println("this card already attacked");
-            return false;
-        }
+        if (doAttack()) return false;
         String[] inputSplit = input.split("\\s");
         int enemyCardNumber = Integer.parseInt(inputSplit[1]);
         Card enemyCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(enemyCardNumber - 1);
@@ -939,7 +913,8 @@ public class Game {
             for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
                 if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
                     if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i).getOccupied()) {
-                        attackPower += ((Monster) getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
+                        attackPower += ((Monster) getOpponentOfCurrentUser().getBoard().getMonstersZone()
+                                .get(i)).getLevel();
                     }
                 }
             }
@@ -951,7 +926,8 @@ public class Game {
             if (selectedMonster.getAttackPower() > enemyMonster.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getAttackPower());
-                System.out.println("your opponent’s monster is destroyed and your opponent receives " + damage + " battle damage");
+                System.out.println("your opponent’s monster is destroyed and your opponent receives " + damage
+                        + " battle damage");
                 if (enemyMonster.getName().equals("Yomi Ship")) {
                     addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
                     System.out.println("Yomi Ship destroyed your monster");
@@ -989,7 +965,8 @@ public class Game {
                     System.out.println("the defense position monster is destroyed");
                 } else {
                     enemyMonster.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + enemyMonster.getName() + " and the defense position monster is destroyed");
+                    System.out.println("opponent’s monster card was " + enemyMonster.getName()
+                            + " and the defense position monster is destroyed");
                 }
                 if (enemyMonster.getName().equals("Yomi Ship")) {
                     addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
@@ -1014,7 +991,8 @@ public class Game {
                     System.out.println("no card is destroyed and you received " + damage + " battle damage");
                 } else {
                     enemyMonster.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + enemyMonster.getName() + " and no card is destroyed and you received " + damage + " battle damage");
+                    System.out.println("opponent’s monster card was " + enemyMonster.getName()
+                            + " and no card is destroyed and you received " + damage + " battle damage");
                 }
                 currentUser.setLifePoint(currentUser.getLifePoint() - damage);
                 attackedCards.add(selectedMonster);
@@ -1026,12 +1004,14 @@ public class Game {
             }
         }
     }
+
     private boolean attackExploderDragon(Monster selectedMonster, Monster ExploderDragon) {
         if (ExploderDragon.getAttackPosition()) { // enemy attack position
             if (selectedMonster.getAttackPower() > ExploderDragon.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(ExploderDragon, getOpponentOfCurrentUser());
                 addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
-                System.out.println("your opponent’s monster is destroyed and your opponent receives " + 0 + " battle damage");
+                System.out.println("your opponent’s monster is destroyed and your opponent receives " + 0
+                        + " battle damage");
                 System.out.println("Exploder Dragon destroyed your monster");
                 return false;
             } else if (selectedMonster.getAttackPower() == ExploderDragon.getAttackPower()) {
@@ -1060,7 +1040,8 @@ public class Game {
                     System.out.println("the defense position monster is destroyed");
                 } else {
                     ExploderDragon.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + ExploderDragon.getName() + " and the defense position monster is destroyed");
+                    System.out.println("opponent’s monster card was " + ExploderDragon.getName()
+                            + " and the defense position monster is destroyed");
                 }
                 System.out.println("Exploder Dragon destroyed your monster");
                 return false;
@@ -1069,7 +1050,8 @@ public class Game {
                     System.out.println("no card is destroyed");
                 } else {
                     ExploderDragon.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + ExploderDragon.getName() + " and no card is destroyed");
+                    System.out.println("opponent’s monster card was " + ExploderDragon.getName()
+                            + " and no card is destroyed");
                 }
                 attackedCards.add(selectedMonster);
                 return false;
@@ -1080,7 +1062,8 @@ public class Game {
                     System.out.println("no card is destroyed and you received " + damage + " battle damage");
                 } else {
                     ExploderDragon.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + ExploderDragon.getName() + " and no card is destroyed and you received " + damage + " battle damage");
+                    System.out.println("opponent’s monster card was " + ExploderDragon.getName()
+                            + " and no card is destroyed and you received " + damage + " battle damage");
                 }
                 currentUser.setLifePoint(currentUser.getLifePoint() - damage);
                 attackedCards.add(selectedMonster);
@@ -1092,6 +1075,7 @@ public class Game {
             }
         }
     }
+
     private boolean attackMarshmallon(Monster selectedMonster, Monster Marshmallon) {
         if (Marshmallon.getAttackPosition()) { // enemy attack position
             if (selectedMonster.getAttackPower() > Marshmallon.getAttackPower()) {
@@ -1127,7 +1111,8 @@ public class Game {
                     System.out.println("no card is destroyed");
                 } else {
                     Marshmallon.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + Marshmallon.getName() + " and no card is destroyed");
+                    System.out.println("opponent’s monster card was " + Marshmallon.getName()
+                            + " and no card is destroyed");
                     currentUser.setLifePoint(currentUser.getLifePoint() - 1000);
                     System.out.println("you received 1000 damage from Marshmallon");
                 }
@@ -1142,7 +1127,8 @@ public class Game {
                     System.out.println("no card is destroyed");
                 } else {
                     Marshmallon.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + Marshmallon.getName() + " and no card is destroyed");
+                    System.out.println("opponent’s monster card was " + Marshmallon.getName()
+                            + " and no card is destroyed");
                     currentUser.setLifePoint(currentUser.getLifePoint() - 1000);
                     System.out.println("you received 1000 damage from Marshmallon");
                 }
@@ -1159,7 +1145,8 @@ public class Game {
                     System.out.println("no card is destroyed and you received " + damage + " battle damage");
                 } else {
                     Marshmallon.setOccupied(true);
-                    System.out.println("opponent’s monster card was " + Marshmallon.getName() + " and no card is destroyed and you received " + damage + " battle damage");
+                    System.out.println("opponent’s monster card was " + Marshmallon.getName()
+                            + " and no card is destroyed and you received " + damage + " battle damage");
                     currentUser.setLifePoint(currentUser.getLifePoint() - 1000);
                     System.out.println("you received 1000 damage from Marshmallon");
                 }
@@ -1173,6 +1160,7 @@ public class Game {
             }
         }
     }
+
     private void addMonsterFromMonsterZoneToGraveyard(Card monsterCard, User owner) {
         for (Card card : owner.getBoard().getMonstersZone()) {
             if (card == monsterCard) {
@@ -1181,23 +1169,9 @@ public class Game {
         }
         owner.getBoard().getGraveYard().add(monsterCard);
     }
-    private boolean directAttack() { // returns true if duel has a winner and false if the fuel has no winner
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-            return false;
-        }
-        if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
-            System.out.println("you can’t attack with this card");
-            return false;
-        }
-        if (!(currentPhase == Phase.BATTLE)) {
-            System.out.println("you can’t do this action in this phase");
-            return false;
-        }
-        if (attackedCards.contains(selectedCard)) {
-            System.out.println("this card already attacked");
-            return false;
-        }
+
+    private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
+        if (doAttack()) return false;
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
             System.out.println("you can’t attack the opponent directly");
             return false;
@@ -1215,6 +1189,25 @@ public class Game {
         }
     }
 
+    private boolean doAttack() {
+        if (selectedCard == null) {
+            System.out.println("no card is selected yet");
+            return true;
+        }
+        if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
+            System.out.println("you can’t attack with this card");
+            return true;
+        }
+        if (!(currentPhase == Phase.BATTLE)) {
+            System.out.println("you can’t do this action in this phase");
+            return true;
+        }
+        if (attackedCards.contains(selectedCard)) {
+            System.out.println("this card already attacked");
+            return true;
+        }
+        return false;
+    }
 
 
     private void mainPhaseTwoRun() {
@@ -1257,7 +1250,10 @@ public class Game {
             }
         }
     }
-    private void activateEffect() {} // todo
+
+    private void activateEffect() {
+    } // todo
+
     // todo activate in enemy turn
     // todo ritual activation and tribute and summon and inactive spell :|
     // todo all the spell cards with special summon and and you should special summon right now to all methods
@@ -1282,6 +1278,7 @@ public class Game {
             }
         }
     }
+
     private void showSelectedCard() {
         if (selectedCard == null) {
             System.out.println("no card is selected yet");
