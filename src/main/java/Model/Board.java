@@ -31,6 +31,7 @@ public class Board {
         spellsAndTrapsZone.add(null);
         graveYard = new ArrayList<>();
         cardsInHand = new ArrayList<>();
+        deckZone = new ArrayList<>();
     }
 
     public void setZones() {

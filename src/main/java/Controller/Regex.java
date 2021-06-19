@@ -30,8 +30,8 @@ public class Regex {
     public static String newGame = "^duel (?=.*(--new))(?=.*(--second-player (\\w+)))(?=.*(--rounds (\\d+)))";
     public static String showOneDeck = "^deck show(?=.*( --deck-name (\\w+)))(?=.*( --side))?";
     public static String showCards = "^deck show --cards";
-    public static String selectCard;
-    public static String setPositionAttackDeffence = "set (--position|-p) (attack|defense)";
+    public static String selectCard = "^select$"; //todo
+    public static String setPositionAttackDefence = "set (--position|-p) (attack|defense)";
     public static String attack = "attack (\\d+)";
     public static String importCard = "^import card (.+)";
     public static String exportCard = "^export card (.+)";

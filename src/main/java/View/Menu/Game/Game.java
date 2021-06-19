@@ -109,29 +109,35 @@ public class Game {
     }
 
     private void playTurn() {
+
         drawPhaseRun();
         if (winnerOfDuel != null)
             return;
+
         standbyPhaseRun();
         if (winnerOfDuel != null)
             return;
+
         mainPhaseOneRun();
         if (winnerOfDuel != null)
             return;
+
         battlePhaseRun();
         if (winnerOfDuel != null)
             return;
+
         mainPhaseTwoRun();
         if (winnerOfDuel != null)
             return;
+
         endPhaseRun();
     }
 
     private void playFirstTurn() {
-        System.out.println(Phase.DRAW);
-        printBoard();
+//        System.out.println(Phase.DRAW);
+//        printBoard();
         System.out.println(Phase.STANDBY);
-        printBoard();
+//        printBoard();
         mainPhaseOneRun();
         endPhaseRun();
     }
@@ -189,7 +195,7 @@ public class Game {
         }
         board.append("\n");
         board.append(currentUser.getNickName()).append(":").append(currentUser.getLifePoint()).append("\n");
-
+        System.out.println(board);
     }
 
     private String toStringInBoard(Card card) {
@@ -238,6 +244,7 @@ public class Game {
         rivalUser.setLifePoint(8000);
         currentUser = user;
         shuffleDeckZones();
+        System.out.println(Phase.DRAW);
         for (int i = 0; i < 6; i++) {
             drawCard(loggedUser);
             drawCard(rivalUser);
@@ -302,7 +309,7 @@ public class Game {
     private void drawPhaseRun() {
         currentPhase = Phase.DRAW;
         System.out.println(Phase.DRAW);
-        printBoard();
+//        printBoard();
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
             return;
@@ -352,16 +359,16 @@ public class Game {
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
-        printBoard();
+//        printBoard();
     }
 
     private void mainPhaseOneRun() {
         currentPhase = Phase.MAIN_ONE;
         System.out.println(Phase.MAIN_ONE);
-        printBoard();
         String input;
         Matcher matcher;
         while (true) {
+            printBoard();
             input = scanner.nextLine();
             input = editSpaces(input);
             if (Regex.getMatcher(input, Regex.selectCard).find()) {
@@ -378,7 +385,7 @@ public class Game {
                 summon();
             } else if (input.equals("set")) {
                 set();
-            } else if (input.matches(Regex.setPositionAttackDeffence)) {
+            } else if (input.matches(Regex.setPositionAttackDefence)) {
                 setPositionAttackDefense(input);
             } else if (input.equals("flip-summon")) {
                 flipSummon();
@@ -1234,7 +1241,7 @@ public class Game {
                 summon();
             } else if (input.equals("set")) {
                 set();
-            } else if (input.matches(Regex.setPositionAttackDeffence)) {
+            } else if (input.matches(Regex.setPositionAttackDefence)) {
                 setPositionAttackDefense(input);
             } else if (input.equals("show graveyard")) {
                 showGraveyard();
