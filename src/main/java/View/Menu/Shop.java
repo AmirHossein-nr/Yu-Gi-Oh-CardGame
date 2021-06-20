@@ -180,7 +180,6 @@ public class Shop extends Menu {
     public void execute() {
         String input = scanner.nextLine();
         input = editSpaces(input);
-        Matcher matcher = null;
         runShopMenu(input);
     }
 
