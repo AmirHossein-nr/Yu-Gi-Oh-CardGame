@@ -28,7 +28,6 @@ public class Game {
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
 
-
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         this.loggedUser = loggedUser;
         this.rivalUser = rivalUser;
@@ -156,9 +155,7 @@ public class Game {
 
     private void playFirstTurn() {
 //        System.out.println(Phase.DRAW);
-//        printBoard();
         System.out.println(Phase.STANDBY);
-//        printBoard();
         mainPhaseOneRun();
         endPhaseRun();
     }
@@ -265,9 +262,9 @@ public class Game {
         rivalUser.setLifePoint(8000);
         currentUser = user;
         shuffleDeckZones();
+        System.out.println(Phase.DRAW);
         for (int i = 0; i < 6; i++) {
-            drawCard(loggedUser);
-            drawCard(rivalUser);
+            drawCard(user);
         }
         winnerOfDuel = null;
         turn = 1;
@@ -328,44 +325,51 @@ public class Game {
 
     private void select(Matcher matcher) {
         if (matcher.find()) {
-            if (matcher.group(1) != null) {
-                int number = Integer.parseInt(matcher.group(1));
-                selectedCard = currentUser.getBoard().getMonstersZone().get(number - 1);
-            } else if (matcher.group(2) != null) {
-                int number = Integer.parseInt(matcher.group(2));
-                selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-            } else if (matcher.group(3) != null) {
-                int number = Integer.parseInt(matcher.group(3));
-                selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-            } else if (matcher.group(4) != null) {
-                int number = Integer.parseInt(matcher.group(4));
-                selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-            } else if (matcher.group(5) != null) {
-                int number = Integer.parseInt(matcher.group(5));
-                selectedCard = currentUser.getBoard().getSpellsAndTrapsZone().get(number - 1);
-            } else if (matcher.group(6) != null) {
-                int number = Integer.parseInt(matcher.group(6));
-                selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-            } else if (matcher.group(7) != null) {
-                int number = Integer.parseInt(matcher.group(7));
-                selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-            } else if (matcher.group(8) != null) {
-                int number = Integer.parseInt(matcher.group(8));
-                selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-            } else if (matcher.group(9) != null) {
-                int number = Integer.parseInt(matcher.group(9));
-                if (number <= currentUser.getBoard().getCardsInHand().size() && number > 0) {
-                    selectedCard = currentUser.getBoard().getCardsInHand().get(number - 1);
+            try {
+                if (matcher.group(1) != null) {
+                    int number = Integer.parseInt(matcher.group(1));
+                    selectedCard = currentUser.getBoard().getMonstersZone().get(number - 1);
+                } else if (matcher.group(2) != null) {
+                    int number = Integer.parseInt(matcher.group(2));
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
+                } else if (matcher.group(3) != null) {
+                    int number = Integer.parseInt(matcher.group(3));
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
+                } else if (matcher.group(4) != null) {
+                    int number = Integer.parseInt(matcher.group(4));
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
+                } else if (matcher.group(5) != null) {
+                    int number = Integer.parseInt(matcher.group(5));
+                    selectedCard = currentUser.getBoard().getSpellsAndTrapsZone().get(number - 1);
+                } else if (matcher.group(6) != null) {
+                    int number = Integer.parseInt(matcher.group(6));
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
+                } else if (matcher.group(7) != null) {
+                    int number = Integer.parseInt(matcher.group(7));
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
+                } else if (matcher.group(8) != null) {
+                    int number = Integer.parseInt(matcher.group(8));
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
+                } else if (matcher.group(9) != null) {
+                    int number = Integer.parseInt(matcher.group(9));
+                    if (number <= currentUser.getBoard().getCardsInHand().size() && number > 0) {
+                        selectedCard = currentUser.getBoard().getCardsInHand().get(number - 1);
+                    } else {
+                        System.out.println("invalid selection");
+                        return;
+                    }
+                } else if (matcher.group(10) != null) {
+                    selectedCard = currentUser.getBoard().getFieldZone();
+                } else if (matcher.group(11) != null) {
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
+                } else if (matcher.group(12) != null) {
+                    selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
                 } else {
                     System.out.println("invalid selection");
+                    return;
                 }
-            } else if (matcher.group(10) != null) {
-                selectedCard = currentUser.getBoard().getFieldZone();
-            } else if (matcher.group(11) != null) {
-                selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
-            } else if (matcher.group(12) != null) {
-                selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
-            } else {
+                System.out.println("card Selected");
+            } catch (IndexOutOfBoundsException e) {
                 System.out.println("invalid selection");
             }
         } else {
@@ -374,11 +378,15 @@ public class Game {
     }
 
 
-
     private void drawPhaseRun() {
         currentPhase = Phase.DRAW;
         System.out.println(Phase.DRAW);
-//        printBoard();
+        if (turn == 2) {
+            for (int i = 0; i < 5; i++) {
+                drawCard(currentUser);
+            }
+        }
+
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
             return;
@@ -432,6 +440,10 @@ public class Game {
     private void mainPhaseOneRun() {
         currentPhase = Phase.MAIN_ONE;
         System.out.println(Phase.MAIN_ONE);
+        runMainPhase();
+    }
+
+    private void runMainPhase() {
         String input;
         Matcher matcher;
         while (true) {
@@ -641,7 +653,6 @@ public class Game {
                 }
                 normalSummonOrSetCard = selectedCard;
                 selectedCard = null;
-
             }
         } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
@@ -701,11 +712,13 @@ public class Game {
 
     private void addMonsterFromHandToMonsterZone(Card monsterCard, Boolean isOccupied, Boolean isAttackPosition) {
         currentUser.getBoard().getCardsInHand().remove(monsterCard);
-        for (Card card : currentUser.getBoard().getMonstersZone()) {
-            if (card == null) {
-                card = monsterCard;
+        for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
+            if (currentUser.getBoard().getMonstersZone().get(i) == null) {
+                currentUser.getBoard().getMonstersZone().set(i, monsterCard);
+                break;
             }
         }
+
         monsterCard.setOccupied(isOccupied);
         monsterCard.setAttackPosition(isAttackPosition);
         putOnMonsterZoneCards.add(monsterCard);
@@ -762,6 +775,7 @@ public class Game {
                         activatedRitualCard = null;
                         // todo set ritual summoned in effect
                         System.out.println("summoned successfully");
+                        selectedCard = null;
                     } else if (answer.equals("defence")) {
                         for (int i = 0; i < monstersToTribute.size(); i++) {
                             tributeMonster(monstersToTribute.get(i));
@@ -771,6 +785,7 @@ public class Game {
                         activatedRitualCard = null;
                         // todo set ritual summoned in effect
                         System.out.println("summoned successfully");
+                        selectedCard = null;
                     } else if (answer.equals("cancel")) {
                         System.out.println("canceled");
                         return;
@@ -931,15 +946,16 @@ public class Game {
         }
     }
 
-    private void addSpellOrTrapFromHandToZone(Card SpellOrTrapZone, boolean isOccupied) {
-        currentUser.getBoard().getCardsInHand().remove(SpellOrTrapZone);
-        for (Card card : currentUser.getBoard().getSpellsAndTrapsZone()) {
-            if (card == null) {
-                card = SpellOrTrapZone;
+    private void addSpellOrTrapFromHandToZone(Card spellOrTrap, boolean isOccupied) {
+        currentUser.getBoard().getCardsInHand().remove(spellOrTrap);
+        for (int i = 0; i < currentUser.getBoard().getSpellsAndTrapsZone().size(); i++) {
+            if (currentUser.getBoard().getSpellsAndTrapsZone().get(i) == null) {
+                currentUser.getBoard().getSpellsAndTrapsZone().set(i, spellOrTrap);
+                break;
             }
         }
-        SpellOrTrapZone.setOccupied(isOccupied);
-        putOnSpellTrapZoneCards.add(SpellOrTrapZone);
+        spellOrTrap.setOccupied(isOccupied);
+        putOnSpellTrapZoneCards.add(spellOrTrap);
     }
 
     private void setPositionAttackDefense(String input) {
@@ -999,6 +1015,7 @@ public class Game {
         selectedCard.setAttackPosition(true);
         selectedCard.setOccupied(true);
         System.out.println("flip summoned successfully");
+        selectedCard = null;
         // todo flip effects
     }
 
@@ -1374,41 +1391,7 @@ public class Game {
     private void mainPhaseTwoRun() {
         currentPhase = Phase.MAIN_TWO;
         System.out.println(Phase.MAIN_TWO);
-        printBoard();
-        String input;
-        Matcher matcher;
-        while (true) {
-            input = scanner.nextLine();
-            input = editSpaces(input);
-            if (input.equals("select -d")) {
-                deselectCard();
-            } else if (input.startsWith("select")) {
-                select(Regex.getMatcher(input, Regex.selectCard));
-            } else if (input.equals("next phase")) {
-                if (activatedRitualCard != null) {
-                    System.out.println("you should ritual summon right now");
-                } else {
-                    return;
-                }
-            } else if (input.equals("summon")) {
-                summon();
-            } else if (input.equals("set")) {
-                set();
-            } else if (input.matches(Regex.setPositionAttackDefence)) {
-                setPositionAttackDefense(input);
-            } else if (input.equals("show graveyard")) {
-                showGraveyard();
-            } else if (input.equals("flip-summon")) {
-                flipSummon();
-            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                showSelectedCard();
-            } else if (input.equals("surrender")) {
-                winnerOfDuel = getOpponentOfCurrentUser();
-                return;
-            } else {
-                System.out.println("invalid command");
-            }
-        }
+        runMainPhase();
     }
 
     private void activateEffect() {

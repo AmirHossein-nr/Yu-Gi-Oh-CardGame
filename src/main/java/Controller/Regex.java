@@ -31,17 +31,17 @@ public class Regex {
     public static String showOneDeck = "^deck show(?=.*( --deck-name (\\w+)))(?=.*( --side))?";
     public static String showCards = "^deck show --cards";
     public static String selectCard = "(?:select -(?:-monster|m) (\\d+)|" + //group 1
-            "select -(?:-monster|m) (\\d+) -(?:-opponent|-p)|" + //group 2
-            "select -(?:-opponent|-p) -(?:-monster|m) (\\d+)|" + //group 3
-            "select -(?:-monster|m) -(?:-opponent|-p) (\\d+)|" + //group 4
+            "select -(?:-monster|m) (\\d+) -(?:-opponent|o)|" + //group 2
+            "select -(?:-opponent|o) -(?:-monster|m) (\\d+)|" + //group 3
+            "select -(?:-monster|m) -(?:-opponent|o) (\\d+)|" + //group 4
             "select -(?:-spell|s) (\\d+)|" + //group 5
-            "select -(?:-spell|s) (\\d+) -(?:-opponent|-p)|" + //group 6
-            "select -(?:-opponent|-p) -(?:-spell|s) (\\d+)|" + // group 7
-            "select -(?:-spell|s) -(?:-opponent|-p) (\\d+)|" + //group 8
-            "select -(?:-hand|h) (\\d+)" + //group 9
+            "select -(?:-spell|s) (\\d+) -(?:-opponent|-o)|" + //group 6
+            "select -(?:-opponent|o) -(?:-spell|s) (\\d+)|" + // group 7
+            "select -(?:-spell|s) -(?:-opponent|o) (\\d+)|" + //group 8
+            "select -(?:-hand|h) (\\d+)|" + //group 9
             "(select -(?:-field|f))|" + //group 10
-            "(select -(?:-field|f) -(?:-opponent|-p))|" + //group 11
-            "(select -(?:-opponent|-p) -(?:-field|f))|" + //group 12
+            "(select -(?:-field|f) -(?:-opponent|o))|" + //group 11
+            "(select -(?:-opponent|o) -(?:-field|f))|" + //group 12
             "select .+)";
     public static String setPositionAttackDefence = "set (--position|-p) (attack|defense)";
     public static String attack = "attack (\\d+)";
