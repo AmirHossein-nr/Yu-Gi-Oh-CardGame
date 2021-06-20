@@ -28,6 +28,7 @@ public class User {
     public User(String username, String password, String nickName) {
         this.username = username;
         this.password = password;
+        this.setScore(0);
         setNickName(nickName);
         decks = new ArrayList<>();
         allCards = new ArrayList<>();
@@ -64,6 +65,14 @@ public class User {
 
     public void setNumberOfWinsInGame(int numberOfWinsInGame) {
         this.numberOfWinsInGame = numberOfWinsInGame;
+    }
+
+    public void setDecks(ArrayList<Deck> decks) {
+        this.decks = decks;
+    }
+
+    public void setAllCards(ArrayList<Card> allCards) {
+        this.allCards = allCards;
     }
 
     public ArrayList<Card> getAllCards() {
@@ -145,6 +154,13 @@ public class User {
                 }
             }
         }
+    }
+
+    public static void addUser(User user) {
+        user.setScore(0);
+        user.setDecks(new ArrayList<>());
+        user.setAllCards(new ArrayList<>());
+        allUsers.add(user);
     }
 
     public void sortAllCardsOfUser() {
