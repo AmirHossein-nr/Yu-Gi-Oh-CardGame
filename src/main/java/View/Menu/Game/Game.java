@@ -691,12 +691,12 @@ public class Game {
     } // todo
 
     private void tributeSummon(int tributeNumber, boolean isSpecial) {
-        if (doTributeSummon(tributeNumber, isSpecial)) return;
+        if (doTributeSummon(tributeNumber, isSpecial, true)) return;
         System.out.println("summoned successfully");
         selectedCard = null;
     }
 
-    private boolean doTributeSummon(int tributeNumber, boolean isSpecial) {
+    private boolean doTributeSummon(int tributeNumber, boolean isSpecial, boolean isSummon) {
         System.out.println("enter number of " + tributeNumber + " cards in monster zone to tribute (or cancel)");
         ArrayList<Card> monstersToTribute = new ArrayList<>();
         String numberString;
@@ -724,7 +724,11 @@ public class Game {
         for (int i = 0; i < monstersToTribute.size(); i++) {
             tributeMonster(monstersToTribute.get(i));
         }
-        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+        if (isSummon) {
+            addMonsterFromHandToMonsterZone(selectedCard, true, true);
+        } else {
+            addMonsterFromHandToMonsterZone(selectedCard, false, false);
+        }
         if (!isSpecial) {
             normalSummonOrSetCard = selectedCard;
         }
@@ -732,7 +736,7 @@ public class Game {
     }
 
     private void tributeSet(int tributeNumber, boolean isSpecial) {
-        if (doTributeSummon(tributeNumber, isSpecial)) return;
+        if (doTributeSummon(tributeNumber, isSpecial, false)) return;
         System.out.println("set successfully");
         selectedCard = null;
     }

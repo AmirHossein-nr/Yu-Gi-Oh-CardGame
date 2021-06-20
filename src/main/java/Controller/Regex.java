@@ -43,8 +43,6 @@ public class Regex {
             "(select -(?:-field|f) -(?:-opponent|-p))|" + //group 11
             "(select -(?:-opponent|-p) -(?:-field|f))|" + //group 12
             "select .+)";
-    public static String setPositionAttackDeffence = "set (--position|-p) (attack|defense)";
-    public static String selectCard = "^select$"; //todo
     public static String setPositionAttackDefence = "set (--position|-p) (attack|defense)";
     public static String attack = "attack (\\d+)";
     public static String importCard = "^import card (.+)";
