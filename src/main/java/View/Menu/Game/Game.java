@@ -298,6 +298,52 @@ public class Game {
         setPositionedCards.clear();
     }
 
+    private void select(Matcher matcher) {
+        if (matcher.find()) {
+            if (matcher.group(1) != null) {
+                int number = Integer.parseInt(matcher.group(1));
+                selectedCard = currentUser.getBoard().getMonstersZone().get(number - 1);
+            } else if (matcher.group(2) != null) {
+                int number = Integer.parseInt(matcher.group(2));
+                selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
+            } else if (matcher.group(3) != null) {
+                int number = Integer.parseInt(matcher.group(3));
+                selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
+            } else if (matcher.group(4) != null) {
+                int number = Integer.parseInt(matcher.group(4));
+                selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
+            } else if (matcher.group(5) != null) {
+                int number = Integer.parseInt(matcher.group(5));
+                selectedCard = currentUser.getBoard().getSpellsAndTrapsZone().get(number - 1);
+            } else if (matcher.group(6) != null) {
+                int number = Integer.parseInt(matcher.group(6));
+                selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
+            } else if (matcher.group(7) != null) {
+                int number = Integer.parseInt(matcher.group(7));
+                selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
+            } else if (matcher.group(8) != null) {
+                int number = Integer.parseInt(matcher.group(8));
+                selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
+            } else if (matcher.group(9) != null) {
+                int number = Integer.parseInt(matcher.group(9));
+                if (number <= currentUser.getBoard().getCardsInHand().size() && number > 0) {
+                    selectedCard = currentUser.getBoard().getCardsInHand().get(number - 1);
+                } else {
+                    System.out.println("invalid selection");
+                }
+            } else if (matcher.group(10) != null) {
+                selectedCard = currentUser.getBoard().getFieldZone();
+            } else if (matcher.group(11) != null) {
+                selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
+            } else if (matcher.group(12) != null) {
+                selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
+            } else {
+                System.out.println("invalid selection");
+            }
+        } else {
+            System.out.println("invalid command");
+        }
+    }
 
 
 
@@ -315,10 +361,10 @@ public class Game {
         while (true) {
             input = scanner.nextLine();
             input = editSpaces(input);
-            if (Regex.getMatcher(input, Regex.selectCard).find()) {
-                // todo
-            } else if (input.equals("select -d")) {
+            if (input.equals("select -d")) {
                 deselectCard();
+            } else if (input.startsWith("select")) {
+                select(Regex.getMatcher(input, Regex.selectCard));
             } else if (input.equals("next phase")) {
                 return;
             } else if (input.equals("show graveyard")) {
@@ -368,10 +414,10 @@ public class Game {
         while (true) {
             input = scanner.nextLine();
             input = editSpaces(input);
-            if (Regex.getMatcher(input, Regex.selectCard).find()) {
-                // todo
-            } else if (input.equals("select -d")) {
+            if (input.equals("select -d")) {
                 deselectCard();
+            } else if (input.startsWith("select")) {
+                select(Regex.getMatcher(input, Regex.selectCard));
             } else if (input.equals("next phase")) {
                 if (activatedRitualCard != null) {
                     System.out.println("you should ritual summon right now");
@@ -873,10 +919,10 @@ public class Game {
             printBoard();
             input = scanner.nextLine();
             input = editSpaces(input);
-            if (Regex.getMatcher(input, Regex.selectCard).find()) {
-                // todo
-            } else if (input.equals("select -d")) {
+            if (input.equals("select -d")) {
                 deselectCard();
+            } else if (input.startsWith("select")) {
+                select(Regex.getMatcher(input, Regex.selectCard));
             } else if (input.equals("next phase")) {
                 return;
             } else if (input.matches(Regex.attack)) {
@@ -1226,14 +1272,13 @@ public class Game {
         while (true) {
             input = scanner.nextLine();
             input = editSpaces(input);
-            if (Regex.getMatcher(input, Regex.selectCard).find()) {
-                // todo
-            } else if (input.equals("select -d")) {
+            if (input.equals("select -d")) {
                 deselectCard();
+            } else if (input.startsWith("select")) {
+                select(Regex.getMatcher(input, Regex.selectCard));
             } else if (input.equals("next phase")) {
                 if (activatedRitualCard != null) {
                     System.out.println("you should ritual summon right now");
-                    continue;
                 } else {
                     return;
                 }

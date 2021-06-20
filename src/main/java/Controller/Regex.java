@@ -26,7 +26,19 @@ public class Regex {
     public static String newGame = "^duel (?=.*(--new))(?=.*(--second-player (\\w+)))(?=.*(--rounds (\\d+)))";
     public static String showOneDeck = "^deck show(?=.*( --deck-name (\\w+)))(?=.*( --side))?";
     public static String showCards = "^deck show --cards";
-    public static String selectCard;
+    public static String selectCard = "(?:select -(?:-monster|m) (\\d+)|" + //group 1
+            "select -(?:-monster|m) (\\d+) -(?:-opponent|-p)|" + //group 2
+            "select -(?:-opponent|-p) -(?:-monster|m) (\\d+)|" + //group 3
+            "select -(?:-monster|m) -(?:-opponent|-p) (\\d+)|" + //group 4
+            "select -(?:-spell|s) (\\d+)|" + //group 5
+            "select -(?:-spell|s) (\\d+) -(?:-opponent|-p)|" + //group 6
+            "select -(?:-opponent|-p) -(?:-spell|s) (\\d+)|" + // group 7
+            "select -(?:-spell|s) -(?:-opponent|-p) (\\d+)|" + //group 8
+            "select -(?:-hand|h) (\\d+)" + //group 9
+            "(select -(?:-field|f))|" + //group 10
+            "(select -(?:-field|f) -(?:-opponent|-p))|" + //group 11
+            "(select -(?:-opponent|-p) -(?:-field|f))|" + //group 12
+            "select .+)";
     public static String setPositionAttackDeffence = "set (--position|-p) (attack|defense)";
     public static String attack = "attack (\\d+)";
 
