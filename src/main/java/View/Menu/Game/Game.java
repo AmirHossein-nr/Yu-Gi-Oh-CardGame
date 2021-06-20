@@ -26,6 +26,7 @@ public class Game {
     ArrayList<Card> attackedCards = new ArrayList<>();
     ArrayList<Card> setPositionedCards = new ArrayList<>();
     Spell activatedRitualCard = null;
+    ArrayList<Card> chain = new ArrayList<>();
 
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
@@ -40,6 +41,26 @@ public class Game {
         rivalUser.setMaxLifePoint(0);
         loggedUser.setNumberOfWinsInGame(0);
         rivalUser.setNumberOfWinsInGame(0);
+    }
+
+    public void setActivatedRitualCard(Spell activatedRitualCard) {
+        this.activatedRitualCard = activatedRitualCard;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public Spell getActivatedRitualCard() {
+        return activatedRitualCard;
+    }
+
+    public ArrayList<Card> getChain() {
+        return chain;
+    }
+
+    public Card getSelectedCard() {
+        return selectedCard;
     }
 
     public void run() {
@@ -226,7 +247,7 @@ public class Game {
         }
     }
 
-    private User getOpponentOfCurrentUser() {
+    public User getOpponentOfCurrentUser() {
         if (currentUser == loggedUser) {
             return rivalUser;
         } else {
@@ -396,10 +417,8 @@ public class Game {
     }
 
     private void drawCard(User user) {
-        Card card;
-        card = user.getBoard().getDeckZone().get(0);
-        user.getBoard().getDeckZone().remove(0);
-        user.getBoard().getCardsInHand().add(card);
+        Card card = user.getBoard().getDeckZone().get(0);
+        user.getBoard().addCardFromDeckToHand(1);
         System.out.println("new card added to the hand :" + card.getName());
     }
 
@@ -466,11 +485,16 @@ public class Game {
         Monster monster = (Monster) selectedCard;
         if (activatedRitualCard != null) {
             if (monster.getCardType() == Type.RITUAL) {
-                ritualSummon(monster);
+                ritualSummon();
             } else {
                 System.out.println("you should ritual summon right now");
             }
             return;
+        } else {
+            if (monster.getCardType() == Type.RITUAL) {
+                System.out.println("you can’t summon this card");
+                return;
+            }
         }
         if (selectedCard.getName().equals("Gate Guardian")) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
@@ -687,8 +711,75 @@ public class Game {
         putOnMonsterZoneCards.add(monsterCard);
     }
 
-    private void ritualSummon(Monster monster) {
-    } // todo
+    private void ritualSummon() {
+        System.out.println("enter number of cards in monster zone to tribute (or cancel)");
+        ArrayList<Card> monstersToTribute = new ArrayList<>();
+        String numbersString;
+        while (true) {
+            numbersString = scanner.nextLine();
+            numbersString = editSpaces(numbersString);
+            if (numbersString.equals("cancel")) {
+                System.out.println("action canceled");
+                return;
+            } else if (!numbersString.matches("(\\d+ ?)+")) {
+                System.out.println("enter numbers");
+            } else {
+                String[] numbersStringArray = numbersString.split("\\s");
+                if (numbersStringArray.length > 5) {
+                    System.out.println("enter at most 5 numbers");
+                    continue;
+                }
+                for (String s : numbersStringArray) {
+                    int number = Integer.parseInt(s);
+                    if (number < 1 || number > 5) {
+                        System.out.println("enter a correct number");
+                    } else if (monstersToTribute.contains(currentUser.getBoard().getMonstersZone().get(number - 1))) {
+                        System.out.println("This card is already selected");
+                    } else if (currentUser.getBoard().getMonstersZone().get(number - 1) == null) {
+                        System.out.println("there is no monster on this address");
+                    } else {
+                        monstersToTribute.add(currentUser.getBoard().getMonstersZone().get(number - 1));
+                    }
+                }
+                int sumOfLevels = 0;
+                for (Card card : monstersToTribute) {
+                    sumOfLevels += ((Monster) card).getLevel();
+                }
+                if (sumOfLevels < ((Monster) selectedCard).getLevel()) {
+                    System.out.println("selected monsters levels don’t match with ritual monster");
+                    continue;
+                }
+                while (true) {
+                    System.out.println("attack or defence (or cancel)");
+                    String answer = scanner.nextLine();
+                    answer = editSpaces(answer);
+                    if (answer.equals("attack")) {
+                        for (int i = 0; i < monstersToTribute.size(); i++) {
+                            tributeMonster(monstersToTribute.get(i));
+                        }
+                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
+                        activatedRitualCard = null;
+                        // todo set ritual summoned in effect
+                        System.out.println("summoned successfully");
+                    } else if (answer.equals("defence")) {
+                        for (int i = 0; i < monstersToTribute.size(); i++) {
+                            tributeMonster(monstersToTribute.get(i));
+                        }
+                        addMonsterFromHandToMonsterZone(selectedCard, true, false);
+                        addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
+                        activatedRitualCard = null;
+                        // todo set ritual summoned in effect
+                        System.out.println("summoned successfully");
+                    } else if (answer.equals("cancel")) {
+                        System.out.println("canceled");
+                        return;
+                    }
+                }
+
+            }
+        }
+    }
 
     private void tributeSummon(int tributeNumber, boolean isSpecial) {
         if (doTributeSummon(tributeNumber, isSpecial, true)) return;
@@ -1221,12 +1312,23 @@ public class Game {
     }
 
     private void addMonsterFromMonsterZoneToGraveyard(Card monsterCard, User owner) {
-        for (Card card : owner.getBoard().getMonstersZone()) {
-            if (card == monsterCard) {
-                card = null;
+        for (int i = 0; i < owner.getBoard().getMonstersZone().size(); i++) {
+            if (owner.getBoard().getMonstersZone().get(i) == monsterCard) {
+                owner.getBoard().getMonstersZone().set(i, null);
+                break;
             }
         }
         owner.getBoard().getGraveYard().add(monsterCard);
+    }
+
+    private void addSpellOrTrapFromZoneToGraveyard(Card spellTrapCard, User owner) {
+        for (int i = 0; i < owner.getBoard().getSpellsAndTrapsZone().size(); i++) {
+            if (owner.getBoard().getSpellsAndTrapsZone().get(i) == spellTrapCard) {
+                owner.getBoard().getSpellsAndTrapsZone().set(i, null);
+                break;
+            }
+        }
+        owner.getBoard().getGraveYard().add(spellTrapCard);
     }
 
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
@@ -1350,7 +1452,7 @@ public class Game {
     }
 
 
-    private void endPhaseRun() {
+    private void endPhaseRun() { // todo throw away cards if more than 6
         currentPhase = Phase.END;
         System.out.println(Phase.END);
         changeTurn();

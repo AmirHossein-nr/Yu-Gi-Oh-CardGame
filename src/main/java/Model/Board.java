@@ -97,4 +97,10 @@ public class Board {
         }
         return number;
     }
+
+    public void addCardFromDeckToHand(int number) {
+        Card card = deckZone.get(number - 1);
+        cardsInHand.add(card);
+        deckZone.remove(number - 1);
+    }
 }
