@@ -13,7 +13,6 @@ public class MonsterReborn extends Effect {
         super(card);
     }
 
-
     @Override
     public void activate(Game game) {
         if (canBeActivated(game)) {
