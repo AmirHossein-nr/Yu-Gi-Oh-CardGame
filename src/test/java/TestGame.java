@@ -1,6 +1,4 @@
-import Model.Board;
-import Model.Phase;
-import Model.User;
+import Model.*;
 import View.Menu.Game.Game;
 import View.Menu.Menu;
 import org.junit.Assert;
@@ -66,6 +64,37 @@ public class TestGame {
         game.callStandByPhase();
         Assert.assertEquals(game.getCurrentPhase(), Phase.STANDBY);
         Assertions.assertNotNull(game.getCurrentPhase());
+        Assertions.assertNull(game.getSelectedCard());
+    }
+
+    @Test
+    public void testCurrentUser() {
+        initialise();
+        Game game = new Game(user1, user2, 1, new Scanner(System.in));
+        Assertions.assertNotNull(game.getCurrentUser());
+        Assert.assertEquals(game.getCurrentUser().getUsername(), user1.getUsername());
+        game.setSelectedCard(new Card("Sample", Type.SPELL));
+        Assert.assertEquals(game.getSelectedCard().getName(), "Sample");
+        Assert.assertEquals(game.getSelectedCard().getName(), "Sample");
+        Assert.assertEquals(game.getSelectedCard().getCardType(), Type.SPELL);
+    }
+
+    @Test
+    public void testChainInGame() {
+        initialise();
+        Game game = new Game(user1, user2, 1, new Scanner(System.in));
+        Assertions.assertNotNull(game.getSpecialSummonedCards());
+        Assertions.assertNotNull(game.getChain());
+        Assert.assertEquals(game.getCurrentPhase(), Phase.DRAW);
+    }
+
+    @Test
+    public void testSelectCard() {
+        initialise();
+        Game game = new Game(user1, user2, 1, new Scanner(System.in));
+        Assertions.assertNull(game.getActivatedRitualCard());
+        game.setSelectedCard(new Card("Test", Type.RITUAL));
+        game.deselectCard();
         Assertions.assertNull(game.getSelectedCard());
     }
 }
