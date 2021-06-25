@@ -3,6 +3,7 @@ package View.Menu.Game;
 import Controller.Regex;
 import Model.*;
 import Model.Effects.Equipe.EquipEffect;
+import Model.Effects.Field.FieldEffect;
 import View.Menu.Shop;
 
 import java.util.ArrayList;
@@ -748,6 +749,7 @@ public class Game {
         for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
             if (currentUser.getBoard().getMonstersZone().get(i) == null) {
                 currentUser.getBoard().getMonstersZone().set(i, monsterCard);
+                ((FieldEffect) (((Spell) currentUser.getBoard().getFieldZone()).getEffect())).addCardUnderEffect(monsterCard);
                 break;
             }
         }
@@ -968,7 +970,6 @@ public class Game {
                 }
             }
         } else {
-            // todo selected card is instance of spell or trap
             if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
                 System.out.println("spell card zone is full");
                 return;
@@ -1603,6 +1604,11 @@ public class Game {
             }
             // todo
         } else if (card instanceof Spell) {
+            Spell spell = (Spell) card;
+            if (spell.getCardType() == Type.FIELD) {
+                ((FieldEffect) spell.getEffect()).deActive();
+                return;
+            }
             if (owner.getBoard().getSpellMonsterEquip().containsKey(card)) {
                 ((EquipEffect) ((Spell) card).getEffect()).deActive();
                 owner.getBoard().getSpellMonsterEquip().remove(card);

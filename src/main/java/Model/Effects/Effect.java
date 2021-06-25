@@ -35,6 +35,7 @@ public abstract class Effect {
     }
 
     public abstract void activate(Game game);
+
     public void addToChain(Game game) {
         if (canBeActivated(game)) {
             game.getChain().add(card);
