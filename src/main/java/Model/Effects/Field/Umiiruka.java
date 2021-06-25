@@ -5,45 +5,40 @@ import Model.Monster;
 import Model.Type;
 import View.Menu.Game.Game;
 
-public class Yami extends FieldEffect {
+public class Umiiruka extends FieldEffect {
 
-    private int damage = 0;
-
-    public Yami(Card card) {
+    public Umiiruka(Card card) {
         super(card);
     }
 
     @Override
     public void addCardUnderEffect(Card card) {
         Monster monster = (Monster) card;
-        if (monster.getMonsterType() == Type.BEAST) {
+        if (monster.getMonsterType() == Type.AQUA) {
             effectedMonsterCards.add(monster);
-            monster.setAttackPower(monster.getAttackPower() + damage);
+            monster.setAttackPower(monster.getAttackPower() + 500);
+            monster.setDefencePower(monster.getDefencePower() - 400);
         }
     }
 
     @Override
     public void deActive() {
         for (int i = 0; i < effectedMonsterCards.size(); i++) {
-            ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i)).getAttackPower() - 100);
+            ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i)).getAttackPower() - 500);
+            ((Monster) effectedMonsterCards.get(i)).setDefencePower(((Monster) effectedMonsterCards.get(i)).getDefencePower() + 400);
         }
     }
 
     @Override
     public void activate(Game game) {
         if (canBeActivated(game)) {
-            for (Card card : game.getCurrentUser().getBoard().getGraveYard()) {
-                if (card instanceof Monster) {
-                    damage++;
-                }
-            }
-            damage *= 100;
             for (int i = 0; i < 5; i++) {
-                if (game.getCurrentUser().getBoard().getMonstersZone() != null) {
+                if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
                     Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
-                    if (monster.getMonsterType() == Type.BEAST) {
+                    if (monster.getMonsterType() == Type.AQUA) {
                         effectedMonsterCards.add(monster);
-                        monster.setAttackPower(monster.getAttackPower() + damage);
+                        monster.setAttackPower(monster.getAttackPower() + 500);
+                        monster.setDefencePower(monster.getDefencePower() - 400);
                     }
                 }
             }

@@ -25,7 +25,7 @@ public class ClosedForest extends FieldEffect {
     @Override
     public void deActive() {
         for (int i = 0; i < effectedMonsterCards.size(); i++) {
-            ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i)).getAttackPower() - 100);
+            ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i)).getAttackPower() - damage);
         }
     }
 
@@ -39,7 +39,7 @@ public class ClosedForest extends FieldEffect {
             }
             damage *= 100;
             for (int i = 0; i < 5; i++) {
-                if (game.getCurrentUser().getBoard().getMonstersZone() != null) {
+                if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
                     Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
                     if (monster.getMonsterType() == Type.BEAST) {
                         effectedMonsterCards.add(monster);
