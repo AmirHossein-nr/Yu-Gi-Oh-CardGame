@@ -233,7 +233,6 @@ public class Game {
     }
 
     private void playFirstTurn() {
-//        System.out.println(Phase.DRAW);
         System.out.println(Phase.STANDBY);
         mainPhaseOneRun();
         endPhaseRun();
@@ -404,7 +403,6 @@ public class Game {
 
     private void changeTurn() {
         currentUser = getOpponentOfCurrentUser();
-        //setAndSummonedCards.clear();
         attackedCards.clear();
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
