@@ -1,4 +1,4 @@
-package View.Menu.Game;
+package Controller;
 
 import Controller.Regex;
 import Model.*;
@@ -476,6 +476,9 @@ public class Game {
             drawCard(currentUser);
         }
 
+        if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
+            return;
+        }
         String input;
         while (true) {
             input = scanner.nextLine();
@@ -1611,7 +1614,7 @@ public class Game {
         int number = currentUser.getBoard().getCardsInHand().size();
         if (number > 6) {
             number -= 6;
-            while (currentUser.getBoard().getCardsInHand().size() <= 6) {
+            while (currentUser.getBoard().getCardsInHand().size() > 6) {
                 System.out.println("you have to throw away " + number + "cards");
                 String numberString = editSpaces(scanner.nextLine());
                 if (numberString.matches("\\d+")) {

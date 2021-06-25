@@ -1,5 +1,5 @@
 import Model.*;
-import View.Menu.Game.Game;
+import Controller.Game;
 import View.Menu.Menu;
 import org.junit.Assert;
 import org.junit.Test;

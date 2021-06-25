@@ -2,10 +2,8 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.*;
-import View.Menu.Game.Game;
+import Controller.Game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 
 public class Duel extends Menu {

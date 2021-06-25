@@ -89,8 +89,8 @@ public class AI extends User {
         }
         if (enemyCard != null) {
             ArrayList<Card> list = new ArrayList<>();
-            list.add(0,myCard);
-            list.add(1,enemyCard);
+            list.add(0, myCard);
+            list.add(1, enemyCard);
             return list;
         } else {
             for (Card card : rivalBoard.getSpellsAndTrapsZone()) {
@@ -100,8 +100,8 @@ public class AI extends User {
                 }
             }
             ArrayList<Card> list = new ArrayList<>();
-            list.add(0,myCard);
-            list.add(1,enemyCard);
+            list.add(0, myCard);
+            list.add(1, enemyCard);
             return list;
         }
     }

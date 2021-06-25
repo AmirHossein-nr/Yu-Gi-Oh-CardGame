@@ -1,9 +1,7 @@
 package Model.Effects;
 
 import Model.Card;
-import Model.Spell;
-import Model.Type;
-import View.Menu.Game.Game;
+import Controller.Game;
 
 import java.util.Scanner;
 

@@ -2,8 +2,7 @@ package Model.Effects.Equipe;
 
 import Model.Card;
 import Model.Monster;
-import Model.Type;
-import View.Menu.Game.Game;
+import Controller.Game;
 
 public class BlackPendant extends EquipEffect {
 

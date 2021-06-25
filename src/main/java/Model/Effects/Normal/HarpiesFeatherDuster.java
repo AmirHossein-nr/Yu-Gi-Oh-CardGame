@@ -3,7 +3,7 @@ package Model.Effects.Normal;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
-import View.Menu.Game.Game;
+import Controller.Game;
 
 public class HarpiesFeatherDuster extends Effect {
 

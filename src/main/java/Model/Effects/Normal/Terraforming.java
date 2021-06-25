@@ -4,7 +4,7 @@ import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
 import Model.Zahra.Icon;
-import View.Menu.Game.Game;
+import Controller.Game;
 
 public class Terraforming extends Effect {
 

@@ -2,7 +2,7 @@ package Model.Effects.Ritual;
 
 import Model.*;
 import Model.Effects.Effect;
-import View.Menu.Game.Game;
+import Controller.Game;
 
 import java.util.ArrayList;
 

@@ -2,9 +2,7 @@ package Model.Effects.Normal;
 
 import Model.*;
 import Model.Effects.Effect;
-import View.Menu.Game.Game;
-
-import java.util.ArrayList;
+import Controller.Game;
 
 public class PotOfGreed extends Effect {
 

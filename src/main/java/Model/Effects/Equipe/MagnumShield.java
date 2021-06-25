@@ -1,11 +1,9 @@
 package Model.Effects.Equipe;
 
 import Model.Card;
-import Model.Effects.Effect;
 import Model.Monster;
-import Model.Spell;
 import Model.Type;
-import View.Menu.Game.Game;
+import Controller.Game;
 import View.Menu.Shop;
 
 public class MagnumShield extends EquipEffect {
