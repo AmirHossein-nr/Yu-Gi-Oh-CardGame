@@ -14,7 +14,8 @@ public class Board {
     private ArrayList<Card> spellsAndTrapsZone;
     private ArrayList<Card> graveYard;
     private ArrayList<Card> cardsInHand;
-    private HashMap<Card, Card> spellMonsterEquip = new HashMap<>(); //
+    private HashMap<Card, Card> spellMonsterEquip = new HashMap<>();
+    private HashMap<Card, ArrayList<Card>> commandKnights = new HashMap<>();
 
     public Board() {
 
@@ -51,6 +52,10 @@ public class Board {
 
     public void setSpellMonsterEquip(HashMap<Card, Card> spellMonsterEquip) {
         this.spellMonsterEquip = spellMonsterEquip;
+    }
+
+    public HashMap<Card, ArrayList<Card>> getCommandKnights() {
+        return commandKnights;
     }
 
     public HashMap<Card, Card> getSpellMonsterEquip() {

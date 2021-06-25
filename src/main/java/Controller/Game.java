@@ -820,6 +820,12 @@ public class Game {
         monsterCard.setOccupied(isOccupied);
         monsterCard.setAttackPosition(isAttackPosition);
         putOnMonsterZoneCards.add(monsterCard);
+
+        if (isOccupied) {
+            if (monsterCard.getName().equals("Command Knight")) {
+                activateCommandKnight(monsterCard, currentUser);
+            }
+        }
     }
 
     private void ritualSummon() {
@@ -1122,11 +1128,26 @@ public class Game {
         }
         selectedCard.setAttackPosition(true);
         selectedCard.setOccupied(true);
+        if (selectedCard.getName().equals("Command Knight")) {
+            activateCommandKnight(selectedCard, currentUser);
+        }
         System.out.println("flip summoned successfully");
         selectedCard = null;
         // todo flip effects
     }
 
+    private void activateCommandKnight(Card commandKnight, User owner) {
+        ArrayList<Card> monsterCards = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            if (owner.getBoard().getMonstersZone().get(i) == commandKnight) {
+                continue;
+            }
+            Monster monster = (Monster) owner.getBoard().getMonstersZone().get(i);
+            monster.setAttackPower(monster.getAttackPower() + 400);
+            monsterCards.add(monster);
+        }
+        owner.getBoard().getCommandKnights().put(commandKnight, monsterCards);
+    }
 
     private void battlePhaseRun() {
         currentPhase = Phase.BATTLE;
@@ -1181,6 +1202,12 @@ public class Game {
             if (enemyCard == null) {
                 System.out.println("there is no card to attack here");
                 return false;
+            }
+            if (enemyCard.getName().equals("Command Knight") && getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() - getOpponentOfCurrentUser().getBoard().getCommandKnights().size() > 0) {
+                if (enemyCard.getOccupied()) {
+                    System.out.println("you cant attack this card yet");
+                    return false;
+                }
             }
             return doAttackAction(enemyCard, selectedMonster);
         }
@@ -1254,6 +1281,9 @@ public class Game {
                     System.out.println("the defense position monster is destroyed");
                 } else {
                     enemyMonster.setOccupied(true);
+                    if (enemyMonster.getName().equals("Command Knight")) {
+                        activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
+                    }
                     System.out.println("opponent’s monster card was " + enemyMonster.getName()
                             + " and the defense position monster is destroyed");
                 }
@@ -1269,6 +1299,9 @@ public class Game {
                     System.out.println("no card is destroyed");
                 } else {
                     enemyMonster.setOccupied(true);
+                    if (enemyMonster.getName().equals("Command Knight")) {
+                        activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
+                    }
                     System.out.println("opponent’s monster card was " + enemyMonster.getName() + " and no card is destroyed");
                 }
                 attackedCards.add(selectedMonster);
@@ -1280,6 +1313,9 @@ public class Game {
                     System.out.println("no card is destroyed and you received " + damage + " battle damage");
                 } else {
                     enemyMonster.setOccupied(true);
+                    if (enemyMonster.getName().equals("Command Knight")) {
+                        activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
+                    }
                     System.out.println("opponent’s monster card was " + enemyMonster.getName()
                             + " and no card is destroyed and you received " + damage + " battle damage");
                 }
@@ -1663,6 +1699,16 @@ public class Game {
                     ((Monster) card).setAttackPower(((Monster) card1).getAttackPower());
                     ((Monster) card).setDefencePower(((Monster) card1).getDefencePower());
                     break;
+                }
+            }
+            ((FieldEffect) ((Spell) owner.getBoard().getFieldZone()).getEffect()).getEffectedMonsterCards().remove(card);
+            if (card.getName().equals("Command Knight")) {
+                if (owner.getBoard().getCommandKnights().containsKey(card)) {
+                    ArrayList<Card> cardsToRemoveEffect = owner.getBoard().getCommandKnights().get(card);
+                    for (int i = 0; i < cardsToRemoveEffect.size(); i++) {
+                        ((Monster) cardsToRemoveEffect.get(i)).setAttackPower(((Monster) cardsToRemoveEffect.get(i)).getAttackPower() - 400);
+                    }
+                    owner.getBoard().getCommandKnights().remove(card);
                 }
             }
             // todo

@@ -1,6 +1,16 @@
 package Model;
 
 import Model.Effects.Effect;
+import Model.Effects.Equipe.BlackPendant;
+import Model.Effects.Equipe.MagnumShield;
+import Model.Effects.Equipe.SwordOfDarkDestruction;
+import Model.Effects.Equipe.UnitedWeStand;
+import Model.Effects.Field.ClosedForest;
+import Model.Effects.Field.Forest;
+import Model.Effects.Field.Umiiruka;
+import Model.Effects.Field.Yami;
+import Model.Effects.Normal.*;
+import Model.Effects.Ritual.Ritual;
 import Model.Zahra.Icon;
 
 public class Spell extends Card {
@@ -39,7 +49,37 @@ public class Spell extends Card {
 
     // todo
     public void giveEffect() {
-        if (this.getName().equals("")) {
+        // todo check names
+        if (this.getName().equals("Closed Forest")) {
+            setEffect(new ClosedForest(this));
+        } else if (this.getName().equals("Forest")) {
+            setEffect(new Forest(this));
+        } else if (this.getName().equals("Umiiruka")) {
+            setEffect(new Umiiruka(this));
+        } else if (this.getName().equals("Yami")) {
+            setEffect(new Yami(this));
+        } else if (this.getName().equals("DarkHole")) {
+            setEffect(new DarkHole(this));
+        } else if (this.getName().equals("Harpie's Feather Duster")) {
+            setEffect(new HarpiesFeatherDuster(this));
+        } else if (this.getName().equals("Monster Reborn")) {
+            setEffect(new MonsterReborn(this));
+        } else if (this.getName().equals("Pot of Greed")) {
+            setEffect(new PotOfGreed(this));
+        } else if (this.getName().equals("Raigeki")) {
+            setEffect(new Raigeki(this));
+        } else if (this.getName().equals("Terraforming")) {
+            setEffect(new Terraforming(this));
+        } else if (this.getName().equals("Advanced Ritual Art")) {
+            setEffect(new Ritual(this));
+        } else if (this.getName().equals("Black Pendant")) {
+            setEffect(new BlackPendant(this));
+        } else if (this.getName().equals("Magnum Shield")) {
+            setEffect(new MagnumShield(this));
+        } else if (this.getName().equals("Sword of Dark Destruction")) {
+            setEffect(new SwordOfDarkDestruction(this));
+        } else if (this.getName().equals("United We Stand")) {
+            setEffect(new UnitedWeStand(this));
         }
     }
 

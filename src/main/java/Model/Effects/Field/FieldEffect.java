@@ -15,6 +15,10 @@ public abstract class FieldEffect extends Effect {
         speed = 1;
     }
 
+    public ArrayList<Card> getEffectedMonsterCards() {
+        return effectedMonsterCards;
+    }
+
     public abstract void addCardUnderEffect(Card card);
 
     public abstract void deActive();
