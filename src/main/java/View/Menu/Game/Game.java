@@ -97,8 +97,68 @@ public class Game {
             }
             finishRound();
             round++;
+            if (numberOfRounds == 3 && round <= 3) {
+                takeABreak();
+            }
         }
         finishGame();
+    }
+
+    private void takeABreak() {
+        System.out.println("Here We Take A Break From Last Round And We Can Change Our Strategies !" +
+                "\n (Type \"end\" to finish)");
+        System.out.println("-----------------------------------------");
+        String input;
+        int numberOfCardInMainDeck;
+        int numberOfCardInSideDeck;
+        User firstUser = currentUser;
+
+        while (true) {
+            System.out.println("It's " + currentUser.getUsername() + "'s Turn");
+            System.out.println("Enter Number Of Your Card in Main Deck : ");
+            input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("end")) {
+                if (!currentUser.getUsername().equals(firstUser.getUsername()))
+                    break;
+
+                currentUser = getOpponentOfCurrentUser();
+                continue;
+            }
+            try {
+                numberOfCardInMainDeck = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Wrong Number Format ! Try Again");
+                continue;
+            }
+            System.out.println("Enter Number Of Your Card in Side Deck : ");
+            input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("end")) {
+                if (!currentUser.getUsername().equals(firstUser.getUsername()))
+                    return;
+
+                currentUser = getOpponentOfCurrentUser();
+                continue;
+            }
+            try {
+                numberOfCardInSideDeck = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Wrong Number Format ! Try Again");
+                continue;
+            }
+            try {
+                Card card = currentUser.getBoard().getDeck().getMainDeck().getCardsInMainDeck()
+                        .get(numberOfCardInMainDeck);
+                currentUser.getBoard().getDeck().getMainDeck().getCardsInMainDeck().set(
+                        numberOfCardInMainDeck, currentUser.getBoard().getDeck().getSideDeck()
+                                .getCardsInSideDeck().get(numberOfCardInSideDeck));
+                currentUser.getBoard().getDeck().getSideDeck().getCardsInSideDeck().set(numberOfCardInMainDeck, card);
+                System.out.println("Swapped Successfully!");
+            } catch (Exception e) {
+                System.out.println("A Problem Occurred While Swapping" +
+                        "\n(Maybe The Number You Entered Was Out Of Deck!)\n" +
+                        "PLease Try Again !");
+            }
+        }
     }
 
     private void finishRound() {
