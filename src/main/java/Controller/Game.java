@@ -198,13 +198,9 @@ public class Game {
         }
         System.out.println(winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame()
                 + "-" + loser.getNumberOfWinsInGame());
-        /* todo score and money
-         * score of winner is ( numberOfRounds * 1000 )
-         * money of winner is ( numberOfRounds * ( 1000 + winner.getMaxLifePoint ) )
-         * loser gets no score
-         * money of loser if ( numberOfRounds * 100 )
-         * numberOfRounds is either 1 or 3
-         */
+        winner.setScore(winner.getScore() + numberOfRounds * 1000L);
+        winner.setMoney(winner.getMoney() + numberOfRounds * (1000L + winner.getMaxLifePoint()));
+        loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
     }
 
     private void playTurn() {
@@ -547,7 +543,8 @@ public class Game {
                                 if (answer1.equals("cancel")) {
                                     System.out.println("canceled");
                                     break outer;
-                                } if (answer1.matches("\\d+")) {
+                                }
+                                if (answer1.matches("\\d+")) {
                                     int number = Integer.parseInt(answer1);
                                     if (number < 1 || number > currentUser.getBoard().getGraveYard().size()) {
                                         System.out.println("enter a correct number");
@@ -578,7 +575,6 @@ public class Game {
                 }
             }
         }
-
 
 
     }
