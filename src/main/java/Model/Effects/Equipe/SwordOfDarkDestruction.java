@@ -6,17 +6,22 @@ import Model.Monster;
 import Model.Type;
 import View.Menu.Game.Game;
 
-public class SwordOfDarkDestruction extends Effect {
+public class SwordOfDarkDestruction extends EquipEffect {
 
     public SwordOfDarkDestruction(Card card) {
         super(card);
-        speed = 1;
+    }
+
+    @Override
+    public void deActive() {
+        monster.setDefencePower(monster.getDefencePower() + 200);
+        monster.setAttackPower(monster.getAttackPower() - 400);
     }
 
     @Override
     public void activate(Game game) {
         if (canBeActivated(game)) {
-            System.out.println("select number on the S monster in monster zone to equip");
+            System.out.println("select number of the Spellcaster or Fiend monster in monster zone to equip");
             while (true) {
                 String answer = editSpaces(scanner.nextLine());
                 if (answer.equals("cancel")) {
@@ -27,14 +32,14 @@ public class SwordOfDarkDestruction extends Effect {
                     if (number > 0 && number < 6) {
                         if (game.getCurrentUser().getBoard().getMonstersZone().get(number - 1) != null) {
                             Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                            if (monster.getMonsterType() == Type.WARRIOR) {
-                                int damage = monster.getAttackPower() + monster.getDefencePower();
-                                monster.setAttackPower(damage);
-                                monster.setDefencePower(damage);
+                            if (monster.getMonsterType() == Type.FIEND || monster.getMonsterType() == Type.SPELL_CASTER) {
+                                monster.setDefencePower(monster.getDefencePower() - 200);
+                                monster.setAttackPower(monster.getAttackPower() + 400);
                                 game.getCurrentUser().getBoard().getSpellMonsterEquip().put(card, monster);
+                                this.monster = monster;
                                 break;
                             } else {
-                                System.out.println("not a Warrior monster");
+                                System.out.println("not a Fiend or SpellCaster monster");
                             }
                         } else {
                             System.out.println("there is no monster here");

@@ -6,17 +6,24 @@ import Model.Monster;
 import Model.Type;
 import View.Menu.Game.Game;
 
-public class UnitedWeStand extends Effect {
+public class UnitedWeStand extends EquipEffect {
+
+    private int damage;
 
     public UnitedWeStand(Card card) {
         super(card);
-        speed = 1;
+    }
+
+    @Override
+    public void deActive() {
+        monster.setDefencePower(monster.getDefencePower() - damage);
+        monster.setAttackPower(monster.getAttackPower() - damage);
     }
 
     @Override
     public void activate(Game game) {
         if (canBeActivated(game)) {
-            System.out.println("select number on the monster in monster zone to equip");
+            System.out.println("select number of the monster in monster zone to equip");
             while (true) {
                 String answer = editSpaces(scanner.nextLine());
                 if (answer.equals("cancel")) {
@@ -33,9 +40,11 @@ public class UnitedWeStand extends Effect {
                                     damage += 800;
                                 }
                             }
+                            this.damage = damage;
                             monster.setDefencePower(monster.getDefencePower() + damage);
                             monster.setAttackPower(monster.getAttackPower() + damage);
                             game.getCurrentUser().getBoard().getSpellMonsterEquip().put(card, monster);
+                            this.monster = monster;
                             break;
                         } else {
                             System.out.println("there is no monster here");

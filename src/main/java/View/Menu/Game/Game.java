@@ -2,6 +2,7 @@ package View.Menu.Game;
 
 import Controller.Regex;
 import Model.*;
+import Model.Effects.Equipe.EquipEffect;
 import View.Menu.Shop;
 
 import java.util.ArrayList;
@@ -1514,7 +1515,6 @@ public class Game {
     // todo activate in enemy turn
     // todo chain
     // todo cheat
-    // todo AI
     // todo standby phase
     private void showGraveyard() {
         if (currentUser.getBoard().getGraveYard().size() == 0) {
@@ -1604,8 +1604,7 @@ public class Game {
             // todo
         } else if (card instanceof Spell) {
             if (owner.getBoard().getSpellMonsterEquip().containsKey(card)) {
-                Card monster = owner.getBoard().getSpellMonsterEquip().get(card);
-                addMonsterFromMonsterZoneToGraveyard(monster, owner);
+                ((EquipEffect) ((Spell) card).getEffect()).deActive();
                 owner.getBoard().getSpellMonsterEquip().remove(card);
             }
             //todo

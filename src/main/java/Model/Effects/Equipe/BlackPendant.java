@@ -1,38 +1,26 @@
 package Model.Effects.Equipe;
 
 import Model.Card;
-import Model.Effects.Effect;
 import Model.Monster;
-import Model.Spell;
 import Model.Type;
 import View.Menu.Game.Game;
-import View.Menu.Shop;
 
-public class MagnumShield extends EquipEffect {
+public class BlackPendant extends EquipEffect {
 
-    public MagnumShield(Card card) {
+    public BlackPendant(Card card) {
         super(card);
     }
 
     @Override
     public void deActive() {
-        Monster monster;
-        for (Card card : Shop.getAllCards()) {
-            if (card.getName().equals(this.monster.getName())) {
-                monster = (Monster) card;
-                int defence = monster.getDefencePower();
-                int attack = monster.getAttackPower();
-                this.monster.setAttackPower(this.monster.getAttackPower() - defence);
-                this.monster.setDefencePower(this.monster.getDefencePower() - attack);
-                return;
-            }
-        }
+
+        monster.setAttackPower(monster.getAttackPower() - 500);
     }
 
     @Override
     public void activate(Game game) {
         if (canBeActivated(game)) {
-            System.out.println("select number of the Warrior monster in monster zone to equip");
+            System.out.println("select number of the monster in monster zone to equip");
             while (true) {
                 String answer = editSpaces(scanner.nextLine());
                 if (answer.equals("cancel")) {
@@ -43,16 +31,10 @@ public class MagnumShield extends EquipEffect {
                     if (number > 0 && number < 6) {
                         if (game.getCurrentUser().getBoard().getMonstersZone().get(number - 1) != null) {
                             Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                            if (monster.getMonsterType() == Type.WARRIOR) {
-                                int damage = monster.getAttackPower() + monster.getDefencePower();
-                                monster.setAttackPower(damage);
-                                monster.setDefencePower(damage);
-                                game.getCurrentUser().getBoard().getSpellMonsterEquip().put(card, monster);
-                                this.monster = monster;
-                                break;
-                            } else {
-                                System.out.println("not a Warrior monster");
-                            }
+                            monster.setAttackPower(monster.getAttackPower() + 500);
+                            game.getCurrentUser().getBoard().getSpellMonsterEquip().put(card, monster);
+                            this.monster = monster;
+                            break;
                         } else {
                             System.out.println("there is no monster here");
                         }
@@ -76,9 +58,7 @@ public class MagnumShield extends EquipEffect {
         }
         for (int i = 0; i < 5; i++) {
             if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                if (((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getMonsterType() == Type.WARRIOR) {
-                    return true;
-                }
+                return true;
             }
         }
         return false;

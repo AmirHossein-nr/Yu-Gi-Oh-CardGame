@@ -97,10 +97,9 @@ public class Monster extends Card {
         return level;
     }
 
-    public boolean getIsAttacked () {
+    public boolean getIsAttacked() {
         return isAttacked;
     }
-
 
     @Override
     public String toString() {
