@@ -16,7 +16,6 @@ public class Board {
     private ArrayList<Card> cardsInHand;
     private HashMap<Card, Card> spellMonsterEquip = new HashMap<>();
     private HashMap<Card, ArrayList<Card>> commandKnights = new HashMap<>();
-    private ArrayList<Card> activatedHeraldOfCreation = new ArrayList<>();
 
     public Board() {
 
@@ -53,14 +52,6 @@ public class Board {
 
     public void setSpellMonsterEquip(HashMap<Card, Card> spellMonsterEquip) {
         this.spellMonsterEquip = spellMonsterEquip;
-    }
-
-    public void setActivatedHeraldOfCreation(ArrayList<Card> activatedHeraldOfCreation) {
-        this.activatedHeraldOfCreation = activatedHeraldOfCreation;
-    }
-
-    public ArrayList<Card> getActivatedHeraldOfCreation() {
-        return activatedHeraldOfCreation;
     }
 
     public HashMap<Card, ArrayList<Card>> getCommandKnights() {
