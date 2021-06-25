@@ -7,8 +7,6 @@ import View.Menu.Game.Game;
 
 public class Yami extends FieldEffect {
 
-    private int damage = 0;
-
     public Yami(Card card) {
         super(card);
     }
@@ -16,40 +14,52 @@ public class Yami extends FieldEffect {
     @Override
     public void addCardUnderEffect(Card card) {
         Monster monster = (Monster) card;
-        if (monster.getMonsterType() == Type.BEAST) {
-            effectedMonsterCards.add(monster);
-            monster.setAttackPower(monster.getAttackPower() + damage);
-        }
+        doAction(monster);
     }
 
     @Override
     public void deActive() {
         for (int i = 0; i < effectedMonsterCards.size(); i++) {
-            ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i)).getAttackPower() - 100);
+            if (((Monster) effectedMonsterCards.get(i)).getMonsterType() == Type.FIELD
+                    || ((Monster) effectedMonsterCards.get(i)).getMonsterType() == Type.SPELL_CASTER) {
+                ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i))
+                        .getAttackPower() - 200);
+                ((Monster) effectedMonsterCards.get(i)).setDefencePower(((Monster) effectedMonsterCards.get(i))
+                        .getDefencePower() - 200);
+            } else if (((Monster) effectedMonsterCards.get(i)).getMonsterType() == Type.FAIRY) {
+                ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i))
+                        .getAttackPower() + 200);
+                ((Monster) effectedMonsterCards.get(i)).setDefencePower(((Monster) effectedMonsterCards.get(i))
+                        .getDefencePower() + 200);
+            }
         }
     }
 
     @Override
     public void activate(Game game) {
         if (canBeActivated(game)) {
-            for (Card card : game.getCurrentUser().getBoard().getGraveYard()) {
-                if (card instanceof Monster) {
-                    damage++;
-                }
-            }
-            damage *= 100;
             for (int i = 0; i < 5; i++) {
                 if (game.getCurrentUser().getBoard().getMonstersZone() != null) {
                     Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
-                    if (monster.getMonsterType() == Type.BEAST) {
-                        effectedMonsterCards.add(monster);
-                        monster.setAttackPower(monster.getAttackPower() + damage);
-                    }
+                    doAction(monster);
                 }
             }
             System.out.println("spell activated");
         } else {
             System.out.println("preparations of this spell are not done yet");
+        }
+    }
+
+    private void doAction(Monster monster) {
+        if (monster.getMonsterType() == Type.FIELD
+                || monster.getMonsterType() == Type.SPELL_CASTER) {
+            effectedMonsterCards.add(monster);
+            monster.setAttackPower(monster.getAttackPower() + 200);
+            monster.setDefencePower(monster.getDefencePower() + 200);
+        } else if (monster.getMonsterType() == Type.FAIRY) {
+            effectedMonsterCards.add(monster);
+            monster.setAttackPower(monster.getAttackPower() - 200);
+            monster.setDefencePower(monster.getDefencePower() - 200);
         }
     }
 
