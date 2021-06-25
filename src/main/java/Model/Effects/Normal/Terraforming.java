@@ -42,15 +42,6 @@ public class Terraforming extends Effect {
     }
 
     @Override
-    public void addToChain(Game game) {
-        if (canBeActivated(game)) {
-            game.getChain().add(card);
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-        }
-    }
-
-    @Override
     public boolean canBeActivated(Game game) {
         for (Card card : game.getCurrentUser().getBoard().getDeckZone()) {
             if (card instanceof Spell) {

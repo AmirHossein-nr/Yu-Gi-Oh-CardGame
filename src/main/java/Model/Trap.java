@@ -1,10 +1,13 @@
 package Model;
 
+import Model.Effects.Effect;
+
 public class Trap extends Card {
 
     private String status;
     private  Boolean canBeActive = true;
     private boolean isDestructive = false;
+    private Effect effect;
 
     public Trap(String name, Type type) {
         super(name, type);
@@ -16,6 +19,10 @@ public class Trap extends Card {
 
     public void setDestructive(boolean destructive) {
         isDestructive = destructive;
+    }
+
+    public void setEffect(Effect effect) {
+        this.effect = effect;
     }
 
     public boolean getIsDestructive () {
@@ -32,6 +39,16 @@ public class Trap extends Card {
 
     public String getStatus() {
         return status;
+    }
+
+    public Effect getEffect() {
+        return effect;
+    }
+
+    //todo
+    public void giveEffect() {
+        if (this.getName().equals("")) {
+        }
     }
 
     @Override

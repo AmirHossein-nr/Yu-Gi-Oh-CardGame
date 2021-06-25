@@ -8,18 +8,10 @@ import java.util.ArrayList;
 
 public class Ritual extends Effect {
 
-    private boolean ritualSummoned = false; //todo
+
 
     public Ritual(Card card) {
         super(card);
-    }
-
-    public boolean isRitualSummoned() {
-        return ritualSummoned;
-    }
-
-    public void setRitualSummoned(boolean ritualSummoned) {
-        this.ritualSummoned = ritualSummoned;
     }
 
     @Override

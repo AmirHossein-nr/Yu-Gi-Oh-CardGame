@@ -1,6 +1,7 @@
 package Model.Effects;
 
 import Model.Card;
+import Model.Type;
 import View.Menu.Game.Game;
 
 import java.util.Scanner;
@@ -24,7 +25,13 @@ public abstract class Effect {
     }
 
     public abstract void activate(Game game);
-    public abstract void addToChain(Game game);
+    public void addToChain(Game game) {
+        if (canBeActivated(game)) {
+            game.getChain().add(card);
+        } else {
+            System.out.println("preparations of this spell are not done yet");
+        }
+    }
     public abstract boolean canBeActivated(Game game);
 
     protected static String editSpaces(String string) {

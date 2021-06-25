@@ -27,6 +27,8 @@ public class Game {
     ArrayList<Card> setPositionedCards = new ArrayList<>();
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
+    ArrayList<Card> specialSummonedCards = new ArrayList<>(); //
+    boolean timeSealActivated = false; //
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         this.loggedUser = loggedUser;
@@ -52,6 +54,10 @@ public class Game {
 
     public Spell getActivatedRitualCard() {
         return activatedRitualCard;
+    }
+
+    public ArrayList<Card> getSpecialSummonedCards() {
+        return specialSummonedCards;
     }
 
     public ArrayList<Card> getChain() {
@@ -257,6 +263,12 @@ public class Game {
     }
 
     private void resetPlayersAttributes(User user) {
+        attackedCards.clear();
+        normalSummonOrSetCard = null;
+        putOnMonsterZoneCards.clear();
+        setPositionedCards.clear();
+        specialSummonedCards.clear();
+
         setBoards(loggedUser, rivalUser);
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
@@ -424,7 +436,7 @@ public class Game {
         }
     }
 
-    private void drawCard(User user) {
+    public void drawCard(User user) {
         Card card = user.getBoard().getDeckZone().get(0);
         user.getBoard().addCardFromDeckToHand(1);
         System.out.println("new card added to the hand :" + card.getName());
@@ -513,6 +525,7 @@ public class Game {
                 System.out.println("there are not enough cards for tribute");
             } else {
                 tributeSummon(3, true);
+                specialSummonedCards.add(selectedCard);
                 return;
             }
         }
@@ -773,7 +786,7 @@ public class Game {
                         addMonsterFromHandToMonsterZone(selectedCard, true, true);
                         addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
                         activatedRitualCard = null;
-                        // todo set ritual summoned in effect
+                        specialSummonedCards.add(selectedCard);
                         System.out.println("summoned successfully");
                         selectedCard = null;
                     } else if (answer.equals("defence")) {
@@ -783,7 +796,7 @@ public class Game {
                         addMonsterFromHandToMonsterZone(selectedCard, true, false);
                         addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
                         activatedRitualCard = null;
-                        // todo set ritual summoned in effect
+                        specialSummonedCards.add(selectedCard);
                         System.out.println("summoned successfully");
                         selectedCard = null;
                     } else if (answer.equals("cancel")) {
@@ -1395,7 +1408,48 @@ public class Game {
     }
 
     private void activateEffect() {
-    } // todo
+        if (activatedRitualCard != null) {
+            System.out.println("you should ritual summon right now");
+            return;
+        }
+        if (selectedCard == null) {
+            System.out.println("no card is selected yet");
+            return;
+        }
+        if (!(selectedCard instanceof Spell)) {
+            System.out.println("activate effect is only for spell cards.");
+            return;
+        }
+        if (currentPhase != Phase.MAIN_ONE && currentPhase != Phase.MAIN_TWO) {
+            System.out.println("you can’t activate an effect on this turn");
+            return;
+        }
+        if (currentUser.getBoard().getSpellsAndTrapsZone().contains(selectedCard) && selectedCard.getOccupied()) {
+            System.out.println("you have already activated this card");
+            return;
+        }
+        if (selectedCard.getCardType() == Type.FIELD && currentUser.getBoard().getFieldZone() == selectedCard && selectedCard.getOccupied()) {
+            System.out.println("you have already activated this card");
+            return;
+        }
+        if (selectedCard.getCardType() != Type.FIELD && currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
+            if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
+                System.out.println("spell card zone is full");
+                return;
+            }
+        }
+        if (!currentUser.getBoard().getAllCards().contains(selectedCard)) {
+            System.out.println("This card is not yours");
+            return;
+        }
+        ((Spell) selectedCard).giveEffect();
+        //if (((Spell) selectedCard).getEffect().canBeActivated())
+        if (selectedCard.getCardType() == Type.FIELD) {
+
+        }
+
+        ((Spell) selectedCard).getEffect().addToChain(this);
+    }
 
     // todo activate in enemy turn
     // todo ritual activation and tribute and summon and inactive spell :|
@@ -1435,7 +1489,28 @@ public class Game {
     }
 
 
-    private void endPhaseRun() { // todo throw away cards if more than 6
+    private void endPhaseRun() {
+        int number = currentUser.getBoard().getCardsInHand().size();
+        if (number > 6) {
+            number -= 6;
+            while (currentUser.getBoard().getCardsInHand().size() <= 6) {
+                System.out.println("you have to throw away " + number + "cards");
+                String numberString = editSpaces(scanner.nextLine());
+                if (numberString.matches("\\d+")) {
+                    int number1 = Integer.parseInt(numberString);
+                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
+                        System.out.println("enter a correct number");
+                    } else {
+                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
+                        currentUser.getBoard().getCardsInHand().remove(card);
+                        currentUser.getBoard().getGraveYard().add(card);
+                        number--;
+                    }
+                } else {
+                    System.out.println("enter a number");
+                }
+            }
+        }
         currentPhase = Phase.END;
         System.out.println(Phase.END);
         changeTurn();

@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Board {
 
@@ -13,6 +14,7 @@ public class Board {
     private ArrayList<Card> spellsAndTrapsZone;
     private ArrayList<Card> graveYard;
     private ArrayList<Card> cardsInHand;
+    private HashMap<Card, Card> spellMonsterEquip = new HashMap<>(); //
 
     public Board() {
 
