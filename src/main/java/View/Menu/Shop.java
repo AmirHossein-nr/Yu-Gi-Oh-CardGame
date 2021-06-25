@@ -268,6 +268,10 @@ public class Shop extends Menu {
         }
     }
 
+    public static ArrayList<Card> getAllCards() {
+        return allCards;
+    }
+
     public static Card getCardByName(String name) {
         name = name.trim();
         for (Card card : allCards) {
