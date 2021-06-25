@@ -526,57 +526,55 @@ public class Game {
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
+        heraldOfCreationActivation();
+    }
+
+    private void heraldOfCreationActivation() {
         outer:
         for (int i = 0; i < 5; i++) {
             Card card = currentUser.getBoard().getMonstersZone().get(i);
             if (card.getName().equals("Herald of Creation")) {
-                if (!currentUser.getBoard().getActivatedHeraldOfCreation().contains(card)) {
-                    System.out.println("do you want to activate your Herald of Creation? Y/N");
-                    while (true) {
-                        String answer = editSpaces(scanner.nextLine());
-                        if (answer.equals("N")) {
-                            break outer;
-                        } else if (answer.equals("Y")) {
-                            System.out.println("enter number of a level 7 or more monster in your graveyard to bring to your hand");
-                            while (true) {
-                                String answer1 = editSpaces(scanner.nextLine());
-                                if (answer1.equals("cancel")) {
-                                    System.out.println("canceled");
+                System.out.println("do you want to activate your Herald of Creation? Y/N");
+                while (true) {
+                    String answer = editSpaces(scanner.nextLine());
+                    if (answer.equals("N")) {
+                        break outer;
+                    } else if (answer.equals("Y")) {
+                        System.out.println("enter number of a level 7 or more monster in your graveyard to bring to your hand");
+                        while (true) {
+                            String answer1 = editSpaces(scanner.nextLine());
+                            if (answer1.equals("cancel")) {
+                                System.out.println("canceled");
+                                break outer;
+                            } if (answer1.matches("\\d+")) {
+                                int number = Integer.parseInt(answer1);
+                                if (number < 1 || number > currentUser.getBoard().getGraveYard().size()) {
+                                    System.out.println("enter a correct number");
+                                } else {
+                                    if (!(currentUser.getBoard().getGraveYard().get(number - 1) instanceof Monster)) {
+                                        System.out.println("wrong card!");
+                                        continue;
+                                    }
+                                    Monster monster = (Monster) currentUser.getBoard().getGraveYard().get(number - 1);
+                                    if (monster.getLevel() < 7) {
+                                        System.out.println("level is less than 7");
+                                        continue;
+                                    }
+                                    currentUser.getBoard().getGraveYard().remove(monster);
+                                    currentUser.getBoard().getCardsInHand().add(monster);
+                                    System.out.println("card added to your hand");
                                     break outer;
                                 }
-                                if (answer1.matches("\\d+")) {
-                                    int number = Integer.parseInt(answer1);
-                                    if (number < 1 || number > currentUser.getBoard().getGraveYard().size()) {
-                                        System.out.println("enter a correct number");
-                                    } else {
-                                        if (!(currentUser.getBoard().getGraveYard().get(number - 1) instanceof Monster)) {
-                                            System.out.println("wrong card!");
-                                            continue;
-                                        }
-                                        Monster monster = (Monster) currentUser.getBoard().getGraveYard().get(number - 1);
-                                        if (monster.getLevel() < 7) {
-                                            System.out.println("level is less than 7");
-                                            continue;
-                                        }
-                                        currentUser.getBoard().getGraveYard().remove(monster);
-                                        currentUser.getBoard().getCardsInHand().add(monster);
-                                        currentUser.getBoard().getActivatedHeraldOfCreation().add(card);
-                                        System.out.println("card added to your hand");
-                                        break outer;
-                                    }
-                                } else {
-                                    System.out.println("enter a number");
-                                }
+                            } else {
+                                System.out.println("enter a number");
                             }
-                        } else {
-                            System.out.println("enter Y or N");
                         }
+                    } else {
+                        System.out.println("enter Y or N");
                     }
                 }
             }
         }
-
-
     }
 
     private void mainPhaseOneRun() {
