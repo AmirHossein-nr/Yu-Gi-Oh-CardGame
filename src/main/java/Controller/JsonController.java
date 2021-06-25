@@ -4,6 +4,7 @@ import Model.*;
 import View.Menu.Shop;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.util.Arrays;
@@ -11,33 +12,66 @@ import java.util.Objects;
 
 public class JsonController {
 
-    public static void writeCard(String cardName, String type) throws IOException {
+    public static boolean writeCard(String cardName, String type) throws IOException {
         String path;
         FileWriter writer;
         try {
+            Card myCard;
             if (type.equalsIgnoreCase("monster")) {
                 path = "src/main/resources/monsters/" + cardName + ".Json";
-                Monster card = (Monster) Shop.getCardByName(cardName);
+                myCard = Shop.getCardByName(cardName);
+                if (!(myCard instanceof Monster) && myCard != null) {
+                    System.out.println("Wrong Type For This Card !");
+                    return false;
+                }
+                Monster card = (Monster) myCard;
+
+                if (card == null) {
+                    System.out.println("This Card Doesn't Exist In DataBase ! Please try Again");
+                    return false;
+                }
                 Gson gson = new Gson();
-                writer = new FileWriter(path);
-                gson.toJson(card);
+                File file = new File(path);
+                writer = new FileWriter(file);
+                writer.write(gson.toJson(card));
             } else if (type.equalsIgnoreCase("spell")) {
                 path = "src/main/resources/spells/" + cardName + ".Json";
-                Spell card = (Spell) Shop.getCardByName(cardName);
+                myCard = Shop.getCardByName(cardName);
+                if (!(myCard instanceof Spell) && myCard != null) {
+                    System.out.println("Wrong Type For This Card !");
+                    return false;
+                }
+                Spell card = (Spell) myCard;
+
+                if (card == null) {
+                    System.out.println("This Card Doesn't Exist In DataBase ! Please try Again");
+                    return false;
+                }
                 Gson gson = new Gson();
                 writer = new FileWriter(path);
-                gson.toJson(card);
+                writer.write(gson.toJson(card));
             } else {
                 path = "src/main/resources/traps/" + cardName + ".Json";
-                Trap card = (Trap) Shop.getCardByName(cardName);
+                myCard = Shop.getCardByName(cardName);
+                if (!(myCard instanceof Trap) && myCard != null) {
+                    System.out.println("Wrong Type For This Card !");
+                    return false;
+                }
+                Trap card = (Trap) myCard;
+                if (card == null) {
+                    System.out.println("This Card Doesn't Exist In DataBase ! Please try Again");
+                    return false;
+                }
                 Gson gson = new Gson();
                 writer = new FileWriter(path);
-                gson.toJson(card);
+                writer.write(gson.toJson(card));
             }
             writer.flush();
             writer.close();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

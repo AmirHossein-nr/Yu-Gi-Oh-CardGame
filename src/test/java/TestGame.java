@@ -1,4 +1,5 @@
 import Model.Board;
+import Model.Phase;
 import Model.User;
 import View.Menu.Game.Game;
 import View.Menu.Menu;
@@ -58,4 +59,13 @@ public class TestGame {
         Assertions.assertNull(game.getSelectedCard());
     }
 
+    @Test
+    public void testStandByPhase() {
+        initialise();
+        Game game = new Game(user1, user2, 3, new Scanner(System.in));
+        game.callStandByPhase();
+        Assert.assertEquals(game.getCurrentPhase(), Phase.STANDBY);
+        Assertions.assertNotNull(game.getCurrentPhase());
+        Assertions.assertNull(game.getSelectedCard());
+    }
 }

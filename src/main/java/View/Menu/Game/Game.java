@@ -435,10 +435,13 @@ public class Game {
     }
 
 
+    public void callStandByPhase() {
+        standbyPhaseRun();
+    }
+
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
-//        printBoard();
     }
 
     private void mainPhaseOneRun() {
@@ -1444,5 +1447,9 @@ public class Game {
         System.out.println(Phase.END);
         changeTurn();
         System.out.println("its " + currentUser.getNickName() + "’s turn");
+    }
+
+    public Phase getCurrentPhase() {
+        return currentPhase;
     }
 }
