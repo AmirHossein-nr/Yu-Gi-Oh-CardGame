@@ -530,6 +530,10 @@ public class Game {
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
+        heraldOfCreationActivation();
+    }
+
+    private void heraldOfCreationActivation() {
         outer:
         for (int i = 0; i < 5; i++) {
             Card card = currentUser.getBoard().getMonstersZone().get(i);
@@ -575,9 +579,6 @@ public class Game {
                 }
             }
         }
-
-
-
     }
 
     private void mainPhaseOneRun() {
