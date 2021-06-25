@@ -271,7 +271,7 @@ public class Shop extends Menu {
     public static Card getCardByName(String name) {
         name = name.trim();
         for (Card card : allCards) {
-            if (card.getName().equals(name))
+            if (card.getName().equalsIgnoreCase(name))
                 return card;
         }
         return null;
