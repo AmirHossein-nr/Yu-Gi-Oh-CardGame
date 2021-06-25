@@ -48,27 +48,27 @@ public class Ritual extends Effect {
         for (Monster monster : ritualMonsters) {
             int level = monster.getLevel();
             for (int i = 0; i < 5; i++) {
-                int lvl1 =((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
+                int lvl1 = ((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
                 if (lvl1 >= level) {
                     return true;
                 }
                 for (int j = 0; i < 5; i++) {
-                    int lvl2 =((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
+                    int lvl2 = ((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
                     if (lvl1 + lvl2 >= level) {
                         return true;
                     }
                     for (int k = 0; i < 5; i++) {
-                        int lvl3 =((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
+                        int lvl3 = ((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
                         if (lvl1 + lvl2 + lvl3 >= level) {
                             return true;
                         }
                         for (int l = 0; i < 5; i++) {
-                            int lvl4 =((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
+                            int lvl4 = ((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
                             if (lvl1 + lvl2 + lvl3 + lvl4 >= level) {
                                 return true;
                             }
                             for (int m = 0; i < 5; i++) {
-                                int lvl5 =((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
+                                int lvl5 = ((Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i)).getLevel();
                                 if (lvl1 + lvl2 + lvl3 + lvl4 + lvl5 >= level) {
                                     return true;
                                 }

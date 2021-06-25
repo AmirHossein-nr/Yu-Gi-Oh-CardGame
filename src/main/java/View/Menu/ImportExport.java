@@ -36,11 +36,14 @@ public class ImportExport extends Menu {
                 importCard(matcher.group(1));
             } catch (Exception ignored) {
             }
-        } else if (Regex.getMatcher(input, Regex.exportCard).find()) {
+            this.execute();
+        } else if ((matcher = Regex.getMatcher(input, Regex.exportCard)).find()) {
             try {
                 exportCard(matcher.group(1));
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            this.execute();
         } else {
             System.out.println("invalid command!");
             this.execute();
@@ -56,9 +59,12 @@ public class ImportExport extends Menu {
                 System.out.println("Wrong Type ! Please Try again ...");
                 continue;
             }
-            JsonController.writeCard(group, type);
-            System.out.println("Imported Successfully !");
-            break;
+            if (JsonController.writeCard(group, type)) {
+                System.out.println("Exported Successfully !");
+                break;
+            } else {
+                this.execute();
+            }
         }
     }
 
@@ -73,12 +79,27 @@ public class ImportExport extends Menu {
             }
             if (type.equalsIgnoreCase("monster")) {
                 Monster monster = (Monster) JsonController.readCard(group, type);
+                if (monster == null) {
+                    System.out.println("This Card Doesn't Exist In DataBase !");
+                    this.execute();
+                    return;
+                }
                 loggedUser.getAllCards().add(monster);
             } else if (type.equalsIgnoreCase("spell")) {
                 Spell spell = (Spell) JsonController.readCard(group, type);
+                if (spell == null) {
+                    System.out.println("This Card Doesn't Exist In DataBase !");
+                    this.execute();
+                    return;
+                }
                 loggedUser.getAllCards().add(spell);
             } else {
                 Trap trap = (Trap) JsonController.readCard(group, type);
+                if (trap == null) {
+                    System.out.println("This Card Doesn't Exist In DataBase !");
+                    this.execute();
+                    return;
+                }
                 loggedUser.getAllCards().add(trap);
             }
             System.out.println("Imported Successfully !");

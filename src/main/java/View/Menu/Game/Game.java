@@ -167,8 +167,12 @@ public class Game {
     }
 
     private void printBoard() {
-
         StringBuilder board = new StringBuilder();
+        boardString(board);
+        System.out.println(board);
+    }
+
+    public StringBuilder boardString(StringBuilder board) {
         board.append(getOpponentOfCurrentUser().getNickName()).append(":").append(getOpponentOfCurrentUser()
                 .getLifePoint()).append("\n");
         board.append("\t");
@@ -219,7 +223,7 @@ public class Game {
         }
         board.append("\n");
         board.append(currentUser.getNickName()).append(":").append(currentUser.getLifePoint()).append("\n");
-        System.out.println(board);
+        return board;
     }
 
     private String toStringInBoard(Card card) {
@@ -443,10 +447,13 @@ public class Game {
     }
 
 
+    public void callStandByPhase() {
+        standbyPhaseRun();
+    }
+
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
-//        printBoard();
     }
 
     private void mainPhaseOneRun() {
@@ -1515,5 +1522,9 @@ public class Game {
         System.out.println(Phase.END);
         changeTurn();
         System.out.println("its " + currentUser.getNickName() + "’s turn");
+    }
+
+    public Phase getCurrentPhase() {
+        return currentPhase;
     }
 }
