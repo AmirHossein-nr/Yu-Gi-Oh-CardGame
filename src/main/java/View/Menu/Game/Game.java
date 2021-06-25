@@ -29,7 +29,7 @@ public class Game {
     ArrayList<Card> setPositionedCards = new ArrayList<>();
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
-    ArrayList<Card> specialSummonedCards = new ArrayList<>(); //
+    ArrayList<Card> specialSummonedCards = new ArrayList<>();
     boolean timeSealActivated = false;
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {

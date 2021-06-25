@@ -16,7 +16,6 @@ public class TestMainMenu {
     private static PrintStream printStream = new PrintStream(newOut);
     private static PrintStream old = System.out;
 
-
     private void initialise() {
         User user = new User("amirhossein", "1234", "mammad");
         Menu.setScanner(new Scanner(System.in));
