@@ -15,7 +15,6 @@ public class GameController {
         Menu.setScanner(this.scanner);
         Menu loginMenu = new LoginMenu();
         loginMenu.execute();
-        // RUN THE MENUS CODE
     }
 
 }
