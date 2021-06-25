@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 
 public class Game {
     Scanner scanner;
-
+    boolean playingWithAi = false;
     User loggedUser;
     User rivalUser;
     User currentUser;
@@ -29,7 +29,7 @@ public class Game {
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
     ArrayList<Card> specialSummonedCards = new ArrayList<>(); //
-    boolean timeSealActivated = false; //
+    boolean timeSealActivated = false;
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         this.loggedUser = loggedUser;
@@ -43,6 +43,9 @@ public class Game {
         rivalUser.setMaxLifePoint(0);
         loggedUser.setNumberOfWinsInGame(0);
         rivalUser.setNumberOfWinsInGame(0);
+        if (rivalUser.getUsername().equalsIgnoreCase("ai")) {
+            playingWithAi = true;
+        }
     }
 
     public void setActivatedRitualCard(Spell activatedRitualCard) {
@@ -125,7 +128,8 @@ public class Game {
             winner = rivalUser;
             loser = loggedUser;
         }
-        System.out.println(winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame() + "-" + loser.getNumberOfWinsInGame());
+        System.out.println(winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame()
+                + "-" + loser.getNumberOfWinsInGame());
         /* todo score and money
          * score of winner is ( numberOfRounds * 1000 )
          * money of winner is ( numberOfRounds * ( 1000 + winner.getMaxLifePoint ) )
@@ -228,10 +232,11 @@ public class Game {
     }
 
     private String toStringInBoard(Card card) {
+        if (card == null) {
+            return "E";
+        }
         if (card instanceof Monster) {
-            if (card == null) {
-                return "E";
-            } else if (card.getOccupied()) {
+            if (card.getOccupied()) {
                 if (card.getAttackPosition()) {
                     return "OO";
                 } else {
@@ -245,9 +250,7 @@ public class Game {
                 }
             }
         } else {
-            if (card == null) {
-                return "E";
-            } else if (card.getOccupied()) {
+            if (card.getOccupied()) {
                 return "O";
             } else {
                 return "H";
@@ -410,6 +413,7 @@ public class Game {
         } else {
             drawCard(currentUser);
         }
+
         String input;
         while (true) {
             input = scanner.nextLine();
@@ -431,6 +435,8 @@ public class Game {
                 System.out.println("invalid command");
             }
         }
+
+
     }
 
     private boolean canCurrentUserDraw() {
@@ -466,37 +472,42 @@ public class Game {
     private void runMainPhase() {
         String input;
         Matcher matcher;
-        while (true) {
+        if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
+            ((AI) currentUser).setOnBoard();
             printBoard();
-            input = scanner.nextLine();
-            input = editSpaces(input);
-            if (input.equals("select -d")) {
-                deselectCard();
-            } else if (input.startsWith("select")) {
-                select(Regex.getMatcher(input, Regex.selectCard));
-            } else if (input.equals("next phase")) {
-                if (activatedRitualCard != null) {
-                    System.out.println("you should ritual summon right now");
-                } else {
+        } else {
+            while (true) {
+                printBoard();
+                input = scanner.nextLine();
+                input = editSpaces(input);
+                if (input.equals("select -d")) {
+                    deselectCard();
+                } else if (input.startsWith("select")) {
+                    select(Regex.getMatcher(input, Regex.selectCard));
+                } else if (input.equals("next phase")) {
+                    if (activatedRitualCard != null) {
+                        System.out.println("you should ritual summon right now");
+                    } else {
+                        return;
+                    }
+                } else if (input.equals("summon")) {
+                    summon();
+                } else if (input.equals("set")) {
+                    set();
+                } else if (input.matches(Regex.setPositionAttackDefence)) {
+                    setPositionAttackDefense(input);
+                } else if (input.equals("flip-summon")) {
+                    flipSummon();
+                } else if (input.equals("show graveyard")) {
+                    showGraveyard();
+                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+                    showSelectedCard();
+                } else if (input.equals("surrender")) {
+                    winnerOfDuel = getOpponentOfCurrentUser();
                     return;
+                } else {
+                    System.out.println("invalid command");
                 }
-            } else if (input.equals("summon")) {
-                summon();
-            } else if (input.equals("set")) {
-                set();
-            } else if (input.matches(Regex.setPositionAttackDefence)) {
-                setPositionAttackDefense(input);
-            } else if (input.equals("flip-summon")) {
-                flipSummon();
-            } else if (input.equals("show graveyard")) {
-                showGraveyard();
-            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                showSelectedCard();
-            } else if (input.equals("surrender")) {
-                winnerOfDuel = getOpponentOfCurrentUser();
-                return;
-            } else {
-                System.out.println("invalid command");
             }
         }
     }
@@ -1055,49 +1066,63 @@ public class Game {
     private void battlePhaseRun() {
         currentPhase = Phase.BATTLE;
         System.out.println(Phase.BATTLE);
-        String input;
-        while (true) {
-            printBoard();
-            input = scanner.nextLine();
-            input = editSpaces(input);
-            if (input.equals("select -d")) {
-                deselectCard();
-            } else if (input.startsWith("select")) {
-                select(Regex.getMatcher(input, Regex.selectCard));
-            } else if (input.equals("next phase")) {
-                return;
-            } else if (input.matches(Regex.attack)) {
-                if (attack(input)) {
+        if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
+            attack(" ");
+        } else {
+            String input;
+            while (true) {
+                printBoard();
+                input = scanner.nextLine();
+                input = editSpaces(input);
+                if (input.equals("select -d")) {
+                    deselectCard();
+                } else if (input.startsWith("select")) {
+                    select(Regex.getMatcher(input, Regex.selectCard));
+                } else if (input.equals("next phase")) {
                     return;
-                }
-            } else if (input.equals("show graveyard")) {
-                showGraveyard();
-            } else if (input.equals("attack direct")) {
-                if (directAttack()) {
+                } else if (input.matches(Regex.attack)) {
+                    if (attack(input)) {
+                        return;
+                    }
+                } else if (input.equals("show graveyard")) {
+                    showGraveyard();
+                } else if (input.equals("attack direct")) {
+                    if (directAttack()) {
+                        return;
+                    }
+                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+                    showSelectedCard();
+                } else if (input.equals("surrender")) {
+                    winnerOfDuel = getOpponentOfCurrentUser();
                     return;
+                } else {
+                    System.out.println("invalid command");
                 }
-            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                showSelectedCard();
-            } else if (input.equals("surrender")) {
-                winnerOfDuel = getOpponentOfCurrentUser();
-                return;
-            } else {
-                System.out.println("invalid command");
             }
         }
     }
 
     private boolean attack(String input) { // return true if duel has winner and false if duel does not have winner
-        if (doAttack()) return false;
-        String[] inputSplit = input.split("\\s");
-        int enemyCardNumber = Integer.parseInt(inputSplit[1]);
-        Card enemyCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(enemyCardNumber - 1);
-        Monster enemyMonster = (Monster) enemyCard;
-        Monster selectedMonster = (Monster) selectedCard;
-        if (enemyCard == null) {
-            System.out.println("there is no card to attack here");
-            return false;
+        if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
+            ArrayList<Card> cards = ((AI) currentUser).attack(getOpponentOfCurrentUser().getBoard());
+            if (cards == null) return false;
+            return doAttackAction(cards.get(1), (Monster) cards.get(0));
+        } else {
+            if (doAttack()) return false;
+            String[] inputSplit = input.split("\\s");
+            int enemyCardNumber = Integer.parseInt(inputSplit[1]);
+            Card enemyCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(enemyCardNumber - 1);
+            Monster selectedMonster = (Monster) selectedCard;
+            if (enemyCard == null) {
+                System.out.println("there is no card to attack here");
+                return false;
+            }
+            return doAttackAction(enemyCard, selectedMonster);
         }
+    }
+
+    public boolean doAttackAction(Card enemyCard, Monster selectedMonster) {
+        Monster enemyMonster = (Monster) enemyCard;
         if (enemyMonster.getName().equals("Texchanger")) {
             // todo
         }
@@ -1520,7 +1545,6 @@ public class Game {
         }
         System.out.println(selectedCard.getName() + ":" + selectedCard.getDescription());
     }
-
 
     private void endPhaseRun() {
         int number = currentUser.getBoard().getCardsInHand().size();

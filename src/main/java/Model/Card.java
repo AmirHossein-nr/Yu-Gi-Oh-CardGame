@@ -15,6 +15,9 @@ public class Card {
     public Card(String name, Type type) {
         setName(name);
         setCardType(type);
+        setOccupied(false);
+        setSelected(false);
+        setAttackPosition(false);
     }
 
 
