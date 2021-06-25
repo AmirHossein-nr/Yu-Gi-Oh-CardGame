@@ -26,6 +26,8 @@ public class ClosedForest extends FieldEffect {
     public void deActive() {
         for (int i = 0; i < effectedMonsterCards.size(); i++) {
             ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i)).getAttackPower() - damage);
+            ((Monster) effectedMonsterCards.get(i)).setAttackPower(((Monster) effectedMonsterCards.get(i))
+                    .getAttackPower() - damage);
         }
     }
 
