@@ -115,6 +115,12 @@ public class Game {
         User firstUser = currentUser;
 
         while (true) {
+            if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
+                if (!currentUser.getUsername().equals(firstUser.getUsername())) break;
+
+                currentUser = getOpponentOfCurrentUser();
+                continue;
+            }
             System.out.println("It's " + currentUser.getUsername() + "'s Turn");
             System.out.println("Enter Number Of Your Card in Main Deck : ");
             input = scanner.nextLine().trim();
