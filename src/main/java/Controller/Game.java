@@ -233,7 +233,6 @@ public class Game {
     }
 
     private void playFirstTurn() {
-//        System.out.println(Phase.DRAW);
         System.out.println(Phase.STANDBY);
         mainPhaseOneRun();
         endPhaseRun();
