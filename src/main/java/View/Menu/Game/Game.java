@@ -2,6 +2,7 @@ package View.Menu.Game;
 
 import Controller.Regex;
 import Model.*;
+import View.Menu.Shop;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -968,6 +969,17 @@ public class Game {
 
     private void addSpellOrTrapFromHandToZone(Card spellOrTrap, boolean isOccupied) {
         currentUser.getBoard().getCardsInHand().remove(spellOrTrap);
+
+        if (spellOrTrap.getCardType() == Type.FIELD) {
+            if (currentUser.getBoard().getFieldZone() != null) {
+                addSpellOrTrapFromZoneToGraveyard(currentUser.getBoard().getFieldZone(), currentUser);
+            }
+            currentUser.getBoard().setFieldZone(spellOrTrap);
+            spellOrTrap.setOccupied(isOccupied);
+            putOnSpellTrapZoneCards.add(spellOrTrap);
+            return;
+        }
+
         for (int i = 0; i < currentUser.getBoard().getSpellsAndTrapsZone().size(); i++) {
             if (currentUser.getBoard().getSpellsAndTrapsZone().get(i) == null) {
                 currentUser.getBoard().getSpellsAndTrapsZone().set(i, spellOrTrap);
@@ -1356,9 +1368,16 @@ public class Game {
             }
         }
         owner.getBoard().getGraveYard().add(monsterCard);
+        destroyCard(monsterCard);
     }
 
     private void addSpellOrTrapFromZoneToGraveyard(Card spellTrapCard, User owner) {
+        if (spellTrapCard.getCardType() == Type.FIELD) {
+            owner.getBoard().setFieldZone(null);
+            owner.getBoard().getGraveYard().add(spellTrapCard);
+            destroyCard(spellTrapCard);
+            return;
+        }
         for (int i = 0; i < owner.getBoard().getSpellsAndTrapsZone().size(); i++) {
             if (owner.getBoard().getSpellsAndTrapsZone().get(i) == spellTrapCard) {
                 owner.getBoard().getSpellsAndTrapsZone().set(i, null);
@@ -1366,6 +1385,7 @@ public class Game {
             }
         }
         owner.getBoard().getGraveYard().add(spellTrapCard);
+        destroyCard(spellTrapCard);
     }
 
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
@@ -1450,17 +1470,23 @@ public class Game {
             return;
         }
         ((Spell) selectedCard).giveEffect();
-        //if (((Spell) selectedCard).getEffect().canBeActivated())
-        if (selectedCard.getCardType() == Type.FIELD) {
 
+        if (!((Spell) selectedCard).getEffect().canBeActivated(this)) {
+            System.out.println("preparations of this spell are not done yet");
+            return;
+        }
+        if (selectedCard.getCardType() == Type.FIELD) {
+            if (currentUser.getBoard().getFieldZone() != null) {
+                addSpellOrTrapFromZoneToGraveyard(currentUser.getBoard().getFieldZone(), currentUser);
+            }
+            currentUser.getBoard().setFieldZone(selectedCard);
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
+        // todo check enemy and run chain
     }
 
     // todo activate in enemy turn
-    // todo ritual activation and tribute and summon and inactive spell :|
-    // todo all the spell cards with special summon and and you should special summon right now to all methods
     // todo chain
     // todo cheat
     // todo AI
@@ -1526,5 +1552,41 @@ public class Game {
 
     public Phase getCurrentPhase() {
         return currentPhase;
+    }
+
+    public void destroyCard(Card card) {
+        User owner;
+        if (loggedUser.getBoard().getAllCards().contains(card)) {
+            owner = loggedUser;
+        } else {
+            owner = rivalUser;
+        }
+        if (card instanceof Monster) {
+            if (owner.getBoard().getSpellMonsterEquip().containsValue(card)) {
+                for (Card card1 : owner.getBoard().getSpellMonsterEquip().keySet()) {
+                    if (owner.getBoard().getSpellMonsterEquip().get(card1) == card) {
+                        addSpellOrTrapFromZoneToGraveyard(card1, owner);
+                        owner.getBoard().getSpellMonsterEquip().remove(card1);
+                    }
+                }
+            }
+            for (Card card1 : Shop.getAllCards()) {
+                if (card.getName().equals(card1.getName())) {
+                    ((Monster) card).setAttackPower(((Monster) card1).getAttackPower());
+                    ((Monster) card).setDefencePower(((Monster) card1).getDefencePower());
+                    break;
+                }
+            }
+            // todo
+        } else if (card instanceof Spell) {
+            if (owner.getBoard().getSpellMonsterEquip().containsKey(card)) {
+                Card monster = owner.getBoard().getSpellMonsterEquip().get(card);
+                addMonsterFromMonsterZoneToGraveyard(monster, owner);
+                owner.getBoard().getSpellMonsterEquip().remove(card);
+            }
+            //todo
+        } else if (card instanceof Trap) {
+            // todo
+        }
     }
 }

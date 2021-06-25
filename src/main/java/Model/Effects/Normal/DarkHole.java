@@ -2,6 +2,7 @@ package Model.Effects.Normal;
 
 import Model.Card;
 import Model.Effects.Effect;
+import Model.Spell;
 import View.Menu.Game.Game;
 
 public class DarkHole extends Effect {
@@ -35,6 +36,9 @@ public class DarkHole extends Effect {
 
     @Override
     public boolean canBeActivated(Game game) {
+        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+            return false;
+        }
         return true;
     }
 }

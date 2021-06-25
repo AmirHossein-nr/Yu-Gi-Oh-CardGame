@@ -34,6 +34,7 @@ public class Board {
         graveYard = new ArrayList<>();
         cardsInHand = new ArrayList<>();
         deckZone = new ArrayList<>();
+
     }
 
     public void setZones() {
@@ -46,6 +47,14 @@ public class Board {
 
     public void setFieldZone(Card fieldZone) {
         this.fieldZone = fieldZone;
+    }
+
+    public void setSpellMonsterEquip(HashMap<Card, Card> spellMonsterEquip) {
+        this.spellMonsterEquip = spellMonsterEquip;
+    }
+
+    public HashMap<Card, Card> getSpellMonsterEquip() {
+        return spellMonsterEquip;
     }
 
     public ArrayList<Card> getAllCards() {

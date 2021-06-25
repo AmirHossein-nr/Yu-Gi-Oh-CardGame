@@ -43,6 +43,9 @@ public class Terraforming extends Effect {
 
     @Override
     public boolean canBeActivated(Game game) {
+        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+            return false;
+        }
         for (Card card : game.getCurrentUser().getBoard().getDeckZone()) {
             if (card instanceof Spell) {
                 if (((Spell) card).getIcon() == Icon.FIELD) {

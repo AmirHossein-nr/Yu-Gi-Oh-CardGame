@@ -25,6 +25,9 @@ public class PotOfGreed extends Effect {
 
     @Override
     public boolean canBeActivated(Game game) {
+        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+            return false;
+        }
         if (game.getCurrentUser().getBoard().getDeckZone().size() >= 2) {
             return true;
         }

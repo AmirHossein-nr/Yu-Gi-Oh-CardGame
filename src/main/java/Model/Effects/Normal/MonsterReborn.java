@@ -97,6 +97,9 @@ public class MonsterReborn extends Effect {
 
     @Override
     public boolean canBeActivated(Game game) {
+        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+            return false;
+        }
         if (game.getCurrentUser().getBoard().numberOfMonstersOnBoard() == 5) {
             return false;
         }
