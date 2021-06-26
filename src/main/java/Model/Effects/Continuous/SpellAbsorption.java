@@ -1,13 +1,13 @@
-package Model.Effects.Normal;
+package Model.Effects.Continuous;
 
+import Controller.Game;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
-import Controller.Game;
 
-public class Raigeki extends Effect {
+public class SpellAbsorption extends Effect {
 
-    public Raigeki(Card card) {
+    public SpellAbsorption(Card card) {
         super(card);
         speed = 1;
     }
@@ -15,12 +15,7 @@ public class Raigeki extends Effect {
     @Override
     public boolean activate(Game game) {
         if (canBeActivated(game)) {
-            for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
-                if (game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                    Card card = game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i);
-                    game.addMonsterFromMonsterZoneToGraveyard(card, game.getOpponentOfCurrentUser());
-                }
-            }
+            game.getCurrentUser().getBoard().getActivatedSpellAbsorptions().add(card);
             System.out.println("spell activated");
             return true;
         } else {

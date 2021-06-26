@@ -12,15 +12,18 @@ public class Ritual extends Effect {
 
     public Ritual(Card card) {
         super(card);
+        speed = 1;
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             game.setActivatedRitualCard((Spell) game.getSelectedCard());
             System.out.println("spell activated");
+            return true;
         } else {
             System.out.println("there is no way you could ritual summon a monster");
+            return false;
         }
     }
 
@@ -35,7 +38,7 @@ public class Ritual extends Effect {
 
     @Override
     public boolean canBeActivated(Game game) {
-        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+        if (game.getChain().size() != 0) {
             return false;
         }
         User currentUser = game.getCurrentUser();

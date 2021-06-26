@@ -19,14 +19,14 @@ public class UnitedWeStand extends EquipEffect {
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             System.out.println("select number of the monster in monster zone to equip");
             while (true) {
                 String answer = editSpaces(scanner.nextLine());
                 if (answer.equals("cancel")) {
                     System.out.println("canceled");
-                    return;
+                    return false;
                 } else if (answer.matches("\\d+")) {
                     int number = Integer.parseInt(answer);
                     if (number > 0 && number < 6) {
@@ -55,8 +55,10 @@ public class UnitedWeStand extends EquipEffect {
                 }
             }
             System.out.println("spell activated");
+            return true;
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 

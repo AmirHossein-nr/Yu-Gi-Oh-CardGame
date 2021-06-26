@@ -9,34 +9,35 @@ public class DarkHole extends Effect {
 
     public DarkHole(Card card) {
         super(card);
+        speed = 1;
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
                 if (game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
                     Card card = game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i);
-                    game.getOpponentOfCurrentUser().getBoard().getGraveYard().add(card);
-                    game.getOpponentOfCurrentUser().getBoard().getMonstersZone().set(i, null);
+                    game.addMonsterFromMonsterZoneToGraveyard(card, game.getOpponentOfCurrentUser());
                 }
             }
             for (int i = 0; i < game.getCurrentUser().getBoard().getMonstersZone().size(); i++) {
                 if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
                     Card card = game.getCurrentUser().getBoard().getMonstersZone().get(i);
-                    game.getCurrentUser().getBoard().getGraveYard().add(card);
-                    game.getCurrentUser().getBoard().getMonstersZone().set(i, null);
+                    game.addMonsterFromMonsterZoneToGraveyard(card, game.getCurrentUser());
                 }
             }
             System.out.println("spell activated");
+            return true;
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 
     @Override
     public boolean canBeActivated(Game game) {
-        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+        if (game.getChain().size() != 0) {
             return false;
         }
         return true;

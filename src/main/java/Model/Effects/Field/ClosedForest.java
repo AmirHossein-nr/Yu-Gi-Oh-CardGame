@@ -31,7 +31,7 @@ public class ClosedForest extends FieldEffect {
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             for (Card card : game.getCurrentUser().getBoard().getGraveYard()) {
                 if (card instanceof Monster) {
@@ -49,8 +49,10 @@ public class ClosedForest extends FieldEffect {
                 }
             }
             System.out.println("spell activated");
+            return true;
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 

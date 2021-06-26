@@ -16,7 +16,7 @@ public abstract class EquipEffect extends Effect {
 
     public abstract void deActive();
 
-    public abstract void activate(Game game);
+    public abstract boolean activate(Game game);
 
     public void addToChain(Game game) {
         if (canBeActivated(game)) {

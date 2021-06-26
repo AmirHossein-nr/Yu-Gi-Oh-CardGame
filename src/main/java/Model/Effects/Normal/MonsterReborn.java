@@ -10,10 +10,11 @@ public class MonsterReborn extends Effect {
 
     public MonsterReborn(Card card) {
         super(card);
+        speed = 1;
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             outer:
             while (true) {
@@ -21,14 +22,14 @@ public class MonsterReborn extends Effect {
                 String answer = editSpaces(scanner.nextLine());
                 if (answer.equals("cancel")) {
                     System.out.println("canceled");
-                    return;
+                    return false;
                 } else if (answer.equals("Y") || answer.equals("N")) {
                     while (true) {
                         System.out.println("enter number of the monster in graveyard (or \"cancel\" or \"back\" to change graveyard)");
                         String numberString = editSpaces(scanner.nextLine());
                         if (numberString.equals("cancel")) {
                             System.out.println("canceled");
-                            return;
+                            return false;
                         } else if (numberString.matches("\\d+")) {
                             int number = Integer.parseInt(numberString);
                             ArrayList<Card> graveyard;
@@ -55,7 +56,7 @@ public class MonsterReborn extends Effect {
                                 String answer1 = editSpaces(scanner.nextLine());
                                 if (answer1.equals("cancel")) {
                                     System.out.println("canceled");
-                                    return;
+                                    return true;
                                 } else if (answer1.equals("attack")) {
                                     card.setAttackPosition(true);
                                     break;
@@ -91,12 +92,13 @@ public class MonsterReborn extends Effect {
             }
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 
     @Override
     public boolean canBeActivated(Game game) {
-        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+        if (game.getChain().size() != 0) {
             return false;
         }
         if (game.getCurrentUser().getBoard().numberOfMonstersOnBoard() == 5) {

@@ -9,33 +9,33 @@ public class HarpiesFeatherDuster extends Effect {
 
     public HarpiesFeatherDuster(Card card) {
         super(card);
+        speed = 1;
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
                 if (game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
                     Card card = game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i);
-                    game.getOpponentOfCurrentUser().getBoard().getGraveYard().add(card);
-                    game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().set(i, null);
+                    game.addSpellOrTrapFromZoneToGraveyard(card, game.getOpponentOfCurrentUser());
                 }
             }
             if (game.getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
                 Card fieldCard = game.getOpponentOfCurrentUser().getBoard().getFieldZone();
-                game.getOpponentOfCurrentUser().getBoard().getGraveYard().add(fieldCard);
-                game.getOpponentOfCurrentUser().getBoard().setFieldZone(null);
-                // todo destroy card
+                game.addSpellOrTrapFromZoneToGraveyard(fieldCard, game.getOpponentOfCurrentUser());
             }
             System.out.println("spell activated");
+            return true;
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 
     @Override
     public boolean canBeActivated(Game game) {
-        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+        if (game.getChain().size() != 0) {
             return false;
         }
         return true;

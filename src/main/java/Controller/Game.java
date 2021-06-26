@@ -459,7 +459,6 @@ public class Game {
         }
     }
 
-
     private void drawPhaseRun() {
         currentPhase = Phase.DRAW;
         System.out.println(Phase.DRAW);
@@ -518,7 +517,6 @@ public class Game {
         System.out.println("new card added to the hand :" + card.getName());
     }
 
-
     public void callStandByPhase() {
         standbyPhaseRun();
     }
@@ -527,6 +525,52 @@ public class Game {
         currentPhase = Phase.STANDBY;
         System.out.println(Phase.STANDBY);
         heraldOfCreationActivation();
+        if (payForMessengerOfPeace()) {
+            return;
+        }
+        resetSupplySquads();
+    }
+
+    private void resetSupplySquads() {
+        currentUser.getBoard().getActivatedSupplySquad().clear();
+        for (int i = 0; i < 5; i++) {
+            Card card = currentUser.getBoard().getSpellsAndTrapsZone().get(i);
+            if (card.getName().equals("Supply Squad")) {
+                if (card.getOccupied()) {
+                    currentUser.getBoard().getActivatedSupplySquad().add(card);
+                }
+            }
+            card = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i);
+            if (card.getName().equals("Supply Squad")) {
+                if (card.getOccupied()) {
+                    getOpponentOfCurrentUser().getBoard().getActivatedSupplySquad().add(card);
+                }
+            }
+        }
+    }
+
+    private boolean payForMessengerOfPeace() {// true for 0 LP or less and false for more than 0 LP
+        for (int i = 0; i < currentUser.getBoard().getActivatedMessengerOfPeaces().size(); i++) {
+            Card card = currentUser.getBoard().getActivatedMessengerOfPeaces().get(i);
+            System.out.println("pay 100 LP or destroy Messenger of Peace: \"D\" for destroy and \"P\" to pay 100 LP");
+            while (true) {
+                String answer = editSpaces(scanner.nextLine());
+                if (answer.equals("D")) {
+                    addSpellOrTrapFromZoneToGraveyard(card, currentUser);
+                } else if (answer.equals("P")) {
+                    currentUser.setLifePoint(currentUser.getLifePoint() - 100);
+                    if (currentUser.getLifePoint() <= 0) {
+                        winnerOfDuel = getOpponentOfCurrentUser();
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    System.out.println("enter D or P");
+                }
+            }
+        }
+        return false;
     }
 
     private void heraldOfCreationActivation() {
@@ -1252,6 +1296,12 @@ public class Game {
                 System.out.println("there is no card to attack here");
                 return false;
             }
+            if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
+                if (((Monster) selectedCard).getAttackPower() >= 1500) {
+                    System.out.println("Messenger of Peace does not let you attack wit this card");
+                    return false;
+                }
+            }
             if (enemyCard.getName().equals("Command Knight") && getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() - getOpponentOfCurrentUser().getBoard().getCommandKnights().size() > 0) {
                 if (enemyCard.getOccupied()) {
                     System.out.println("you cant attack this card yet");
@@ -1535,7 +1585,7 @@ public class Game {
         }
     }
 
-    private void addMonsterFromMonsterZoneToGraveyard(Card monsterCard, User owner) {
+    public void addMonsterFromMonsterZoneToGraveyard(Card monsterCard, User owner) {
         for (int i = 0; i < owner.getBoard().getMonstersZone().size(); i++) {
             if (owner.getBoard().getMonstersZone().get(i) == monsterCard) {
                 owner.getBoard().getMonstersZone().set(i, null);
@@ -1544,13 +1594,23 @@ public class Game {
         }
         owner.getBoard().getGraveYard().add(monsterCard);
         destroyCard(monsterCard);
+        if (owner.getBoard().getActivatedSupplySquad().size() != 0) {
+            if (owner.getBoard().getDeckZone().size() > 0) {
+                drawCard(owner);
+            }
+        }
     }
 
-    private void addSpellOrTrapFromZoneToGraveyard(Card spellTrapCard, User owner) {
+    public void addSpellOrTrapFromZoneToGraveyard(Card spellTrapCard, User owner) {
         if (spellTrapCard.getCardType() == Type.FIELD) {
             owner.getBoard().setFieldZone(null);
             owner.getBoard().getGraveYard().add(spellTrapCard);
             destroyCard(spellTrapCard);
+            if (owner.getBoard().getActivatedSupplySquad().size() != 0) {
+                if (owner.getBoard().getDeckZone().size() > 0) {
+                    drawCard(owner);
+                }
+            }
             return;
         }
         for (int i = 0; i < owner.getBoard().getSpellsAndTrapsZone().size(); i++) {
@@ -1561,6 +1621,11 @@ public class Game {
         }
         owner.getBoard().getGraveYard().add(spellTrapCard);
         destroyCard(spellTrapCard);
+        if (owner.getBoard().getActivatedSupplySquad().size() != 0) {
+            if (owner.getBoard().getDeckZone().size() > 0) {
+                drawCard(owner);
+            }
+        }
     }
 
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
@@ -1568,6 +1633,12 @@ public class Game {
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
             System.out.println("you can’t attack the opponent directly");
             return false;
+        }
+        if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
+            if (((Monster) selectedCard).getAttackPower() >= 1500) {
+                System.out.println("Messenger of Peace does not let you attack wit this card");
+                return false;
+            }
         }
         // todo effect
         attackedCards.add(selectedCard);
@@ -1661,10 +1732,6 @@ public class Game {
         // todo check enemy and run chain
     }
 
-    // todo activate in enemy turn
-    // todo chain
-    // todo cheat
-    // todo standby phase
     private void showGraveyard() {
         if (currentUser.getBoard().getGraveYard().size() == 0) {
             System.out.println("graveyard empty");
@@ -1770,6 +1837,13 @@ public class Game {
             if (owner.getBoard().getSpellMonsterEquip().containsKey(card)) {
                 ((EquipEffect) ((Spell) card).getEffect()).deActive();
                 owner.getBoard().getSpellMonsterEquip().remove(card);
+            }
+            if (card.getName().equals("Messenger of Peace")) {
+                owner.getBoard().getActivatedMessengerOfPeaces().remove(card);
+            } else if (card.getName().equals("SpellAbsorption")) {
+                owner.getBoard().getActivatedSpellAbsorptions().remove(card);
+            } else if (card.getName().equals("Supply Squad")) {
+                owner.getBoard().getActivatedSupplySquad().remove(card);
             }
             //todo
         } else if (card instanceof Trap) {

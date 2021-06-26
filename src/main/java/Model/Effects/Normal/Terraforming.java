@@ -10,17 +10,18 @@ public class Terraforming extends Effect {
 
     public Terraforming(Card card) {
         super(card);
+        speed = 1;
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             System.out.println("enter number of field spell in your deck");
             while (true) {
                 String answer = editSpaces(scanner.nextLine());
                 if (answer.equals("cancel")) {
                     System.out.println("canceled");
-                    return;
+                    return false;
                 } else if (!answer.matches("\\d+")) {
                     System.out.println("enter a number");
                 } else {
@@ -30,7 +31,7 @@ public class Terraforming extends Effect {
                         if (((Spell) card).getIcon() == Icon.FIELD) {
                             game.getCurrentUser().getBoard().addCardFromDeckToHand(number - 1);
                             System.out.println("spell activated");
-                            return;
+                            return true;
                         }
                     }
                     System.out.println("select a field spell");
@@ -38,12 +39,13 @@ public class Terraforming extends Effect {
             }
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 
     @Override
     public boolean canBeActivated(Game game) {
-        if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
+        if (game.getChain().size() != 0) {
             return false;
         }
         for (Card card : game.getCurrentUser().getBoard().getDeckZone()) {

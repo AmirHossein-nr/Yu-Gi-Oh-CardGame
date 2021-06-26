@@ -30,7 +30,7 @@ public class Forest extends FieldEffect {
     }
 
     @Override
-    public void activate(Game game) {
+    public boolean activate(Game game) {
         if (canBeActivated(game)) {
             for (int i = 0; i < 5; i++) {
                 if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
@@ -43,8 +43,10 @@ public class Forest extends FieldEffect {
                 }
             }
             System.out.println("spell activated");
+            return true;
         } else {
             System.out.println("preparations of this spell are not done yet");
+            return false;
         }
     }
 

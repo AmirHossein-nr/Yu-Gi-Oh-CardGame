@@ -16,6 +16,9 @@ public class Board {
     private ArrayList<Card> cardsInHand;
     private HashMap<Card, Card> spellMonsterEquip = new HashMap<>();
     private HashMap<Card, ArrayList<Card>> commandKnights = new HashMap<>();
+    private ArrayList<Card> activatedMessengerOfPeaces = new ArrayList<>();
+    private ArrayList<Card> activatedSpellAbsorptions = new ArrayList<>();
+    private ArrayList<Card> activatedSupplySquad = new ArrayList<>();
 
     public Board() {
 
@@ -52,6 +55,18 @@ public class Board {
 
     public void setSpellMonsterEquip(HashMap<Card, Card> spellMonsterEquip) {
         this.spellMonsterEquip = spellMonsterEquip;
+    }
+
+    public ArrayList<Card> getActivatedSpellAbsorptions() {
+        return activatedSpellAbsorptions;
+    }
+
+    public ArrayList<Card> getActivatedSupplySquad() {
+        return activatedSupplySquad;
+    }
+
+    public ArrayList<Card> getActivatedMessengerOfPeaces() {
+        return activatedMessengerOfPeaces;
     }
 
     public HashMap<Card, ArrayList<Card>> getCommandKnights() {

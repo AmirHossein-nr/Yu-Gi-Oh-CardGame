@@ -32,7 +32,7 @@ public abstract class Effect {
         return card;
     }
 
-    public abstract void activate(Game game);
+    public abstract boolean activate(Game game);
 
     public void addToChain(Game game) {
         if (canBeActivated(game)) {
@@ -48,6 +48,13 @@ public abstract class Effect {
 //    if (game.getChain().size() != 0 && ((Spell) game.getChain().get(game.getChain().size() - 1)).getEffect().getSpeed() > speed) {
 //        return false;
 //    }
+
+    public void finalActivate(Game game) {
+        if (activate(game)) {
+            game.getCurrentUser().setLifePoint(game.getCurrentUser().getLifePoint() + 500 * game.getCurrentUser().getBoard().getActivatedSpellAbsorptions().size());
+            game.getOpponentOfCurrentUser().setLifePoint(game.getOpponentOfCurrentUser().getLifePoint() + 500 * game.getOpponentOfCurrentUser().getBoard().getActivatedSpellAbsorptions().size());
+        }
+    }
 
     protected static String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
