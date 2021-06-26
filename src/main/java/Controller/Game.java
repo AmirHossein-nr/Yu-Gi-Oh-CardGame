@@ -516,6 +516,8 @@ public class Game {
                 if (directAttack()) {
                     return;
                 }
+            } else if (input.equals("activate effect")) {
+                activateEffect();
             } else {
                 System.out.println("invalid command");
             }
@@ -692,6 +694,8 @@ public class Game {
                     if (directAttack()) {
                         return;
                     }
+                } else if (input.equals("activate effect")) {
+                    activateEffect();
                 } else {
                     System.out.println("invalid command");
                 }
@@ -1308,6 +1312,8 @@ public class Game {
                     setPositionAttackDefense(input);
                 } else if (input.equals("flip-summon")) {
                     flipSummon();
+                } else if (input.equals("activate effect")) {
+                    activateEffect();
                 } else {
                     System.out.println("invalid command");
                 }
