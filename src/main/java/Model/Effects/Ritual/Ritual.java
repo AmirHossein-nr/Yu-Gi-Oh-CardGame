@@ -44,7 +44,7 @@ public class Ritual extends Effect {
         User currentUser = game.getCurrentUser();
         ArrayList<Monster> ritualMonsters = new ArrayList<>();
         for (Card card : currentUser.getBoard().getCardsInHand()) {
-            if (card instanceof Monster && card.getCardType() == Type.RITUAL) { // todo type ro az amir bepors
+            if (card instanceof Monster && card.getCardType() == Type.RITUAL) {
                 ritualMonsters.add((Monster) card);
             }
         }

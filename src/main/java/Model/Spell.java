@@ -1,5 +1,8 @@
 package Model;
 
+import Model.Effects.Continuous.MessengerOfPeace;
+import Model.Effects.Continuous.SpellAbsorption;
+import Model.Effects.Continuous.SupplySquad;
 import Model.Effects.Effect;
 import Model.Effects.Equipe.BlackPendant;
 import Model.Effects.Equipe.MagnumShield;
@@ -11,12 +14,11 @@ import Model.Effects.Field.Umiiruka;
 import Model.Effects.Field.Yami;
 import Model.Effects.Normal.*;
 import Model.Effects.Ritual.Ritual;
-import Model.Zahra.Icon;
+import Model.Effects.falseEffect;
 
 public class Spell extends Card {
 
     private String status;
-    private Icon icon;
     private Effect effect;
 
     public Spell(String name, Type type) {
@@ -27,16 +29,8 @@ public class Spell extends Card {
         this.status = status;
     }
 
-    public void setIcon(Icon icon) {
-        this.icon = icon;
-    }
-
     public void setEffect(Effect effect) {
         this.effect = effect;
-    }
-
-    public Icon getIcon() {
-        return icon;
     }
 
     public String getStatus() {
@@ -47,9 +41,8 @@ public class Spell extends Card {
         return effect;
     }
 
-    // todo
+
     public void giveEffect() {
-        // todo check names
         if (this.getName().equals("Closed Forest")) {
             setEffect(new ClosedForest(this));
         } else if (this.getName().equals("Forest")) {
@@ -58,7 +51,7 @@ public class Spell extends Card {
             setEffect(new Umiiruka(this));
         } else if (this.getName().equals("Yami")) {
             setEffect(new Yami(this));
-        } else if (this.getName().equals("DarkHole")) {
+        } else if (this.getName().equals("Dark Hole")) {
             setEffect(new DarkHole(this));
         } else if (this.getName().equals("Harpie's Feather Duster")) {
             setEffect(new HarpiesFeatherDuster(this));
@@ -80,6 +73,14 @@ public class Spell extends Card {
             setEffect(new SwordOfDarkDestruction(this));
         } else if (this.getName().equals("United We Stand")) {
             setEffect(new UnitedWeStand(this));
+        } else if (this.getName().equals("Messenger of Peace")) {
+            setEffect(new MessengerOfPeace(this));
+        } else if (this.getName().equals("Spell Absorption")) {
+            setEffect(new SpellAbsorption(this));
+        } else if (this.getName().equals("Supply Squad")) {
+            setEffect(new SupplySquad(this));
+        } else {
+            setEffect(new falseEffect(this));
         }
     }
 

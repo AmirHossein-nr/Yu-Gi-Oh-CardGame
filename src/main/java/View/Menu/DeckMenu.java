@@ -2,7 +2,7 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.*;
-import Model.Zahra.SideDeck;
+import Model.SideDeck;
 
 import java.util.regex.Matcher;
 
@@ -147,7 +147,7 @@ public class DeckMenu extends Menu {
                 if (myCard.getName().equals(cardName))
                     j++;
             }
-            //todo We Added here (it wasn't in Document)!
+            // We Added here (it wasn't in Document)!
             if (j <= counter) {
                 System.out.println("You have Used all of Your Cards :" + cardName + " that You Bought !");
                 this.execute();

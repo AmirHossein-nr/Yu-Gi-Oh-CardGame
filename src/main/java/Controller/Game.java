@@ -32,6 +32,7 @@ public class Game {
     ArrayList<Card> chain = new ArrayList<>();
     ArrayList<Card> specialSummonedCards = new ArrayList<>();
     boolean timeSealActivated = false;
+    boolean declaredAttack = false;
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         this.loggedUser = loggedUser;
@@ -52,6 +53,10 @@ public class Game {
 
     public void setActivatedRitualCard(Spell activatedRitualCard) {
         this.activatedRitualCard = activatedRitualCard;
+    }
+
+    public boolean isDeclaredAttack() {
+        return declaredAttack;
     }
 
     public User getCurrentUser() {
@@ -495,6 +500,22 @@ public class Game {
             } else if (input.equals("surrender")) {
                 winnerOfDuel = getOpponentOfCurrentUser();
                 return;
+            } else if (input.equals("summon")) {
+                summon();
+            } else if (input.equals("set")) {
+                set();
+            } else if (input.matches(Regex.setPositionAttackDefence)) {
+                setPositionAttackDefense(input);
+            } else if (input.equals("flip-summon")) {
+                flipSummon();
+            } else if (input.matches(Regex.attack)) {
+                if (attack(input)) {
+                    return;
+                }
+            } else if (input.equals("attack direct")) {
+                if (directAttack()) {
+                    return;
+                }
             } else {
                 System.out.println("invalid command");
             }
@@ -663,6 +684,14 @@ public class Game {
                 } else if (input.equals("surrender")) {
                     winnerOfDuel = getOpponentOfCurrentUser();
                     return;
+                } else if (input.matches(Regex.attack)) {
+                    if (attack(input)) {
+                        return;
+                    }
+                } else if (input.equals("attack direct")) {
+                    if (directAttack()) {
+                        return;
+                    }
                 } else {
                     System.out.println("invalid command");
                 }
@@ -739,8 +768,6 @@ public class Game {
                         if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
                             System.out.println("there are not enough cards for tribute");
                         } else {
-                            // todo are cards that enemy control monsters or everything also here we are moving cards
-                            //  to grave yard so they should de active
                             System.out.println("\"attack\" or \"defence\"?");
                             String answer1 = scanner.nextLine();
                             while (!answer1.equals("attack") && !answer1.equals("defence") && !answer1.equals("cancel")) {
@@ -1226,7 +1253,6 @@ public class Game {
         }
         System.out.println("flip summoned successfully");
         selectedCard = null;
-        // todo flip effects
     }
 
     private void activateCommandKnight(Card commandKnight, User owner) {
@@ -1274,6 +1300,14 @@ public class Game {
                 } else if (input.equals("surrender")) {
                     winnerOfDuel = getOpponentOfCurrentUser();
                     return;
+                } else if (input.equals("summon")) {
+                    summon();
+                } else if (input.equals("set")) {
+                    set();
+                } else if (input.matches(Regex.setPositionAttackDefence)) {
+                    setPositionAttackDefense(input);
+                } else if (input.equals("flip-summon")) {
+                    flipSummon();
                 } else {
                     System.out.println("invalid command");
                 }
@@ -1315,7 +1349,7 @@ public class Game {
     public boolean doAttackAction(Card enemyCard, Monster selectedMonster) {
         Monster enemyMonster = (Monster) enemyCard;
         if (enemyMonster.getName().equals("Texchanger")) {
-            // todo
+            // will do
         }
         if (enemyMonster.getName().equals("Marshmallon")) {
             return attackMarshmallon(selectedMonster, enemyMonster);
@@ -1336,7 +1370,9 @@ public class Game {
             attackPower *= 300;
             enemyMonster.setAttackPower(attackPower);
         }
-        // todo fight effects
+
+        // before fight starts
+
         if (enemyCard.getAttackPosition()) { // enemy attack position
             if (selectedMonster.getAttackPower() > enemyMonster.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
@@ -1640,7 +1676,9 @@ public class Game {
                 return false;
             }
         }
-        // todo effect
+
+        // before attack starts
+
         attackedCards.add(selectedCard);
         int damage = ((Monster) selectedCard).getAttackPower();
         getOpponentOfCurrentUser().setLifePoint(getOpponentOfCurrentUser().getLifePoint() - damage);
@@ -1672,7 +1710,6 @@ public class Game {
         }
         return false;
     }
-
 
     private void mainPhaseTwoRun() {
         currentPhase = Phase.MAIN_TWO;
@@ -1729,7 +1766,8 @@ public class Game {
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
-        // todo check enemy and run chain
+        // activating the spells
+        ((Spell) chain.get(0)).getEffect().finalActivate(this);
     }
 
     private void showGraveyard() {
@@ -1827,8 +1865,9 @@ public class Game {
                     owner.getBoard().getCommandKnights().remove(card);
                 }
             }
-            // todo
+
         } else if (card instanceof Spell) {
+            // destroy in chain
             Spell spell = (Spell) card;
             if (spell.getCardType() == Type.FIELD) {
                 ((FieldEffect) spell.getEffect()).deActive();
@@ -1845,9 +1884,9 @@ public class Game {
             } else if (card.getName().equals("Supply Squad")) {
                 owner.getBoard().getActivatedSupplySquad().remove(card);
             }
-            //todo
+
         } else if (card instanceof Trap) {
-            // todo
+            // destroy in chain
         }
     }
 }

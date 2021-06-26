@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Effects.Effect;
+import Model.Effects.falseEffect;
 
 public class Trap extends Card {
 
@@ -45,10 +46,8 @@ public class Trap extends Card {
         return effect;
     }
 
-    //todo
     public void giveEffect() {
-        if (this.getName().equals("")) {
-        }
+        effect = new falseEffect(this);
     }
 
     @Override

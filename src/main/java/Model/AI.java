@@ -1,6 +1,5 @@
 package Model;
 
-import Model.Zahra.SideDeck;
 import View.Menu.Shop;
 
 import java.util.ArrayList;

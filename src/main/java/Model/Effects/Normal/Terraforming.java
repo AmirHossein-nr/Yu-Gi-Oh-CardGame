@@ -3,7 +3,7 @@ package Model.Effects.Normal;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
-import Model.Zahra.Icon;
+import Model.Type;
 import Controller.Game;
 
 public class Terraforming extends Effect {
@@ -28,7 +28,7 @@ public class Terraforming extends Effect {
                     int number = Integer.parseInt(answer);
                     Card card = game.getCurrentUser().getBoard().getDeckZone().get(number - 1);
                     if (card instanceof Spell) {
-                        if (((Spell) card).getIcon() == Icon.FIELD) {
+                        if (card.getCardType() == Type.FIELD) {
                             game.getCurrentUser().getBoard().addCardFromDeckToHand(number - 1);
                             System.out.println("spell activated");
                             return true;
@@ -50,7 +50,7 @@ public class Terraforming extends Effect {
         }
         for (Card card : game.getCurrentUser().getBoard().getDeckZone()) {
             if (card instanceof Spell) {
-                if (((Spell) card).getIcon() == Icon.FIELD) {
+                if (card.getCardType() == Type.FIELD) {
                     return true;
                 }
             }

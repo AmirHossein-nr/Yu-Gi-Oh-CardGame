@@ -1,7 +1,5 @@
 package Model;
 
-import Model.Zahra.SideDeck;
-
 public class Deck {
     private String name;
     private final MainDeck mainDeck;

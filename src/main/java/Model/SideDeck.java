@@ -1,13 +1,8 @@
-package Model.Zahra;
+package Model;
 
-import Model.Card;
-import Model.Monster;
-import Model.Spell;
-import Model.Trap;
 import View.Menu.Shop;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class SideDeck {
     private ArrayList<Card> cardsInSideDeck;
