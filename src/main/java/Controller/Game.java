@@ -21,6 +21,7 @@ public class Game {
     int numberOfRounds;
     int round = 1;
     int turn = 1;
+    int temporaryValue = 0;
     Phase currentPhase = Phase.DRAW;
     Card selectedCard;
     Card normalSummonOrSetCard = null;
@@ -33,6 +34,7 @@ public class Game {
     ArrayList<Card> specialSummonedCards = new ArrayList<>();
     boolean timeSealActivated = false;
     boolean declaredAttack = false;
+    boolean isSuijin = false;
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         this.loggedUser = loggedUser;
@@ -613,7 +615,8 @@ public class Game {
                             if (answer1.equals("cancel")) {
                                 System.out.println("canceled");
                                 break outer;
-                            } if (answer1.matches("\\d+")) {
+                            }
+                            if (answer1.matches("\\d+")) {
                                 int number = Integer.parseInt(answer1);
                                 if (number < 1 || number > currentUser.getBoard().getGraveYard().size()) {
                                     System.out.println("enter a correct number");
@@ -1376,7 +1379,11 @@ public class Game {
             attackPower *= 300;
             enemyMonster.setAttackPower(attackPower);
         }
-
+        if (enemyCard.getName().equalsIgnoreCase("suijin")) {
+            if (!getOpponentOfCurrentUser().getBoard().getSuijinCards().contains(enemyMonster)) {
+                suijinEffects(enemyMonster, selectedMonster);
+            }
+        }
         // before fight starts
 
         if (enemyCard.getAttackPosition()) { // enemy attack position
@@ -1470,6 +1477,33 @@ public class Game {
             }
         }
     }
+
+    private void suijinEffects(Monster enemyMonster, Monster selectedMonster) {
+        System.out.println("(Asking From " + getOpponentOfCurrentUser() + " ) :");
+        System.out.println("Do You Want To Enable Effect Of Your Suiji ?");
+        String string;
+        while (true) {
+            string = scanner.nextLine().trim();
+            if (string.equalsIgnoreCase("yes")) {
+                activateSuijin(enemyMonster, selectedMonster);
+                break;
+            } else if (string.equalsIgnoreCase("no")) {
+                System.out.println("Effect Doesn't Activated ...!");
+                break;
+            } else {
+                System.out.println("Wrong Commnad ! Try Again With \"Yes\" or \"No\"");
+            }
+        }
+
+    }
+
+    private void activateSuijin(Monster enemyMonster, Monster selectedMonster) {
+        temporaryValue = selectedMonster.getAttackPower();
+        selectedMonster.setAttackPower(0);
+        getOpponentOfCurrentUser().getBoard().getSuijinCards().add(enemyMonster);
+        isSuijin = true;
+    }
+
 
     private boolean attackExploderDragon(Monster selectedMonster, Monster ExploderDragon) {
         if (ExploderDragon.getAttackPosition()) { // enemy attack position

@@ -19,6 +19,7 @@ public class Board {
     private ArrayList<Card> activatedMessengerOfPeaces = new ArrayList<>();
     private ArrayList<Card> activatedSpellAbsorptions = new ArrayList<>();
     private ArrayList<Card> activatedSupplySquad = new ArrayList<>();
+    private ArrayList<Card> suijinCards = new ArrayList<>();
 
     public Board() {
 
@@ -55,6 +56,10 @@ public class Board {
 
     public void setSpellMonsterEquip(HashMap<Card, Card> spellMonsterEquip) {
         this.spellMonsterEquip = spellMonsterEquip;
+    }
+
+    public ArrayList<Card> getSuijinCards() {
+        return suijinCards;
     }
 
     public ArrayList<Card> getActivatedSpellAbsorptions() {
