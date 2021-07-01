@@ -5,6 +5,7 @@ import Model.*;
 import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
 import View.Menu.Shop;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,8 @@ public class Game {
     boolean isSuijin = false;
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
+        ImageView image = new ImageView("src/main/resources/images/backCard.png");
+
         this.loggedUser = loggedUser;
         this.rivalUser = rivalUser;
         currentUser = loggedUser;
