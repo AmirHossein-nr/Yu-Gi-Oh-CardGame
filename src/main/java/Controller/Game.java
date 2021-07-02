@@ -1,11 +1,14 @@
 package Controller;
 
-import Controller.Regex;
 import Model.*;
 import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
 import View.Menu.Shop;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +16,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class Game {
+    @FXML
+    public Rectangle pauseButton;
+    public Rectangle muteButton;
+    public Rectangle surrenderButton;
+
     Scanner scanner;
     boolean playingWithAi = false;
     User loggedUser;
@@ -37,9 +45,19 @@ public class Game {
     boolean declaredAttack = false;
     boolean isSuijin = false;
 
+    @FXML
+    public void initialize() {
+        pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
+        muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
+        surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
+    }
+
+    public Game() {
+
+    }
+
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
         ImageView image = new ImageView("src/main/resources/images/backCard.png");
-
         this.loggedUser = loggedUser;
         this.rivalUser = rivalUser;
         currentUser = loggedUser;
