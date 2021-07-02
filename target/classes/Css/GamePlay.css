@@ -107,3 +107,18 @@
 #surrenderButton {
     -fx-border-radius: 1;
 }
+
+.button {
+    -fx-background-color: Black;
+    -fx-border-radius: 0.6;
+    -fx-border-color: Gold;
+    -fx-font-family: "Lucida Handwriting";
+    -fx-font-size: 14px;
+    -fx-text-fill: Red;
+}
+
+.button:hover {
+    -fx-background-color: Red;
+    -fx-border-color: Black;
+    -fx-text-fill: White;
+}

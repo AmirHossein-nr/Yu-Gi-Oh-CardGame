@@ -3,10 +3,13 @@ package Controller;
 import Model.*;
 import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
+import View.GUI.GamePlay;
 import View.Menu.Shop;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -50,6 +53,12 @@ public class Game {
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
+        pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GamePlay.pauseButtonExecution();
+            }
+        });
     }
 
     public Game() {
