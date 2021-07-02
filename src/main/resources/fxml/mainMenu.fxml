@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="596.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.MainMenu">
+   <children>
+      <ImageView fitHeight="603.0" fitWidth="728.0" layoutX="-3.0" layoutY="-1.0" opacity="0.7">
+         <image>
+            <Image url="@../images/menuBackground.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="279.0" layoutY="109.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="duel menu">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="279.0" layoutY="168.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="deck menu">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="280.0" layoutY="223.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="scoreboard">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="279.0" layoutY="284.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="profile">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="279.0" layoutY="341.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="shop">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="280.0" layoutY="400.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="import/export">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="280.0" layoutY="457.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="logout">
+         <font>
+            <Font name="Harlow Solid Italic" size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
