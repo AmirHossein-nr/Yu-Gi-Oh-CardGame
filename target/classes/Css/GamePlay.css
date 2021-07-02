@@ -1,0 +1,22 @@
+.root {
+    -fx-background-image: url("/images/background1.png");
+}
+
+.label {
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 24px;
+    -fx-text-fill: White;
+}
+
+#rivalLifePoint {
+    -fx-text-fill: Green;
+}
+
+#currentUserLifePoint {
+    -fx-text-fill: Green;
+}
+
+#backOfMainBoard {
+    -fx-background-color: Gray;
+    -fx-opacity: 0.4;
+}
