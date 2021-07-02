@@ -10,8 +10,11 @@ import java.util.Objects;
 
 public class GamePlay extends Application {
 
+    protected Stage mainStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.mainStage = primaryStage;
         primaryStage.setResizable(false);
         primaryStage.setTitle("Yu-Gi-OH!");
         AnchorPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/GamePlayGraphic.fxml")));

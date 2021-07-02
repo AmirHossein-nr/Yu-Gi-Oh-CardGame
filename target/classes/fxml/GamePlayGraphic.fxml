@@ -2,14 +2,13 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0"
             prefWidth="1500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <ImageView fx:id="leftSideImage" fitHeight="621.0" fitWidth="327.0" layoutX="-1.0" layoutY="72.0"
-                   pickOnBounds="true" preserveRatio="true"/>
         <Label layoutX="20.0" layoutY="14.0" text="LP :"/>
         <Label fx:id="rivalLifePoint" layoutX="68.0" layoutY="14.0" text="8000"/>
         <Label layoutX="20.0" layoutY="723.0" text="LP :"/>
@@ -18,6 +17,44 @@
                      progress="0.0"/>
         <ProgressBar fx:id="currentUserLifeBar" layoutX="20.0" layoutY="698.0" prefHeight="17.0" prefWidth="248.0"
                      progress="0.0"/>
-        <AnchorPane fx:id="backOfMainBoard" layoutX="324.0" layoutY="53.0" prefHeight="671.0" prefWidth="1159.0"/>
+        <AnchorPane fx:id="backOfMainBoard" layoutX="377.0" layoutY="53.0" prefHeight="671.0" prefWidth="1106.0"/>
+        <Rectangle fx:id="pauseButton" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="35.0" layoutX="1445.0"
+                   layoutY="732.0" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Circle fx:id="rivalAvatar" fill="#ff1f1f" layoutX="311.0" layoutY="43.0" radius="39.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="currentAvatar" fill="#ff1f1f" layoutX="311.0" layoutY="724.0" radius="39.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Label fx:id="rivalUsername" layoutX="564.0" layoutY="10.0" prefHeight="28.0" prefWidth="269.0"
+               text="RivalUsername"/>
+        <Label fx:id="nameLabel4" layoutX="436.0" layoutY="11.0" prefHeight="17.0" prefWidth="142.0" text="UserName:"/>
+        <Label fx:id="rivalFullName" layoutX="1172.0" layoutY="16.0" prefHeight="28.0" prefWidth="269.0"
+               text="Rival Full Name"/>
+        <Label fx:id="nameLabel1" layoutX="1044.0" layoutY="17.0" prefHeight="17.0" prefWidth="142.0" text="FullName:"/>
+        <Label fx:id="currentUsername" layoutX="564.0" layoutY="729.0" prefHeight="28.0" prefWidth="269.0"
+               text="Current Username"/>
+        <Label fx:id="nameLabel2" layoutX="436.0" layoutY="730.0" prefHeight="17.0" prefWidth="142.0" text="UserName:"/>
+        <Label fx:id="currentFullName" layoutX="1172.0" layoutY="735.0" prefHeight="28.0" prefWidth="269.0"
+               text="Current Full Name"/>
+        <Label fx:id="nameLabel3" layoutX="1044.0" layoutY="736.0" prefHeight="17.0" prefWidth="142.0"
+               text="FullName:"/>
+        <AnchorPane fx:id="leftSideStage" layoutX="14.0" layoutY="80.0" prefHeight="597.0" prefWidth="248.0"/>
+        <Rectangle fx:id="drawPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="54.0" layoutX="323.0"
+                   layoutY="116.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Rectangle fx:id="standByPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="54.0" layoutX="323.0"
+                   layoutY="198.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Rectangle fx:id="mainPhase1Place" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="54.0" layoutX="323.0"
+                   layoutY="280.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Rectangle fx:id="battlePhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="54.0" layoutX="323.0"
+                   layoutY="358.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Rectangle fx:id="mainPhase2Place" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="54.0" layoutX="323.0"
+                   layoutY="438.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Rectangle fx:id="endPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="54.0" layoutX="323.0"
+                   layoutY="515.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="40.0"/>
+        <Label layoutX="334.0" layoutY="125.0" text="DP"/>
+        <Label layoutX="328.0" layoutY="207.0" text="SP"/>
+        <Label layoutX="326.0" layoutY="289.0" text="M1"/>
+        <Label layoutX="328.0" layoutY="370.0" text="BP"/>
+        <Label layoutX="326.0" layoutY="447.0" text="M2"/>
+        <Label layoutX="328.0" layoutY="524.0" text="EP"/>
     </children>
 </AnchorPane>
