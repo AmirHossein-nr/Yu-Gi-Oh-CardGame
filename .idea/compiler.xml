@@ -7,11 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Ap Project Phase 01" />
+        <module name="project-team-59" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="Ap Project Phase 01" target="15" />
-      <module name="project-team-59" target="8" />
+      <module name="project-team-59" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>
