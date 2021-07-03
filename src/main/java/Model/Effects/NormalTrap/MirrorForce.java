@@ -1,4 +1,4 @@
-package Model.Effects.Counter;
+package Model.Effects.NormalTrap;
 
 import Controller.Game;
 import Model.Card;
@@ -7,21 +7,27 @@ import Model.Spell;
 import Model.Trap;
 import Model.User;
 
-public class MagicCylinder extends Effect {
+public class MirrorForce extends Effect {
 
     private User owner;
     private User enemy;
 
-    public MagicCylinder(Card card) {
+    public MirrorForce(Card card) {
         super(card);
-        speed = 3;
+        speed = 2;
     }
 
     @Override
     public boolean activate(Game game) {
         if (canBeActivated(game)) {
-            game.setMagicCylinderActivated(true);
+            game.setMirrorForceActivated(true);
             game.setDeclaredAttack(false);
+            for (int i = 0; i < 5; i++) {
+                Card enemyMonsterCard = game.getCurrentUser().getBoard().getMonstersZone().get(i);
+                if (enemyMonsterCard.getOccupied()) {
+                    game.addMonsterFromMonsterZoneToGraveyard(enemyMonsterCard, game.getCurrentUser());
+                }
+            }
             System.out.println("trap activated");
             game.addSpellOrTrapFromZoneToGraveyard(card, owner);
             return true;

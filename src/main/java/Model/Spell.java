@@ -13,6 +13,8 @@ import Model.Effects.Field.Forest;
 import Model.Effects.Field.Umiiruka;
 import Model.Effects.Field.Yami;
 import Model.Effects.Normal.*;
+import Model.Effects.Quick.Mysticalspacetyphoon;
+import Model.Effects.Quick.TwinTwisters;
 import Model.Effects.Ritual.Ritual;
 import Model.Effects.falseEffect;
 
@@ -79,6 +81,10 @@ public class Spell extends Card {
             setEffect(new SpellAbsorption(this));
         } else if (this.getName().equals("Supply Squad")) {
             setEffect(new SupplySquad(this));
+        } else if (this.getName().equals("Twin Twisters")) {
+            setEffect(new TwinTwisters(this));
+        } else if (this.getName().equals("Mystical space typhoon")) {
+            setEffect(new Mysticalspacetyphoon(this));
         } else {
             setEffect(new falseEffect(this));
         }

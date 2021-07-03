@@ -70,8 +70,12 @@ public class Game {
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
     ArrayList<Card> specialSummonedCards = new ArrayList<>();
+    boolean canSpeedOneBeActivated = false;
     boolean timeSealActivated = false;
     boolean declaredAttack = false;
+    boolean magicCylinderActivated = false;
+    boolean negateAttackActivated = false;
+    boolean mirrorForceActivated = false;
     boolean isSuijin = false;
     private Timeline timeline = new Timeline();
 
@@ -194,6 +198,42 @@ public class Game {
 
     public void setActivatedRitualCard(Spell activatedRitualCard) {
         this.activatedRitualCard = activatedRitualCard;
+    }
+
+    public void setMagicCylinderActivated(boolean magicCylinderActivated) {
+        this.magicCylinderActivated = magicCylinderActivated;
+    }
+
+    public boolean isMagicCylinderActivated() {
+        return magicCylinderActivated;
+    }
+
+    public boolean isNegateAttackActivated() {
+        return negateAttackActivated;
+    }
+
+    public boolean isMirrorForceActivated() {
+        return mirrorForceActivated;
+    }
+
+    public boolean isCanSpeedOneBeActivated() {
+        return canSpeedOneBeActivated;
+    }
+
+    public void setCanSpeedOneBeActivated(boolean canSpeedOneBeActivated) {
+        this.canSpeedOneBeActivated = canSpeedOneBeActivated;
+    }
+
+    public void setMirrorForceActivated(boolean mirrorForceActivated) {
+        this.mirrorForceActivated = mirrorForceActivated;
+    }
+
+    public void setNegateAttackActivated(boolean negateAttackActivated) {
+        this.negateAttackActivated = negateAttackActivated;
+    }
+
+    public void setDeclaredAttack(boolean declaredAttack) {
+        this.declaredAttack = declaredAttack;
     }
 
     public boolean isDeclaredAttack() {
@@ -1496,6 +1536,28 @@ public class Game {
                     return false;
                 }
             }
+            new ChainController(this, scanner).run();
+            if (magicCylinderActivated) {
+                setMagicCylinderActivated(false);
+                System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+                currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
+                if (currentUser.getLifePoint() <= 0) {
+                    winnerOfDuel = getOpponentOfCurrentUser();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            if (negateAttackActivated) {
+                setNegateAttackActivated(false);
+                System.out.println("Negate Attack stopped the attack");
+                return false;
+            }
+            if (mirrorForceActivated) {
+                setMirrorForceActivated(false);
+                System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+                return false;
+            }
             return doAttackAction(enemyCard, selectedMonster);
         }
     }
@@ -1861,6 +1923,29 @@ public class Game {
                 return false;
             }
         }
+        Monster selectedMonster = (Monster) selectedCard;
+        new ChainController(this, scanner).run();
+        if (magicCylinderActivated) {
+            setMagicCylinderActivated(false);
+            System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+            currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
+            if (currentUser.getLifePoint() <= 0) {
+                winnerOfDuel = getOpponentOfCurrentUser();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (negateAttackActivated) {
+            setNegateAttackActivated(false);
+            System.out.println("Negate Attack stopped the attack");
+            return false;
+        }
+        if (mirrorForceActivated) {
+            setMirrorForceActivated(false);
+            System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+            return false;
+        }
 
         // before attack starts
 
@@ -1950,8 +2035,8 @@ public class Game {
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
-        // activating the spells
-        ((Spell) chain.get(0)).getEffect().finalActivate(this);
+        // activating the spells and chain
+        new ChainController(this, scanner).run();
     }
 
     private void showGraveyard() {

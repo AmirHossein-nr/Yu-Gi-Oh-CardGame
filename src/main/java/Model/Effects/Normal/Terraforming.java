@@ -31,6 +31,7 @@ public class Terraforming extends Effect {
                         if (card.getCardType() == Type.FIELD) {
                             game.getCurrentUser().getBoard().addCardFromDeckToHand(number - 1);
                             System.out.println("spell activated");
+                            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
                             return true;
                         }
                     }

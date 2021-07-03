@@ -80,6 +80,8 @@ public class MonsterReborn extends Effect {
                             graveyard.remove(card);
                             card.setOccupied(true);
                             System.out.println("spell activated");
+                            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
+                            return true;
                         } else if (numberString.equals("back")) {
                             continue outer;
                         } else {
