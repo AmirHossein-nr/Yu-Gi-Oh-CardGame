@@ -5,12 +5,20 @@ import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
+import animatefx.animation.FadeInDown;
+import animatefx.animation.FadeInDownBig;
+import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeInUpBig;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -23,6 +31,20 @@ public class Game {
     public Rectangle pauseButton;
     public Rectangle muteButton;
     public Rectangle surrenderButton;
+    public Circle currentAvatar;
+    public Circle rivalAvatar;
+    public Rectangle drawPhasePlace;
+    public Rectangle standByPhasePlace;
+    public Rectangle mainPhase1Place;
+    public Rectangle battlePhasePlace;
+    public Rectangle mainPhase2Place;
+    public Rectangle endPhasePlace;
+    public Rectangle currentCard1;
+    public Rectangle currentCard6;
+    public Rectangle currentCard5;
+    public Rectangle currentCard4;
+    public Rectangle currentCard3;
+    public Rectangle currentCard2;
 
     Scanner scanner;
     boolean playingWithAi = false;
@@ -59,6 +81,38 @@ public class Game {
                 GamePlay.pauseButtonExecution();
             }
         });
+        new FadeInDown(rivalAvatar).play();
+        new FadeInUp(currentAvatar).play();
+        makeHandCardsNull();
+        test();
+    }
+
+    private void makeHandCardsNull() {
+        currentCard1.setFill(Color.TRANSPARENT);
+        currentCard2.setFill(Color.TRANSPARENT);
+        currentCard3.setFill(Color.TRANSPARENT);
+        currentCard4.setFill(Color.TRANSPARENT);
+        currentCard5.setFill(Color.TRANSPARENT);
+        currentCard6.setFill(Color.TRANSPARENT);
+    }
+
+    private void test() {
+        User user1 = new User("amirhossein", "12345", "AmirHNR");
+        User user2 = new User("mammad", "1234", "Mamali");
+        Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
+        Shop shop = new Shop(null);
+        for (int i = 0; i < 41; i++) {
+            deck.getMainDeck().getCardsInMainDeck().add(shop.getAllCards().get(i));
+        }
+        deck.setValid(true);
+        deck.setActive(true);
+        user1.getDecks().add(deck);
+        user2.getDecks().add(deck);
+        this.loggedUser = user1;
+        this.currentUser = user1;
+        this.rivalUser = user2;
+        this.scanner = new Scanner(System.in);
+        this.run();
     }
 
     public Game() {
@@ -66,7 +120,6 @@ public class Game {
     }
 
     public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
-        ImageView image = new ImageView("src/main/resources/images/backCard.png");
         this.loggedUser = loggedUser;
         this.rivalUser = rivalUser;
         currentUser = loggedUser;
@@ -266,6 +319,12 @@ public class Game {
     }
 
     private void playFirstTurn() {
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
         System.out.println(Phase.STANDBY);
         mainPhaseOneRun();
         endPhaseRun();
@@ -440,6 +499,13 @@ public class Game {
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
+        makeHandCardsNull();
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
+        currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
     }
 
     private void select(Matcher matcher) {
@@ -498,7 +564,7 @@ public class Game {
 
     private void drawPhaseRun() {
         currentPhase = Phase.DRAW;
-        System.out.println(Phase.DRAW);
+        drawPhasePlace.setFill(Color.GREEN);
         if (turn == 2) {
             for (int i = 0; i < 5; i++) {
                 drawCard(currentUser);
@@ -507,12 +573,14 @@ public class Game {
 
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
+            drawPhasePlace.setFill(Color.RED);
             return;
         } else {
             drawCard(currentUser);
         }
 
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
+            drawPhasePlace.setFill(Color.RED);
             return;
         }
         String input;
@@ -524,6 +592,7 @@ public class Game {
             } else if (input.startsWith("select")) {
                 select(Regex.getMatcher(input, Regex.selectCard));
             } else if (input.equals("next phase")) {
+                drawPhasePlace.setFill(Color.RED);
                 return;
             } else if (input.equals("show graveyard")) {
                 showGraveyard();
@@ -531,6 +600,7 @@ public class Game {
                 showSelectedCard();
             } else if (input.equals("surrender")) {
                 winnerOfDuel = getOpponentOfCurrentUser();
+                drawPhasePlace.setFill(Color.RED);
                 return;
             } else if (input.equals("summon")) {
                 summon();
@@ -542,10 +612,12 @@ public class Game {
                 flipSummon();
             } else if (input.matches(Regex.attack)) {
                 if (attack(input)) {
+                    drawPhasePlace.setFill(Color.RED);
                     return;
                 }
             } else if (input.equals("attack direct")) {
                 if (directAttack()) {
+                    drawPhasePlace.setFill(Color.RED);
                     return;
                 }
             } else if (input.equals("activate effect")) {
@@ -569,7 +641,6 @@ public class Game {
     public void drawCard(User user) {
         Card card = user.getBoard().getDeckZone().get(0);
         user.getBoard().addCardFromDeckToHand(1);
-        System.out.println("new card added to the hand :" + card.getName());
     }
 
     public void callStandByPhase() {
@@ -578,11 +649,13 @@ public class Game {
 
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
-        System.out.println(Phase.STANDBY);
+        standByPhasePlace.setFill(Color.GREEN);
         heraldOfCreationActivation();
         if (payForMessengerOfPeace()) {
+            standByPhasePlace.setFill(Color.RED);
             return;
         }
+        standByPhasePlace.setFill(Color.RED);
         resetSupplySquads();
     }
 
@@ -679,8 +752,9 @@ public class Game {
 
     private void mainPhaseOneRun() {
         currentPhase = Phase.MAIN_ONE;
-        System.out.println(Phase.MAIN_ONE);
+        mainPhase1Place.setFill(Color.GREEN);
         runMainPhase();
+        mainPhase1Place.setFill(Color.RED);
     }
 
     private void runMainPhase() {
@@ -1307,7 +1381,7 @@ public class Game {
 
     private void battlePhaseRun() {
         currentPhase = Phase.BATTLE;
-        System.out.println(Phase.BATTLE);
+        battlePhasePlace.setFill(Color.GREEN);
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             attack(" ");
         } else {
@@ -1321,21 +1395,25 @@ public class Game {
                 } else if (input.startsWith("select")) {
                     select(Regex.getMatcher(input, Regex.selectCard));
                 } else if (input.equals("next phase")) {
+                    battlePhasePlace.setFill(Color.RED);
                     return;
                 } else if (input.matches(Regex.attack)) {
                     if (attack(input)) {
+                        battlePhasePlace.setFill(Color.RED);
                         return;
                     }
                 } else if (input.equals("show graveyard")) {
                     showGraveyard();
                 } else if (input.equals("attack direct")) {
                     if (directAttack()) {
+                        battlePhasePlace.setFill(Color.RED);
                         return;
                     }
                 } else if (input.equals("card show --selected") || input.equals("card show -s")) {
                     showSelectedCard();
                 } else if (input.equals("surrender")) {
                     winnerOfDuel = getOpponentOfCurrentUser();
+                    battlePhasePlace.setFill(Color.RED);
                     return;
                 } else if (input.equals("summon")) {
                     summon();
@@ -1352,6 +1430,7 @@ public class Game {
                 }
             }
         }
+        battlePhasePlace.setFill(Color.RED);
     }
 
     private boolean attack(String input) { // return true if duel has winner and false if duel does not have winner
@@ -1783,8 +1862,9 @@ public class Game {
 
     private void mainPhaseTwoRun() {
         currentPhase = Phase.MAIN_TWO;
-        System.out.println(Phase.MAIN_TWO);
+        mainPhase2Place.setFill(Color.GREEN);
         runMainPhase();
+        mainPhase2Place.setFill(Color.RED);
     }
 
     private void activateEffect() {
@@ -1893,8 +1973,9 @@ public class Game {
             }
         }
         currentPhase = Phase.END;
-        System.out.println(Phase.END);
+        endPhasePlace.setFill(Color.GREEN);
         changeTurn();
+        endPhasePlace.setFill(Color.RED);
         System.out.println("its " + currentUser.getNickName() + "’s turn");
     }
 

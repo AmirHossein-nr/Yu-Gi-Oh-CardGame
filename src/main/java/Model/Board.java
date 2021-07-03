@@ -1,5 +1,8 @@
 package Model;
 
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +23,12 @@ public class Board {
     private ArrayList<Card> activatedSpellAbsorptions = new ArrayList<>();
     private ArrayList<Card> activatedSupplySquad = new ArrayList<>();
     private ArrayList<Card> suijinCards = new ArrayList<>();
+    private ArrayList<Rectangle> cardsInHandRectangle = new ArrayList<>();
 
     public Board() {
 
         allCards = new ArrayList<>();
+        cardsInHandRectangle = new ArrayList<>();
         monstersZone = new ArrayList<>();
         monstersZone.add(null);
         monstersZone.add(null);
@@ -114,6 +119,10 @@ public class Board {
         return deck;
     }
 
+    public ArrayList<Rectangle> getCardsInHandRectangle() {
+        return cardsInHandRectangle;
+    }
+
     public int numberOfMonstersOnBoard() {
         int number = 0;
         for (Card card : monstersZone) {
@@ -138,5 +147,11 @@ public class Board {
         Card card = deckZone.get(number - 1);
         cardsInHand.add(card);
         deckZone.remove(number - 1);
+        try {
+            for (int i = 0; i < 6; i++) {
+                cardsInHandRectangle.get(i).setFill(new ImagePattern(cardsInHand.get(i).getCardImage()));
+            }
+        } catch (Exception ignored) {
+        }
     }
 }

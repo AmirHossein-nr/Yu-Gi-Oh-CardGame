@@ -21,7 +21,22 @@
                      progress="1.0"/>
         <ProgressBar fx:id="currentUserLifeBar" layoutX="20.0" layoutY="690.0" prefHeight="17.0" prefWidth="248.0"
                      progress="1.0"/>
-        <AnchorPane fx:id="backOfMainBoard" layoutX="377.0" layoutY="53.0" prefHeight="653.0" prefWidth="597.0"/>
+        <AnchorPane fx:id="backOfMainBoard" layoutX="377.0" layoutY="53.0" prefHeight="653.0" prefWidth="597.0">
+            <children>
+                <Rectangle fx:id="currentCard2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
+                           layoutX="146.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+                <Rectangle fx:id="currentCard3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
+                           layoutX="234.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+                <Rectangle fx:id="currentCard4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
+                           layoutX="322.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+                <Rectangle fx:id="currentCard5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
+                           layoutX="405.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+                <Rectangle fx:id="currentCard6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
+                           layoutX="494.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+                <Rectangle fx:id="currentCard1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
+                           layoutX="55.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+            </children>
+        </AnchorPane>
         <Rectangle fx:id="pauseButton" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="65.0" layoutX="1425.0"
                    layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="69.0"/>
         <AnchorPane fx:id="leftSideStage" layoutX="14.0" layoutY="80.0" prefHeight="597.0" prefWidth="248.0"/>

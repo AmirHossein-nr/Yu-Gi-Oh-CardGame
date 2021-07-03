@@ -2,7 +2,9 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.*;
+import View.GUI.GamePlay;
 import com.opencsv.CSVReader;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -31,7 +33,7 @@ public class Shop extends Menu {
 
         csvMonsterReader(monstersCsvFilePath);
         csvSpellReader(spellsAndTrapsCsvFilePath);
-
+        iterateThroughArray();
     }
 
     private void csvMonsterReader(String monstersCsvFilePath) {
@@ -174,6 +176,30 @@ public class Shop extends Menu {
 
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
+    }
+
+    private void iterateThroughArray() {
+        for (Card card : allCards) {
+            try {
+                setImagesForMonsters(card, card.getName());
+            } catch (Exception e) {
+                setImagesForSpellTraps(card, card.getName());
+            }
+        }
+    }
+
+    private void setImagesForSpellTraps(Card card, String name) {
+        try {
+            card.setCardImage(new Image(GamePlay.class.getResource("/images/SpellTrap/" + name
+                    + ".jpg").toExternalForm()));
+        } catch (Exception e) {
+            System.out.println(card.getName());
+        }
+    }
+
+    private void setImagesForMonsters(Card card, String name) throws Exception {
+        card.setCardImage(new Image(getClass().getResource("/images/monsters/" + name
+                + ".jpg").toExternalForm()));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package Model;
 
 
+import javafx.scene.image.Image;
+
 public class Card {
     private String name;
     private String description;
@@ -10,7 +12,7 @@ public class Card {
     private Boolean isSelected;
     private Type cardType;
     private Integer price;
-
+    private Image cardImage;
 
     public Card(String name, Type type) {
         setName(name);
@@ -20,6 +22,10 @@ public class Card {
         setAttackPosition(false);
     }
 
+
+    public void setCardImage(Image cardImage) {
+        this.cardImage = cardImage;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -55,6 +61,10 @@ public class Card {
 
     public Boolean getNewOccupationState() {
         return newOccupationState;
+    }
+
+    public Image getCardImage() {
+        return cardImage;
     }
 
     public Integer getPrice() {
