@@ -9,10 +9,13 @@ import animatefx.animation.*;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -22,7 +25,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 
 public class Game {
@@ -46,6 +48,21 @@ public class Game {
     public Rectangle currentCard2;
     public Button nextPhaseButton;
     public Rectangle selectedCardImage;
+    public Label currentUsername;
+    public Label currentFullName;
+    public Label rivalUsername;
+    public Label rivalFullName;
+    public Rectangle currentMonster1;
+    public Rectangle currentMonster2;
+    public Rectangle currentMonster3;
+    public Rectangle currentMonster4;
+    public Rectangle currentMonster5;
+    public Rectangle currentSpell1;
+    public Rectangle currentSpell2;
+    public Rectangle currentSpell3;
+    public Rectangle currentSpell4;
+    public Rectangle currentSpell5;
+    public AnchorPane backOfMainBoard;
 
     public static Stage mainStage;
 
@@ -75,6 +92,9 @@ public class Game {
     boolean isSuijin = false;
     private Timeline timeline = new Timeline();
 
+    double orgSceneX, orgSceneY;
+    double orgTranslateX, orgTranslateY;
+
     @FXML
     public void initialize() {
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
@@ -89,6 +109,7 @@ public class Game {
             }
         });
         initialiseAnimationsOfSelectCard();
+        mouseDragControlling();
 
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
@@ -97,6 +118,107 @@ public class Game {
         });
         makeHandCardsNull();
         drawPhasePlace.setFill(Color.GREEN);
+    }
+
+    private void mouseDragControlling() {
+        boolean[] intersects = new boolean[1];
+
+        dragEventForCards(currentCard1, currentCard2, currentCard3);
+        dragEventForCards(currentCard4, currentCard5, currentCard6);
+    }
+
+    private void dragEventForCards(Rectangle currentCard4, Rectangle currentCard5, Rectangle currentCard6) {
+        double[] x = new double[3];
+        double[] y = new double[3];
+        x[0] = currentCard4.getX();
+        y[0] = currentCard4.getY();
+        x[1] = currentCard5.getX();
+        y[1] = currentCard5.getY();
+        x[2] = currentCard6.getX();
+        y[2] = currentCard6.getY();
+
+        currentCard4.setOnMouseDragged((MouseEvent me) -> {
+            double diffX = me.getX() - currentCard4.getWidth() / 2;
+            double diffY = me.getY() - currentCard4.getHeight() / 2;
+            currentCard4.setX(diffX);
+            currentCard4.setY(diffY);
+        });
+        currentCard5.setOnMouseDragged((MouseEvent me) -> {
+            double diffX = me.getX() - currentCard5.getWidth() / 2;
+            double diffY = me.getY() - currentCard5.getHeight() / 2;
+            currentCard5.setX(diffX);
+            currentCard5.setY(diffY);
+        });
+        currentCard6.setOnMouseDragged((MouseEvent me) -> {
+            double diffX = me.getX() - currentCard6.getWidth() / 2;
+            double diffY = me.getY() - currentCard6.getHeight() / 2;
+            currentCard6.setX(diffX);
+            currentCard6.setY(diffY);
+        });
+        currentCard4.setOnMouseExited(event -> {
+            if (currentCard4.getBoundsInParent().intersects(currentMonster1.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentMonster1.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster2.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentMonster2.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster3.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentMonster3.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster4.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentMonster4.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster5.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentMonster5.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell1.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentSpell1.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInLocal().intersects(currentSpell2.getBoundsInLocal())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentSpell2.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInLocal().intersects(currentSpell3.getBoundsInLocal())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentSpell3.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell4.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentSpell4.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell5.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentSpell5.setFill(currentCard4.getFill());
+                currentCard4.setFill(Color.TRANSPARENT);
+            }
+            currentCard4.setX(x[0]);
+            currentCard4.setY(y[0]);
+        });
+        currentCard5.setOnMouseExited(event ->
+
+        {
+            currentCard5.setX(x[1]);
+            currentCard5.setY(y[1]);
+        });
+        currentCard6.setOnMouseExited(event ->
+
+        {
+            currentCard6.setX(x[2]);
+            currentCard6.setY(y[2]);
+        });
+    }
+
+    public void initialiseLabelNames() {
+        rivalUsername.setText(getOpponentOfCurrentUser().getUsername());
+        rivalFullName.setText(getOpponentOfCurrentUser().getNickName());
+        currentUsername.setText(currentUser.getUsername());
+        currentFullName.setText(currentUser.getNickName());
     }
 
     private void initialiseAnimationsOfSelectCard() {
@@ -133,6 +255,12 @@ public class Game {
             new FlipOutX(selectedCardImage);
             selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
         });
+        currentCard1.setCursor(Cursor.HAND);
+        currentCard2.setCursor(Cursor.HAND);
+        currentCard3.setCursor(Cursor.HAND);
+        currentCard4.setCursor(Cursor.HAND);
+        currentCard5.setCursor(Cursor.HAND);
+        currentCard6.setCursor(Cursor.HAND);
     }
 
     private void makeHandCardsNull() {
@@ -2076,6 +2204,7 @@ public class Game {
 
     @FXML
     public void nextPhase() {
+        initialiseLabelNames();
         if (clickedPhase == null) {
             currentPhase = Phase.DRAW;
             drawPhaseRun();

@@ -1,6 +1,7 @@
 package Model;
 
 import View.Menu.Shop;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class User {
     private long money;
     private boolean isArtificial;
     private Board board;
+    private Image avatar;
 
     static {
         allUsers = new ArrayList<>();
@@ -37,6 +39,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 
     public void setNickName(String nickName) {
@@ -89,6 +95,10 @@ public class User {
 
     public long getMoney() {
         return money;
+    }
+
+    public Image getAvatar() {
+        return avatar;
     }
 
     public int getLifePoint() {

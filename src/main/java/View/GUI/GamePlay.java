@@ -56,6 +56,7 @@ public class GamePlay extends Application {
             task.run();
         });
         primaryStage.show();
+        game.initialiseLabelNames();
     }
 
 

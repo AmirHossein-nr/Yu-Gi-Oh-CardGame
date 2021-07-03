@@ -35,45 +35,45 @@
                            layoutX="494.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
                 <Rectangle fx:id="currentCard1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
                            layoutX="55.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
-                <Rectangle fx:id="currentCard11" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentSpell5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="117.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentSpell3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="192.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard112" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentSpell1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="269.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard113" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentSpell2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="346.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1131" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentSpell4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="421.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard114" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentMonster5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="117.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentMonster3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="192.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1121" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentMonster1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="269.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1132" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentMonster2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="346.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard11311" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="currentMonster4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="421.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard115" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalMonster4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="117.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1112" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalMonster2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="192.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1122" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalMonster1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="269.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1133" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalMonster3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="346.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard11312" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalMonster5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="421.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard1141" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalSpell4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="117.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard11111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalSpell2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="192.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard11211" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalSpell1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="269.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard11321" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalSpell3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="346.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
-                <Rectangle fx:id="currentCard113111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                <Rectangle fx:id="rivalSpell5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="421.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
             </children>
         </AnchorPane>
