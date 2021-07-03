@@ -5,25 +5,24 @@ import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
-import animatefx.animation.FadeInDown;
-import animatefx.animation.FadeInDownBig;
-import animatefx.animation.FadeInUp;
-import animatefx.animation.FadeInUpBig;
+import animatefx.animation.*;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 
 public class Game {
@@ -45,7 +44,12 @@ public class Game {
     public Rectangle currentCard4;
     public Rectangle currentCard3;
     public Rectangle currentCard2;
+    public Button nextPhaseButton;
+    public Rectangle selectedCardImage;
 
+    public static Stage mainStage;
+
+    private Phase clickedPhase = null;
     Scanner scanner;
     boolean playingWithAi = false;
     User loggedUser;
@@ -56,7 +60,7 @@ public class Game {
     int round = 1;
     int turn = 1;
     int temporaryValue = 0;
-    Phase currentPhase = Phase.DRAW;
+    Phase currentPhase = null;
     Card selectedCard;
     Card normalSummonOrSetCard = null;
     ArrayList<Card> putOnMonsterZoneCards = new ArrayList<>();
@@ -69,22 +73,66 @@ public class Game {
     boolean timeSealActivated = false;
     boolean declaredAttack = false;
     boolean isSuijin = false;
+    private Timeline timeline = new Timeline();
 
     @FXML
     public void initialize() {
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
+        selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+        selectedCardImage.setOpacity(1);
         pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 GamePlay.pauseButtonExecution();
             }
         });
+        initialiseAnimationsOfSelectCard();
+
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
+        nextPhaseButton.setOnMouseClicked(event -> {
+            nextPhase();
+        });
         makeHandCardsNull();
-        test();
+        drawPhasePlace.setFill(Color.GREEN);
+    }
+
+    private void initialiseAnimationsOfSelectCard() {
+        currentCard1.setOnMouseEntered(event -> {
+            selectedCardImage.setFill(currentCard1.getFill());
+            new FlipInX(selectedCardImage).play();
+        });
+        setAnimations1(currentCard1, currentCard2, currentCard3);
+        currentCard4.setOnMouseEntered(event -> {
+            selectedCardImage.setFill(currentCard4.getFill());
+            new FlipInY(selectedCardImage).play();
+        });
+        setAnimations1(currentCard4, currentCard5, currentCard6);
+    }
+
+    private void setAnimations1(Rectangle currentCard1, Rectangle currentCard2, Rectangle currentCard3) {
+        currentCard1.setOnMouseExited(event -> {
+            new FlipOutX(selectedCardImage);
+            selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+        });
+        currentCard2.setOnMouseEntered(event -> {
+            selectedCardImage.setFill(currentCard2.getFill());
+            new FlipInY(selectedCardImage).play();
+        });
+        currentCard2.setOnMouseExited(event -> {
+            new FlipOutX(selectedCardImage);
+            selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+        });
+        currentCard3.setOnMouseEntered(event -> {
+            selectedCardImage.setFill(currentCard3.getFill());
+            new FlipInY(selectedCardImage).play();
+        });
+        currentCard3.setOnMouseExited(event -> {
+            new FlipOutX(selectedCardImage);
+            selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+        });
     }
 
     private void makeHandCardsNull() {
@@ -96,7 +144,7 @@ public class Game {
         currentCard6.setFill(Color.TRANSPARENT);
     }
 
-    private void test() {
+    public void test() {
         User user1 = new User("amirhossein", "12345", "AmirHNR");
         User user2 = new User("mammad", "1234", "Mamali");
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
@@ -108,11 +156,19 @@ public class Game {
         deck.setActive(true);
         user1.getDecks().add(deck);
         user2.getDecks().add(deck);
+        Board board1 = new Board();
+        board1.setDeck(deck);
+        user1.setBoard(board1);
+        Board board2 = new Board();
+        board2.setDeck(deck);
+        user2.setBoard(board2);
+        user1.getBoard().setZones();
+        user2.getBoard().setZones();
         this.loggedUser = user1;
         this.currentUser = user1;
         this.rivalUser = user2;
         this.scanner = new Scanner(System.in);
-        this.run();
+        this.numberOfRounds = 1;
     }
 
     public Game() {
@@ -182,17 +238,17 @@ public class Game {
             }
             playFirstTurn();
             turn++;
-            while (winnerOfDuel == null) {
-                playTurn();
-                turn++;
-            }
+//            while (winnerOfDuel == null) {
+//                playTurn();
+//                turn++;
+//            }
             finishRound();
             round++;
+
             if (numberOfRounds == 3 && round <= 3) {
                 takeABreak();
             }
         }
-        finishGame();
     }
 
     private void takeABreak() {
@@ -293,47 +349,55 @@ public class Game {
         loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
     }
 
-    private void playTurn() {
-
-        drawPhaseRun();
+    public void playTurn() {
+        setCardsInHandRectangles();
+        if (clickedPhase == Phase.DRAW)
+            drawPhaseRun();
+        if (winnerOfDuel != null)
+            return;
+        if (clickedPhase == Phase.STANDBY)
+            standbyPhaseRun();
+        if (winnerOfDuel != null)
+            return;
+        if (clickedPhase == Phase.MAIN_ONE)
+            mainPhaseOneRun();
         if (winnerOfDuel != null)
             return;
 
+        if (clickedPhase == Phase.BATTLE)
+            battlePhaseRun();
+        if (winnerOfDuel != null)
+            return;
+
+        if (clickedPhase == Phase.MAIN_TWO)
+            mainPhaseTwoRun();
+        if (winnerOfDuel != null)
+            return;
+
+        if (clickedPhase == Phase.END)
+            endPhaseRun();
+    }
+
+    public void playFirstTurn() {
+        setCardsInHandRectangles();
         standbyPhaseRun();
-        if (winnerOfDuel != null)
-            return;
-
         mainPhaseOneRun();
-        if (winnerOfDuel != null)
-            return;
-
-        battlePhaseRun();
-        if (winnerOfDuel != null)
-            return;
-
-        mainPhaseTwoRun();
-        if (winnerOfDuel != null)
-            return;
-
         endPhaseRun();
     }
 
-    private void playFirstTurn() {
+    private void setCardsInHandRectangles() {
         currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
         currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
         currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
         currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
         currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
         currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
-        System.out.println(Phase.STANDBY);
-        mainPhaseOneRun();
-        endPhaseRun();
     }
 
     private void printBoard() {
         StringBuilder board = new StringBuilder();
-        boardString(board);
-        System.out.println(board);
+//        boardString(board);
+//        System.out.println(board);
     }
 
     public StringBuilder boardString(StringBuilder board) {
@@ -441,7 +505,8 @@ public class Game {
         rivalUser.setLifePoint(8000);
         currentUser = user;
         shuffleDeckZones();
-        System.out.println(Phase.DRAW);
+        clickedPhase = Phase.DRAW;
+        drawPhasePlace.setFill(Color.GREEN);
         for (int i = 0; i < 6; i++) {
             drawCard(user);
         }
@@ -500,12 +565,7 @@ public class Game {
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
         makeHandCardsNull();
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
+        setCardsInHandRectangles();
     }
 
     private void select(Matcher matcher) {
@@ -562,9 +622,8 @@ public class Game {
         }
     }
 
-    private void drawPhaseRun() {
+    public void drawPhaseRun() {
         currentPhase = Phase.DRAW;
-        drawPhasePlace.setFill(Color.GREEN);
         if (turn == 2) {
             for (int i = 0; i < 5; i++) {
                 drawCard(currentUser);
@@ -573,61 +632,44 @@ public class Game {
 
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
-            drawPhasePlace.setFill(Color.RED);
             return;
         } else {
             drawCard(currentUser);
         }
-
-        if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
-            drawPhasePlace.setFill(Color.RED);
-            return;
-        }
-        String input;
-        while (true) {
-            input = scanner.nextLine();
-            input = editSpaces(input);
-            if (input.equals("select -d")) {
-                deselectCard();
-            } else if (input.startsWith("select")) {
-                select(Regex.getMatcher(input, Regex.selectCard));
-            } else if (input.equals("next phase")) {
-                drawPhasePlace.setFill(Color.RED);
-                return;
-            } else if (input.equals("show graveyard")) {
-                showGraveyard();
-            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                showSelectedCard();
-            } else if (input.equals("surrender")) {
-                winnerOfDuel = getOpponentOfCurrentUser();
-                drawPhasePlace.setFill(Color.RED);
-                return;
-            } else if (input.equals("summon")) {
-                summon();
-            } else if (input.equals("set")) {
-                set();
-            } else if (input.matches(Regex.setPositionAttackDefence)) {
-                setPositionAttackDefense(input);
-            } else if (input.equals("flip-summon")) {
-                flipSummon();
-            } else if (input.matches(Regex.attack)) {
-                if (attack(input)) {
-                    drawPhasePlace.setFill(Color.RED);
-                    return;
-                }
-            } else if (input.equals("attack direct")) {
-                if (directAttack()) {
-                    drawPhasePlace.setFill(Color.RED);
-                    return;
-                }
-            } else if (input.equals("activate effect")) {
-                activateEffect();
-            } else {
-                System.out.println("invalid command");
-            }
-        }
-
-
+//            if (input.equals("select -d")) {
+//                deselectCard();
+//            } else if (input.startsWith("select")) {
+//                select(Regex.getMatcher(input, Regex.selectCard));
+//            } else if (input.equals("next phase")) {
+//                return;
+//            } else if (input.equals("show graveyard")) {
+//                showGraveyard();
+//            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+//                showSelectedCard();
+//            } else if (input.equals("surrender")) {
+//                winnerOfDuel = getOpponentOfCurrentUser();
+//                return;
+//            } else if (input.equals("summon")) {
+//                summon();
+//            } else if (input.equals("set")) {
+//                set();
+//            } else if (input.matches(Regex.setPositionAttackDefence)) {
+//                setPositionAttackDefense(input);
+//            } else if (input.equals("flip-summon")) {
+//                flipSummon();
+//            } else if (input.matches(Regex.attack)) {
+//                if (attack(input)) {
+//                    return;
+//                }
+//            } else if (input.equals("attack direct")) {
+//                if (directAttack()) {
+//                    return;
+//                }
+//            } else if (input.equals("activate effect")) {
+//                activateEffect();
+//            } else {
+//                System.out.println("invalid command");
+//            }
     }
 
     private boolean canCurrentUserDraw() {
@@ -649,14 +691,12 @@ public class Game {
 
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
-        standByPhasePlace.setFill(Color.GREEN);
-        heraldOfCreationActivation();
-        if (payForMessengerOfPeace()) {
-            standByPhasePlace.setFill(Color.RED);
-            return;
-        }
-        standByPhasePlace.setFill(Color.RED);
-        resetSupplySquads();
+//        heraldOfCreationActivation();
+//        if (payForMessengerOfPeace()) {
+//            standByPhasePlace.setFill(Color.RED);
+//            return;
+//        }
+//        resetSupplySquads();
     }
 
     private void resetSupplySquads() {
@@ -752,62 +792,61 @@ public class Game {
 
     private void mainPhaseOneRun() {
         currentPhase = Phase.MAIN_ONE;
-        mainPhase1Place.setFill(Color.GREEN);
         runMainPhase();
-        mainPhase1Place.setFill(Color.RED);
     }
 
     private void runMainPhase() {
-        String input;
-        Matcher matcher;
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             ((AI) currentUser).setOnBoard();
             printBoard();
         } else {
-            while (true) {
-                printBoard();
-                input = scanner.nextLine();
-                input = editSpaces(input);
-                if (input.equals("select -d")) {
-                    deselectCard();
-                } else if (input.startsWith("select")) {
-                    select(Regex.getMatcher(input, Regex.selectCard));
-                } else if (input.equals("next phase")) {
-                    if (activatedRitualCard != null) {
-                        System.out.println("you should ritual summon right now");
-                    } else {
-                        return;
-                    }
-                } else if (input.equals("summon")) {
-                    summon();
-                } else if (input.equals("set")) {
-                    set();
-                } else if (input.matches(Regex.setPositionAttackDefence)) {
-                    setPositionAttackDefense(input);
-                } else if (input.equals("flip-summon")) {
-                    flipSummon();
-                } else if (input.equals("show graveyard")) {
-                    showGraveyard();
-                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                    showSelectedCard();
-                } else if (input.equals("surrender")) {
-                    winnerOfDuel = getOpponentOfCurrentUser();
-                    return;
-                } else if (input.matches(Regex.attack)) {
-                    if (attack(input)) {
-                        return;
-                    }
-                } else if (input.equals("attack direct")) {
-                    if (directAttack()) {
-                        return;
-                    }
-                } else if (input.equals("activate effect")) {
-                    activateEffect();
-                } else {
-                    System.out.println("invalid command");
-                }
+            printBoard();
+            if (clickedPhase == Phase.MAIN_ONE || clickedPhase == Phase.MAIN_TWO) {
+                if (activatedRitualCard != null) {
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Can't Execute !",
+                            "You Should Ritual Summon Right Now!");
+                } else return;
             }
+//                if (input.equals("select -d")) {
+//                    deselectCard();
+//                } else if (input.startsWith("select")) {
+//                    select(Regex.getMatcher(input, Regex.selectCard));
+//                } else if (clickedPhase == Phase.MAIN_ONE || clickedPhase == Phase.MAIN_TWO) {
+//                    if (activatedRitualCard != null) {
+//                        System.out.println("you should ritual summon right now");
+//                    } else {
+//                        return;
+//                    }
+//                } else if (input.equals("summon")) {
+//                    summon();
+//                } else if (input.equals("set")) {
+//                    set();
+//                } else if (input.matches(Regex.setPositionAttackDefence)) {
+//                    setPositionAttackDefense(input);
+//                } else if (input.equals("flip-summon")) {
+//                    flipSummon();
+//                } else if (input.equals("show graveyard")) {
+//                    showGraveyard();
+//                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+//                    showSelectedCard();
+//                } else if (input.equals("surrender")) {
+//                    winnerOfDuel = getOpponentOfCurrentUser();
+//                    return;
+//                } else if (input.matches(Regex.attack)) {
+//                    if (attack(input)) {
+//                        return;
+//                    }
+//                } else if (input.equals("attack direct")) {
+//                    if (directAttack()) {
+//                        return;
+//                    }
+//                } else if (input.equals("activate effect")) {
+//                    activateEffect();
+//                } else {
+//                    System.out.println("invalid command");
+//                }
         }
+
     }
 
     private void summon() {
@@ -1381,56 +1420,53 @@ public class Game {
 
     private void battlePhaseRun() {
         currentPhase = Phase.BATTLE;
-        battlePhasePlace.setFill(Color.GREEN);
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             attack(" ");
         } else {
-            String input;
-            while (true) {
-                printBoard();
-                input = scanner.nextLine();
-                input = editSpaces(input);
-                if (input.equals("select -d")) {
-                    deselectCard();
-                } else if (input.startsWith("select")) {
-                    select(Regex.getMatcher(input, Regex.selectCard));
-                } else if (input.equals("next phase")) {
-                    battlePhasePlace.setFill(Color.RED);
-                    return;
-                } else if (input.matches(Regex.attack)) {
-                    if (attack(input)) {
-                        battlePhasePlace.setFill(Color.RED);
-                        return;
-                    }
-                } else if (input.equals("show graveyard")) {
-                    showGraveyard();
-                } else if (input.equals("attack direct")) {
-                    if (directAttack()) {
-                        battlePhasePlace.setFill(Color.RED);
-                        return;
-                    }
-                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                    showSelectedCard();
-                } else if (input.equals("surrender")) {
-                    winnerOfDuel = getOpponentOfCurrentUser();
-                    battlePhasePlace.setFill(Color.RED);
-                    return;
-                } else if (input.equals("summon")) {
-                    summon();
-                } else if (input.equals("set")) {
-                    set();
-                } else if (input.matches(Regex.setPositionAttackDefence)) {
-                    setPositionAttackDefense(input);
-                } else if (input.equals("flip-summon")) {
-                    flipSummon();
-                } else if (input.equals("activate effect")) {
-                    activateEffect();
-                } else {
-                    System.out.println("invalid command");
-                }
-            }
+            printBoard();
+            if (clickedPhase == Phase.BATTLE)
+                return;
+
+//                if (input.equals("select -d")) {
+//                    deselectCard();
+//                } else if (input.startsWith("select")) {
+//                    select(Regex.getMatcher(input, Regex.selectCard));
+//                } else if (input.equals("next phase")) {
+//                    battlePhasePlace.setFill(Color.RED);
+//                    return;
+//                } else if (input.matches(Regex.attack)) {
+//                    if (attack(input)) {
+//                        battlePhasePlace.setFill(Color.RED);
+//                        return;
+//                    }
+//                } else if (input.equals("show graveyard")) {
+//                    showGraveyard();
+//                } else if (input.equals("attack direct")) {
+//                    if (directAttack()) {
+//                        battlePhasePlace.setFill(Color.RED);
+//                        return;
+//                    }
+//                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+//                    showSelectedCard();
+//                } else if (input.equals("surrender")) {
+//                    winnerOfDuel = getOpponentOfCurrentUser();
+//                    battlePhasePlace.setFill(Color.RED);
+//                    return;
+//                } else if (input.equals("summon")) {
+//                    summon();
+//                } else if (input.equals("set")) {
+//                    set();
+//                } else if (input.matches(Regex.setPositionAttackDefence)) {
+//                    setPositionAttackDefense(input);
+//                } else if (input.equals("flip-summon")) {
+//                    flipSummon();
+//                } else if (input.equals("activate effect")) {
+//                    activateEffect();
+//                } else {
+//                    System.out.println("invalid command");
+//                }
+
         }
-        battlePhasePlace.setFill(Color.RED);
     }
 
     private boolean attack(String input) { // return true if duel has winner and false if duel does not have winner
@@ -1862,9 +1898,7 @@ public class Game {
 
     private void mainPhaseTwoRun() {
         currentPhase = Phase.MAIN_TWO;
-        mainPhase2Place.setFill(Color.GREEN);
         runMainPhase();
-        mainPhase2Place.setFill(Color.RED);
     }
 
     private void activateEffect() {
@@ -1951,32 +1985,31 @@ public class Game {
     }
 
     private void endPhaseRun() {
-        int number = currentUser.getBoard().getCardsInHand().size();
-        if (number > 6) {
-            number -= 6;
-            while (currentUser.getBoard().getCardsInHand().size() > 6) {
-                System.out.println("you have to throw away " + number + "cards");
-                String numberString = editSpaces(scanner.nextLine());
-                if (numberString.matches("\\d+")) {
-                    int number1 = Integer.parseInt(numberString);
-                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
-                        System.out.println("enter a correct number");
-                    } else {
-                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
-                        currentUser.getBoard().getCardsInHand().remove(card);
-                        currentUser.getBoard().getGraveYard().add(card);
-                        number--;
-                    }
-                } else {
-                    System.out.println("enter a number");
-                }
-            }
-        }
+//        int number = currentUser.getBoard().getCardsInHand().size();
+//        if (number > 6) {
+//            number -= 6;
+//            while (currentUser.getBoard().getCardsInHand().size() > 6) {
+//                System.out.println("you have to throw away " + number + "cards");
+//                String numberString = editSpaces(scanner.nextLine());
+//                if (numberString.matches("\\d+")) {
+//                    int number1 = Integer.parseInt(numberString);
+//                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
+//                        System.out.println("enter a correct number");
+//                    } else {
+//                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
+//                        currentUser.getBoard().getCardsInHand().remove(card);
+//                        currentUser.getBoard().getGraveYard().add(card);
+//                        number--;
+//                    }
+//                } else {
+//                    System.out.println("enter a number");
+//                }
+//            }
+//        }
         currentPhase = Phase.END;
-        endPhasePlace.setFill(Color.GREEN);
         changeTurn();
-        endPhasePlace.setFill(Color.RED);
-        System.out.println("its " + currentUser.getNickName() + "’s turn");
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
+                "its " + currentUser.getNickName() + "’s turn");
     }
 
     public Phase getCurrentPhase() {
@@ -2038,6 +2071,53 @@ public class Game {
 
         } else if (card instanceof Trap) {
             // destroy in chain
+        }
+    }
+
+    @FXML
+    public void nextPhase() {
+        if (clickedPhase == null) {
+            currentPhase = Phase.DRAW;
+            drawPhaseRun();
+            drawPhasePlace.setFill(Color.RED);
+        }
+        if (currentPhase == Phase.DRAW) {
+            currentPhase = Phase.STANDBY;
+            standByPhasePlace.setFill(Color.GREEN);
+            standbyPhaseRun();
+            drawPhasePlace.setFill(Color.RED);
+            clickedPhase = Phase.DRAW;
+        } else if (currentPhase == Phase.STANDBY) {
+            currentPhase = Phase.MAIN_ONE;
+            mainPhase1Place.setFill(Color.GREEN);
+            mainPhaseOneRun();
+            standByPhasePlace.setFill(Color.RED);
+            clickedPhase = Phase.STANDBY;
+        } else if (currentPhase == Phase.MAIN_ONE) {
+            currentPhase = Phase.BATTLE;
+            battlePhasePlace.setFill(Color.GREEN);
+            battlePhaseRun();
+            mainPhase1Place.setFill(Color.RED);
+            clickedPhase = Phase.MAIN_ONE;
+        } else if (currentPhase == Phase.BATTLE) {
+            currentPhase = Phase.MAIN_TWO;
+            mainPhase2Place.setFill(Color.GREEN);
+            mainPhaseTwoRun();
+            battlePhasePlace.setFill(Color.RED);
+            clickedPhase = Phase.BATTLE;
+        } else if (currentPhase == Phase.MAIN_TWO) {
+            currentPhase = Phase.END;
+            endPhasePlace.setFill(Color.GREEN);
+            endPhaseRun();
+            turn++;
+            mainPhase2Place.setFill(Color.RED);
+            clickedPhase = Phase.MAIN_TWO;
+        } else {
+            currentPhase = Phase.DRAW;
+            drawPhasePlace.setFill(Color.GREEN);
+            endPhasePlace.setFill(Color.RED);
+            drawPhaseRun();
+            clickedPhase = Phase.END;
         }
     }
 }

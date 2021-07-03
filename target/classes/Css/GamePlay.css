@@ -122,3 +122,11 @@
     -fx-border-color: Black;
     -fx-text-fill: White;
 }
+
+#nextPhaseLabel {
+    -fx-text-fill: black;
+}
+
+#nextPhaseButton {
+    -fx-border-color: Transparent;
+}

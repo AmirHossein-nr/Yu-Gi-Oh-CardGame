@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
@@ -10,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0"
-            prefWidth="1500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controller.Game">
+            prefWidth="1500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label layoutX="20.0" layoutY="14.0" text="LP :"/>
         <Label fx:id="rivalLifePoint" layoutX="68.0" layoutY="14.0" text="8000"/>
@@ -35,11 +35,56 @@
                            layoutX="494.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
                 <Rectangle fx:id="currentCard1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
                            layoutX="55.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+                <Rectangle fx:id="currentCard11" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="117.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="192.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard112" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="269.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard113" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="346.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1131" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="421.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard114" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="117.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="192.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1121" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="269.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1132" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="346.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard11311" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="421.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard115" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="117.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1112" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="192.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1122" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="269.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1133" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="346.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard11312" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="421.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard1141" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="117.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard11111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="192.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard11211" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="269.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard11321" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="346.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                <Rectangle fx:id="currentCard113111" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
+                           layoutX="421.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
             </children>
         </AnchorPane>
         <Rectangle fx:id="pauseButton" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="65.0" layoutX="1425.0"
                    layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="69.0"/>
-        <AnchorPane fx:id="leftSideStage" layoutX="14.0" layoutY="80.0" prefHeight="597.0" prefWidth="248.0"/>
+        <AnchorPane fx:id="leftSideStage" layoutX="14.0" layoutY="80.0" prefHeight="597.0" prefWidth="248.0">
+            <children>
+                <Rectangle fx:id="selectedCardImage" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="301.0"
+                           layoutX="24.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="196.0"/>
+            </children>
+        </AnchorPane>
         <Rectangle fx:id="drawPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="65.0" layoutX="315.0"
                    layoutY="116.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="48.0"/>
         <Rectangle fx:id="standByPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="65.0" layoutX="315.0"
@@ -114,5 +159,9 @@
                    layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="69.0"/>
         <Rectangle fx:id="surrenderButton" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="65.0"
                    layoutX="1215.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="145.0" layoutX="979.0" layoutY="263.0"
+                   opacity="0.38" stroke="BLACK" strokeType="INSIDE" width="498.0"/>
+        <Button fx:id="nextPhaseButton" layoutX="1007.0" layoutY="317.0" mnemonicParsing="false" prefHeight="41.0"
+                prefWidth="156.0" text="Next Phase !"/>
     </children>
 </AnchorPane>
