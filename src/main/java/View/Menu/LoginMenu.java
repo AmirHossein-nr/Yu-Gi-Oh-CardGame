@@ -23,11 +23,12 @@ public class LoginMenu extends Menu {
 
     public static Stage mainStage;
     @FXML
-    public  TextField usernameTextField;
+    public TextField usernameTextField;
     @FXML
-    public  TextField nicknameTextField;
+    public TextField nicknameTextField;
     @FXML
-    public  TextField passwordTextField;
+    public TextField passwordTextField;
+
     String username, nickname, password;
 
 
@@ -112,7 +113,9 @@ public class LoginMenu extends Menu {
             String password = matcher.group(4);
             User user = User.getUserByUsername(username);
             if (user == null || !user.getPassword().equals(password)) {
-                System.out.println("Username and password didn't match!");
+                String header = "No Match";
+                String content =  "Username and password didn't match!";
+                Login.createAlert(Alert.AlertType.ERROR, header, content);
                 return false;
             }
             loggedUser = user;
@@ -160,6 +163,10 @@ public class LoginMenu extends Menu {
     }
 
     public void openProfileMenu(ActionEvent actionEvent) throws Exception {
+        openProfile();
+    }
+
+    public void openProfile () throws Exception {
         ProfileGraphic profileGraphic = new ProfileGraphic();
         profileGraphic.start(mainStage);
     }

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="589.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Profile">
+            xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <ImageView fitHeight="596.0" fitWidth="720.0" layoutY="-1.0" opacity="0.7">
             <image>
@@ -46,12 +46,14 @@
                 <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Label layoutX="386.0" layoutY="47.0" prefHeight="17.0" prefWidth="126.0" text="username">
+        <Label fx:id="profileUsername" layoutX="386.0" layoutY="47.0" prefHeight="17.0" prefWidth="126.0"
+               text="username">
             <font>
                 <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Label layoutX="386.0" layoutY="107.0" prefHeight="17.0" prefWidth="126.0" text="nickanme">
+        <Label fx:id="profileNickname" layoutX="386.0" layoutY="107.0" prefHeight="17.0" prefWidth="126.0"
+               text="nickanme">
             <font>
                 <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
@@ -61,7 +63,8 @@
                 <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Label layoutX="386.0" layoutY="223.0" prefHeight="17.0" prefWidth="126.0" text="password">
+        <Label fx:id="profilePassword" layoutX="386.0" layoutY="223.0" prefHeight="17.0" prefWidth="126.0"
+               text="password">
             <font>
                 <Font name="Harlow Solid Italic" size="24.0"/>
             </font>

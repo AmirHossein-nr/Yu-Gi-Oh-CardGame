@@ -2,6 +2,8 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.User;
+import View.GUI.MainMenuGraphic;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
@@ -58,5 +60,10 @@ public class ScoreBoard extends Menu {
 
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
+    }
+
+    public void back(ActionEvent actionEvent) throws Exception {
+        MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
+        mainMenuGraphic.start(mainStage);
     }
 }

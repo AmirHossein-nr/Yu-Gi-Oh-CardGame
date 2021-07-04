@@ -4,12 +4,30 @@ import Controller.Regex;
 import Model.User;
 import View.GUI.MainMenuGraphic;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 
 public class Profile extends Menu {
     public static Stage mainStage;
+    @FXML
+    public static Label profileUsername;
+    @FXML
+    public Label profileNickname;
+    @FXML
+    public Label profilePassword;
+
+    @FXML
+    public void initialize () {
+
+    }
+
+    public static void f () {
+        profileUsername.setText(loggedUser.getUsername());
+    }
 
     public Profile () {
         super("Profile Menu", null);
