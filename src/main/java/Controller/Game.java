@@ -932,8 +932,53 @@ public class Game {
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
+        reArrangeBoards();
+        //salam();
+    }
+
+    private void salam() {
         clearTheWholeScene();
         arrangeRivalBoard();
+    }
+
+    private void reArrangeBoards() {
+        Card card;
+        if (currentUser.getBoard().getCardsInHand().get(0) != null) {
+            currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
+        } else {
+
+        }
+        if (currentUser.getBoard().getCardsInHand().get(1) != null) {
+            currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(2) != null) {
+            currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(3) != null) {
+            currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(4) != null) {
+            currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(5) != null) {
+            currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        currentCard1.fillCard(true);
+        currentCard2.fillCard(true);
+        currentCard3.fillCard(true);
+        currentCard4.fillCard(true);
+        currentCard5.fillCard(true);
+        currentCard6.fillCard(true);
     }
 
     private void arrangeRivalBoard() {
@@ -2434,9 +2479,7 @@ public class Game {
 //            }
 //        }
         currentPhase = Phase.END;
-        changeTurn();
-        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
-                "its " + currentUser.getNickName() + "’s turn");
+
 
     }
 
@@ -2542,6 +2585,9 @@ public class Game {
             mainPhase2Place.setFill(Color.RED);
             clickedPhase = Phase.MAIN_TWO;
         } else {
+            changeTurn();
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
+                    "its " + currentUser.getNickName() + "’s turn");
             currentPhase = Phase.DRAW;
             drawPhasePlace.setFill(Color.GREEN);
             endPhasePlace.setFill(Color.RED);

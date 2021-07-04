@@ -1,6 +1,7 @@
 package Model;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -19,12 +20,15 @@ public class CardRectangle extends Rectangle {
             if (inHand || this.getRelatedCard().getOccupied()) {
                 this.setFill(new ImagePattern(relatedCard.getCardImage()));
             } else {
+                // todo monster
                 if (!this.getRelatedCard().getAttackPosition()) {
                     this.setFill(new ImagePattern(new Image(getClass().getResource("/images/backCard.jpg").toExternalForm())));
                 } else {
                     this.setFill(new ImagePattern(new Image(getClass().getResource("/images/bkCard.jpg").toExternalForm())));
                 }
             }
+        } else {
+            this.setFill(Color.TRANSPARENT);
         }
     }
 
