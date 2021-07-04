@@ -177,27 +177,6 @@ public class Board {
     public void addCardFromDeckToHand(int number) {
         Card card = deckZone.get(number - 1);
         cardsInHand.add(card);
-
-        for (Rectangle rectangle : cardsInHandRectangles) {
-            if (rectangle.getFill() == Color.TRANSPARENT) {
-                rectangle.setFill(new ImagePattern(card.getCardImage()));
-                break;
-            }
-        }
-
-        for (int i = 0; i < 6; i++) {
-            try {
-                if (cardsInHandRectangles.get(i).getFill() == Color.TRANSPARENT) {
-                    cardsInHandRectangles.get(i).setFill(new ImagePattern(cardsInHand.get(i).getCardImage()));
-                }
-            } catch (Exception ignored) {
-                try {
-                    if (cardsInHand.get(i) == null)
-                        cardsInHandRectangles.get(i).setFill(Color.TRANSPARENT);
-                } catch (Exception ignore) {
-                }
-            }
-        }
         deckZone.remove(number - 1);
     }
 }

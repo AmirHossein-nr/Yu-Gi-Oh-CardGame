@@ -39,38 +39,38 @@ public class Game {
     public Rectangle battlePhasePlace;
     public Rectangle mainPhase2Place;
     public Rectangle endPhasePlace;
-    public Rectangle currentCard1;
-    public Rectangle currentCard6;
-    public Rectangle currentCard5;
-    public Rectangle currentCard4;
-    public Rectangle currentCard3;
-    public Rectangle currentCard2;
+    public CardRectangle currentCard1;
+    public CardRectangle currentCard6;
+    public CardRectangle currentCard5;
+    public CardRectangle currentCard4;
+    public CardRectangle currentCard3;
+    public CardRectangle currentCard2;
     public Button nextPhaseButton;
     public Rectangle selectedCardImage;
     public Label currentUsername;
     public Label currentFullName;
     public Label rivalUsername;
     public Label rivalFullName;
-    public Rectangle currentMonster1;
-    public Rectangle currentMonster2;
-    public Rectangle currentMonster3;
-    public Rectangle currentMonster4;
-    public Rectangle currentMonster5;
-    public Rectangle currentSpell1;
-    public Rectangle currentSpell2;
-    public Rectangle currentSpell3;
-    public Rectangle currentSpell4;
-    public Rectangle currentSpell5;
-    public Rectangle rivalMonster1;
-    public Rectangle rivalMonster2;
-    public Rectangle rivalMonster3;
-    public Rectangle rivalMonster4;
-    public Rectangle rivalMonster5;
-    public Rectangle rivalSpell1;
-    public Rectangle rivalSpell2;
-    public Rectangle rivalSpell3;
-    public Rectangle rivalSpell4;
-    public Rectangle rivalSpell5;
+    public CardRectangle currentMonster1;
+    public CardRectangle currentMonster2;
+    public CardRectangle currentMonster3;
+    public CardRectangle currentMonster4;
+    public CardRectangle currentMonster5;
+    public CardRectangle currentSpell1;
+    public CardRectangle currentSpell2;
+    public CardRectangle currentSpell3;
+    public CardRectangle currentSpell4;
+    public CardRectangle currentSpell5;
+    public CardRectangle rivalMonster1;
+    public CardRectangle rivalMonster2;
+    public CardRectangle rivalMonster3;
+    public CardRectangle rivalMonster4;
+    public CardRectangle rivalMonster5;
+    public CardRectangle rivalSpell1;
+    public CardRectangle rivalSpell2;
+    public CardRectangle rivalSpell3;
+    public CardRectangle rivalSpell4;
+    public CardRectangle rivalSpell5;
 
     public static Stage mainStage;
 
@@ -108,6 +108,7 @@ public class Game {
         selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
         selectedCardImage.setOpacity(1);
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+
         makeCardsOnBoardTransparent();
         initialiseAnimationsOfSelectCard();
         mouseDragControlling();
@@ -384,6 +385,35 @@ public class Game {
         currentCard6.setCursor(Cursor.HAND);
     }
 
+    private void clearTheWholeScene() {
+        currentCard1.setFill(Color.TRANSPARENT);
+        currentCard2.setFill(Color.TRANSPARENT);
+        currentCard3.setFill(Color.TRANSPARENT);
+        currentCard4.setFill(Color.TRANSPARENT);
+        currentCard5.setFill(Color.TRANSPARENT);
+        currentCard6.setFill(Color.TRANSPARENT);
+        currentSpell1.setFill(Color.TRANSPARENT);
+        currentSpell2.setFill(Color.TRANSPARENT);
+        currentSpell3.setFill(Color.TRANSPARENT);
+        currentSpell4.setFill(Color.TRANSPARENT);
+        currentSpell5.setFill(Color.TRANSPARENT);
+        currentMonster1.setFill(Color.TRANSPARENT);
+        currentMonster2.setFill(Color.TRANSPARENT);
+        currentMonster3.setFill(Color.TRANSPARENT);
+        currentMonster4.setFill(Color.TRANSPARENT);
+        currentMonster5.setFill(Color.TRANSPARENT);
+        rivalSpell1.setFill(Color.TRANSPARENT);
+        rivalSpell2.setFill(Color.TRANSPARENT);
+        rivalSpell3.setFill(Color.TRANSPARENT);
+        rivalSpell4.setFill(Color.TRANSPARENT);
+        rivalSpell5.setFill(Color.TRANSPARENT);
+        rivalMonster1.setFill(Color.TRANSPARENT);
+        rivalMonster2.setFill(Color.TRANSPARENT);
+        rivalMonster3.setFill(Color.TRANSPARENT);
+        rivalMonster4.setFill(Color.TRANSPARENT);
+        rivalMonster5.setFill(Color.TRANSPARENT);
+    }
+
     private void initialisingInHandCards() {
         currentCard1.setFill(Color.TRANSPARENT);
         currentCard2.setFill(Color.TRANSPARENT);
@@ -508,10 +538,10 @@ public class Game {
             }
             playFirstTurn();
             turn++;
-//            while (winnerOfDuel == null) {
-//                playTurn();
-//                turn++;
-//            }
+            while (winnerOfDuel == null) {
+                playTurn();
+                turn++;
+            }
             finishRound();
             round++;
 
@@ -519,6 +549,7 @@ public class Game {
                 takeABreak();
             }
         }
+
     }
 
     private void takeABreak() {
@@ -676,9 +707,8 @@ public class Game {
     }
 
     private void printBoard() {
-//        StringBuilder board = new StringBuilder();
-//        boardString(board);
-//        System.out.println(board);
+
+
     }
 
     public StringBuilder boardString(StringBuilder board) {
@@ -775,12 +805,12 @@ public class Game {
     }
 
     private void resetPlayersAttributes(User user) {
+        clearTheWholeScene();
         attackedCards.clear();
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
         specialSummonedCards.clear();
-        initialisingInHandCards();
         setBoards(loggedUser, rivalUser);
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
@@ -791,9 +821,37 @@ public class Game {
         for (int i = 0; i < 6; i++) {
             drawCard(user);
         }
-        updateCardsInHand();
+        showCardsInHand();
         winnerOfDuel = null;
         turn = 1;
+    }
+
+    private void showCardsInHand() {
+        //todo attack /defense image
+        if (currentUser.getBoard().getCardsInHand().get(0) != null) {
+            currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
+            currentCard1.fillCard();
+        }
+        if (currentUser.getBoard().getCardsInHand().get(1) != null) {
+            currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
+            currentCard2.fillCard();
+        }
+        if (currentUser.getBoard().getCardsInHand().get(2) != null) {
+            currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
+            currentCard3.fillCard();
+        }
+        if (currentUser.getBoard().getCardsInHand().get(3) != null) {
+            currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
+            currentCard4.fillCard();
+        }
+        if (currentUser.getBoard().getCardsInHand().get(4) != null) {
+            currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
+            currentCard5.fillCard();
+        }
+        if (currentUser.getBoard().getCardsInHand().get(5) != null) {
+            currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
+            currentCard6.fillCard();
+        }
     }
 
     private void shuffleDeckZones() {
@@ -846,10 +904,12 @@ public class Game {
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
-        initialisingInHandCards();
-        updateCardsInHand();
-        setMonsterZoneRectangles();
-        setSpellZoneRectangles();
+        clearTheWholeScene();
+        arrangeRivalBoard();
+    }
+
+    private void arrangeRivalBoard() {
+
     }
 
     private void select(Matcher matcher) {
@@ -907,9 +967,8 @@ public class Game {
     }
 
     public void drawPhaseRun() {
-        updateCardsInHand();
         currentPhase = Phase.DRAW;
-        if (turn == 2 || turn == 1) {
+        if (turn == 2) {
             for (int i = 0; i < 5; i++) {
                 drawCard(currentUser);
             }
@@ -921,6 +980,7 @@ public class Game {
         } else {
             drawCard(currentUser);
         }
+        updateCardsInHand();
 //            if (input.equals("select -d")) {
 //                deselectCard();
 //            } else if (input.startsWith("select")) {
@@ -966,7 +1026,6 @@ public class Game {
     }
 
     public void drawCard(User user) {
-        Card card = user.getBoard().getDeckZone().get(0);
         user.getBoard().addCardFromDeckToHand(1);
     }
 
@@ -2295,6 +2354,7 @@ public class Game {
         changeTurn();
         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
                 "its " + currentUser.getNickName() + "’s turn");
+
     }
 
     public Phase getCurrentPhase() {
