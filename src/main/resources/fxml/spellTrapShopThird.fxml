@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane opacity="1" prefHeight="655.0" prefWidth="1171.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.SpellTrapShopThird">
+   <children>
+      <ImageView fitHeight="662.0" fitWidth="1179.0" layoutX="-12.0" layoutY="-1.0">
+         <image>
+            <Image url="@../images/menuBackGroundBlurred.jpg" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="38.0" layoutY="45.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="38.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="270.0" layoutY="45.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="270.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="508.0" layoutY="45.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="508.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="755.0" layoutY="45.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="755.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+      <Button layoutX="86.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="86.0" layoutY="601.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="318.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="318.0" layoutY="601.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="556.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="559.0" layoutY="601.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="803.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="803.0" layoutY="601.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+         <font>
+            <Font name="Harlow Solid Italic" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="1012.0" layoutY="272.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="85.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="next page">
+         <font>
+            <Font name="Harlow Solid Italic" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="1012.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="85.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="previous">
+         <font>
+            <Font name="Harlow Solid Italic" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <Button layoutX="1012.0" layoutY="383.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="85.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="back">
+         <font>
+            <Font name="Harlow Solid Italic" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="38.0" layoutY="45.0">
+         <image>
+            <Image url="@../images/SpellTrap/Negate Attack.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="38.0" layoutY="371.0">
+         <image>
+            <Image url="@../images/SpellTrap/Pot Of Greed.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="270.0" layoutY="45.0">
+         <image>
+            <Image url="@../images/SpellTrap/Raigeki.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="270.0" layoutY="371.0">
+         <image>
+            <Image url="@../images/SpellTrap/Ring Of Defense.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="508.0" layoutY="45.0">
+         <image>
+            <Image url="@../images/SpellTrap/Solemn Warning.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="159.0" layoutX="508.0" layoutY="371.0">
+         <image>
+            <Image url="@../images/SpellTrap/Spell Absorption.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="755.0" layoutY="45.0">
+         <image>
+            <Image url="@../images/SpellTrap/Supply Squad.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="755.0" layoutY="371.0">
+         <image>
+            <Image url="@../images/SpellTrap/Sword Of Dark Destruction.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

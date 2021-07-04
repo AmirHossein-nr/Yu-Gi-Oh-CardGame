@@ -2,10 +2,19 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.User;
+import View.GUI.MainMenuGraphic;
+import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 
 public class Profile extends Menu {
+    public static Stage mainStage;
+
+    public Profile () {
+        super("Profile Menu", null);
+    }
+
     public Profile(Menu parentMenu) {
         super("Profile Menu", parentMenu);
     }
@@ -64,4 +73,9 @@ public class Profile extends Menu {
         return string.replaceAll("(\\s)+", " ");
     }
 
+    public void backToMainMenu(ActionEvent actionEvent) throws Exception {
+        MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
+        mainMenuGraphic.start(mainStage);
+
+    }
 }
