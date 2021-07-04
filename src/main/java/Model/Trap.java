@@ -1,6 +1,10 @@
 package Model;
 
+import Model.Effects.Counter.MagicCylinder;
+import Model.Effects.Counter.MagicJammer;
+import Model.Effects.Counter.NegateAttack;
 import Model.Effects.Effect;
+import Model.Effects.NormalTrap.MirrorForce;
 import Model.Effects.falseEffect;
 
 public class Trap extends Card {
@@ -47,7 +51,17 @@ public class Trap extends Card {
     }
 
     public void giveEffect() {
-        effect = new falseEffect(this);
+        if (this.getName().equals("Mirror Force")) {
+            setEffect(new MirrorForce(this));
+        } else if (this.getName().equals("Magic Cylinder")) {
+            setEffect(new MagicCylinder(this));
+        } else if (this.getName().equals("Negate Attack")) {
+            setEffect(new NegateAttack(this));
+        } else if (this.getName().equals("Magic Jammer")) {
+            setEffect(new MagicJammer(this));
+        } else {
+            setEffect(new falseEffect(this));
+        }
     }
 
     @Override
