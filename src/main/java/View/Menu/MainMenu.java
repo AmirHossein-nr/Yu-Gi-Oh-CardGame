@@ -1,11 +1,21 @@
 package View.Menu;
 
 import Controller.Regex;
+import View.GUI.ProfileGraphic;
+import View.GUI.ScoreBoardGraphic;
+import View.GUI.SignUpAndLoginGraphic;
+import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
+    public static Stage mainStage;
+
+    public MainMenu () {
+        super("Main Menu", null);
+    }
 
     public MainMenu(Menu parentMenu) {
         super("Main Menu", parentMenu);
@@ -46,5 +56,4 @@ public class MainMenu extends Menu {
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
     }
-
 }

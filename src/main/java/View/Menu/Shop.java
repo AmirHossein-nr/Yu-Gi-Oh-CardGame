@@ -3,8 +3,16 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 import View.GUI.GamePlay;
+import View.GUI.MainMenuGraphic;
 import com.opencsv.CSVReader;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -19,11 +27,15 @@ import java.util.regex.Matcher;
 
 public class Shop extends Menu {
     private static ArrayList<Card> allCards;
+    public static Stage mainStage;
 
     static {
         allCards = new ArrayList<>();
     }
 
+    public Shop () {
+        super("Shop Menu", null);
+    }
 
     public Shop(Menu parentMenu) {
         super("Shop Menu", parentMenu);
@@ -307,5 +319,40 @@ public class Shop extends Menu {
         return null;
     }
 
+    public void backToMainMenu(ActionEvent actionEvent) throws Exception {
+        MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
+        mainMenuGraphic.start(mainStage);
+    }
+
+    public void openSpellTrapShopFirst(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopFirst.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        scene.getStylesheets().add("src/main/resources/Css/backgroundOpacity.css");
+        mainStage.show();
+    }
+
+    @FXML
+    public void openMonsterShopFirst(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopFirst.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openMonsterShopSecond () throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopSecond.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.setTitle("YU-GI-OH");
+        String css = this.getClass().getResource("/Css/shop.css").toExternalForm();
+        scene.getStylesheets().add(css);
+        mainStage.show();
+    }
 }
 

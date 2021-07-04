@@ -2,10 +2,17 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.User;
+import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 
 public class ScoreBoard extends Menu {
+    public static Stage mainStage;
+
+    public ScoreBoard () {
+        super("ScoreBoard Menu", null);
+    }
+
     public ScoreBoard(Menu parentMenu) {
         super("ScoreBoard Menu", parentMenu);
     }
