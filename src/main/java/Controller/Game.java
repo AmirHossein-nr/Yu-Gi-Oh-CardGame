@@ -7,7 +7,6 @@ import View.GUI.GamePlay;
 import View.Menu.Shop;
 import animatefx.animation.*;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
@@ -15,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -24,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -62,7 +61,16 @@ public class Game {
     public Rectangle currentSpell3;
     public Rectangle currentSpell4;
     public Rectangle currentSpell5;
-    public AnchorPane backOfMainBoard;
+    public Rectangle rivalMonster1;
+    public Rectangle rivalMonster2;
+    public Rectangle rivalMonster3;
+    public Rectangle rivalMonster4;
+    public Rectangle rivalMonster5;
+    public Rectangle rivalSpell1;
+    public Rectangle rivalSpell2;
+    public Rectangle rivalSpell3;
+    public Rectangle rivalSpell4;
+    public Rectangle rivalSpell5;
 
     public static Stage mainStage;
 
@@ -92,9 +100,6 @@ public class Game {
     boolean isSuijin = false;
     private Timeline timeline = new Timeline();
 
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
-
     @FXML
     public void initialize() {
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
@@ -102,27 +107,42 @@ public class Game {
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
         selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
         selectedCardImage.setOpacity(1);
-        pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                GamePlay.pauseButtonExecution();
-            }
-        });
+        pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+        makeCardsOnBoardTransparent();
         initialiseAnimationsOfSelectCard();
         mouseDragControlling();
-
+        onMouseHoverForCardsOnBoard();
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
-        nextPhaseButton.setOnMouseClicked(event -> {
-            nextPhase();
-        });
-        makeHandCardsNull();
+        nextPhaseButton.setOnMouseClicked(event -> nextPhase());
+        initialisingInHandCards();
         drawPhasePlace.setFill(Color.GREEN);
     }
 
-    private void mouseDragControlling() {
-        boolean[] intersects = new boolean[1];
+    private void makeCardsOnBoardTransparent() {
+        currentMonster1.setFill(Color.TRANSPARENT);
+        currentMonster2.setFill(Color.TRANSPARENT);
+        currentMonster3.setFill(Color.TRANSPARENT);
+        currentMonster4.setFill(Color.TRANSPARENT);
+        currentMonster5.setFill(Color.TRANSPARENT);
+        rivalMonster1.setFill(Color.TRANSPARENT);
+        rivalMonster2.setFill(Color.TRANSPARENT);
+        rivalMonster3.setFill(Color.TRANSPARENT);
+        rivalMonster4.setFill(Color.TRANSPARENT);
+        rivalMonster5.setFill(Color.TRANSPARENT);
+        currentSpell1.setFill(Color.TRANSPARENT);
+        currentSpell2.setFill(Color.TRANSPARENT);
+        currentSpell3.setFill(Color.TRANSPARENT);
+        currentSpell4.setFill(Color.TRANSPARENT);
+        currentSpell5.setFill(Color.TRANSPARENT);
+        rivalSpell1.setFill(Color.TRANSPARENT);
+        rivalSpell2.setFill(Color.TRANSPARENT);
+        rivalSpell3.setFill(Color.TRANSPARENT);
+        rivalSpell4.setFill(Color.TRANSPARENT);
+        rivalSpell5.setFill(Color.TRANSPARENT);
+    }
 
+    private void mouseDragControlling() {
         dragEventForCards(currentCard1, currentCard2, currentCard3);
         dragEventForCards(currentCard4, currentCard5, currentCard6);
     }
@@ -137,80 +157,176 @@ public class Game {
         x[2] = currentCard6.getX();
         y[2] = currentCard6.getY();
 
-        currentCard4.setOnMouseDragged((MouseEvent me) -> {
-            double diffX = me.getX() - currentCard4.getWidth() / 2;
-            double diffY = me.getY() - currentCard4.getHeight() / 2;
-            currentCard4.setX(diffX);
-            currentCard4.setY(diffY);
-        });
-        currentCard5.setOnMouseDragged((MouseEvent me) -> {
-            double diffX = me.getX() - currentCard5.getWidth() / 2;
-            double diffY = me.getY() - currentCard5.getHeight() / 2;
-            currentCard5.setX(diffX);
-            currentCard5.setY(diffY);
-        });
-        currentCard6.setOnMouseDragged((MouseEvent me) -> {
-            double diffX = me.getX() - currentCard6.getWidth() / 2;
-            double diffY = me.getY() - currentCard6.getHeight() / 2;
-            currentCard6.setX(diffX);
-            currentCard6.setY(diffY);
-        });
-        currentCard4.setOnMouseExited(event -> {
+        if (currentCard4.getFill() != Color.TRANSPARENT)
+            currentCard4.setOnMouseDragged((MouseEvent me) -> {
+                double diffX = me.getX() - currentCard4.getWidth() / 2;
+                double diffY = me.getY() - currentCard4.getHeight() / 2;
+                currentCard4.setX(diffX);
+                currentCard4.setY(diffY);
+            });
+        if (currentCard5.getFill() != Color.TRANSPARENT)
+            currentCard5.setOnMouseDragged((MouseEvent me) -> {
+                double diffX = me.getX() - currentCard5.getWidth() / 2;
+                double diffY = me.getY() - currentCard5.getHeight() / 2;
+                currentCard5.setX(diffX);
+                currentCard5.setY(diffY);
+            });
+        if (currentCard6.getFill() != Color.TRANSPARENT)
+            currentCard6.setOnMouseDragged((MouseEvent me) -> {
+                double diffX = me.getX() - currentCard6.getWidth() / 2;
+                double diffY = me.getY() - currentCard6.getHeight() / 2;
+                currentCard6.setX(diffX);
+                currentCard6.setY(diffY);
+            });
+        mouseReleaseControl(currentCard4, x[0], y[0]);
+        mouseReleaseControl(currentCard5, x[1], y[1]);
+        mouseReleaseControl(currentCard6, x[2], y[2]);
+    }
+
+    private void mouseReleaseControl(Rectangle currentCard4, double x, double value) {
+        currentCard4.setOnMouseReleased(event -> {
             if (currentCard4.getBoundsInParent().intersects(currentMonster1.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster1.getFill() == Color.TRANSPARENT) {
                     currentMonster1.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentMonster2.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster2.getFill() == Color.TRANSPARENT) {
                     currentMonster2.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentMonster3.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster3.getFill() == Color.TRANSPARENT) {
                     currentMonster3.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentMonster4.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster4.getFill() == Color.TRANSPARENT) {
                     currentMonster4.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentMonster5.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster5.getFill() == Color.TRANSPARENT) {
                     currentMonster5.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentSpell1.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell1.getFill() == Color.TRANSPARENT) {
                     currentSpell1.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
-            } else if (currentCard4.getBoundsInLocal().intersects(currentSpell2.getBoundsInLocal())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell2.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell2.getFill() == Color.TRANSPARENT) {
                     currentSpell2.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
-            } else if (currentCard4.getBoundsInLocal().intersects(currentSpell3.getBoundsInLocal())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell3.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell3.getFill() == Color.TRANSPARENT) {
                     currentSpell3.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentSpell4.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell4.getFill() == Color.TRANSPARENT) {
                     currentSpell4.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (currentCard4.getBoundsInParent().intersects(currentSpell5.getBoundsInParent())) {
-                if (currentCard4.getFill() != Color.TRANSPARENT)
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell5.getFill() == Color.TRANSPARENT) {
                     currentSpell5.setFill(currentCard4.getFill());
-                currentCard4.setFill(Color.TRANSPARENT);
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
             }
-            currentCard4.setX(x[0]);
-            currentCard4.setY(y[0]);
+            currentCard4.setX(x);
+            currentCard4.setY(value);
         });
-        currentCard5.setOnMouseExited(event ->
+    }
 
-        {
-            currentCard5.setX(x[1]);
-            currentCard5.setY(y[1]);
+    private void onMouseHoverForCardsOnBoard() {
+        mouseHoverControl(currentMonster1);
+        mouseHoverControl(currentMonster2);
+        mouseHoverControl(currentMonster3);
+        mouseHoverControl(currentMonster4);
+        mouseHoverControl(currentMonster5);
+        mouseHoverControl(rivalMonster1);
+        mouseHoverControl(rivalMonster2);
+        mouseHoverControl(rivalMonster3);
+        mouseHoverControl(rivalMonster4);
+        mouseHoverControl(rivalMonster5);
+        mouseHoverControl(currentSpell1);
+        mouseHoverControl(currentSpell2);
+        mouseHoverControl(currentSpell3);
+        mouseHoverControl(currentSpell4);
+        mouseHoverControl(currentSpell5);
+        mouseHoverControl(rivalSpell1);
+        mouseHoverControl(rivalSpell2);
+        mouseHoverControl(rivalSpell3);
+        mouseHoverControl(rivalSpell4);
+        mouseHoverControl(rivalSpell5);
+    }
+
+    private void mouseHoverControl(Rectangle rectangle) {
+        rectangle.setOnMouseEntered(event -> {
+            if (rectangle.getFill() != Color.TRANSPARENT) {
+                selectedCardImage.setFill(rectangle.getFill());
+                new FlipInX(selectedCardImage).play();
+            }
         });
-        currentCard6.setOnMouseExited(event ->
-
-        {
-            currentCard6.setX(x[2]);
-            currentCard6.setY(y[2]);
+        rectangle.setOnMouseExited(event -> {
+            new FlipOutY(selectedCardImage).play();
+            selectedCardImage.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                    .getResource("/images/backCard.jpg"))
+                    .toExternalForm())));
+            new FlipInY(selectedCardImage).play();
         });
     }
 
@@ -236,24 +352,29 @@ public class Game {
 
     private void setAnimations1(Rectangle currentCard1, Rectangle currentCard2, Rectangle currentCard3) {
         currentCard1.setOnMouseExited(event -> {
-            new FlipOutX(selectedCardImage);
+            new FlipOutX(selectedCardImage).play();
             selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+            new FlipInX(selectedCardImage).play();
         });
         currentCard2.setOnMouseEntered(event -> {
+            new FlipOutY(selectedCardImage).play();
             selectedCardImage.setFill(currentCard2.getFill());
             new FlipInY(selectedCardImage).play();
         });
         currentCard2.setOnMouseExited(event -> {
-            new FlipOutX(selectedCardImage);
+            new FlipOutX(selectedCardImage).play();
             selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+            new FlipInX(selectedCardImage).play();
         });
         currentCard3.setOnMouseEntered(event -> {
+            new FlipOutY(selectedCardImage).play();
             selectedCardImage.setFill(currentCard3.getFill());
             new FlipInY(selectedCardImage).play();
         });
         currentCard3.setOnMouseExited(event -> {
-            new FlipOutX(selectedCardImage);
+            new FlipOutX(selectedCardImage).play();
             selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+            new FlipInX(selectedCardImage).play();
         });
         currentCard1.setCursor(Cursor.HAND);
         currentCard2.setCursor(Cursor.HAND);
@@ -263,22 +384,43 @@ public class Game {
         currentCard6.setCursor(Cursor.HAND);
     }
 
-    private void makeHandCardsNull() {
+    private void initialisingInHandCards() {
         currentCard1.setFill(Color.TRANSPARENT);
         currentCard2.setFill(Color.TRANSPARENT);
         currentCard3.setFill(Color.TRANSPARENT);
         currentCard4.setFill(Color.TRANSPARENT);
         currentCard5.setFill(Color.TRANSPARENT);
         currentCard6.setFill(Color.TRANSPARENT);
+        try {
+            currentUser.getBoard().getCardsInHandRectangles().set(0, currentCard1);
+            currentUser.getBoard().getCardsInHandRectangles().set(1, currentCard2);
+            currentUser.getBoard().getCardsInHandRectangles().set(2, currentCard3);
+            currentUser.getBoard().getCardsInHandRectangles().set(3, currentCard4);
+            currentUser.getBoard().getCardsInHandRectangles().set(4, currentCard5);
+            currentUser.getBoard().getCardsInHandRectangles().set(5, currentCard6);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void updateCardsInHand() {
+        for (int i = 0; i < 6; i++) {
+            try {
+                currentUser.getBoard().getCardsInHandRectangles().get(i).setFill(new ImagePattern(
+                        currentUser.getBoard().getCardsInHand().get(i).getCardImage()
+                ));
+            } catch (Exception e) {
+                currentUser.getBoard().getCardsInHandRectangles().get(i).setFill(Color.TRANSPARENT);
+            }
+        }
     }
 
     public void test() {
         User user1 = new User("amirhossein", "12345", "AmirHNR");
         User user2 = new User("mammad", "1234", "Mamali");
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
-        Shop shop = new Shop(null);
+        new Shop(null);
         for (int i = 0; i < 41; i++) {
-            deck.getMainDeck().getCardsInMainDeck().add(shop.getAllCards().get(i));
+            deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
         deck.setActive(true);
@@ -478,7 +620,7 @@ public class Game {
     }
 
     public void playTurn() {
-        setCardsInHandRectangles();
+
         if (clickedPhase == Phase.DRAW)
             drawPhaseRun();
         if (winnerOfDuel != null)
@@ -507,23 +649,34 @@ public class Game {
     }
 
     public void playFirstTurn() {
-        setCardsInHandRectangles();
+        initialisingInHandCards();
+        updateCardsInHand();
+        setMonsterZoneRectangles();
+        setSpellZoneRectangles();
         standbyPhaseRun();
         mainPhaseOneRun();
         endPhaseRun();
     }
 
-    private void setCardsInHandRectangles() {
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
+
+    private void setMonsterZoneRectangles() {
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster1);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster2);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster3);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster4);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster5);
+    }
+
+    private void setSpellZoneRectangles() {
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell1);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell2);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell3);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell4);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell5);
     }
 
     private void printBoard() {
-        StringBuilder board = new StringBuilder();
+//        StringBuilder board = new StringBuilder();
 //        boardString(board);
 //        System.out.println(board);
     }
@@ -627,7 +780,7 @@ public class Game {
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
         specialSummonedCards.clear();
-
+        initialisingInHandCards();
         setBoards(loggedUser, rivalUser);
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
@@ -638,6 +791,7 @@ public class Game {
         for (int i = 0; i < 6; i++) {
             drawCard(user);
         }
+        updateCardsInHand();
         winnerOfDuel = null;
         turn = 1;
     }
@@ -692,8 +846,10 @@ public class Game {
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
-        makeHandCardsNull();
-        setCardsInHandRectangles();
+        initialisingInHandCards();
+        updateCardsInHand();
+        setMonsterZoneRectangles();
+        setSpellZoneRectangles();
     }
 
     private void select(Matcher matcher) {
@@ -751,8 +907,9 @@ public class Game {
     }
 
     public void drawPhaseRun() {
+        updateCardsInHand();
         currentPhase = Phase.DRAW;
-        if (turn == 2) {
+        if (turn == 2 || turn == 1) {
             for (int i = 0; i < 5; i++) {
                 drawCard(currentUser);
             }

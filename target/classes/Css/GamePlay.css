@@ -130,3 +130,7 @@
 #nextPhaseButton {
     -fx-border-color: Transparent;
 }
+
+#selectedCardImage {
+    -fx-opacity: 1;
+}

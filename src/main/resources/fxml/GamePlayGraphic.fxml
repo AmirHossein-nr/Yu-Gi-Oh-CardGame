@@ -36,15 +36,15 @@
                 <Rectangle fx:id="currentCard1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="109.0"
                            layoutX="55.0" layoutY="578.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
                 <Rectangle fx:id="currentSpell5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
-                           layoutX="117.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                           layoutX="114.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
                 <Rectangle fx:id="currentSpell3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
-                           layoutX="192.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                           layoutX="188.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
                 <Rectangle fx:id="currentSpell1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
-                           layoutX="269.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                           layoutX="267.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
                 <Rectangle fx:id="currentSpell2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
-                           layoutX="346.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                           layoutX="344.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
                 <Rectangle fx:id="currentSpell4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
-                           layoutX="421.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
+                           layoutX="420.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
                 <Rectangle fx:id="currentMonster5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"
                            layoutX="117.0" layoutY="313.0" stroke="BLACK" strokeType="INSIDE" width="60.0"/>
                 <Rectangle fx:id="currentMonster3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="88.0"

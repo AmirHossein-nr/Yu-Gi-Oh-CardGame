@@ -1,9 +1,9 @@
 package Model;
 
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,12 +23,18 @@ public class Board {
     private ArrayList<Card> activatedSpellAbsorptions = new ArrayList<>();
     private ArrayList<Card> activatedSupplySquad = new ArrayList<>();
     private ArrayList<Card> suijinCards = new ArrayList<>();
-    private ArrayList<Rectangle> cardsInHandRectangle = new ArrayList<>();
+    private ArrayList<Rectangle> cardsInHandRectangles;
+    private ArrayList<Rectangle> graveYardRectangles;
+    private ArrayList<Rectangle> spellZoneRectangles;
+    private ArrayList<Rectangle> monsterZoneRectangles;
 
     public Board() {
 
         allCards = new ArrayList<>();
-        cardsInHandRectangle = new ArrayList<>();
+        cardsInHandRectangles = new ArrayList<>();
+        graveYardRectangles = new ArrayList<>();
+        spellZoneRectangles = new ArrayList<>();
+        monsterZoneRectangles = new ArrayList<>();
         monstersZone = new ArrayList<>();
         monstersZone.add(null);
         monstersZone.add(null);
@@ -44,7 +50,16 @@ public class Board {
         graveYard = new ArrayList<>();
         cardsInHand = new ArrayList<>();
         deckZone = new ArrayList<>();
+        makeCardsInHandRectangle();
+    }
 
+    private void makeCardsInHandRectangle() {
+        cardsInHandRectangles.add(null);
+        cardsInHandRectangles.add(null);
+        cardsInHandRectangles.add(null);
+        cardsInHandRectangles.add(null);
+        cardsInHandRectangles.add(null);
+        cardsInHandRectangles.add(null);
     }
 
     public void setZones() {
@@ -65,6 +80,22 @@ public class Board {
 
     public ArrayList<Card> getSuijinCards() {
         return suijinCards;
+    }
+
+    public ArrayList<Rectangle> getCardsInHandRectangles() {
+        return cardsInHandRectangles;
+    }
+
+    public ArrayList<Rectangle> getGraveYardRectangles() {
+        return graveYardRectangles;
+    }
+
+    public ArrayList<Rectangle> getMonsterZoneRectangles() {
+        return monsterZoneRectangles;
+    }
+
+    public ArrayList<Rectangle> getSpellZoneRectangles() {
+        return spellZoneRectangles;
     }
 
     public ArrayList<Card> getActivatedSpellAbsorptions() {
@@ -120,7 +151,7 @@ public class Board {
     }
 
     public ArrayList<Rectangle> getCardsInHandRectangle() {
-        return cardsInHandRectangle;
+        return cardsInHandRectangles;
     }
 
     public int numberOfMonstersOnBoard() {
@@ -146,12 +177,27 @@ public class Board {
     public void addCardFromDeckToHand(int number) {
         Card card = deckZone.get(number - 1);
         cardsInHand.add(card);
-        deckZone.remove(number - 1);
-        try {
-            for (int i = 0; i < 6; i++) {
-                cardsInHandRectangle.get(i).setFill(new ImagePattern(cardsInHand.get(i).getCardImage()));
+
+        for (Rectangle rectangle : cardsInHandRectangles) {
+            if (rectangle.getFill() == Color.TRANSPARENT) {
+                rectangle.setFill(new ImagePattern(card.getCardImage()));
+                break;
             }
-        } catch (Exception ignored) {
         }
+
+        for (int i = 0; i < 6; i++) {
+            try {
+                if (cardsInHandRectangles.get(i).getFill() == Color.TRANSPARENT) {
+                    cardsInHandRectangles.get(i).setFill(new ImagePattern(cardsInHand.get(i).getCardImage()));
+                }
+            } catch (Exception ignored) {
+                try {
+                    if (cardsInHand.get(i) == null)
+                        cardsInHandRectangles.get(i).setFill(Color.TRANSPARENT);
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        deckZone.remove(number - 1);
     }
 }
