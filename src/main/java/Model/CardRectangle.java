@@ -1,6 +1,5 @@
 package Model;
 
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -15,9 +14,9 @@ public class CardRectangle extends Rectangle {
     }
 
 
-    public void fillCard() {
+    public void fillCard(boolean inHand) {
         if (this.getRelatedCard() != null) {
-            if (this.getRelatedCard().getOccupied()) {
+            if (inHand || this.getRelatedCard().getOccupied()) {
                 this.setFill(new ImagePattern(relatedCard.getCardImage()));
             } else {
                 if (!this.getRelatedCard().getAttackPosition()) {

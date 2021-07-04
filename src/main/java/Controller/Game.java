@@ -436,18 +436,6 @@ public class Game {
         }
     }
 
-    private void updateCardsInHand() {
-        for (int i = 0; i < 6; i++) {
-            try {
-                currentUser.getBoard().getCardsInHandRectangles().get(i).setFill(new ImagePattern(
-                        currentUser.getBoard().getCardsInHand().get(i).getCardImage()
-                ));
-            } catch (Exception e) {
-                currentUser.getBoard().getCardsInHandRectangles().get(i).setFill(Color.TRANSPARENT);
-            }
-        }
-    }
-
     public void test() {
         User user1 = new User("amirhossein", "12345", "AmirHNR");
         User user2 = new User("mammad", "1234", "Mamali");
@@ -721,7 +709,7 @@ public class Game {
 
     public void playFirstTurn() {
         initialisingInHandCards();
-        updateCardsInHand();
+        showCardsInHand();
         setMonsterZoneRectangles();
         setSpellZoneRectangles();
         standbyPhaseRun();
@@ -870,27 +858,27 @@ public class Game {
         //todo attack /defense image
         if (currentUser.getBoard().getCardsInHand().get(0) != null) {
             currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
-            currentCard1.fillCard();
+            currentCard1.fillCard(true);
         }
         if (currentUser.getBoard().getCardsInHand().get(1) != null) {
             currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
-            currentCard2.fillCard();
+            currentCard2.fillCard(true);
         }
         if (currentUser.getBoard().getCardsInHand().get(2) != null) {
             currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
-            currentCard3.fillCard();
+            currentCard3.fillCard(true);
         }
         if (currentUser.getBoard().getCardsInHand().get(3) != null) {
             currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
-            currentCard4.fillCard();
+            currentCard4.fillCard(true);
         }
         if (currentUser.getBoard().getCardsInHand().get(4) != null) {
             currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
-            currentCard5.fillCard();
+            currentCard5.fillCard(true);
         }
         if (currentUser.getBoard().getCardsInHand().get(5) != null) {
             currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
-            currentCard6.fillCard();
+            currentCard6.fillCard(true);
         }
     }
 
@@ -950,6 +938,16 @@ public class Game {
 
     private void arrangeRivalBoard() {
 
+        if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0) != null) {
+            if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0).getOccupied()) {
+                rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
+                rivalMonster1.fillCard(true);
+            } else {
+                rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
+                rivalMonster1.setFill(new ImagePattern(new Image(getClass().getResource("/images/backCard.jpg")
+                        .toExternalForm())));
+            }
+        }
     }
 
     private void select(Matcher matcher) {
@@ -1020,7 +1018,7 @@ public class Game {
         } else {
             drawCard(currentUser);
         }
-        updateCardsInHand();
+        showCardsInHand();
 //            if (input.equals("select -d")) {
 //                deselectCard();
 //            } else if (input.startsWith("select")) {
