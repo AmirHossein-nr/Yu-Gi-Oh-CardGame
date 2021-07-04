@@ -2,6 +2,8 @@ package Model.Effects;
 
 import Model.Card;
 import Controller.Game;
+import Model.Spell;
+import Model.User;
 
 import java.util.Scanner;
 
@@ -11,6 +13,7 @@ public abstract class Effect {
 
     protected Card card;
     protected int speed;
+
 
     public Effect(Card card) {
         this.card = card;

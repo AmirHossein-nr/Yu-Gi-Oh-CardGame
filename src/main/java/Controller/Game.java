@@ -5,24 +5,24 @@ import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
-import animatefx.animation.FadeInDown;
-import animatefx.animation.FadeInDownBig;
-import animatefx.animation.FadeInUp;
-import animatefx.animation.FadeInUpBig;
-import javafx.event.EventHandler;
+import animatefx.animation.*;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -39,13 +39,42 @@ public class Game {
     public Rectangle battlePhasePlace;
     public Rectangle mainPhase2Place;
     public Rectangle endPhasePlace;
-    public Rectangle currentCard1;
-    public Rectangle currentCard6;
-    public Rectangle currentCard5;
-    public Rectangle currentCard4;
-    public Rectangle currentCard3;
-    public Rectangle currentCard2;
+    public CardRectangle currentCard1;
+    public CardRectangle currentCard6;
+    public CardRectangle currentCard5;
+    public CardRectangle currentCard4;
+    public CardRectangle currentCard3;
+    public CardRectangle currentCard2;
+    public Button nextPhaseButton;
+    public Rectangle selectedCardImage;
+    public Label currentUsername;
+    public Label currentFullName;
+    public Label rivalUsername;
+    public Label rivalFullName;
+    public CardRectangle currentMonster1;
+    public CardRectangle currentMonster2;
+    public CardRectangle currentMonster3;
+    public CardRectangle currentMonster4;
+    public CardRectangle currentMonster5;
+    public CardRectangle currentSpell1;
+    public CardRectangle currentSpell2;
+    public CardRectangle currentSpell3;
+    public CardRectangle currentSpell4;
+    public CardRectangle currentSpell5;
+    public CardRectangle rivalMonster1;
+    public CardRectangle rivalMonster2;
+    public CardRectangle rivalMonster3;
+    public CardRectangle rivalMonster4;
+    public CardRectangle rivalMonster5;
+    public CardRectangle rivalSpell1;
+    public CardRectangle rivalSpell2;
+    public CardRectangle rivalSpell3;
+    public CardRectangle rivalSpell4;
+    public CardRectangle rivalSpell5;
 
+    public static Stage mainStage;
+
+    private Phase clickedPhase = null;
     Scanner scanner;
     boolean playingWithAi = false;
     User loggedUser;
@@ -56,7 +85,7 @@ public class Game {
     int round = 1;
     int turn = 1;
     int temporaryValue = 0;
-    Phase currentPhase = Phase.DRAW;
+    Phase currentPhase = null;
     Card selectedCard;
     Card normalSummonOrSetCard = null;
     ArrayList<Card> putOnMonsterZoneCards = new ArrayList<>();
@@ -66,53 +95,372 @@ public class Game {
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
     ArrayList<Card> specialSummonedCards = new ArrayList<>();
+    boolean canSpeedOneBeActivated = false;
     boolean timeSealActivated = false;
     boolean declaredAttack = false;
+    boolean magicCylinderActivated = false;
+    boolean negateAttackActivated = false;
+    boolean mirrorForceActivated = false;
     boolean isSuijin = false;
+    private Timeline timeline = new Timeline();
 
     @FXML
     public void initialize() {
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
-        pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                GamePlay.pauseButtonExecution();
-            }
-        });
+        selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+        selectedCardImage.setOpacity(1);
+        pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+
+        makeCardsOnBoardTransparent();
+        initialiseAnimationsOfSelectCard();
+        mouseDragControlling();
+        onMouseHoverForCardsOnBoard();
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
-        makeHandCardsNull();
-        test();
+        nextPhaseButton.setOnMouseClicked(event -> nextPhase());
+        initialisingInHandCards();
+        drawPhasePlace.setFill(Color.GREEN);
     }
 
-    private void makeHandCardsNull() {
+    private void makeCardsOnBoardTransparent() {
+        currentMonster1.setFill(Color.TRANSPARENT);
+        currentMonster2.setFill(Color.TRANSPARENT);
+        currentMonster3.setFill(Color.TRANSPARENT);
+        currentMonster4.setFill(Color.TRANSPARENT);
+        currentMonster5.setFill(Color.TRANSPARENT);
+        rivalMonster1.setFill(Color.TRANSPARENT);
+        rivalMonster2.setFill(Color.TRANSPARENT);
+        rivalMonster3.setFill(Color.TRANSPARENT);
+        rivalMonster4.setFill(Color.TRANSPARENT);
+        rivalMonster5.setFill(Color.TRANSPARENT);
+        currentSpell1.setFill(Color.TRANSPARENT);
+        currentSpell2.setFill(Color.TRANSPARENT);
+        currentSpell3.setFill(Color.TRANSPARENT);
+        currentSpell4.setFill(Color.TRANSPARENT);
+        currentSpell5.setFill(Color.TRANSPARENT);
+        rivalSpell1.setFill(Color.TRANSPARENT);
+        rivalSpell2.setFill(Color.TRANSPARENT);
+        rivalSpell3.setFill(Color.TRANSPARENT);
+        rivalSpell4.setFill(Color.TRANSPARENT);
+        rivalSpell5.setFill(Color.TRANSPARENT);
+    }
+
+    private void mouseDragControlling() {
+        dragEventForCards(currentCard1, currentCard2, currentCard3);
+        dragEventForCards(currentCard4, currentCard5, currentCard6);
+    }
+
+    private void dragEventForCards(Rectangle currentCard4, Rectangle currentCard5, Rectangle currentCard6) {
+        double[] x = new double[3];
+        double[] y = new double[3];
+        x[0] = currentCard4.getX();
+        y[0] = currentCard4.getY();
+        x[1] = currentCard5.getX();
+        y[1] = currentCard5.getY();
+        x[2] = currentCard6.getX();
+        y[2] = currentCard6.getY();
+
+        if (currentCard4.getFill() != Color.TRANSPARENT)
+            currentCard4.setOnMouseDragged((MouseEvent me) -> {
+                double diffX = me.getX() - currentCard4.getWidth() / 2;
+                double diffY = me.getY() - currentCard4.getHeight() / 2;
+                currentCard4.setX(diffX);
+                currentCard4.setY(diffY);
+            });
+        if (currentCard5.getFill() != Color.TRANSPARENT)
+            currentCard5.setOnMouseDragged((MouseEvent me) -> {
+                double diffX = me.getX() - currentCard5.getWidth() / 2;
+                double diffY = me.getY() - currentCard5.getHeight() / 2;
+                currentCard5.setX(diffX);
+                currentCard5.setY(diffY);
+            });
+        if (currentCard6.getFill() != Color.TRANSPARENT)
+            currentCard6.setOnMouseDragged((MouseEvent me) -> {
+                double diffX = me.getX() - currentCard6.getWidth() / 2;
+                double diffY = me.getY() - currentCard6.getHeight() / 2;
+                currentCard6.setX(diffX);
+                currentCard6.setY(diffY);
+            });
+        mouseReleaseControl(currentCard4, x[0], y[0]);
+        mouseReleaseControl(currentCard5, x[1], y[1]);
+        mouseReleaseControl(currentCard6, x[2], y[2]);
+    }
+
+    private void mouseReleaseControl(Rectangle currentCard4, double x, double value) {
+        currentCard4.setOnMouseReleased(event -> {
+            if (currentCard4.getBoundsInParent().intersects(currentMonster1.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster1.getFill() == Color.TRANSPARENT) {
+                    currentMonster1.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster2.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster2.getFill() == Color.TRANSPARENT) {
+                    currentMonster2.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster3.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster3.getFill() == Color.TRANSPARENT) {
+                    currentMonster3.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster4.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster4.getFill() == Color.TRANSPARENT) {
+                    currentMonster4.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentMonster5.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster5.getFill() == Color.TRANSPARENT) {
+                    currentMonster5.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell1.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell1.getFill() == Color.TRANSPARENT) {
+                    currentSpell1.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell2.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell2.getFill() == Color.TRANSPARENT) {
+                    currentSpell2.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell3.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell3.getFill() == Color.TRANSPARENT) {
+                    currentSpell3.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell4.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell4.getFill() == Color.TRANSPARENT) {
+                    currentSpell4.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            } else if (currentCard4.getBoundsInParent().intersects(currentSpell5.getBoundsInParent())) {
+                if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell5.getFill() == Color.TRANSPARENT) {
+                    currentSpell5.setFill(currentCard4.getFill());
+                    currentCard4.setFill(Color.TRANSPARENT);
+                    try {
+                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
+                                .indexOf(currentCard4));
+                    } catch (Exception ignored) {
+                    }
+                }
+            }
+            currentCard4.setX(x);
+            currentCard4.setY(value);
+        });
+    }
+
+    private void onMouseHoverForCardsOnBoard() {
+        mouseHoverControl(currentMonster1);
+        mouseHoverControl(currentMonster2);
+        mouseHoverControl(currentMonster3);
+        mouseHoverControl(currentMonster4);
+        mouseHoverControl(currentMonster5);
+        mouseHoverControl(rivalMonster1);
+        mouseHoverControl(rivalMonster2);
+        mouseHoverControl(rivalMonster3);
+        mouseHoverControl(rivalMonster4);
+        mouseHoverControl(rivalMonster5);
+        mouseHoverControl(currentSpell1);
+        mouseHoverControl(currentSpell2);
+        mouseHoverControl(currentSpell3);
+        mouseHoverControl(currentSpell4);
+        mouseHoverControl(currentSpell5);
+        mouseHoverControl(rivalSpell1);
+        mouseHoverControl(rivalSpell2);
+        mouseHoverControl(rivalSpell3);
+        mouseHoverControl(rivalSpell4);
+        mouseHoverControl(rivalSpell5);
+    }
+
+    private void mouseHoverControl(Rectangle rectangle) {
+        rectangle.setOnMouseEntered(event -> {
+            if (rectangle.getFill() != Color.TRANSPARENT) {
+                selectedCardImage.setFill(rectangle.getFill());
+                new FlipInX(selectedCardImage).play();
+            }
+        });
+        rectangle.setOnMouseExited(event -> {
+            new FlipOutY(selectedCardImage).play();
+            selectedCardImage.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                    .getResource("/images/backCard.jpg"))
+                    .toExternalForm())));
+            new FlipInY(selectedCardImage).play();
+        });
+    }
+
+    public void initialiseLabelNames() {
+        rivalUsername.setText(getOpponentOfCurrentUser().getUsername());
+        rivalFullName.setText(getOpponentOfCurrentUser().getNickName());
+        currentUsername.setText(currentUser.getUsername());
+        currentFullName.setText(currentUser.getNickName());
+    }
+
+    private void initialiseAnimationsOfSelectCard() {
+        currentCard1.setOnMouseEntered(event -> {
+            selectedCardImage.setFill(currentCard1.getFill());
+            new FlipInX(selectedCardImage).play();
+        });
+        setAnimations1(currentCard1, currentCard2, currentCard3);
+        currentCard4.setOnMouseEntered(event -> {
+            selectedCardImage.setFill(currentCard4.getFill());
+            new FlipInY(selectedCardImage).play();
+        });
+        setAnimations1(currentCard4, currentCard5, currentCard6);
+    }
+
+    private void setAnimations1(Rectangle currentCard1, Rectangle currentCard2, Rectangle currentCard3) {
+        currentCard1.setOnMouseExited(event -> {
+            new FlipOutX(selectedCardImage).play();
+            selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+            new FlipInX(selectedCardImage).play();
+        });
+        currentCard2.setOnMouseEntered(event -> {
+            new FlipOutY(selectedCardImage).play();
+            selectedCardImage.setFill(currentCard2.getFill());
+            new FlipInY(selectedCardImage).play();
+        });
+        currentCard2.setOnMouseExited(event -> {
+            new FlipOutX(selectedCardImage).play();
+            selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+            new FlipInX(selectedCardImage).play();
+        });
+        currentCard3.setOnMouseEntered(event -> {
+            new FlipOutY(selectedCardImage).play();
+            selectedCardImage.setFill(currentCard3.getFill());
+            new FlipInY(selectedCardImage).play();
+        });
+        currentCard3.setOnMouseExited(event -> {
+            new FlipOutX(selectedCardImage).play();
+            selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
+            new FlipInX(selectedCardImage).play();
+        });
+        currentCard1.setCursor(Cursor.HAND);
+        currentCard2.setCursor(Cursor.HAND);
+        currentCard3.setCursor(Cursor.HAND);
+        currentCard4.setCursor(Cursor.HAND);
+        currentCard5.setCursor(Cursor.HAND);
+        currentCard6.setCursor(Cursor.HAND);
+    }
+
+    private void clearTheWholeScene() {
         currentCard1.setFill(Color.TRANSPARENT);
         currentCard2.setFill(Color.TRANSPARENT);
         currentCard3.setFill(Color.TRANSPARENT);
         currentCard4.setFill(Color.TRANSPARENT);
         currentCard5.setFill(Color.TRANSPARENT);
         currentCard6.setFill(Color.TRANSPARENT);
+        currentSpell1.setFill(Color.TRANSPARENT);
+        currentSpell2.setFill(Color.TRANSPARENT);
+        currentSpell3.setFill(Color.TRANSPARENT);
+        currentSpell4.setFill(Color.TRANSPARENT);
+        currentSpell5.setFill(Color.TRANSPARENT);
+        currentMonster1.setFill(Color.TRANSPARENT);
+        currentMonster2.setFill(Color.TRANSPARENT);
+        currentMonster3.setFill(Color.TRANSPARENT);
+        currentMonster4.setFill(Color.TRANSPARENT);
+        currentMonster5.setFill(Color.TRANSPARENT);
+        rivalSpell1.setFill(Color.TRANSPARENT);
+        rivalSpell2.setFill(Color.TRANSPARENT);
+        rivalSpell3.setFill(Color.TRANSPARENT);
+        rivalSpell4.setFill(Color.TRANSPARENT);
+        rivalSpell5.setFill(Color.TRANSPARENT);
+        rivalMonster1.setFill(Color.TRANSPARENT);
+        rivalMonster2.setFill(Color.TRANSPARENT);
+        rivalMonster3.setFill(Color.TRANSPARENT);
+        rivalMonster4.setFill(Color.TRANSPARENT);
+        rivalMonster5.setFill(Color.TRANSPARENT);
     }
 
-    private void test() {
+    private void initialisingInHandCards() {
+        currentCard1.setFill(Color.TRANSPARENT);
+        currentCard2.setFill(Color.TRANSPARENT);
+        currentCard3.setFill(Color.TRANSPARENT);
+        currentCard4.setFill(Color.TRANSPARENT);
+        currentCard5.setFill(Color.TRANSPARENT);
+        currentCard6.setFill(Color.TRANSPARENT);
+        try {
+            currentUser.getBoard().getCardsInHandRectangles().set(0, currentCard1);
+            currentUser.getBoard().getCardsInHandRectangles().set(1, currentCard2);
+            currentUser.getBoard().getCardsInHandRectangles().set(2, currentCard3);
+            currentUser.getBoard().getCardsInHandRectangles().set(3, currentCard4);
+            currentUser.getBoard().getCardsInHandRectangles().set(4, currentCard5);
+            currentUser.getBoard().getCardsInHandRectangles().set(5, currentCard6);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void test() {
         User user1 = new User("amirhossein", "12345", "AmirHNR");
         User user2 = new User("mammad", "1234", "Mamali");
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
-        Shop shop = new Shop(null);
+        new Shop(null);
         for (int i = 0; i < 41; i++) {
-            deck.getMainDeck().getCardsInMainDeck().add(shop.getAllCards().get(i));
+            deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
         deck.setActive(true);
         user1.getDecks().add(deck);
         user2.getDecks().add(deck);
+        Board board1 = new Board();
+        board1.setDeck(deck);
+        user1.setBoard(board1);
+        Board board2 = new Board();
+        board2.setDeck(deck);
+        user2.setBoard(board2);
+        user1.getBoard().setZones();
+        user2.getBoard().setZones();
         this.loggedUser = user1;
         this.currentUser = user1;
         this.rivalUser = user2;
         this.scanner = new Scanner(System.in);
-        this.run();
+        this.numberOfRounds = 1;
     }
 
     public Game() {
@@ -138,6 +486,42 @@ public class Game {
 
     public void setActivatedRitualCard(Spell activatedRitualCard) {
         this.activatedRitualCard = activatedRitualCard;
+    }
+
+    public void setMagicCylinderActivated(boolean magicCylinderActivated) {
+        this.magicCylinderActivated = magicCylinderActivated;
+    }
+
+    public boolean isMagicCylinderActivated() {
+        return magicCylinderActivated;
+    }
+
+    public boolean isNegateAttackActivated() {
+        return negateAttackActivated;
+    }
+
+    public boolean isMirrorForceActivated() {
+        return mirrorForceActivated;
+    }
+
+    public boolean isCanSpeedOneBeActivated() {
+        return canSpeedOneBeActivated;
+    }
+
+    public void setCanSpeedOneBeActivated(boolean canSpeedOneBeActivated) {
+        this.canSpeedOneBeActivated = canSpeedOneBeActivated;
+    }
+
+    public void setMirrorForceActivated(boolean mirrorForceActivated) {
+        this.mirrorForceActivated = mirrorForceActivated;
+    }
+
+    public void setNegateAttackActivated(boolean negateAttackActivated) {
+        this.negateAttackActivated = negateAttackActivated;
+    }
+
+    public void setDeclaredAttack(boolean declaredAttack) {
+        this.declaredAttack = declaredAttack;
     }
 
     public boolean isDeclaredAttack() {
@@ -188,11 +572,12 @@ public class Game {
             }
             finishRound();
             round++;
+
             if (numberOfRounds == 3 && round <= 3) {
                 takeABreak();
             }
         }
-        finishGame();
+
     }
 
     private void takeABreak() {
@@ -293,47 +678,65 @@ public class Game {
         loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
     }
 
-    private void playTurn() {
+    public void playTurn() {
 
-        drawPhaseRun();
+        if (clickedPhase == Phase.DRAW)
+            drawPhaseRun();
+        if (winnerOfDuel != null)
+            return;
+        if (clickedPhase == Phase.STANDBY)
+            standbyPhaseRun();
+        if (winnerOfDuel != null)
+            return;
+        if (clickedPhase == Phase.MAIN_ONE)
+            mainPhaseOneRun();
         if (winnerOfDuel != null)
             return;
 
+        if (clickedPhase == Phase.BATTLE)
+            battlePhaseRun();
+        if (winnerOfDuel != null)
+            return;
+
+        if (clickedPhase == Phase.MAIN_TWO)
+            mainPhaseTwoRun();
+        if (winnerOfDuel != null)
+            return;
+
+        if (clickedPhase == Phase.END)
+            endPhaseRun();
+    }
+
+    public void playFirstTurn() {
+        initialisingInHandCards();
+        showCardsInHand();
+        setMonsterZoneRectangles();
+        setSpellZoneRectangles();
         standbyPhaseRun();
-        if (winnerOfDuel != null)
-            return;
-
         mainPhaseOneRun();
-        if (winnerOfDuel != null)
-            return;
-
-        battlePhaseRun();
-        if (winnerOfDuel != null)
-            return;
-
-        mainPhaseTwoRun();
-        if (winnerOfDuel != null)
-            return;
-
         endPhaseRun();
     }
 
-    private void playFirstTurn() {
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
-        System.out.println(Phase.STANDBY);
-        mainPhaseOneRun();
-        endPhaseRun();
+
+    private void setMonsterZoneRectangles() {
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster1);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster2);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster3);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster4);
+        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster5);
+    }
+
+    private void setSpellZoneRectangles() {
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell1);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell2);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell3);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell4);
+        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell5);
     }
 
     private void printBoard() {
-        StringBuilder board = new StringBuilder();
-        boardString(board);
-        System.out.println(board);
+
+
     }
 
     public StringBuilder boardString(StringBuilder board) {
@@ -430,23 +833,53 @@ public class Game {
     }
 
     private void resetPlayersAttributes(User user) {
+        clearTheWholeScene();
         attackedCards.clear();
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
         specialSummonedCards.clear();
-
         setBoards(loggedUser, rivalUser);
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
         currentUser = user;
         shuffleDeckZones();
-        System.out.println(Phase.DRAW);
+        clickedPhase = Phase.DRAW;
+        drawPhasePlace.setFill(Color.GREEN);
         for (int i = 0; i < 6; i++) {
             drawCard(user);
         }
+        showCardsInHand();
         winnerOfDuel = null;
         turn = 1;
+    }
+
+    private void showCardsInHand() {
+        //todo attack /defense image
+        if (currentUser.getBoard().getCardsInHand().get(0) != null) {
+            currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
+            currentCard1.fillCard(true);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(1) != null) {
+            currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
+            currentCard2.fillCard(true);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(2) != null) {
+            currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
+            currentCard3.fillCard(true);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(3) != null) {
+            currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
+            currentCard4.fillCard(true);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(4) != null) {
+            currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
+            currentCard5.fillCard(true);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(5) != null) {
+            currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
+            currentCard6.fillCard(true);
+        }
     }
 
     private void shuffleDeckZones() {
@@ -499,13 +932,67 @@ public class Game {
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
-        makeHandCardsNull();
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard1);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard2);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard3);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard4);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard5);
-        currentUser.getBoard().getCardsInHandRectangle().add(currentCard6);
+        reArrangeBoards();
+        //salam();
+    }
+
+    private void salam() {
+        clearTheWholeScene();
+        arrangeRivalBoard();
+    }
+
+    private void reArrangeBoards() {
+        Card card;
+        if (currentUser.getBoard().getCardsInHand().get(0) != null) {
+            currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
+        } else {
+
+        }
+        if (currentUser.getBoard().getCardsInHand().get(1) != null) {
+            currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(2) != null) {
+            currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(3) != null) {
+            currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(4) != null) {
+            currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        if (currentUser.getBoard().getCardsInHand().get(5) != null) {
+            currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
+        } else {
+            currentCard3.setRelatedCard(null);
+        }
+        currentCard1.fillCard(true);
+        currentCard2.fillCard(true);
+        currentCard3.fillCard(true);
+        currentCard4.fillCard(true);
+        currentCard5.fillCard(true);
+        currentCard6.fillCard(true);
+    }
+
+    private void arrangeRivalBoard() {
+
+        if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0) != null) {
+            if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0).getOccupied()) {
+                rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
+                rivalMonster1.fillCard(true);
+            } else {
+                rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
+                rivalMonster1.setFill(new ImagePattern(new Image(getClass().getResource("/images/backCard.jpg")
+                        .toExternalForm())));
+            }
+        }
     }
 
     private void select(Matcher matcher) {
@@ -562,9 +1049,8 @@ public class Game {
         }
     }
 
-    private void drawPhaseRun() {
+    public void drawPhaseRun() {
         currentPhase = Phase.DRAW;
-        drawPhasePlace.setFill(Color.GREEN);
         if (turn == 2) {
             for (int i = 0; i < 5; i++) {
                 drawCard(currentUser);
@@ -573,61 +1059,45 @@ public class Game {
 
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
-            drawPhasePlace.setFill(Color.RED);
             return;
         } else {
             drawCard(currentUser);
         }
-
-        if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
-            drawPhasePlace.setFill(Color.RED);
-            return;
-        }
-        String input;
-        while (true) {
-            input = scanner.nextLine();
-            input = editSpaces(input);
-            if (input.equals("select -d")) {
-                deselectCard();
-            } else if (input.startsWith("select")) {
-                select(Regex.getMatcher(input, Regex.selectCard));
-            } else if (input.equals("next phase")) {
-                drawPhasePlace.setFill(Color.RED);
-                return;
-            } else if (input.equals("show graveyard")) {
-                showGraveyard();
-            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                showSelectedCard();
-            } else if (input.equals("surrender")) {
-                winnerOfDuel = getOpponentOfCurrentUser();
-                drawPhasePlace.setFill(Color.RED);
-                return;
-            } else if (input.equals("summon")) {
-                summon();
-            } else if (input.equals("set")) {
-                set();
-            } else if (input.matches(Regex.setPositionAttackDefence)) {
-                setPositionAttackDefense(input);
-            } else if (input.equals("flip-summon")) {
-                flipSummon();
-            } else if (input.matches(Regex.attack)) {
-                if (attack(input)) {
-                    drawPhasePlace.setFill(Color.RED);
-                    return;
-                }
-            } else if (input.equals("attack direct")) {
-                if (directAttack()) {
-                    drawPhasePlace.setFill(Color.RED);
-                    return;
-                }
-            } else if (input.equals("activate effect")) {
-                activateEffect();
-            } else {
-                System.out.println("invalid command");
-            }
-        }
-
-
+        showCardsInHand();
+//            if (input.equals("select -d")) {
+//                deselectCard();
+//            } else if (input.startsWith("select")) {
+//                select(Regex.getMatcher(input, Regex.selectCard));
+//            } else if (input.equals("next phase")) {
+//                return;
+//            } else if (input.equals("show graveyard")) {
+//                showGraveyard();
+//            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+//                showSelectedCard();
+//            } else if (input.equals("surrender")) {
+//                winnerOfDuel = getOpponentOfCurrentUser();
+//                return;
+//            } else if (input.equals("summon")) {
+//                summon();
+//            } else if (input.equals("set")) {
+//                set();
+//            } else if (input.matches(Regex.setPositionAttackDefence)) {
+//                setPositionAttackDefense(input);
+//            } else if (input.equals("flip-summon")) {
+//                flipSummon();
+//            } else if (input.matches(Regex.attack)) {
+//                if (attack(input)) {
+//                    return;
+//                }
+//            } else if (input.equals("attack direct")) {
+//                if (directAttack()) {
+//                    return;
+//                }
+//            } else if (input.equals("activate effect")) {
+//                activateEffect();
+//            } else {
+//                System.out.println("invalid command");
+//            }
     }
 
     private boolean canCurrentUserDraw() {
@@ -639,7 +1109,6 @@ public class Game {
     }
 
     public void drawCard(User user) {
-        Card card = user.getBoard().getDeckZone().get(0);
         user.getBoard().addCardFromDeckToHand(1);
     }
 
@@ -649,14 +1118,12 @@ public class Game {
 
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
-        standByPhasePlace.setFill(Color.GREEN);
-        heraldOfCreationActivation();
-        if (payForMessengerOfPeace()) {
-            standByPhasePlace.setFill(Color.RED);
-            return;
-        }
-        standByPhasePlace.setFill(Color.RED);
-        resetSupplySquads();
+//        heraldOfCreationActivation();
+//        if (payForMessengerOfPeace()) {
+//            standByPhasePlace.setFill(Color.RED);
+//            return;
+//        }
+//        resetSupplySquads();
     }
 
     private void resetSupplySquads() {
@@ -752,62 +1219,61 @@ public class Game {
 
     private void mainPhaseOneRun() {
         currentPhase = Phase.MAIN_ONE;
-        mainPhase1Place.setFill(Color.GREEN);
         runMainPhase();
-        mainPhase1Place.setFill(Color.RED);
     }
 
     private void runMainPhase() {
-        String input;
-        Matcher matcher;
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             ((AI) currentUser).setOnBoard();
             printBoard();
         } else {
-            while (true) {
-                printBoard();
-                input = scanner.nextLine();
-                input = editSpaces(input);
-                if (input.equals("select -d")) {
-                    deselectCard();
-                } else if (input.startsWith("select")) {
-                    select(Regex.getMatcher(input, Regex.selectCard));
-                } else if (input.equals("next phase")) {
-                    if (activatedRitualCard != null) {
-                        System.out.println("you should ritual summon right now");
-                    } else {
-                        return;
-                    }
-                } else if (input.equals("summon")) {
-                    summon();
-                } else if (input.equals("set")) {
-                    set();
-                } else if (input.matches(Regex.setPositionAttackDefence)) {
-                    setPositionAttackDefense(input);
-                } else if (input.equals("flip-summon")) {
-                    flipSummon();
-                } else if (input.equals("show graveyard")) {
-                    showGraveyard();
-                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                    showSelectedCard();
-                } else if (input.equals("surrender")) {
-                    winnerOfDuel = getOpponentOfCurrentUser();
-                    return;
-                } else if (input.matches(Regex.attack)) {
-                    if (attack(input)) {
-                        return;
-                    }
-                } else if (input.equals("attack direct")) {
-                    if (directAttack()) {
-                        return;
-                    }
-                } else if (input.equals("activate effect")) {
-                    activateEffect();
-                } else {
-                    System.out.println("invalid command");
-                }
+            printBoard();
+            if (clickedPhase == Phase.MAIN_ONE || clickedPhase == Phase.MAIN_TWO) {
+                if (activatedRitualCard != null) {
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Can't Execute !",
+                            "You Should Ritual Summon Right Now!");
+                } else return;
             }
+//                if (input.equals("select -d")) {
+//                    deselectCard();
+//                } else if (input.startsWith("select")) {
+//                    select(Regex.getMatcher(input, Regex.selectCard));
+//                } else if (clickedPhase == Phase.MAIN_ONE || clickedPhase == Phase.MAIN_TWO) {
+//                    if (activatedRitualCard != null) {
+//                        System.out.println("you should ritual summon right now");
+//                    } else {
+//                        return;
+//                    }
+//                } else if (input.equals("summon")) {
+//                    summon();
+//                } else if (input.equals("set")) {
+//                    set();
+//                } else if (input.matches(Regex.setPositionAttackDefence)) {
+//                    setPositionAttackDefense(input);
+//                } else if (input.equals("flip-summon")) {
+//                    flipSummon();
+//                } else if (input.equals("show graveyard")) {
+//                    showGraveyard();
+//                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+//                    showSelectedCard();
+//                } else if (input.equals("surrender")) {
+//                    winnerOfDuel = getOpponentOfCurrentUser();
+//                    return;
+//                } else if (input.matches(Regex.attack)) {
+//                    if (attack(input)) {
+//                        return;
+//                    }
+//                } else if (input.equals("attack direct")) {
+//                    if (directAttack()) {
+//                        return;
+//                    }
+//                } else if (input.equals("activate effect")) {
+//                    activateEffect();
+//                } else {
+//                    System.out.println("invalid command");
+//                }
         }
+
     }
 
     private void summon() {
@@ -1381,56 +1847,53 @@ public class Game {
 
     private void battlePhaseRun() {
         currentPhase = Phase.BATTLE;
-        battlePhasePlace.setFill(Color.GREEN);
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             attack(" ");
         } else {
-            String input;
-            while (true) {
-                printBoard();
-                input = scanner.nextLine();
-                input = editSpaces(input);
-                if (input.equals("select -d")) {
-                    deselectCard();
-                } else if (input.startsWith("select")) {
-                    select(Regex.getMatcher(input, Regex.selectCard));
-                } else if (input.equals("next phase")) {
-                    battlePhasePlace.setFill(Color.RED);
-                    return;
-                } else if (input.matches(Regex.attack)) {
-                    if (attack(input)) {
-                        battlePhasePlace.setFill(Color.RED);
-                        return;
-                    }
-                } else if (input.equals("show graveyard")) {
-                    showGraveyard();
-                } else if (input.equals("attack direct")) {
-                    if (directAttack()) {
-                        battlePhasePlace.setFill(Color.RED);
-                        return;
-                    }
-                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-                    showSelectedCard();
-                } else if (input.equals("surrender")) {
-                    winnerOfDuel = getOpponentOfCurrentUser();
-                    battlePhasePlace.setFill(Color.RED);
-                    return;
-                } else if (input.equals("summon")) {
-                    summon();
-                } else if (input.equals("set")) {
-                    set();
-                } else if (input.matches(Regex.setPositionAttackDefence)) {
-                    setPositionAttackDefense(input);
-                } else if (input.equals("flip-summon")) {
-                    flipSummon();
-                } else if (input.equals("activate effect")) {
-                    activateEffect();
-                } else {
-                    System.out.println("invalid command");
-                }
-            }
+            printBoard();
+            if (clickedPhase == Phase.BATTLE)
+                return;
+
+//                if (input.equals("select -d")) {
+//                    deselectCard();
+//                } else if (input.startsWith("select")) {
+//                    select(Regex.getMatcher(input, Regex.selectCard));
+//                } else if (input.equals("next phase")) {
+//                    battlePhasePlace.setFill(Color.RED);
+//                    return;
+//                } else if (input.matches(Regex.attack)) {
+//                    if (attack(input)) {
+//                        battlePhasePlace.setFill(Color.RED);
+//                        return;
+//                    }
+//                } else if (input.equals("show graveyard")) {
+//                    showGraveyard();
+//                } else if (input.equals("attack direct")) {
+//                    if (directAttack()) {
+//                        battlePhasePlace.setFill(Color.RED);
+//                        return;
+//                    }
+//                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
+//                    showSelectedCard();
+//                } else if (input.equals("surrender")) {
+//                    winnerOfDuel = getOpponentOfCurrentUser();
+//                    battlePhasePlace.setFill(Color.RED);
+//                    return;
+//                } else if (input.equals("summon")) {
+//                    summon();
+//                } else if (input.equals("set")) {
+//                    set();
+//                } else if (input.matches(Regex.setPositionAttackDefence)) {
+//                    setPositionAttackDefense(input);
+//                } else if (input.equals("flip-summon")) {
+//                    flipSummon();
+//                } else if (input.equals("activate effect")) {
+//                    activateEffect();
+//                } else {
+//                    System.out.println("invalid command");
+//                }
+
         }
-        battlePhasePlace.setFill(Color.RED);
     }
 
     private boolean attack(String input) { // return true if duel has winner and false if duel does not have winner
@@ -1459,6 +1922,28 @@ public class Game {
                     System.out.println("you cant attack this card yet");
                     return false;
                 }
+            }
+            new ChainController(this, scanner).run();
+            if (magicCylinderActivated) {
+                setMagicCylinderActivated(false);
+                System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+                currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
+                if (currentUser.getLifePoint() <= 0) {
+                    winnerOfDuel = getOpponentOfCurrentUser();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            if (negateAttackActivated) {
+                setNegateAttackActivated(false);
+                System.out.println("Negate Attack stopped the attack");
+                return false;
+            }
+            if (mirrorForceActivated) {
+                setMirrorForceActivated(false);
+                System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+                return false;
             }
             return doAttackAction(enemyCard, selectedMonster);
         }
@@ -1825,6 +2310,29 @@ public class Game {
                 return false;
             }
         }
+        Monster selectedMonster = (Monster) selectedCard;
+        new ChainController(this, scanner).run();
+        if (magicCylinderActivated) {
+            setMagicCylinderActivated(false);
+            System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+            currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
+            if (currentUser.getLifePoint() <= 0) {
+                winnerOfDuel = getOpponentOfCurrentUser();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (negateAttackActivated) {
+            setNegateAttackActivated(false);
+            System.out.println("Negate Attack stopped the attack");
+            return false;
+        }
+        if (mirrorForceActivated) {
+            setMirrorForceActivated(false);
+            System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+            return false;
+        }
 
         // before attack starts
 
@@ -1862,9 +2370,7 @@ public class Game {
 
     private void mainPhaseTwoRun() {
         currentPhase = Phase.MAIN_TWO;
-        mainPhase2Place.setFill(Color.GREEN);
         runMainPhase();
-        mainPhase2Place.setFill(Color.RED);
     }
 
     private void activateEffect() {
@@ -1916,8 +2422,8 @@ public class Game {
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
-        // activating the spells
-        ((Spell) chain.get(0)).getEffect().finalActivate(this);
+        // activating the spells and chain
+        new ChainController(this, scanner).run();
     }
 
     private void showGraveyard() {
@@ -1951,32 +2457,30 @@ public class Game {
     }
 
     private void endPhaseRun() {
-        int number = currentUser.getBoard().getCardsInHand().size();
-        if (number > 6) {
-            number -= 6;
-            while (currentUser.getBoard().getCardsInHand().size() > 6) {
-                System.out.println("you have to throw away " + number + "cards");
-                String numberString = editSpaces(scanner.nextLine());
-                if (numberString.matches("\\d+")) {
-                    int number1 = Integer.parseInt(numberString);
-                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
-                        System.out.println("enter a correct number");
-                    } else {
-                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
-                        currentUser.getBoard().getCardsInHand().remove(card);
-                        currentUser.getBoard().getGraveYard().add(card);
-                        number--;
-                    }
-                } else {
-                    System.out.println("enter a number");
-                }
-            }
-        }
+//        int number = currentUser.getBoard().getCardsInHand().size();
+//        if (number > 6) {
+//            number -= 6;
+//            while (currentUser.getBoard().getCardsInHand().size() > 6) {
+//                System.out.println("you have to throw away " + number + "cards");
+//                String numberString = editSpaces(scanner.nextLine());
+//                if (numberString.matches("\\d+")) {
+//                    int number1 = Integer.parseInt(numberString);
+//                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
+//                        System.out.println("enter a correct number");
+//                    } else {
+//                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
+//                        currentUser.getBoard().getCardsInHand().remove(card);
+//                        currentUser.getBoard().getGraveYard().add(card);
+//                        number--;
+//                    }
+//                } else {
+//                    System.out.println("enter a number");
+//                }
+//            }
+//        }
         currentPhase = Phase.END;
-        endPhasePlace.setFill(Color.GREEN);
-        changeTurn();
-        endPhasePlace.setFill(Color.RED);
-        System.out.println("its " + currentUser.getNickName() + "’s turn");
+
+
     }
 
     public Phase getCurrentPhase() {
@@ -2038,6 +2542,57 @@ public class Game {
 
         } else if (card instanceof Trap) {
             // destroy in chain
+        }
+    }
+
+    @FXML
+    public void nextPhase() {
+        initialiseLabelNames();
+        if (clickedPhase == null) {
+            currentPhase = Phase.DRAW;
+            drawPhaseRun();
+            drawPhasePlace.setFill(Color.RED);
+        }
+        if (currentPhase == Phase.DRAW) {
+            currentPhase = Phase.STANDBY;
+            standByPhasePlace.setFill(Color.GREEN);
+            standbyPhaseRun();
+            drawPhasePlace.setFill(Color.RED);
+            clickedPhase = Phase.DRAW;
+        } else if (currentPhase == Phase.STANDBY) {
+            currentPhase = Phase.MAIN_ONE;
+            mainPhase1Place.setFill(Color.GREEN);
+            mainPhaseOneRun();
+            standByPhasePlace.setFill(Color.RED);
+            clickedPhase = Phase.STANDBY;
+        } else if (currentPhase == Phase.MAIN_ONE) {
+            currentPhase = Phase.BATTLE;
+            battlePhasePlace.setFill(Color.GREEN);
+            battlePhaseRun();
+            mainPhase1Place.setFill(Color.RED);
+            clickedPhase = Phase.MAIN_ONE;
+        } else if (currentPhase == Phase.BATTLE) {
+            currentPhase = Phase.MAIN_TWO;
+            mainPhase2Place.setFill(Color.GREEN);
+            mainPhaseTwoRun();
+            battlePhasePlace.setFill(Color.RED);
+            clickedPhase = Phase.BATTLE;
+        } else if (currentPhase == Phase.MAIN_TWO) {
+            currentPhase = Phase.END;
+            endPhasePlace.setFill(Color.GREEN);
+            endPhaseRun();
+            turn++;
+            mainPhase2Place.setFill(Color.RED);
+            clickedPhase = Phase.MAIN_TWO;
+        } else {
+            changeTurn();
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
+                    "its " + currentUser.getNickName() + "’s turn");
+            currentPhase = Phase.DRAW;
+            drawPhasePlace.setFill(Color.GREEN);
+            endPhasePlace.setFill(Color.RED);
+            drawPhaseRun();
+            clickedPhase = Phase.END;
         }
     }
 }

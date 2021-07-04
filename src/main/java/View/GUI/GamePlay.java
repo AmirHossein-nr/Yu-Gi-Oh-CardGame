@@ -1,12 +1,15 @@
 package View.GUI;
 
+import Controller.Game;
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.BounceOutRight;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
@@ -22,7 +25,8 @@ import java.util.Objects;
 public class GamePlay extends Application {
 
     protected static Stage mainStage;
-    private static AnchorPane root;
+    public static AnchorPane root;
+    private static Game game;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -31,12 +35,30 @@ public class GamePlay extends Application {
                 ("/images/Icons/_images_item_bg00.png").toExternalForm()));
         primaryStage.setResizable(false);
         primaryStage.setTitle("Yu-Gi-OH!");
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/GamePlayGraphic.fxml")));
+        Game.mainStage = mainStage;
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass()
+                .getResource("/fxml/GamePlayGraphic.fxml")));
+        game = new Game();
+        loader.setController(game);
+        root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/Css/GamePlay.css");
         primaryStage.setScene(scene);
+        primaryStage.setOnShown(event -> {
+            Task task = new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    game.test();
+                    game.run();
+                    return null;
+                }
+            };
+            task.run();
+        });
         primaryStage.show();
+        game.initialiseLabelNames();
     }
+
 
     public static void pauseButtonExecution() {
         VBox pauseRoot = new VBox(20);
@@ -81,4 +103,10 @@ public class GamePlay extends Application {
         });
     }
 
+    public static void showAlert(Alert.AlertType alertType, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+    }
 }

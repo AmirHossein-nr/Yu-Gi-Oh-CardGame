@@ -7,12 +7,12 @@ import Model.Spell;
 import Model.Trap;
 import Model.User;
 
-public class MagicCylinder extends Effect {
+public class NegateAttack extends Effect {
 
     private User owner;
     private User enemy;
 
-    public MagicCylinder(Card card) {
+    public NegateAttack(Card card) {
         super(card);
         speed = 3;
     }
@@ -20,7 +20,7 @@ public class MagicCylinder extends Effect {
     @Override
     public boolean activate(Game game) {
         if (canBeActivated(game)) {
-            game.setMagicCylinderActivated(true);
+            game.setNegateAttackActivated(true);
             game.setDeclaredAttack(false);
             System.out.println("trap activated");
             game.addSpellOrTrapFromZoneToGraveyard(card, owner);

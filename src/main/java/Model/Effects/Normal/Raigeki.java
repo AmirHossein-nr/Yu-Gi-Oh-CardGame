@@ -22,6 +22,7 @@ public class Raigeki extends Effect {
                 }
             }
             System.out.println("spell activated");
+            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
             return true;
         } else {
             System.out.println("preparations of this spell are not done yet");
