@@ -194,6 +194,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster1.getFill() == Color.TRANSPARENT) {
                     currentMonster1.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentMonster1.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -204,6 +205,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster2.getFill() == Color.TRANSPARENT) {
                     currentMonster2.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentMonster2.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -214,6 +216,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster3.getFill() == Color.TRANSPARENT) {
                     currentMonster3.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentMonster3.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -223,6 +226,7 @@ public class Game {
             } else if (currentCard4.getBoundsInParent().intersects(currentMonster4.getBoundsInParent())) {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster4.getFill() == Color.TRANSPARENT) {
                     currentMonster4.setFill(currentCard4.getFill());
+                    currentUser.getBoard().getMonstersZone().remove(currentMonster4.getRelatedCard());
                     currentCard4.setFill(Color.TRANSPARENT);
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
@@ -234,6 +238,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster5.getFill() == Color.TRANSPARENT) {
                     currentMonster5.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentMonster5.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -244,6 +249,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell1.getFill() == Color.TRANSPARENT) {
                     currentSpell1.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentSpell1.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -254,6 +260,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell2.getFill() == Color.TRANSPARENT) {
                     currentSpell2.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentSpell2.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -264,6 +271,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell3.getFill() == Color.TRANSPARENT) {
                     currentSpell3.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentSpell3.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -274,6 +282,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell4.getFill() == Color.TRANSPARENT) {
                     currentSpell4.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentSpell4.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -284,6 +293,7 @@ public class Game {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentSpell5.getFill() == Color.TRANSPARENT) {
                     currentSpell5.setFill(currentCard4.getFill());
                     currentCard4.setFill(Color.TRANSPARENT);
+                    currentUser.getBoard().getMonstersZone().remove(currentSpell5.getRelatedCard());
                     try {
                         currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
                                 .indexOf(currentCard4));
@@ -2434,9 +2444,6 @@ public class Game {
 //            }
 //        }
         currentPhase = Phase.END;
-        changeTurn();
-        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
-                "its " + currentUser.getNickName() + "’s turn");
 
     }
 
@@ -2542,6 +2549,9 @@ public class Game {
             mainPhase2Place.setFill(Color.RED);
             clickedPhase = Phase.MAIN_TWO;
         } else {
+            changeTurn();
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
+                    "its " + currentUser.getNickName() + "’s turn");
             currentPhase = Phase.DRAW;
             drawPhasePlace.setFill(Color.GREEN);
             endPhasePlace.setFill(Color.RED);
