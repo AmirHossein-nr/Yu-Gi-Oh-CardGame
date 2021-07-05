@@ -1242,7 +1242,10 @@ public class Game {
                 drawCard(currentUser);
             }
         }
-
+        if (turn == 1) {
+            showCardsInHand(0);
+            return;
+        }
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
             return;
@@ -2815,6 +2818,13 @@ public class Game {
             mainPhaseOneRun();
             standByPhasePlace.setFill(Color.RED);
         } else if (currentPhase == Phase.MAIN_ONE) {
+            if (turn == 1) {
+                currentPhase = Phase.END;
+                endPhasePlace.setFill(Color.GREEN);
+                endPhaseRun();
+                mainPhase1Place.setFill(Color.RED);
+                return;
+            }
             currentPhase = Phase.BATTLE;
             battlePhasePlace.setFill(Color.GREEN);
             battlePhaseRun();
