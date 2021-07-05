@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 
@@ -33,7 +34,7 @@ public class Shop extends Menu {
         allCards = new ArrayList<>();
     }
 
-    public Shop () {
+    public Shop() {
         super("Shop Menu", null);
     }
 
@@ -202,8 +203,14 @@ public class Shop extends Menu {
 
     private void setImagesForSpellTraps(Card card, String name) {
         try {
-            card.setCardImage(new Image(GamePlay.class.getResource("/images/SpellTrap/" + name
-                    + ".jpg").toExternalForm()));
+            if (name.equals("Magic Jammer")) {
+                card.setCardImage(new Image(Objects.requireNonNull
+                        (GamePlay.class.getResource("/images/SpellTrap/Magic Jammer.png")).toExternalForm()));
+                return;
+            }
+            card.setCardImage(new Image(Objects.requireNonNull
+                    (GamePlay.class.getResource("/images/SpellTrap/" + name
+                            + ".jpg")).toExternalForm()));
         } catch (Exception e) {
             System.out.println(card.getName());
         }
@@ -344,7 +351,7 @@ public class Shop extends Menu {
         mainStage.show();
     }
 
-    public void openMonsterShopSecond () throws Exception{
+    public void openMonsterShopSecond() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopSecond.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -166,28 +167,42 @@ public class Game {
 
     private void graveYardOnClick() {
         graveYardIcon.setOnMouseClicked(event -> {
-            HBox box = new HBox(80);
+            HBox box = new HBox(50);
+            box.setAlignment(Pos.TOP_LEFT);
+            box.setPadding(new Insets(10));
+            GridPane gridPane = new GridPane();
+            gridPane.setLayoutX(0);
+            gridPane.setLayoutY(0);
+            box.getChildren().add(gridPane);
+            ArrayList<CardRectangle> cardRectangles = new ArrayList<>();
 
-            box.getChildren().add(new Label("Select Your" +
-                    "\n Choice !"));
-            box.setAlignment(Pos.CENTER);
-            box.setPadding(new Insets(300));
-            double initialX = 57;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < currentUser.getBoard().getGraveYard().size(); i++) {
                 CardRectangle rectangle = new CardRectangle();
-//                rectangle.setX(initialX + 30);
-//                rectangle.setY(500);
-//                new ImagePattern(currentUser.getBoard().getGraveYard().get(i).getCardImage())
-                rectangle.setWidth(77);
-                rectangle.setHeight(100);
-                rectangle.setFill(Color.WHITE);
+                rectangle.setWidth(90);
+                rectangle.setHeight(150);
+                rectangle.setFill(new ImagePattern(currentUser.getBoard().getGraveYard().get(i).getCardImage()));
+                rectangle.setRelatedCard(currentUser.getBoard().getGraveYard().get(i));
                 rectangle.setOnMouseClicked(event1 -> {
                     if (selectedCardInGraveYard != null) selectedCardInGraveYard.setStroke(Color.TRANSPARENT);
                     selectedCardInGraveYard = rectangle;
                     selectedCardInGraveYard.setStroke(Color.GOLD);
                 });
-                box.getChildren().add(rectangle);
+                cardRectangles.add(rectangle);
             }
+            int z = 0;
+
+            outer:
+            for (int i = 0; ; i++) {
+                for (int j = 0; j < 13; j++) {
+                    try {
+                        gridPane.add(cardRectangles.get(z), j, i);
+                        z++;
+                    } catch (Exception e) {
+                        break outer;
+                    }
+                }
+            }
+
             Button close = new Button("Close !");
             Stage popupStage = new Stage(StageStyle.TRANSPARENT);
             popupStage.initOwner(mainStage);
@@ -196,7 +211,7 @@ public class Game {
             question.getStylesheets().add("/Css/GamePlay.css");
             popupStage.setScene(question);
             close.setOnMouseClicked(event1 -> {
-                new FadeOut(box).play();
+                new FadeOutUp(box).play();
                 popupStage.hide();
             });
             box.getChildren().add(close);
@@ -204,8 +219,7 @@ public class Game {
             new FadeIn(box).play();
         });
     }
-
-
+    
     private void nextAndPreviousButtonsInitialize() {
         nextButton.setOnMouseClicked(event -> {
             if (index == currentUser.getBoard().getCardsInHand().size() - 6) return;
@@ -2896,7 +2910,6 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-        currentUser.getBoard().getGraveYard().add(Shop.getAllCards().get(42));
         if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;
