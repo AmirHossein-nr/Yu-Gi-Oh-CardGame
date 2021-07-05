@@ -570,6 +570,7 @@ public class Game {
     }
 
     private void clearTheWholeScene() {
+        // todo set cards null if needed
         currentCard1.setFill(Color.TRANSPARENT);
         currentCard2.setFill(Color.TRANSPARENT);
         currentCard3.setFill(Color.TRANSPARENT);
@@ -883,7 +884,8 @@ public class Game {
         showCardsInHand(0);
         showCardsInMonsterZone();
         showCardsInSpellZone();
-        arrangeRivalBoard();
+        arrangeRivalMonsters();
+        arrangeRivalSpellTrap();
     }
 
     public StringBuilder boardString(StringBuilder board) {
@@ -1150,7 +1152,7 @@ public class Game {
         turn++;
     }
 
-    private void arrangeRivalBoard() {
+    private void arrangeRivalMonsters() {
         try {
             rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
         } catch (Exception ignored) {
@@ -1176,6 +1178,34 @@ public class Game {
         } catch (Exception ignored) {
         }
         rivalMonster5.fillCard(false);
+    }
+
+    private void arrangeRivalSpellTrap() {
+        try {
+            rivalSpell1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(0));
+        } catch (Exception ignored) {
+        }
+        rivalSpell1.fillCard(false);
+        try {
+            rivalSpell2.setRelatedCard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(1));
+        } catch (Exception ignored) {
+        }
+        rivalSpell2.fillCard(false);
+        try {
+            rivalSpell3.setRelatedCard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(2));
+        } catch (Exception ignored) {
+        }
+        rivalSpell3.fillCard(false);
+        try {
+            rivalSpell4.setRelatedCard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(3));
+        } catch (Exception ignored) {
+        }
+        rivalSpell4.fillCard(false);
+        try {
+            rivalSpell5.setRelatedCard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(4));
+        } catch (Exception ignored) {
+        }
+        rivalSpell5.fillCard(false);
     }
 
     private void select(Matcher matcher) {
