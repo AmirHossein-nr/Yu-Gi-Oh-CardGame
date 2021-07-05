@@ -34,6 +34,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class Game {
+
     @FXML
     public Rectangle pauseButton;
     public Rectangle muteButton;
@@ -81,9 +82,12 @@ public class Game {
     public Rectangle summon;
     public Rectangle setAttack;
     public Rectangle changePosition;
+    public Rectangle nextButton;
+    public Rectangle previousButton;
 
     public static Stage mainStage;
 
+    private int index = 0;
     private Phase clickedPhase = null;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -138,7 +142,10 @@ public class Game {
         changePosition.setOnMouseClicked(event -> {
             showChangePositionPopUp();
         });
+        nextButton.setFill(new ImagePattern(new Image("/images/Icons/next.png")));
+        previousButton.setFill(new ImagePattern(new Image("/images/Icons/previous.png")));
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+        nextAndPreviousButtonsInitialize();
         clearTheWholeScene();
         initialiseAnimationsOfSelectCard();
         mouseDragControlling();
@@ -149,6 +156,24 @@ public class Game {
         new FadeInUp(currentAvatar).play();
         nextPhaseButton.setOnMouseClicked(event -> nextPhase());
         drawPhasePlace.setFill(Color.GREEN);
+    }
+
+
+    private void nextAndPreviousButtonsInitialize() {
+        nextButton.setOnMouseClicked(event -> {
+            if (index == currentUser.getBoard().getCardsInHand().size() - 6) return;
+            if (currentUser.getBoard().getCardsInHand().size() > 6) {
+                index++;
+                showCardsInHand(index);
+            }
+        });
+        previousButton.setOnMouseClicked(event -> {
+            if (index == 0) return;
+            if (currentUser.getBoard().getCardsInHand().size() > 6) {
+                index--;
+                showCardsInHand(index);
+            }
+        });
     }
 
     private void onMouseClickedForCardsInDeck() {
@@ -855,7 +880,7 @@ public class Game {
 
     private void printBoard() {
         clearTheWholeScene();
-        showCardsInHand();
+        showCardsInHand(0);
         showCardsInMonsterZone();
         showCardsInSpellZone();
         arrangeRivalBoard();
@@ -971,45 +996,44 @@ public class Game {
         for (int i = 0; i < 6; i++) {
             drawCard(user);
         }
-        showCardsInHand();
+        showCardsInHand(0);
         winnerOfDuel = null;
         turn = 1;
     }
 
-    private void showCardsInHand() {
-        //todo attack /defense image
+    private void showCardsInHand(int index) {
         try {
-            currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
+            currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(index));
         } catch (Exception ignored) {
             currentCard1.setRelatedCard(null);
         }
         currentCard1.fillCard(true);
         try {
-            currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
+            currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(index + 1));
         } catch (Exception ignored) {
             currentCard2.setRelatedCard(null);
         }
         currentCard2.fillCard(true);
         try {
-            currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
+            currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(index + 2));
         } catch (Exception ignored) {
             currentCard3.setRelatedCard(null);
         }
         currentCard3.fillCard(true);
         try {
-            currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
+            currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(index + 3));
         } catch (Exception ignored) {
             currentCard4.setRelatedCard(null);
         }
         currentCard4.fillCard(true);
         try {
-            currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
+            currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(index + 4));
         } catch (Exception ignored) {
             currentCard5.setRelatedCard(null);
         }
         currentCard5.fillCard(true);
         try {
-            currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
+            currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(index + 5));
         } catch (Exception ignored) {
             currentCard6.setRelatedCard(null);
         }
@@ -1222,7 +1246,7 @@ public class Game {
         } else {
             drawCard(currentUser);
         }
-        showCardsInHand();
+        showCardsInHand(0);
 //            if (input.equals("select -d")) {
 //                deselectCard();
 //            } else if (input.startsWith("select")) {

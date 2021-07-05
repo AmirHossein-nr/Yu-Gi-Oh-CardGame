@@ -48,6 +48,7 @@ public class CardRectangle extends Rectangle {
                 }
             }
         } else {
+            this.setRotate(0);
             this.setFill(Color.TRANSPARENT);
         }
     }
