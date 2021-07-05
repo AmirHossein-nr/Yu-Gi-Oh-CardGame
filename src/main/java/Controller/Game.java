@@ -8,17 +8,24 @@ import View.Menu.Shop;
 import animatefx.animation.*;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,6 +80,7 @@ public class Game {
     public CardRectangle rivalSpell5;
     public Rectangle summon;
     public Rectangle setAttack;
+    public Rectangle changePosition;
 
     public static Stage mainStage;
 
@@ -126,16 +134,114 @@ public class Game {
             set();
             printBoard();
         });
+        changePosition.setFill(new ImagePattern(new Image("/images/Icons/changePosition.png")));
+        changePosition.setOnMouseClicked(event -> {
+            showChangePositionPopUp();
+        });
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
         clearTheWholeScene();
         initialiseAnimationsOfSelectCard();
         mouseDragControlling();
         onMouseHoverForCardsOnBoard();
         onMouseClickedForCardsInHand();
+        onMouseClickedForCardsInDeck();
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
         nextPhaseButton.setOnMouseClicked(event -> nextPhase());
         drawPhasePlace.setFill(Color.GREEN);
+    }
+
+    private void onMouseClickedForCardsInDeck() {
+        currentMonster1.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentMonster1;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = selectedRectangle.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentMonster2.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentMonster2;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentMonster2.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentMonster3.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentMonster3;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentMonster3.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentMonster4.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentMonster4;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentMonster4.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentMonster5.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentMonster5;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentMonster5.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentSpell1.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentSpell1;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentSpell1.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentSpell2.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentSpell2;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentSpell2.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentSpell3.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentSpell3;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentSpell3.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentSpell4.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentSpell4;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentSpell4.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
+        currentSpell5.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentSpell5;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentSpell5.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
     }
 
     private void onMouseClickedForCardsInHand() {
@@ -1834,44 +1940,98 @@ public class Game {
         putOnSpellTrapZoneCards.add(spellOrTrap);
     }
 
+    private void showChangePositionPopUp() {
+        VBox box = new VBox(40);
+
+        box.getChildren().add(new Label("Select Your" +
+                "\n Choice !"));
+        box.setStyle("-fx-background-color: rgba(255,0,0,0.8);");
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(40));
+
+        Rectangle changeToAttack = new Rectangle(80, 80, new ImagePattern(new Image("/images/Icons/" +
+                "changeToAttack.png")));
+        Rectangle changeToDefense = new Rectangle(80, 80, new ImagePattern(new Image("/images/Icons/" +
+                "changeToDefense.png")));
+        box.getChildren().add(changeToAttack);
+        box.getChildren().add(changeToDefense);
+        Button cancel = new Button("Cancel");
+        box.getChildren().add(cancel);
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        popupStage.show();
+        new BounceInLeft(box).play();
+
+        cancel.setOnAction(event -> {
+            BounceOutRight right = new BounceOutRight(box);
+            right.setOnFinished(eventt -> {
+                popupStage.hide();
+            });
+            right.play();
+            mainStage.show();
+        });
+        changeToAttack.setOnMouseClicked(event -> {
+            popupStage.hide();
+            mainStage.show();
+            setPositionAttackDefense("attack");
+            printBoard();
+        });
+        changeToDefense.setOnMouseClicked(event -> {
+            popupStage.hide();
+            mainStage.show();
+            setPositionAttackDefense("defense");
+            printBoard();
+        });
+    }
+
     private void setPositionAttackDefense(String input) {
         if (changePosition()) return;
         if (!selectedCard.getOccupied()) {
-            System.out.println("you can’t change this card position");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
+                    "you can’t change this card position");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
-            System.out.println("action not allowed in this phase");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
+                    "action not allowed in this phase");
             return;
         }
-        String[] inputSplit = input.split("\\s");
-        String attackOrDefense = inputSplit[2];
-        if ((selectedCard.getAttackPosition() && attackOrDefense.equals("attack"))
-                || (!selectedCard.getAttackPosition() && attackOrDefense.equals("defense"))) {
-            System.out.println("this card is already in the wanted position");
+        if ((selectedCard.getAttackPosition() && input.equals("attack"))
+                || (!selectedCard.getAttackPosition() && input.equals("defense"))) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
+                    "this card is already in the wanted position");
             return;
         }
         if (setPositionedCards.contains(selectedCard)) {
-            System.out.println("you already changed this card position in this turn");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
+                    "you already changed this card position in this turn");
             return;
         }
-        selectedCard.setAttackPosition(attackOrDefense.equals("attack"));
-        System.out.println("monster card position changed successfully");
+        selectedCard.setAttackPosition(input.equals("attack"));
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Changed Successfully",
+                "monster card position changed successfully");
         setPositionedCards.add(selectedCard);
         selectedCard = null;
     }
 
     private boolean changePosition() {
         if (activatedRitualCard != null) {
-            System.out.println("you should ritual summon right now");
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "you should ritual summon right now");
             return true;
         }
         if (selectedCard == null) {
-            System.out.println("no card is selected yet");
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "no card is selected yet");
             return true;
         }
         if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
-            System.out.println("you can’t change this card position");
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "you can’t change this card position");
             return true;
         }
         return false;

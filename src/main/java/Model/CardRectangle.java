@@ -19,10 +19,15 @@ public class CardRectangle extends Rectangle {
 
     public void fillCard(boolean inHand) {
         if (this.getRelatedCard() != null) {
-            if (inHand || this.getRelatedCard().getOccupied()) {
-                if (this.getRelatedCard().getAttackPosition())
+            if (inHand)
+                this.setFill(new ImagePattern(relatedCard.getCardImage()));
+
+            else if (this.getRelatedCard().getOccupied()) {
+                if (this.getRelatedCard().getAttackPosition()) {
                     if (this.getRotate() > 0)
                         this.rotateProperty().set(0);
+                } else
+                    this.rotateProperty().set(90);
                 this.setFill(new ImagePattern(relatedCard.getCardImage()));
             } else {
                 // todo monster
