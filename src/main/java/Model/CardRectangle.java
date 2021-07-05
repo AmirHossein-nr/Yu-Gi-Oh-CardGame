@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Objects;
+
 
 public class CardRectangle extends Rectangle {
 
@@ -21,10 +23,20 @@ public class CardRectangle extends Rectangle {
                 this.setFill(new ImagePattern(relatedCard.getCardImage()));
             } else {
                 // todo monster
-                if (!this.getRelatedCard().getAttackPosition()) {
-                    this.setFill(new ImagePattern(new Image(getClass().getResource("/images/backCard.jpg").toExternalForm())));
+                if (this.getRelatedCard().getAttackPosition()) {
+                    if (this.getRotate() > 0)
+                        this.rotateProperty().set(-90);
+                    this.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                            .getResource("/images/backCard.jpg"))
+                            .toExternalForm())));
                 } else {
-                    this.setFill(new ImagePattern(new Image(getClass().getResource("/images/bkCard.jpg").toExternalForm())));
+                    try {
+                        this.rotateProperty().set(90);
+                        this.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                                .getResource("/images/bkCard.png"))
+                                .toExternalForm())));
+                    } catch (Exception ignored) {
+                    }
                 }
             }
         } else {

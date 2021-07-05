@@ -71,6 +71,8 @@ public class Game {
     public CardRectangle rivalSpell3;
     public CardRectangle rivalSpell4;
     public CardRectangle rivalSpell5;
+    public Rectangle summon;
+    public Rectangle setAttack;
 
     public static Stage mainStage;
 
@@ -87,6 +89,7 @@ public class Game {
     int temporaryValue = 0;
     Phase currentPhase = null;
     Card selectedCard;
+    CardRectangle selectedRectangle;
     Card normalSummonOrSetCard = null;
     ArrayList<Card> putOnMonsterZoneCards = new ArrayList<>();
     ArrayList<Card> putOnSpellTrapZoneCards = new ArrayList<>();
@@ -111,40 +114,73 @@ public class Game {
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
         selectedCardImage.setFill(new ImagePattern(new Image("/images/backCard.jpg")));
         selectedCardImage.setOpacity(1);
+        summon.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                .getResource("/images/Icons/normalSummon.png"))
+                .toExternalForm())));
+        summon.setOnMouseClicked(event -> {
+            summon();
+            printBoard();
+        });
+        setAttack.setFill(new ImagePattern(new Image("/images/Icons/setAttack.png")));
+        setAttack.setOnMouseClicked(event -> {
+            set();
+            printBoard();
+        });
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
-
-        makeCardsOnBoardTransparent();
+        clearTheWholeScene();
         initialiseAnimationsOfSelectCard();
         mouseDragControlling();
         onMouseHoverForCardsOnBoard();
+        onMouseClickedForCardsInHand();
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
         nextPhaseButton.setOnMouseClicked(event -> nextPhase());
-        initialisingInHandCards();
         drawPhasePlace.setFill(Color.GREEN);
     }
 
-    private void makeCardsOnBoardTransparent() {
-        currentMonster1.setFill(Color.TRANSPARENT);
-        currentMonster2.setFill(Color.TRANSPARENT);
-        currentMonster3.setFill(Color.TRANSPARENT);
-        currentMonster4.setFill(Color.TRANSPARENT);
-        currentMonster5.setFill(Color.TRANSPARENT);
-        rivalMonster1.setFill(Color.TRANSPARENT);
-        rivalMonster2.setFill(Color.TRANSPARENT);
-        rivalMonster3.setFill(Color.TRANSPARENT);
-        rivalMonster4.setFill(Color.TRANSPARENT);
-        rivalMonster5.setFill(Color.TRANSPARENT);
-        currentSpell1.setFill(Color.TRANSPARENT);
-        currentSpell2.setFill(Color.TRANSPARENT);
-        currentSpell3.setFill(Color.TRANSPARENT);
-        currentSpell4.setFill(Color.TRANSPARENT);
-        currentSpell5.setFill(Color.TRANSPARENT);
-        rivalSpell1.setFill(Color.TRANSPARENT);
-        rivalSpell2.setFill(Color.TRANSPARENT);
-        rivalSpell3.setFill(Color.TRANSPARENT);
-        rivalSpell4.setFill(Color.TRANSPARENT);
-        rivalSpell5.setFill(Color.TRANSPARENT);
+    private void onMouseClickedForCardsInHand() {
+        currentCard1.setOnMousePressed(event -> {
+            if (selectedRectangle != null)
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+            selectedRectangle = currentCard1;
+            selectedCard = selectedRectangle.getRelatedCard();
+            currentCard1.setStroke(Color.GOLD);
+        });
+        currentCard2.setOnMousePressed(event -> {
+            if (selectedRectangle != null)
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+            selectedRectangle = currentCard2;
+            selectedCard = selectedRectangle.getRelatedCard();
+            currentCard2.setStroke(Color.GOLD);
+        });
+        currentCard3.setOnMousePressed(event -> {
+            if (selectedRectangle != null)
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+            selectedRectangle = currentCard3;
+            selectedCard = selectedRectangle.getRelatedCard();
+            currentCard3.setStroke(Color.GOLD);
+        });
+        currentCard4.setOnMousePressed(event -> {
+            if (selectedRectangle != null)
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+            selectedRectangle = currentCard4;
+            selectedCard = selectedRectangle.getRelatedCard();
+            currentCard4.setStroke(Color.GOLD);
+        });
+        currentCard5.setOnMousePressed(event -> {
+            if (selectedRectangle != null)
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+            selectedRectangle = currentCard5;
+            selectedCard = selectedRectangle.getRelatedCard();
+            currentCard5.setStroke(Color.GOLD);
+        });
+        currentCard6.setOnMousePressed(event -> {
+            if (selectedRectangle != null)
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+            selectedRectangle = currentCard6;
+            selectedCard = selectedRectangle.getRelatedCard();
+            currentCard6.setStroke(Color.GOLD);
+        });
     }
 
     private void mouseDragControlling() {
@@ -152,7 +188,7 @@ public class Game {
         dragEventForCards(currentCard4, currentCard5, currentCard6);
     }
 
-    private void dragEventForCards(Rectangle currentCard4, Rectangle currentCard5, Rectangle currentCard6) {
+    private void dragEventForCards(CardRectangle currentCard4, CardRectangle currentCard5, CardRectangle currentCard6) {
         double[] x = new double[3];
         double[] y = new double[3];
         x[0] = currentCard4.getX();
@@ -162,44 +198,45 @@ public class Game {
         x[2] = currentCard6.getX();
         y[2] = currentCard6.getY();
 
-        if (currentCard4.getFill() != Color.TRANSPARENT)
-            currentCard4.setOnMouseDragged((MouseEvent me) -> {
+        currentCard4.setOnMouseDragged((MouseEvent me) -> {
+            if (currentCard4.getFill() != Color.TRANSPARENT) {
                 double diffX = me.getX() - currentCard4.getWidth() / 2;
                 double diffY = me.getY() - currentCard4.getHeight() / 2;
                 currentCard4.setX(diffX);
                 currentCard4.setY(diffY);
-            });
-        if (currentCard5.getFill() != Color.TRANSPARENT)
-            currentCard5.setOnMouseDragged((MouseEvent me) -> {
+            }
+        });
+        currentCard5.setOnMouseDragged((MouseEvent me) -> {
+            if (currentCard5.getFill() != Color.TRANSPARENT) {
                 double diffX = me.getX() - currentCard5.getWidth() / 2;
                 double diffY = me.getY() - currentCard5.getHeight() / 2;
                 currentCard5.setX(diffX);
                 currentCard5.setY(diffY);
-            });
-        if (currentCard6.getFill() != Color.TRANSPARENT)
-            currentCard6.setOnMouseDragged((MouseEvent me) -> {
+            }
+        });
+        currentCard6.setOnMouseDragged((MouseEvent me) -> {
+            if (currentCard6.getFill() != Color.TRANSPARENT) {
                 double diffX = me.getX() - currentCard6.getWidth() / 2;
                 double diffY = me.getY() - currentCard6.getHeight() / 2;
                 currentCard6.setX(diffX);
                 currentCard6.setY(diffY);
-            });
+            }
+        });
         mouseReleaseControl(currentCard4, x[0], y[0]);
         mouseReleaseControl(currentCard5, x[1], y[1]);
         mouseReleaseControl(currentCard6, x[2], y[2]);
     }
 
-    private void mouseReleaseControl(Rectangle currentCard4, double x, double value) {
+    private void mouseReleaseControl(CardRectangle currentCard4, double x, double value) {
         currentCard4.setOnMouseReleased(event -> {
             if (currentCard4.getBoundsInParent().intersects(currentMonster1.getBoundsInParent())) {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster1.getFill() == Color.TRANSPARENT) {
                     currentMonster1.setFill(currentCard4.getFill());
-                    currentCard4.setFill(Color.TRANSPARENT);
-                    currentUser.getBoard().getMonstersZone().remove(currentMonster1.getRelatedCard());
-                    try {
-                        currentUser.getBoard().getCardsInHand().remove(currentUser.getBoard().getCardsInHandRectangle()
-                                .indexOf(currentCard4));
-                    } catch (Exception ignored) {
-                    }
+                    currentMonster1.setRelatedCard(currentCard4.getRelatedCard());
+                    currentUser.getBoard().getCardsInHand().remove(currentCard4.getRelatedCard());
+                    currentCard4.setRelatedCard(null);
+                    currentCard4.fillCard(false);
+                    currentUser.getBoard().getMonstersZone().add(currentMonster1.getRelatedCard());
                 }
             } else if (currentCard4.getBoundsInParent().intersects(currentMonster2.getBoundsInParent())) {
                 if (currentCard4.getFill() != Color.TRANSPARENT && currentMonster2.getFill() == Color.TRANSPARENT) {
@@ -337,11 +374,13 @@ public class Game {
             }
         });
         rectangle.setOnMouseExited(event -> {
-            new FlipOutY(selectedCardImage).play();
-            selectedCardImage.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
-                    .getResource("/images/backCard.jpg"))
-                    .toExternalForm())));
-            new FlipInY(selectedCardImage).play();
+            if (rectangle.getFill() != Color.TRANSPARENT) {
+                new FlipOutY(selectedCardImage).play();
+                selectedCardImage.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                        .getResource("/images/backCard.jpg"))
+                        .toExternalForm())));
+                new FlipInY(selectedCardImage).play();
+            }
         });
     }
 
@@ -426,24 +465,6 @@ public class Game {
         rivalMonster3.setFill(Color.TRANSPARENT);
         rivalMonster4.setFill(Color.TRANSPARENT);
         rivalMonster5.setFill(Color.TRANSPARENT);
-    }
-
-    private void initialisingInHandCards() {
-        currentCard1.setFill(Color.TRANSPARENT);
-        currentCard2.setFill(Color.TRANSPARENT);
-        currentCard3.setFill(Color.TRANSPARENT);
-        currentCard4.setFill(Color.TRANSPARENT);
-        currentCard5.setFill(Color.TRANSPARENT);
-        currentCard6.setFill(Color.TRANSPARENT);
-        try {
-            currentUser.getBoard().getCardsInHandRectangles().set(0, currentCard1);
-            currentUser.getBoard().getCardsInHandRectangles().set(1, currentCard2);
-            currentUser.getBoard().getCardsInHandRectangles().set(2, currentCard3);
-            currentUser.getBoard().getCardsInHandRectangles().set(3, currentCard4);
-            currentUser.getBoard().getCardsInHandRectangles().set(4, currentCard5);
-            currentUser.getBoard().getCardsInHandRectangles().set(5, currentCard6);
-        } catch (Exception ignored) {
-        }
     }
 
     public void test() {
@@ -576,10 +597,10 @@ public class Game {
             }
             playFirstTurn();
             turn++;
-            while (winnerOfDuel == null) {
-                playTurn();
-                turn++;
-            }
+//            while (winnerOfDuel == null) {
+//                playTurn();
+//                turn++;
+//            }
             finishRound();
             round++;
 
@@ -718,35 +739,19 @@ public class Game {
     }
 
     public void playFirstTurn() {
-        initialisingInHandCards();
-        showCardsInHand();
-        setMonsterZoneRectangles();
-        setSpellZoneRectangles();
+        printBoard();
         standbyPhaseRun();
         mainPhaseOneRun();
         endPhaseRun();
     }
 
 
-    private void setMonsterZoneRectangles() {
-        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster1);
-        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster2);
-        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster3);
-        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster4);
-        currentUser.getBoard().getMonsterZoneRectangles().add(currentMonster5);
-    }
-
-    private void setSpellZoneRectangles() {
-        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell1);
-        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell2);
-        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell3);
-        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell4);
-        currentUser.getBoard().getSpellZoneRectangles().add(currentSpell5);
-    }
-
     private void printBoard() {
-
-
+        clearTheWholeScene();
+        showCardsInHand();
+        showCardsInMonsterZone();
+        showCardsInSpellZone();
+        arrangeRivalBoard();
     }
 
     public StringBuilder boardString(StringBuilder board) {
@@ -866,30 +871,98 @@ public class Game {
 
     private void showCardsInHand() {
         //todo attack /defense image
-        if (currentUser.getBoard().getCardsInHand().get(0) != null) {
+        try {
             currentCard1.setRelatedCard(currentUser.getBoard().getCardsInHand().get(0));
-            currentCard1.fillCard(true);
+        } catch (Exception ignored) {
+            currentCard1.setRelatedCard(null);
         }
-        if (currentUser.getBoard().getCardsInHand().get(1) != null) {
+        currentCard1.fillCard(true);
+        try {
             currentCard2.setRelatedCard(currentUser.getBoard().getCardsInHand().get(1));
-            currentCard2.fillCard(true);
+        } catch (Exception ignored) {
+            currentCard2.setRelatedCard(null);
         }
-        if (currentUser.getBoard().getCardsInHand().get(2) != null) {
+        currentCard2.fillCard(true);
+        try {
             currentCard3.setRelatedCard(currentUser.getBoard().getCardsInHand().get(2));
-            currentCard3.fillCard(true);
+        } catch (Exception ignored) {
+            currentCard3.setRelatedCard(null);
         }
-        if (currentUser.getBoard().getCardsInHand().get(3) != null) {
+        currentCard3.fillCard(true);
+        try {
             currentCard4.setRelatedCard(currentUser.getBoard().getCardsInHand().get(3));
-            currentCard4.fillCard(true);
+        } catch (Exception ignored) {
+            currentCard4.setRelatedCard(null);
         }
-        if (currentUser.getBoard().getCardsInHand().get(4) != null) {
+        currentCard4.fillCard(true);
+        try {
             currentCard5.setRelatedCard(currentUser.getBoard().getCardsInHand().get(4));
-            currentCard5.fillCard(true);
+        } catch (Exception ignored) {
+            currentCard5.setRelatedCard(null);
         }
-        if (currentUser.getBoard().getCardsInHand().get(5) != null) {
+        currentCard5.fillCard(true);
+        try {
             currentCard6.setRelatedCard(currentUser.getBoard().getCardsInHand().get(5));
-            currentCard6.fillCard(true);
+        } catch (Exception ignored) {
+            currentCard6.setRelatedCard(null);
         }
+        currentCard6.fillCard(true);
+    }
+
+    private void showCardsInMonsterZone() {
+        try {
+            currentMonster1.setRelatedCard(currentUser.getBoard().getMonstersZone().get(0));
+        } catch (Exception ignored) {
+        }
+        currentMonster1.fillCard(false);
+        try {
+            currentMonster2.setRelatedCard(currentUser.getBoard().getMonstersZone().get(1));
+        } catch (Exception ignored) {
+        }
+        currentMonster2.fillCard(false);
+        try {
+            currentMonster3.setRelatedCard(currentUser.getBoard().getMonstersZone().get(2));
+        } catch (Exception ignored) {
+        }
+        currentMonster3.fillCard(false);
+        try {
+            currentMonster4.setRelatedCard(currentUser.getBoard().getMonstersZone().get(3));
+        } catch (Exception ignored) {
+        }
+        currentMonster4.fillCard(false);
+        try {
+            currentMonster5.setRelatedCard(currentUser.getBoard().getMonstersZone().get(4));
+        } catch (Exception ignored) {
+        }
+        currentMonster5.fillCard(false);
+    }
+
+    private void showCardsInSpellZone() {
+        try {
+            currentSpell1.setRelatedCard(currentUser.getBoard().getSpellsAndTrapsZone().get(0));
+        } catch (Exception ignored) {
+        }
+        currentSpell1.fillCard(false);
+        try {
+            currentSpell2.setRelatedCard(currentUser.getBoard().getSpellsAndTrapsZone().get(1));
+        } catch (Exception ignored) {
+        }
+        currentSpell2.fillCard(false);
+        try {
+            currentSpell3.setRelatedCard(currentUser.getBoard().getSpellsAndTrapsZone().get(2));
+        } catch (Exception ignored) {
+        }
+        currentSpell3.fillCard(false);
+        try {
+            currentSpell4.setRelatedCard(currentUser.getBoard().getSpellsAndTrapsZone().get(3));
+        } catch (Exception ignored) {
+        }
+        currentSpell4.fillCard(false);
+        try {
+            currentSpell5.setRelatedCard(currentUser.getBoard().getSpellsAndTrapsZone().get(4));
+        } catch (Exception ignored) {
+        }
+        currentSpell5.fillCard(false);
     }
 
     private void shuffleDeckZones() {
@@ -942,22 +1015,35 @@ public class Game {
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
-        clearTheWholeScene();
-        arrangeRivalBoard();
+        printBoard();
     }
 
     private void arrangeRivalBoard() {
-
-        if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0) != null) {
-            if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0).getOccupied()) {
-                rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
-                rivalMonster1.fillCard(true);
-            } else {
-                rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
-                rivalMonster1.setFill(new ImagePattern(new Image(getClass().getResource("/images/backCard.jpg")
-                        .toExternalForm())));
-            }
+        try {
+            rivalMonster1.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(0));
+        } catch (Exception ignored) {
         }
+        rivalMonster1.fillCard(false);
+        try {
+            rivalMonster2.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(1));
+        } catch (Exception ignored) {
+        }
+        rivalMonster2.fillCard(false);
+        try {
+            rivalMonster3.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(2));
+        } catch (Exception ignored) {
+        }
+        rivalMonster3.fillCard(false);
+        try {
+            rivalMonster4.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(3));
+        } catch (Exception ignored) {
+        }
+        rivalMonster4.fillCard(false);
+        try {
+            rivalMonster5.setRelatedCard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(4));
+        } catch (Exception ignored) {
+        }
+        rivalMonster5.fillCard(false);
     }
 
     private void select(Matcher matcher) {
@@ -1243,15 +1329,16 @@ public class Game {
 
     private void summon() {
         if (selectedCard == null) {
-            System.out.println("no card is selected yet");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
             return;
         }
         if (!(selectedCard instanceof Monster) || !currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
-            System.out.println("you can’t summon this card");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "you can’t summon this card");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
-            System.out.println("action not allowed in this phase");
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Error!",
+                    "action not allowed in this phase");
             return;
         }
         Monster monster = (Monster) selectedCard;
@@ -1259,18 +1346,21 @@ public class Game {
             if (monster.getCardType() == Type.RITUAL) {
                 ritualSummon();
             } else {
-                System.out.println("you should ritual summon right now");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Error!",
+                        "you should ritual summon right now");
             }
             return;
         } else {
             if (monster.getCardType() == Type.RITUAL) {
-                System.out.println("you can’t summon this card");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
+                        "you can’t summon this card");
                 return;
             }
         }
         if (selectedCard.getName().equals("Gate Guardian")) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
-                System.out.println("there are not enough cards for tribute");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
+                        "there are not enough cards for tribute");
             } else {
                 tributeSummon(3, true);
                 specialSummonedCards.add(selectedCard);
@@ -1396,15 +1486,18 @@ public class Game {
             }
         }
         if (normalSummonOrSetCard != null) {
-            System.out.println("you already summoned/set on this turn");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                    "you already summoned/set on this turn");
             return;
         }
         if (monster.getLevel() <= 4) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                System.out.println("monster card zone is full");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                        "monster card zone is full");
             } else {
                 addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                System.out.println("summoned successfully");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successfull !",
+                        "summoned successfully");
                 if (selectedCard.getName().equals("Terratiger, the Empowered Warrior")) {
                     if (currentUser.getBoard().numberOfMonstersOnBoard() < 5) {
                         activateTerratiger();
@@ -1474,7 +1567,7 @@ public class Game {
         for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
             if (currentUser.getBoard().getMonstersZone().get(i) == null) {
                 currentUser.getBoard().getMonstersZone().set(i, monsterCard);
-                ((FieldEffect) (((Spell) currentUser.getBoard().getFieldZone()).getEffect())).addCardUnderEffect(monsterCard);
+//                ((FieldEffect) (((Spell) currentUser.getBoard().getFieldZone()).getEffect())).addCardUnderEffect(monsterCard);
                 break;
             }
         }
@@ -1656,57 +1749,62 @@ public class Game {
 
     private void set() {
         if (activatedRitualCard != null) {
-            System.out.println("you should ritual summon right now");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "you should ritual summon right now");
             return;
         }
         if (selectedCard == null) {
-            System.out.println("no card is selected yet");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "no card is selected yet");
             return;
         }
         if (!currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
-            System.out.println("you can’t summon this card");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
+                    "you can’t summon this card");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
-            System.out.println("action not allowed in this phase");
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Error !",
+                    "action not allowed in this phase");
             return;
         }
         if (selectedCard instanceof Monster) {
             Monster monster = (Monster) selectedCard;
 
             if (normalSummonOrSetCard != null) {
-                System.out.println("you already summoned/set on this turn");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Error !",
+                        "you already summoned/set on this turn");
                 return;
             }
             if (monster.getLevel() <= 4) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                    System.out.println("monster card zone is full");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Error !",
+                            "monster card zone is full");
                 } else {
                     addMonsterFromHandToMonsterZone(selectedCard, false, false);
-                    System.out.println("set successfully");
                     normalSummonOrSetCard = selectedCard;
                     selectedCard = null;
                 }
             } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                    System.out.println("there are not enough cards for tribute");
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
+                            "there are not enough cards for tribute");
                 } else {
                     tributeSet(1, false);
                 }
             } else if (monster.getLevel() > 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                    System.out.println("there are not enough cards for tribute");
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
+                            "there are not enough cards for tribute");
                 } else {
                     tributeSet(2, false);
                 }
             }
         } else {
             if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
-                System.out.println("spell card zone is full");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
+                        "Spell Card Zone Is Full");
                 return;
             }
             addSpellOrTrapFromHandToZone(selectedCard, false);
-            System.out.println("set successfully");
             selectedCard = null;
         }
     }
@@ -2511,8 +2609,8 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-        initialiseLabelNames();
         if (clickedPhase == null) {
+            initialiseLabelNames();
             currentPhase = Phase.DRAW;
             drawPhaseRun();
             drawPhasePlace.setFill(Color.RED);
@@ -2549,9 +2647,10 @@ public class Game {
             mainPhase2Place.setFill(Color.RED);
             clickedPhase = Phase.MAIN_TWO;
         } else {
-            changeTurn();
             GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
                     "its " + currentUser.getNickName() + "’s turn");
+            initialiseLabelNames();
+            changeTurn();
             currentPhase = Phase.DRAW;
             drawPhasePlace.setFill(Color.GREEN);
             endPhasePlace.setFill(Color.RED);

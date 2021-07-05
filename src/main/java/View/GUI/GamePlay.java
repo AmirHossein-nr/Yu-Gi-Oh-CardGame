@@ -1,6 +1,7 @@
 package View.GUI;
 
 import Controller.Game;
+import View.Main;
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.BounceOutRight;
 import javafx.application.Application;
@@ -8,6 +9,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,6 +19,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,14 +35,13 @@ public class GamePlay extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         mainStage = primaryStage;
-        primaryStage.getIcons().add(new Image(getClass().getResource
-                ("/images/Icons/_images_item_bg00.png").toExternalForm()));
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResource
+                ("/images/Icons/_images_item_bg00.png")).toExternalForm()));
+        Game game = new Game();
         primaryStage.setResizable(false);
         primaryStage.setTitle("Yu-Gi-OH!");
         Game.mainStage = mainStage;
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass()
-                .getResource("/fxml/GamePlayGraphic.fxml")));
-        game = new Game();
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/GamePlay.fxml")));
         loader.setController(game);
         root = loader.load();
         Scene scene = new Scene(root);
@@ -109,4 +112,5 @@ public class GamePlay extends Application {
         alert.setContentText(content);
         alert.show();
     }
+
 }
