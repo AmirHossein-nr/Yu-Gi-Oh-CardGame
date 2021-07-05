@@ -52,7 +52,7 @@ public class GamePlay extends Application {
                 @Override
                 protected Object call() throws Exception {
                     game.test();
-                    game.run();
+                    game.startADuel();
                     return null;
                 }
             };
