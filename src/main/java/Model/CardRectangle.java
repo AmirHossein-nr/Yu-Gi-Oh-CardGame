@@ -19,8 +19,10 @@ public class CardRectangle extends Rectangle {
 
     public void fillCard(boolean inHand) {
         if (this.getRelatedCard() != null) {
-            if (inHand)
+            if (inHand) {
                 this.setFill(new ImagePattern(relatedCard.getCardImage()));
+                return;
+            }
 
             if (!(this.getRelatedCard() instanceof Monster)) {
                 if (this.getRelatedCard().getOccupied()) {
