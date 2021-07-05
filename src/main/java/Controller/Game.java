@@ -15,9 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -84,9 +85,12 @@ public class Game {
     public Rectangle changePosition;
     public Rectangle nextButton;
     public Rectangle previousButton;
+    public Rectangle graveYardIcon;
+    public Label graveYardLabel;
 
     public static Stage mainStage;
 
+    private CardRectangle selectedCardInGraveYard;
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -120,6 +124,7 @@ public class Game {
 
     @FXML
     public void initialize() {
+        initialiseLabelNames();
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
@@ -144,6 +149,8 @@ public class Game {
         nextButton.setFill(new ImagePattern(new Image("/images/Icons/next.png")));
         previousButton.setFill(new ImagePattern(new Image("/images/Icons/previous.png")));
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+        graveYardIcon.setFill(new ImagePattern(new Image("/images/Icons/graveYard.png")));
+        graveYardOnClick();
         nextAndPreviousButtonsInitialize();
         clearTheWholeScene();
         initialiseAnimationsOfSelectCard();
@@ -155,6 +162,47 @@ public class Game {
         new FadeInUp(currentAvatar).play();
         nextPhaseButton.setOnMouseClicked(event -> nextPhase());
         drawPhasePlace.setFill(Color.GREEN);
+    }
+
+    private void graveYardOnClick() {
+        graveYardIcon.setOnMouseClicked(event -> {
+            HBox box = new HBox(80);
+
+            box.getChildren().add(new Label("Select Your" +
+                    "\n Choice !"));
+            box.setAlignment(Pos.CENTER);
+            box.setPadding(new Insets(300));
+            double initialX = 57;
+            for (int i = 0; i < 4; i++) {
+                CardRectangle rectangle = new CardRectangle();
+//                rectangle.setX(initialX + 30);
+//                rectangle.setY(500);
+//                new ImagePattern(currentUser.getBoard().getGraveYard().get(i).getCardImage())
+                rectangle.setWidth(77);
+                rectangle.setHeight(100);
+                rectangle.setFill(Color.WHITE);
+                rectangle.setOnMouseClicked(event1 -> {
+                    if (selectedCardInGraveYard != null) selectedCardInGraveYard.setStroke(Color.TRANSPARENT);
+                    selectedCardInGraveYard = rectangle;
+                    selectedCardInGraveYard.setStroke(Color.GOLD);
+                });
+                box.getChildren().add(rectangle);
+            }
+            Button close = new Button("Close !");
+            Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+            popupStage.initOwner(mainStage);
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            Scene question = new Scene(box, Color.TRANSPARENT);
+            question.getStylesheets().add("/Css/GamePlay.css");
+            popupStage.setScene(question);
+            close.setOnMouseClicked(event1 -> {
+                new FadeOut(box).play();
+                popupStage.hide();
+            });
+            box.getChildren().add(close);
+            popupStage.show();
+            new FadeIn(box).play();
+        });
     }
 
 
@@ -515,10 +563,13 @@ public class Game {
     }
 
     public void initialiseLabelNames() {
-        rivalUsername.setText(getOpponentOfCurrentUser().getUsername());
-        rivalFullName.setText(getOpponentOfCurrentUser().getNickName());
-        currentUsername.setText(currentUser.getUsername());
-        currentFullName.setText(currentUser.getNickName());
+        try {
+            rivalUsername.setText(getOpponentOfCurrentUser().getUsername());
+            rivalFullName.setText(getOpponentOfCurrentUser().getNickName());
+            currentUsername.setText(currentUser.getUsername());
+            currentFullName.setText(currentUser.getNickName());
+        } catch (Exception ignored) {
+        }
     }
 
     private void initialiseAnimationsOfSelectCard() {
@@ -2798,6 +2849,7 @@ public class Game {
 
     @FXML
     public void nextPhase() {
+        currentUser.getBoard().getGraveYard().add(Shop.getAllCards().get(42));
         if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;

@@ -24,7 +24,8 @@
                      progress="1.0"/>
         <AnchorPane fx:id="backOfMainBoard" layoutX="377.0" layoutY="53.0" prefHeight="653.0" prefWidth="597.0">
             <children>
-
+                <Rectangle fx:id="graveYardIcon" width="50.0" height="50.0" layoutX="25.0" layoutY="430.0"
+                           stroke="WHITE" strokeType="INSIDE"/>
                 <Rectangle fx:id="nextButton" width="40.0" height="40.0"
                            layoutX="520.0" layoutY="535.0" stroke="WHITE" strokeType="INSIDE"/>
                 <Rectangle fx:id="previousButton" width="40.0" height="40.0"
