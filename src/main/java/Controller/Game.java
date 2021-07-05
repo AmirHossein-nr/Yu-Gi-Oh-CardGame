@@ -16,7 +16,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -87,7 +86,6 @@ public class Game {
     public Rectangle nextButton;
     public Rectangle previousButton;
     public Rectangle graveYardIcon;
-    public Label graveYardLabel;
 
     public static Stage mainStage;
 
@@ -121,7 +119,6 @@ public class Game {
     boolean negateAttackActivated = false;
     boolean mirrorForceActivated = false;
     boolean isSuijin = false;
-    private Timeline timeline = new Timeline();
 
     @FXML
     public void initialize() {
@@ -219,7 +216,7 @@ public class Game {
             new FadeIn(box).play();
         });
     }
-    
+
     private void nextAndPreviousButtonsInitialize() {
         nextButton.setOnMouseClicked(event -> {
             if (index == currentUser.getBoard().getCardsInHand().size() - 6) return;
