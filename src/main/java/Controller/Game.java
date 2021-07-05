@@ -580,6 +580,7 @@ public class Game {
     }
 
     public void run() {
+
         while (round <= numberOfRounds) {
             if (numberOfRounds == 3) {
                 if (loggedUser.getNumberOfWinsInGame() == 2 || rivalUser.getNumberOfWinsInGame() == 2) {
@@ -595,8 +596,8 @@ public class Game {
                     resetPlayersAttributes(loggedUser);
                 }
             }
-            playFirstTurn();
-            turn++;
+//            playFirstTurn();
+
 //            while (winnerOfDuel == null) {
 //                playTurn();
 //                turn++;
@@ -1016,6 +1017,7 @@ public class Game {
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
         printBoard();
+        turn++;
     }
 
     private void arrangeRivalBoard() {
@@ -1496,8 +1498,6 @@ public class Game {
                         "monster card zone is full");
             } else {
                 addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successfull !",
-                        "summoned successfully");
                 if (selectedCard.getName().equals("Terratiger, the Empowered Warrior")) {
                     if (currentUser.getBoard().numberOfMonstersOnBoard() < 5) {
                         activateTerratiger();
@@ -1508,13 +1508,15 @@ public class Game {
             }
         } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                System.out.println("there are not enough cards for tribute");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
+                        "there are not enough cards for tribute");
             } else {
                 tributeSummon(1, false);
             }
         } else if (monster.getLevel() > 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                System.out.println("there are not enough cards for tribute");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
+                        "there are not enough cards for tribute");
             } else {
                 tributeSummon(2, false);
             }
@@ -2609,7 +2611,7 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-        if (clickedPhase == null) {
+        if (currentPhase == null || clickedPhase == Phase.END) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;
             drawPhaseRun();
@@ -2643,14 +2645,13 @@ public class Game {
             currentPhase = Phase.END;
             endPhasePlace.setFill(Color.GREEN);
             endPhaseRun();
-            turn++;
             mainPhase2Place.setFill(Color.RED);
             clickedPhase = Phase.MAIN_TWO;
         } else {
+            changeTurn();
+            initialiseLabelNames();
             GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
                     "its " + currentUser.getNickName() + "’s turn");
-            initialiseLabelNames();
-            changeTurn();
             currentPhase = Phase.DRAW;
             drawPhasePlace.setFill(Color.GREEN);
             endPhasePlace.setFill(Color.RED);
