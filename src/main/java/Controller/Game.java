@@ -88,7 +88,6 @@ public class Game {
     public static Stage mainStage;
 
     private int index = 0;
-    private Phase clickedPhase = null;
     Scanner scanner;
     boolean playingWithAi = false;
     User loggedUser;
@@ -844,31 +843,6 @@ public class Game {
 
     public void playTurn() {
 
-        if (clickedPhase == Phase.DRAW)
-            drawPhaseRun();
-        if (winnerOfDuel != null)
-            return;
-        if (clickedPhase == Phase.STANDBY)
-            standbyPhaseRun();
-        if (winnerOfDuel != null)
-            return;
-        if (clickedPhase == Phase.MAIN_ONE)
-            mainPhaseOneRun();
-        if (winnerOfDuel != null)
-            return;
-
-        if (clickedPhase == Phase.BATTLE)
-            battlePhaseRun();
-        if (winnerOfDuel != null)
-            return;
-
-        if (clickedPhase == Phase.MAIN_TWO)
-            mainPhaseTwoRun();
-        if (winnerOfDuel != null)
-            return;
-
-        if (clickedPhase == Phase.END)
-            endPhaseRun();
     }
 
     public void playFirstTurn() {
@@ -993,7 +967,6 @@ public class Game {
         rivalUser.setLifePoint(8000);
         currentUser = user;
         shuffleDeckZones();
-        clickedPhase = Phase.DRAW;
         drawPhasePlace.setFill(Color.GREEN);
         for (int i = 0; i < 6; i++) {
             drawCard(user);
@@ -1441,7 +1414,7 @@ public class Game {
             printBoard();
         } else {
             printBoard();
-            if (clickedPhase == Phase.MAIN_ONE || clickedPhase == Phase.MAIN_TWO) {
+            if (currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO) {
                 if (activatedRitualCard != null) {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Can't Execute !",
                             "You Should Ritual Summon Right Now!");
@@ -2130,7 +2103,7 @@ public class Game {
             attack(" ");
         } else {
             printBoard();
-            if (clickedPhase == Phase.BATTLE)
+            if (currentPhase == Phase.BATTLE)
                 return;
 
 //                if (input.equals("select -d")) {
@@ -2825,42 +2798,37 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-        if (currentPhase == null || clickedPhase == Phase.END) {
+        if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;
             drawPhaseRun();
-            drawPhasePlace.setFill(Color.RED);
+            drawPhasePlace.setFill(Color.GREEN);
         }
         if (currentPhase == Phase.DRAW) {
             currentPhase = Phase.STANDBY;
             standByPhasePlace.setFill(Color.GREEN);
             standbyPhaseRun();
             drawPhasePlace.setFill(Color.RED);
-            clickedPhase = Phase.DRAW;
         } else if (currentPhase == Phase.STANDBY) {
             currentPhase = Phase.MAIN_ONE;
             mainPhase1Place.setFill(Color.GREEN);
             mainPhaseOneRun();
             standByPhasePlace.setFill(Color.RED);
-            clickedPhase = Phase.STANDBY;
         } else if (currentPhase == Phase.MAIN_ONE) {
             currentPhase = Phase.BATTLE;
             battlePhasePlace.setFill(Color.GREEN);
             battlePhaseRun();
             mainPhase1Place.setFill(Color.RED);
-            clickedPhase = Phase.MAIN_ONE;
         } else if (currentPhase == Phase.BATTLE) {
             currentPhase = Phase.MAIN_TWO;
             mainPhase2Place.setFill(Color.GREEN);
             mainPhaseTwoRun();
             battlePhasePlace.setFill(Color.RED);
-            clickedPhase = Phase.BATTLE;
         } else if (currentPhase == Phase.MAIN_TWO) {
             currentPhase = Phase.END;
             endPhasePlace.setFill(Color.GREEN);
             endPhaseRun();
             mainPhase2Place.setFill(Color.RED);
-            clickedPhase = Phase.MAIN_TWO;
         } else {
             changeTurn();
             initialiseLabelNames();
@@ -2870,7 +2838,6 @@ public class Game {
             drawPhasePlace.setFill(Color.GREEN);
             endPhasePlace.setFill(Color.RED);
             drawPhaseRun();
-            clickedPhase = Phase.END;
         }
     }
 }
