@@ -710,6 +710,33 @@ public class Game {
         return selectedCard;
     }
 
+    public void startADuel() {
+        if (round <= numberOfRounds) {
+            if (numberOfRounds == 3) {
+                if (loggedUser.getNumberOfWinsInGame() == 2 || rivalUser.getNumberOfWinsInGame() == 2) {
+                    finishGame();
+                    return;
+                }
+            }
+            if (round == 1) {
+                resetPlayersAttributes(loggedUser);
+            } else {
+                if (winnerOfDuel == loggedUser) {
+                    resetPlayersAttributes(rivalUser);
+                } else {
+                    resetPlayersAttributes(loggedUser);
+                }
+            }
+//            finishRound();
+//            round++;
+//            if (numberOfRounds == 3 && round <= 3) {
+//                takeABreak();
+//            }
+        } else {
+            finishGame();
+        }
+    }
+
     public void run() {
 
         while (round <= numberOfRounds) {
@@ -806,6 +833,16 @@ public class Game {
         }
     }
 
+    private void checkWinner() {
+        if (loggedUser.getLifePoint() <= 0) {
+            winnerOfDuel = rivalUser;
+            // todo win game method and start new duel and finish round
+        } else if (rivalUser.getLifePoint() <= 0) {
+            winnerOfDuel = loggedUser;
+            // todo win game method and start new duel and finish round
+        }
+    }
+
     private void finishRound() {
         if (loggedUser.getMaxLifePoint() < loggedUser.getLifePoint()) {
             loggedUser.setMaxLifePoint(loggedUser.getLifePoint());
@@ -822,6 +859,11 @@ public class Game {
         }
         System.out.println(winnerOfDuel.getUsername() + " won the game and the score is: "
                 + winnerOfDuel.getNumberOfWinsInGame() + "-" + loserOfDuel.getNumberOfWinsInGame());
+
+        round++;
+
+        // starting a new duel and if game is finished finishing the game
+        startADuel();
     }
 
     private void finishGame() {
@@ -839,6 +881,8 @@ public class Game {
         winner.setScore(winner.getScore() + numberOfRounds * 1000L);
         winner.setMoney(winner.getMoney() + numberOfRounds * (1000L + winner.getMaxLifePoint()));
         loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
+
+        // todo going back to duel menu
     }
 
     public void playTurn() {
