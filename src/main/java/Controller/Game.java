@@ -88,10 +88,12 @@ public class Game {
     public Rectangle previousButton;
     public Rectangle graveYardIcon;
     public Label graveYardLabel;
+    public Rectangle flipSummon;
 
     public static Stage mainStage;
 
     private CardRectangle selectedCardInGraveYard;
+    private CardRectangle selectedCardForTribute;
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -152,6 +154,11 @@ public class Game {
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
         graveYardIcon.setFill(new ImagePattern(new Image("/images/Icons/graveYard.png")));
         graveYardOnClick();
+        flipSummon.setFill(new ImagePattern(new Image("/images/Icons/flipSummon.png")));
+        flipSummon.setOnMouseClicked(event -> {
+            flipSummon();
+            printBoard();
+        });
         nextAndPreviousButtonsInitialize();
         clearTheWholeScene();
         initialiseAnimationsOfSelectCard();
@@ -218,6 +225,7 @@ public class Game {
             popupStage.show();
             new FadeIn(box).play();
         });
+        // todo deselect card when we get out of graveyard
     }
     
     private void nextAndPreviousButtonsInitialize() {
@@ -1609,7 +1617,7 @@ public class Game {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
                         "there are not enough cards for tribute");
             } else {
-                tributeSummon(3, true);
+                doTributeSummonOrSet(3, true, true);
                 specialSummonedCards.add(selectedCard);
                 return;
             }
@@ -1640,7 +1648,7 @@ public class Game {
                         } else if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
                             System.out.println("there are not enough cards for tribute");
                         } else {
-                            tributeSummon(2, false);
+                            doTributeSummonOrSet(2, false, true);
                         }
                         break;
                     case "3":
@@ -1657,9 +1665,9 @@ public class Game {
                                 System.out.println("action canceled");
                                 return;
                             } else if (answer1.equals("attack")) {
-                                tributeSummon(3, true);
+                                doTributeSummonOrSet(3, true, true);
                             } else {
-                                tributeSet(3, true);
+                                doTributeSummonOrSet(3, true, false);
                             }
                             for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
                                 if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
@@ -1708,7 +1716,7 @@ public class Game {
                                 System.out.println("there are not enough cards for tribute");
                                 return;
                             } else {
-                                tributeSummon(1, false);
+                                doTributeSummonOrSet(1, false, true);
                                 return;
                             }
                         }
@@ -1756,14 +1764,14 @@ public class Game {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
                         "there are not enough cards for tribute");
             } else {
-                tributeSummon(1, false);
+                doTributeSummonOrSet(1, false, true);
             }
         } else if (monster.getLevel() > 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
                         "there are not enough cards for tribute");
             } else {
-                tributeSummon(2, false);
+                doTributeSummonOrSet(2, false, true);
             }
         }
     }
@@ -1902,64 +1910,83 @@ public class Game {
         }
     }
 
-    private void tributeSummon(int tributeNumber, boolean isSpecial) {
-        if (doTributeSummon(tributeNumber, isSpecial, true)) return;
-        System.out.println("summoned successfully");
-        selectedCard = null;
-    }
-
-    private boolean doTributeSummon(int tributeNumber, boolean isSpecial, boolean isSummon) {
-        System.out.println("enter number of " + tributeNumber + " cards in monster zone to tribute (or cancel)");
-        ArrayList<Card> monstersToTribute = new ArrayList<>();
-        String numberString;
-        while (monstersToTribute.size() < tributeNumber) {
-            numberString = scanner.nextLine();
-            numberString = editSpaces(numberString);
-            if (numberString.equals("cancel")) {
-                System.out.println("action canceled");
-                return true;
-            } else if (!numberString.matches("\\d+")) {
-                System.out.println("enter a number");
-            } else {
-                int number = Integer.parseInt(numberString);
-                if (number < 1 || number > 5) {
-                    System.out.println("enter a correct number");
-                } else if (monstersToTribute.contains(currentUser.getBoard().getMonstersZone().get(number - 1))) {
-                    System.out.println("This card is already selected");
-                } else if (currentUser.getBoard().getMonstersZone().get(number - 1) == null) {
-                    System.out.println("there is no monster on this address");
-                } else {
-                    monstersToTribute.add(currentUser.getBoard().getMonstersZone().get(number - 1));
-                }
+    private void doTributeSummonOrSet(int tributeNumber, boolean isSpecial, boolean isSummon) {
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("tribute " + tributeNumber + "\nmonsters");
+        box.getChildren().add(label);
+        ArrayList<CardRectangle> cardWeCanTribute = new ArrayList<>();
+        ArrayList<CardRectangle> monsterZoneRectangles = new ArrayList<>();
+        monsterZoneRectangles.add(currentMonster1);
+        monsterZoneRectangles.add(currentMonster2);
+        monsterZoneRectangles.add(currentMonster3);
+        monsterZoneRectangles.add(currentMonster4);
+        monsterZoneRectangles.add(currentMonster5);
+        for (CardRectangle cardRectangle : monsterZoneRectangles) {
+            if (cardRectangle.getRelatedCard() != null) {
+                CardRectangle cardRectangle1 = new CardRectangle();
+                cardRectangle1.setRelatedCard(cardRectangle.getRelatedCard());
+                cardRectangle1.setFill(new ImagePattern(cardRectangle.getRelatedCard().getCardImage()));
+                cardRectangle1.setWidth(90);
+                cardRectangle1.setHeight(150);
+                cardRectangle1.setOnMouseClicked(event1 -> {
+                    if (selectedCardForTribute != null) selectedCardForTribute.setStroke(Color.TRANSPARENT);
+                    selectedCardForTribute = cardRectangle1;
+                    selectedCardForTribute.setStroke(Color.GOLD);
+                    selectedCard = selectedCardForTribute.getRelatedCard();
+                });
+                box.getChildren().add(cardRectangle1);
             }
         }
-        for (int i = 0; i < monstersToTribute.size(); i++) {
-            tributeMonster(monstersToTribute.get(i));
-        }
-        if (isSummon) {
-            addMonsterFromHandToMonsterZone(selectedCard, true, true);
-        } else {
-            addMonsterFromHandToMonsterZone(selectedCard, false, false);
-        }
-        if (!isSpecial) {
-            normalSummonOrSetCard = selectedCard;
-        }
-        return false;
-    }
 
-    private void tributeSet(int tributeNumber, boolean isSpecial) {
-        if (doTributeSummon(tributeNumber, isSpecial, false)) return;
-        System.out.println("set successfully");
-        selectedCard = null;
+        Button tribute = new Button("tribute");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (selectedCardForTribute == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
+            } else {
+                tributeMonster(selectedCardForTribute.getRelatedCard());
+                selectedCardForTribute = null;
+                if (tributeNumber == 1) {
+                    selectedCard = selectedRectangle.getRelatedCard();
+                    if (isSummon) {
+                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successful !",
+                                "Summoned successfully");
+                    } else {
+                        addMonsterFromHandToMonsterZone(selectedCard, false, false);
+                        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Successful !",
+                                "Set successfully");
+                    }
+                    if (!isSpecial) {
+                        normalSummonOrSetCard = selectedCard;
+                    }
+                    selectedCard = null;
+                    printBoard();
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                } else {
+                    printBoard();
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                    doTributeSummonOrSet(tributeNumber - 1, isSpecial, isSummon);
+                }
+            }
+        });
+        box.getChildren().add(tribute);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     private void tributeMonster(Card monsterCard) {
-        for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
-            if (currentUser.getBoard().getMonstersZone().get(i) == monsterCard) {
-                currentUser.getBoard().getMonstersZone().set(i, null);
-                currentUser.getBoard().getGraveYard().add(monsterCard);
-            }
-        }
+        addMonsterFromMonsterZoneToGraveyard(monsterCard, currentUser);
     }
 
     private void specialSummonTheTricky() {
@@ -2035,14 +2062,14 @@ public class Game {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
-                    tributeSet(1, false);
+                    doTributeSummonOrSet(1, false, false);
                 }
             } else if (monster.getLevel() > 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
-                    tributeSet(2, false);
+                    doTributeSummonOrSet(2, false, false);
                 }
             }
         } else {
@@ -2177,14 +2204,24 @@ public class Game {
     }
 
     private void flipSummon() {
-        if (changePosition()) return;
+        if (activatedRitualCard != null) {
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "you should ritual summon right now");
+            return;
+        }
+        if (selectedCard == null) {
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "no card is selected yet");
+            return;
+        }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
             System.out.println("action not allowed in this phase");
             return;
         }
-        if ((!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
+        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
                 || putOnMonsterZoneCards.contains(selectedCard)) {
-            System.out.println("you can’t flip summon this card");
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "you can’t flip summon this card");
             return;
         }
         selectedCard.setAttackPosition(true);
@@ -2192,7 +2229,8 @@ public class Game {
         if (selectedCard.getName().equals("Command Knight")) {
             activateCommandKnight(selectedCard, currentUser);
         }
-        System.out.println("flip summoned successfully");
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Changed Successfully",
+                "flip summoned successfully");
         selectedCard = null;
     }
 
@@ -2633,6 +2671,7 @@ public class Game {
                 drawCard(owner);
             }
         }
+        printBoard();
     }
 
     public void addSpellOrTrapFromZoneToGraveyard(Card spellTrapCard, User owner) {
@@ -2873,7 +2912,9 @@ public class Game {
                     break;
                 }
             }
-            ((FieldEffect) ((Spell) owner.getBoard().getFieldZone()).getEffect()).getEffectedMonsterCards().remove(card);
+            if (owner.getBoard().getFieldZone() != null) {
+                ((FieldEffect) ((Spell) owner.getBoard().getFieldZone()).getEffect()).getEffectedMonsterCards().remove(card);
+            }
             if (card.getName().equals("Command Knight")) {
                 if (owner.getBoard().getCommandKnights().containsKey(card)) {
                     ArrayList<Card> cardsToRemoveEffect = owner.getBoard().getCommandKnights().get(card);
