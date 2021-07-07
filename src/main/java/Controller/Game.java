@@ -244,7 +244,6 @@ public class Game {
                 .getResource("/images/Icons/attack.png"))
                 .toExternalForm())));
         attack.setOnMouseClicked(event -> {
-            playSwordSound();
             attack();
             printBoard();
         });
@@ -1411,6 +1410,7 @@ public class Game {
     }
 
     private void changeTurn() {
+        playChangeTurnSound();
         currentUser = getOpponentOfCurrentUser();
         attackedCards.clear();
         normalSummonOrSetCard = null;
@@ -1718,9 +1718,30 @@ public class Game {
         player.play();
     }
 
-    private void playClickSound() {
+    private void playAttackSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
-                .getResource("/music/click1.mp3")).toExternalForm()));
+                .getResource("/music/attack.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playMyTurnSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/myTurn.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playChangeTurnSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/endTurn.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playSetSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/set.wav")).toExternalForm()));
         player.setCycleCount(1);
         player.play();
     }
@@ -1809,7 +1830,7 @@ public class Game {
     }
 
     private void summon() {
-        playFastClickSound();
+
         if (selectedCard == null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
@@ -2263,6 +2284,7 @@ public class Game {
     }
 
     private void set() {
+        playSetSound();
         if (activatedRitualCard != null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "you should ritual summon right now");
@@ -2635,6 +2657,7 @@ public class Game {
                                 " attack positioned monsters");
                 return false;
             }
+            playAttackSound();
             return doAttackAction(enemyCard, selectedMonster);
         }
     }
@@ -3319,6 +3342,7 @@ public class Game {
             drawPhasePlace.setFill(Color.GREEN);
         }
         if (currentPhase == Phase.DRAW) {
+            playMyTurnSound();
             currentPhase = Phase.STANDBY;
             standByPhasePlace.setFill(Color.GREEN);
             standbyPhaseRun();
