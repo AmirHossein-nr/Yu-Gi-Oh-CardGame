@@ -23,17 +23,17 @@ public class Profile extends Menu {
     String username, nickname, password;
 
     public void initialize () {
-       // username = loggedUser.getUsername();
-//        nickname = loggedUser.getNickName();
-//        password = loggedUser.getPassword();
-//        profileUsername.setText(username);
+        initializeLabels();
     }
 
-    public void initializeLabels () {
-//        username = loggedUser.getUsername();
-//        nickname = loggedUser.getNickName();
-//        password = loggedUser.getPassword();
-//        profileUsername.setText(username);
+    public void initializeLabels (){
+        if (loggedUser == null) {
+            profileUsername.setText("guest");
+            profileNickname.setText("not logged in yet");
+            return;
+        }
+        profileUsername.setText(loggedUser.getUsername());
+        profileNickname.setText(loggedUser.getNickName());
     }
 
     public Profile () {

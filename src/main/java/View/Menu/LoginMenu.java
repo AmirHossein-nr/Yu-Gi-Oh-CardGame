@@ -39,35 +39,6 @@ public class LoginMenu extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
-        input = editSpaces(input);
-        Matcher matcher;
-        if (Regex.getMatcher(input, Regex.menuExit).find()) {
-            this.menuExit();
-        } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
-            this.menuEnter(matcher.group(1));
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-            this.showName();
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
-            this.logoutUser();
-        } else if (Regex.getMatcher(input, Regex.loginUser).find()) {
-            boolean flag = login(Regex.getMatcher(input, Regex.loginUser));
-            if (!flag)
-                this.execute();
-            else {
-                System.out.println("user logged in successfully!");
-                this.getSubMenus().get(0).execute();
-            }
-            this.getSubMenus().get(0).execute();
-        } else if (Regex.getMatcher(input, Regex.createUser).find()) {
-            register(Regex.getMatcher(input, Regex.createUser));
-            this.execute();
-        } else {
-            System.out.println("invalid command");
-            this.execute();
-        }
     }
 
     public void register(Matcher matcher) {
@@ -103,14 +74,7 @@ public class LoginMenu extends Menu {
         Register.createAlert(Alert.AlertType.INFORMATION, header, content);
     }
 
-    public boolean loginUser(Matcher matcher) {
-        return login(matcher);
-    }
-
-    private boolean login(Matcher matcher) {
-        if (matcher.find()) {
-            String username = matcher.group(2);
-            String password = matcher.group(4);
+    private boolean login(String username, String password) {
             User user = User.getUserByUsername(username);
             if (user == null || !user.getPassword().equals(password)) {
                 String header = "No Match";
@@ -120,8 +84,6 @@ public class LoginMenu extends Menu {
             }
             loggedUser = user;
             return true;
-        }
-        return false;
     }
 
     private String editSpaces(String string) {
@@ -133,11 +95,14 @@ public class LoginMenu extends Menu {
         nickname = nicknameTextField.getText();
         password = passwordTextField.getText();
         createUser(username, password, nickname);
-        MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
-        mainMenuGraphic.start(mainStage);
+        SignUpAndLoginGraphic signUpAndLoginGraphic = new SignUpAndLoginGraphic();
+        signUpAndLoginGraphic.start(mainStage);
     }
 
     public void login(ActionEvent actionEvent) throws Exception {
+        if (!login(username, password)) {
+            return;
+        }
         MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
         mainMenuGraphic.start(mainStage);
     }
