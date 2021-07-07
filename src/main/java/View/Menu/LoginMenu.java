@@ -28,6 +28,11 @@ public class LoginMenu extends Menu {
     public TextField nicknameTextField;
     @FXML
     public TextField passwordTextField;
+    @FXML
+    public TextField loginUsernameTextField;
+    @FXML
+    public TextField loginPasswordTextField;
+
 
     String username, nickname, password;
 
@@ -42,13 +47,6 @@ public class LoginMenu extends Menu {
     }
 
     public void register(Matcher matcher) {
-        if (matcher.find()) {
-            String username = matcher.group(2);
-            String nickname = matcher.group(6);
-            String password = matcher.group(4);
-
-            createUser(username, password, nickname);
-        }
     }
 
     private void createUser(String username, String password, String nickname) {
@@ -62,7 +60,7 @@ public class LoginMenu extends Menu {
         }
         user = User.getUserByNickname(nickname);
         if (user != null) {
-            String header = "Existed User";
+            String header = "Existing User";
             String content = "user with nickname " + nickname + " already exists";
             Register.createAlert(Alert.AlertType.ERROR, header, content);
             return;
@@ -100,6 +98,8 @@ public class LoginMenu extends Menu {
     }
 
     public void login(ActionEvent actionEvent) throws Exception {
+        String username = loginUsernameTextField.getText();
+        String password = loginPasswordTextField.getText();
         if (!login(username, password)) {
             return;
         }

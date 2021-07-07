@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ShopGraphic extends Application {
-    private static Stage stage;
 
     public ShopGraphic () {
 
@@ -24,8 +23,8 @@ public class ShopGraphic extends Application {
         Scene scene = new Scene(root);
         primaryStage.setTitle("YU-GI-OH");
         primaryStage.setScene(scene);
-        primaryStage.show();
         Shop.mainStage = primaryStage;
+        primaryStage.show();
     }
 
 }
