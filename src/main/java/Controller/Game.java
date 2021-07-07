@@ -101,6 +101,7 @@ public class Game {
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
     private CardRectangle selectedCardFromEnemy;
+    private CardRectangle selectedCardToThrowAway;
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -1132,18 +1133,6 @@ public class Game {
         // todo going back to duel menu
     }
 
-    public void playTurn() {
-
-    }
-
-    public void playFirstTurn() {
-        printBoard();
-        standbyPhaseRun();
-        mainPhaseOneRun();
-        endPhaseRun();
-    }
-
-
     private void printBoard() {
         clearTheWholeScene();
         showCardsInHand(0);
@@ -2153,6 +2142,7 @@ public class Game {
                     new FadeOutUp(box).play();
                     popupStage.hide();
                 } else {
+                    selectedCard = null;
                     printBoard();
                     new FadeOutUp(box).play();
                     popupStage.hide();
@@ -3078,9 +3068,10 @@ public class Game {
     }
 
     private void endPhaseRun() {
-//        int number = currentUser.getBoard().getCardsInHand().size();
-//        if (number > 6) {
-//            number -= 6;
+        int number = currentUser.getBoard().getCardsInHand().size();
+        if (number > 6) {
+            number -= 6;
+            throwAwayExtraCards(number);
 //            while (currentUser.getBoard().getCardsInHand().size() > 6) {
 //                System.out.println("you have to throw away " + number + "cards");
 //                String numberString = editSpaces(scanner.nextLine());
@@ -3098,9 +3089,62 @@ public class Game {
 //                    System.out.println("enter a number");
 //                }
 //            }
-//        }
+        }
         currentPhase = Phase.END;
+    }
 
+    private void throwAwayExtraCards(int numberOfCards) {
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("throw " + numberOfCards + "\ncards");
+        box.getChildren().add(label);
+        ArrayList<CardRectangle> cardsInHand = new ArrayList<>();
+        for (Card card : currentUser.getBoard().getCardsInHand()) {
+            CardRectangle cardRectangle = new CardRectangle();
+            cardRectangle.setRelatedCard(card);
+            cardRectangle.setFill(new ImagePattern(card.getCardImage()));
+            cardRectangle.setWidth(90);
+            cardRectangle.setHeight(150);
+            cardRectangle.setOnMouseClicked(event1 -> {
+                if (selectedCardToThrowAway != null) selectedCardToThrowAway.setStroke(Color.TRANSPARENT);
+                selectedCardToThrowAway = cardRectangle;
+                selectedCardToThrowAway.setStroke(Color.GOLD);
+                selectedCard = selectedCardToThrowAway.getRelatedCard();
+            });
+            box.getChildren().add(cardRectangle);
+        }
+
+        Button tribute = new Button("throw");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (selectedCardToThrowAway == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "throw away error", "no card is selected yet");
+            } else {
+                currentUser.getBoard().getCardsInHand().remove(selectedCard);
+                currentUser.getBoard().getGraveYard().add(selectedCard);
+                selectedCardToThrowAway = null;
+                selectedCard = null;
+                printBoard();
+                if (numberOfCards == 1) {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                } else {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                    throwAwayExtraCards(numberOfCards - 1);
+                }
+            }
+        });
+        box.getChildren().add(tribute);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     public Phase getCurrentPhase() {
