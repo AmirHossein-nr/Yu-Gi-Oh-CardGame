@@ -26,6 +26,10 @@
             <children>
                 <Rectangle fx:id="graveYardIcon" width="50.0" height="50.0" layoutX="25.0" layoutY="430.0"
                            stroke="WHITE" strokeType="INSIDE"/>
+                <CardRectangle fx:id="currentFieldZone" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="102.0"
+                               layoutX="24.0" layoutY="305.0" stroke="BLACK" strokeType="INSIDE" width="73.0"/>
+                <CardRectangle fx:id="rivalFieldZone" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="102.0"
+                               layoutX="500.0" layoutY="184.0" stroke="BLACK" strokeType="INSIDE" width="73.0"/>
                 <Rectangle fx:id="nextButton" width="40.0" height="40.0"
                            layoutX="520.0" layoutY="535.0" stroke="WHITE" strokeType="INSIDE"/>
                 <Rectangle fx:id="previousButton" width="40.0" height="40.0"
@@ -92,7 +96,6 @@
                            layoutX="24.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="196.0"/>
             </children>
         </AnchorPane>
-
         <Rectangle fx:id="drawPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="65.0" layoutX="315.0"
                    layoutY="116.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="48.0"/>
         <Rectangle fx:id="standByPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="65.0" layoutX="315.0"
@@ -171,10 +174,11 @@
                    opacity="0.38" stroke="BLACK" strokeType="INSIDE" width="498.0"/>
         <Button fx:id="nextPhaseButton" layoutX="983.0" layoutY="410.0" mnemonicParsing="false" prefHeight="60.0"
                 prefWidth="120.0" text="Next Phase !"/>
-        <Rectangle fx:id="summon" layoutX="1113.0" layoutY="310.0" fill="Black" width="80" height="80"/>
-        <Rectangle fx:id="setAttack" layoutX="1173.0" layoutY="310.0" fill="Black" width="80" height="80"/>
-        <Rectangle fx:id="changePosition" layoutX="1242.0" layoutY="305.0" fill="Black" width="80" height="80"/>
-        <Rectangle fx:id="flipSummon" layoutX="1320.0" layoutY="305.0" fill="Black" width="80" height="80"/>
-        <Rectangle fx:id="attack" layoutX="1390.0" layoutY="305.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="summon" layoutX="973.0" layoutY="310.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="setAttack" layoutX="1032.0" layoutY="310.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="changePosition" layoutX="1092.0" layoutY="305.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="flipSummon" layoutX="1159.0" layoutY="305.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="attack" layoutX="1225.0" layoutY="309.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="directAttack" layoutX="1285.0" layoutY="309.0" fill="Black" width="80" height="80"/>
     </children>
 </AnchorPane>

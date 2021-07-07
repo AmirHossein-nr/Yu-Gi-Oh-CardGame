@@ -21,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -87,16 +89,19 @@ public class Game {
     public Rectangle nextButton;
     public Rectangle previousButton;
     public Rectangle graveYardIcon;
-    public Label graveYardLabel;
     public Rectangle flipSummon;
     public ProgressBar rivalUserLifeBar;
     public ProgressBar currentUserLifeBar;
     public Rectangle attack;
     public Label currentUserLifePoint;
     public Label rivalLifePoint;
+    public Rectangle directAttack;
+    public CardRectangle currentFieldZone;
+    public CardRectangle rivalFieldZone;
 
     public static Stage mainStage;
 
+    public MediaPlayer player;
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
     private CardRectangle selectedCardFromEnemy;
@@ -244,6 +249,11 @@ public class Game {
         setAttack.setFill(new ImagePattern(new Image("/images/Icons/setAttack.png")));
         setAttack.setOnMouseClicked(event -> {
             set();
+            printBoard();
+        });
+        directAttack.setFill(new ImagePattern(new Image("/images/Icons/directAttack.png")));
+        directAttack.setOnMouseClicked(event -> {
+            directAttack();
             printBoard();
         });
         changePosition.setFill(new ImagePattern(new Image("/images/Icons/changePosition.png")));
@@ -632,11 +642,13 @@ public class Game {
     }
 
     private void onMouseHoverForCardsOnBoard() {
+        mouseHoverControlForCurrent(currentFieldZone);
         mouseHoverControlForCurrent(currentMonster1);
         mouseHoverControlForCurrent(currentMonster2);
         mouseHoverControlForCurrent(currentMonster3);
         mouseHoverControlForCurrent(currentMonster4);
         mouseHoverControlForCurrent(currentMonster5);
+        mouseHoverControlForRival(rivalFieldZone);
         mouseHoverControlForRival(rivalMonster1);
         mouseHoverControlForRival(rivalMonster2);
         mouseHoverControlForRival(rivalMonster3);
@@ -757,6 +769,10 @@ public class Game {
             rivalAvatar.setFill(new ImagePattern(getOpponentOfCurrentUser().getAvatar()));
         } catch (Exception ignored) {
         }
+        currentFieldZone.setRelatedCard(null);
+        currentFieldZone.fillCard(false);
+        rivalFieldZone.setRelatedCard(null);
+        rivalFieldZone.fillCard(false);
         currentCard1.setRelatedCard(null);
         currentCard1.fillCard(true);
         currentCard2.setRelatedCard(null);
@@ -1271,6 +1287,12 @@ public class Game {
             currentCard6.setRelatedCard(null);
         }
         currentCard6.fillCard(true);
+        try {
+            currentFieldZone.setRelatedCard(currentUser.getBoard().getFieldZone());
+        } catch (Exception ignored) {
+            currentFieldZone.setRelatedCard(null);
+        }
+        currentFieldZone.fillCard(false);
     }
 
     private void showCardsInMonsterZone() {
@@ -1437,6 +1459,11 @@ public class Game {
         } catch (Exception ignored) {
         }
         rivalSpell5.fillCard(false);
+        try {
+            rivalFieldZone.setRelatedCard(getOpponentOfCurrentUser().getBoard().getFieldZone());
+        } catch (Exception ignored) {
+        }
+        rivalFieldZone.fillCard(false);
     }
 
     private void select(Matcher matcher) {
@@ -1669,6 +1696,13 @@ public class Game {
         runMainPhase();
     }
 
+    private void playErrorSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/error.mp3")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
     private void runMainPhase() {
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             ((AI) currentUser).setOnBoard();
@@ -1677,6 +1711,7 @@ public class Game {
             printBoard();
             if (currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO) {
                 if (activatedRitualCard != null) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Can't Execute !",
                             "You Should Ritual Summon Right Now!");
                 } else return;
@@ -1725,10 +1760,12 @@ public class Game {
 
     private void summon() {
         if (selectedCard == null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
             return;
         }
         if (!(selectedCard instanceof Monster) || !currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "you can’t summon this card");
             return;
         }
@@ -1748,6 +1785,7 @@ public class Game {
             return;
         } else {
             if (monster.getCardType() == Type.RITUAL) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
                         "you can’t summon this card");
                 return;
@@ -1755,6 +1793,7 @@ public class Game {
         }
         if (selectedCard.getName().equals("Gate Guardian")) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
                         "there are not enough cards for tribute");
             } else {
@@ -1882,12 +1921,14 @@ public class Game {
             }
         }
         if (normalSummonOrSetCard != null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
                     "you already summoned/set on this turn");
             return;
         }
         if (monster.getLevel() <= 4) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
                         "monster card zone is full");
             } else {
@@ -1902,14 +1943,16 @@ public class Game {
             }
         } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
+                playErrorSound();
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
                 doTributeSummonOrSet(1, false, true);
             }
         } else if (monster.getLevel() > 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
+                playErrorSound();
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
                 doTributeSummonOrSet(2, false, true);
@@ -2091,6 +2134,7 @@ public class Game {
         popupStage.setScene(question);
         tribute.setOnMouseClicked(event1 -> {
             if (selectedCardForTribute == null) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
             } else {
                 tributeMonster(selectedCardForTribute.getRelatedCard());
@@ -2164,14 +2208,17 @@ public class Game {
 
     private void set() {
         if (activatedRitualCard != null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "you should ritual summon right now");
             return;
         }
         if (selectedCard == null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "no card is selected yet");
             return;
         }
         if (!currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                     "you can’t summon this card");
             return;
@@ -2200,6 +2247,7 @@ public class Game {
                 }
             } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
@@ -2207,6 +2255,7 @@ public class Game {
                 }
             } else if (monster.getLevel() > 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
@@ -2215,6 +2264,7 @@ public class Game {
             }
         } else {
             if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                         "Spell Card Zone Is Full");
                 return;
@@ -2298,22 +2348,26 @@ public class Game {
     private void setPositionAttackDefense(String input) {
         if (changePosition()) return;
         if (!selectedCard.getOccupied()) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "you can’t change this card position");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "action not allowed in this phase");
             return;
         }
         if ((selectedCard.getAttackPosition() && input.equals("attack"))
                 || (!selectedCard.getAttackPosition() && input.equals("defense"))) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "this card is already in the wanted position");
             return;
         }
         if (setPositionedCards.contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "you already changed this card position in this turn");
             return;
@@ -2447,6 +2501,7 @@ public class Game {
         } else {
             if (doAttack()) return false;
             if (selectedCardFromEnemy == null) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error !",
                         "No Enemy Card is Selected Yet ..!");
                 return false;
@@ -2454,6 +2509,7 @@ public class Game {
             Card enemyCard = selectedCardFromEnemy.getRelatedCard();
             Monster selectedMonster = (Monster) selectedCard;
             if (enemyCard == null) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error Occurred!",
                         "there is no card to attack here");
                 return false;
@@ -2468,6 +2524,7 @@ public class Game {
             if (enemyCard.getName().equals("Command Knight") && getOpponentOfCurrentUser().getBoard()
                     .numberOfMonstersOnBoard() - getOpponentOfCurrentUser().getBoard().getCommandKnights().size() > 0) {
                 if (enemyCard.getOccupied()) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error Occurred!",
                             "you can't attack this card yet");
                     return false;
@@ -2918,14 +2975,17 @@ public class Game {
 
     private boolean doAttack() {
         if (selectedCard == null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "no card is selected yet");
             return true;
         }
         if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
             return true;
         }
         if (!(currentPhase == Phase.BATTLE)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t do this action in this phase");
             return true;
         }
