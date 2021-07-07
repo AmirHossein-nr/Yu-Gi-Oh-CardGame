@@ -3162,46 +3162,11 @@ public class Game {
         new ChainController(this, scanner).run();
     }
 
-    private void showGraveyard() {
-        if (currentUser.getBoard().getGraveYard().size() == 0) {
-            System.out.println("graveyard empty");
-        } else {
-            int number = 1;
-            for (Card card : currentUser.getBoard().getGraveYard()) {
-                System.out.println(number + ". " + card.getName() + ":" + card.getDescription());
-                number++;
-            }
-        }
-        System.out.println("type back to return to game");
-        while (true) {
-            if (scanner.nextLine().equals("back")) {
-                return;
-            }
-        }
-    }
-
     private void endPhaseRun() {
         int number = currentUser.getBoard().getCardsInHand().size();
         if (number > 6) {
             number -= 6;
             throwAwayExtraCards(number);
-//            while (currentUser.getBoard().getCardsInHand().size() > 6) {
-//                System.out.println("you have to throw away " + number + "cards");
-//                String numberString = editSpaces(scanner.nextLine());
-//                if (numberString.matches("\\d+")) {
-//                    int number1 = Integer.parseInt(numberString);
-//                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
-//                        System.out.println("enter a correct number");
-//                    } else {
-//                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
-//                        currentUser.getBoard().getCardsInHand().remove(card);
-//                        currentUser.getBoard().getGraveYard().add(card);
-//                        number--;
-//                    }
-//                } else {
-//                    System.out.println("enter a number");
-//                }
-//            }
         }
         currentPhase = Phase.END;
     }
@@ -3238,7 +3203,6 @@ public class Game {
         popupStage.setScene(question);
         tribute.setOnMouseClicked(event1 -> {
             if (selectedCardToThrowAway == null) {
-                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "throw away error", "no card is selected yet");
             } else {
                 currentUser.getBoard().getCardsInHand().remove(selectedCard);
@@ -3348,7 +3312,6 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-        playClickSound();
         if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;
@@ -3390,7 +3353,6 @@ public class Game {
         } else {
             changeTurn();
             initialiseLabelNames();
-            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.INFORMATION, "Turn Changed!",
                     "its " + currentUser.getNickName() + "’s turn");
             currentPhase = Phase.DRAW;
@@ -3399,5 +3361,4 @@ public class Game {
             drawPhaseRun();
         }
     }
-
 }
