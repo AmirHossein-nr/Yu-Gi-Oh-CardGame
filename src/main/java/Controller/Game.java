@@ -98,6 +98,7 @@ public class Game {
 
     public static Stage mainStage;
 
+    private boolean mutePressed = false;
     public MediaPlayer player;
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
@@ -241,6 +242,23 @@ public class Game {
             } else {
                 playDontGiveUpSound();
                 alert.close();
+            }
+        });
+        muteButton.setOnMouseClicked(event -> {
+            if (!mutePressed) {
+                try {
+                    player.setMute(true);
+                    muteButton.setFill(new ImagePattern(new Image("/images/Icons/sound.png")));
+                    mutePressed = true;
+                } catch (Exception ignored) {
+                }
+            } else {
+                try {
+                    player.setMute(false);
+                    muteButton.setFill(new ImagePattern(new Image("/images/Icons/Mute.png")));
+                    mutePressed = false;
+                } catch (Exception ignored) {
+                }
             }
         });
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
@@ -1699,98 +1717,112 @@ public class Game {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/error.mp3")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playAttackSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/attack.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playMyTurnSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/myTurn.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playChangeTurnSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/endTurn.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playSetSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/set.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playSummonSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/summon2.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playSurrenderSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/surrender.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playDirectAttackSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/directAttack.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playDontGiveUpSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/notGiveUp.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playTributeSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/tribute.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playDrawSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/draw.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playPopSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/pop.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playDryPopSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/dryPop.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playSwordSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/sword.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void runMainPhase() {

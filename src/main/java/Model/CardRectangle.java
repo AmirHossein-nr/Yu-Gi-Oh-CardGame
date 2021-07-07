@@ -32,9 +32,7 @@ public class CardRectangle extends Rectangle {
                             .getResource("/images/backCard.jpg"))
                             .toExternalForm())));
                 }
-            }
-
-            else if (this.getRelatedCard().getOccupied()) {
+            } else if (this.getRelatedCard().getOccupied()) {
                 if (this.getRelatedCard().getAttackPosition()) {
                     if (this.getRotate() > 0)
                         this.rotateProperty().set(0);
