@@ -9,8 +9,8 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane opacity="1" id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="656.0" prefWidth="1166.0" style="-fx-background-color: orange;"
+<AnchorPane id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            opacity="1" prefHeight="656.0" prefWidth="1166.0" style="-fx-background-color: orange;"
             xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Shop">
     <children>
         <ImageView fitHeight="656.0" fitWidth="1175.0" layoutX="-2.0">
@@ -39,7 +39,7 @@
                    stroke="BLACK" strokeType="INSIDE" width="152.0"/>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcfcfc" height="223.0" layoutX="788.0" layoutY="354.0"
                    stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Button layoutX="94.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="94.0" layoutY="281.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -130,7 +130,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="836.0" layoutY="587.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="836.0" layoutY="587.0" mnemonicParsing="false" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -145,7 +146,7 @@
         </Button>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="46.0" layoutY="354.0">
             <image>
-                <Image url="@../images/Monsters/Alexandrite Dragon.jpg"/>
+                <Image url="@../images/Monsters/Axe Raider.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="301.0" layoutY="39.0">
@@ -193,7 +194,7 @@
             </effect>
         </Button>
         <Button layoutX="1045.0" layoutY="354.0" mnemonicParsing="false" onAction="#backToMainMenu"
-                onMouseClicked="#backToMainMenu" prefHeight="25.0" prefWidth="85.0"
+                onMouseClicked="#backToMainMenu" prefHeight="43.0" prefWidth="98.0"
                 style="-fx-background-color: white; -fx-border-style: solid; -fx-border-color: orange; -fx-border-width: 3;"
                 text="back">
             <font>

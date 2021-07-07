@@ -2,7 +2,7 @@ package View.Menu;
 
 import Controller.Regex;
 import Model.User;
-import View.GUI.MainMenuGraphic;
+import View.GUI.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -34,6 +34,7 @@ public class Profile extends Menu {
         }
         profileUsername.setText(loggedUser.getUsername());
         profileNickname.setText(loggedUser.getNickName());
+        profilePassword.setText(loggedUser.getPassword());
     }
 
     public Profile () {
@@ -68,17 +69,17 @@ public class Profile extends Menu {
             }
             User user = User.getUserByNickname(nickName);
             if (user != null) {
-                System.out.println("user with nickname " + nickName + " already exists");
+                System.out.println();
                 this.execute();
             } else {
                 loggedUser.setNickName(nickName);
-                System.out.println("nickname changed successfully!");
+                System.out.println();
                 this.execute();
             }
         } else if ((matcher = Regex.getMatcher(input, Regex.changePassword)).find()) {
             String oldPassWord = matcher.group(3), newPassWord = matcher.group(5);
             if (!loggedUser.getPassword().equals(oldPassWord)) {
-                System.out.println("current password is invalid");
+                System.out.println();
                 this.execute();
             } else if (oldPassWord.equals(newPassWord)) {
                 System.out.println("please enter a new password");
@@ -102,5 +103,17 @@ public class Profile extends Menu {
         MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
         mainMenuGraphic.start(mainStage);
 
+    }
+
+    public void changeNickname(ActionEvent actionEvent) throws Exception {
+        ChangeNickname.loggedUser = loggedUser;
+        ChangeNicknameGraphic changeNickname = new ChangeNicknameGraphic();
+        changeNickname.start(mainStage);
+    }
+
+    public void changePassword(ActionEvent actionEvent) throws Exception {
+        ChangePassword.loggedUser = loggedUser;
+        ChangePasswordGraphic changePasswordGraphic = new ChangePasswordGraphic();
+        changePasswordGraphic.start(mainStage);
     }
 }
