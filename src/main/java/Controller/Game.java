@@ -3114,6 +3114,27 @@ public class Game {
         }
     }
 
+    public boolean processText(String text) {
+        Matcher matcher;
+        if ((matcher = Regex.getMatcher(text, Regex.increaseMoney)).find()) {
+            Integer amount = Integer.parseInt(matcher.group(2));
+            getCurrentUser().setMoney(currentUser.getMoney() + amount);
+            return true;
+        }
+        if ((matcher = Regex.getMatcher(text, Regex.increaseLife)).find()) {
+            Integer amount = Integer.parseInt(matcher.group(2));
+            getCurrentUser().setLifePoint(currentUser.getLifePoint() + amount);
+            return true;
+        }
+        if ((matcher = Regex.getMatcher(text, Regex.setWinnerCheat)).find()) {
+            String nickname = matcher.group(1);
+            if (User.getUserByNickname(nickname) == null) return false;
+            winnerOfDuel = User.getUserByNickname(nickname);
+            return true;
+        }
+        return false;
+    }
+
     @FXML
     public void nextPhase() {
         if (currentPhase == null) {

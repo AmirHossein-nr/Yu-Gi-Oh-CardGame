@@ -92,6 +92,7 @@
                            layoutX="24.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="196.0"/>
             </children>
         </AnchorPane>
+
         <Rectangle fx:id="drawPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="65.0" layoutX="315.0"
                    layoutY="116.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="48.0"/>
         <Rectangle fx:id="standByPhasePlace" arcHeight="5.0" arcWidth="5.0" fill="#e4443f" height="65.0" layoutX="315.0"
