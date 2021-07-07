@@ -94,6 +94,7 @@ public class Game {
     public Rectangle attack;
     public Label currentUserLifePoint;
     public Label rivalLifePoint;
+    public Rectangle directAttack;
 
     public static Stage mainStage;
 
@@ -256,6 +257,11 @@ public class Game {
         flipSummon.setFill(new ImagePattern(new Image("/images/Icons/flipSummon.png")));
         flipSummon.setOnMouseClicked(event -> {
             flipSummon();
+            printBoard();
+        });
+        directAttack.setFill(new ImagePattern(new Image("/images/Icons/directAttack.png")));
+        directAttack.setOnMouseClicked(event -> {
+            directAttack();
             printBoard();
         });
     }
@@ -751,6 +757,26 @@ public class Game {
         try {
             currentUserLifeBar.setProgress(currentUser.getLifePoint() / 8000.0);
             rivalUserLifeBar.setProgress(getOpponentOfCurrentUser().getLifePoint() / 8000.0);
+            if (currentUser.getLifePoint() > 6000) {
+                currentUserLifeBar.lookup(".bar").setStyle("-fx-background-color: Green");
+                currentUserLifePoint.setStyle("-fx-text-fill: Green");
+            } else if (currentUser.getLifePoint() > 4000 && currentUser.getLifePoint() <= 6000) {
+                currentUserLifeBar.lookup(".bar").setStyle("-fx-background-color: Yellow");
+                currentUserLifePoint.setStyle("-fx-text-fill: Yellow");
+            } else if (currentUser.getLifePoint() <= 4000) {
+                currentUserLifeBar.lookup(".bar").setStyle("-fx-background-color: RED");
+                currentUserLifePoint.setStyle("-fx-text-fill: RED");
+            }
+            if (getOpponentOfCurrentUser().getLifePoint() > 6000) {
+                rivalUserLifeBar.lookup(".bar").setStyle("-fx-background-color: GREEN");
+                rivalLifePoint.setStyle("-fx-text-fill: Green");
+            } else if (getOpponentOfCurrentUser().getLifePoint() > 4000 && getOpponentOfCurrentUser().getLifePoint() <= 6000) {
+                rivalUserLifeBar.lookup(".bar").setStyle("-fx-background-color: Yellow");
+                rivalLifePoint.setStyle("-fx-text-fill: Yellow");
+            } else if (getOpponentOfCurrentUser().getLifePoint() <= 4000) {
+                rivalUserLifeBar.lookup(".bar").setStyle("-fx-background-color: RED");
+                rivalLifePoint.setStyle("-fx-text-fill: RED");
+            }
             currentUserLifePoint.setText(String.valueOf(currentUser.getLifePoint()));
             rivalLifePoint.setText(String.valueOf(getOpponentOfCurrentUser().getLifePoint()));
             currentAvatar.setFill(new ImagePattern(currentUser.getAvatar()));
@@ -814,6 +840,10 @@ public class Game {
     public void test() {
         User user1 = new User("amirhossein", "12345", "AmirHNR");
         User user2 = new User("mammad", "1234", "Mamali");
+        user1.setAvatar(new Image(Objects.requireNonNull(getClass().getResource("/images/Characters/001.png"))
+                .toExternalForm()));
+        user2.setAvatar(new Image(Objects.requireNonNull(getClass().getResource("/images/Characters/002.png"))
+                .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
         for (int i = 0; i < 41; i++) {
@@ -2869,12 +2899,14 @@ public class Game {
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
         if (doAttack()) return false;
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
-            System.out.println("you can’t attack the opponent directly");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Direct Attack Error!",
+                    "you can’t attack the opponent directly");
             return false;
         }
         if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
             if (((Monster) selectedCard).getAttackPower() >= 1500) {
-                System.out.println("Messenger of Peace does not let you attack wit this card");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
+                        "Messenger of Peace does not let you attack wit this card");
                 return false;
             }
         }
@@ -2882,7 +2914,9 @@ public class Game {
         new ChainController(this, scanner).run();
         if (magicCylinderActivated) {
             setMagicCylinderActivated(false);
-            System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
+                    "Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower()
+                            + "damage");
             currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
             if (currentUser.getLifePoint() <= 0) {
                 winnerOfDuel = getOpponentOfCurrentUser();
@@ -2893,12 +2927,14 @@ public class Game {
         }
         if (negateAttackActivated) {
             setNegateAttackActivated(false);
-            System.out.println("Negate Attack stopped the attack");
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
+                    "Negate Attack stopped the attack");
             return false;
         }
         if (mirrorForceActivated) {
             setMirrorForceActivated(false);
-            System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
+                    "Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
             return false;
         }
 
@@ -2907,7 +2943,8 @@ public class Game {
         attackedCards.add(selectedCard);
         int damage = ((Monster) selectedCard).getAttackPower();
         getOpponentOfCurrentUser().setLifePoint(getOpponentOfCurrentUser().getLifePoint() - damage);
-        System.out.println("you opponent receives " + damage + " battle damage");
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
+                "you opponent receives " + damage + " battle damage");
         if (getOpponentOfCurrentUser().getLifePoint() <= 0) {
             winnerOfDuel = currentUser;
             return true;
@@ -2962,7 +2999,8 @@ public class Game {
             System.out.println("you have already activated this card");
             return;
         }
-        if (selectedCard.getCardType() == Type.FIELD && currentUser.getBoard().getFieldZone() == selectedCard && selectedCard.getOccupied()) {
+        if (selectedCard.getCardType() == Type.FIELD && currentUser.getBoard().getFieldZone()
+                == selectedCard && selectedCard.getOccupied()) {
             System.out.println("you have already activated this card");
             return;
         }
