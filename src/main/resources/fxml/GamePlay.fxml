@@ -28,6 +28,8 @@
                            stroke="WHITE" strokeType="INSIDE"/>
                 <CardRectangle fx:id="currentFieldZone" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="102.0"
                                layoutX="24.0" layoutY="305.0" stroke="BLACK" strokeType="INSIDE" width="73.0"/>
+                <CardRectangle fx:id="rivalFieldZone" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="102.0"
+                               layoutX="500.0" layoutY="184.0" stroke="BLACK" strokeType="INSIDE" width="73.0"/>
                 <Rectangle fx:id="nextButton" width="40.0" height="40.0"
                            layoutX="520.0" layoutY="535.0" stroke="WHITE" strokeType="INSIDE"/>
                 <Rectangle fx:id="previousButton" width="40.0" height="40.0"
