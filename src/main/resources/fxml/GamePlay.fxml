@@ -172,7 +172,8 @@
                 prefWidth="120.0" text="Next Phase !"/>
         <Rectangle fx:id="summon" layoutX="1113.0" layoutY="310.0" fill="Black" width="80" height="80"/>
         <Rectangle fx:id="setAttack" layoutX="1173.0" layoutY="310.0" fill="Black" width="80" height="80"/>
-        <Rectangle fx:id="changePosition" layoutX="1242.0" layoutY="302.0" fill="Black" width="90" height="90"/>
-        <Rectangle fx:id="flipSummon" layoutX="1320.0" layoutY="302.0" fill="Black" width="90" height="90"/>
+        <Rectangle fx:id="changePosition" layoutX="1242.0" layoutY="305.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="flipSummon" layoutX="1320.0" layoutY="305.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="attack" layoutX="1390.0" layoutY="305.0" fill="Black" width="80" height="80"/>
     </children>
 </AnchorPane>

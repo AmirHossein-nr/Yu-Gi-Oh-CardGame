@@ -91,6 +91,7 @@ public class Game {
     public Rectangle flipSummon;
     public ProgressBar rivalUserLifeBar;
     public ProgressBar currentUserLifeBar;
+    public Rectangle attack;
 
     public static Stage mainStage;
 
@@ -130,6 +131,21 @@ public class Game {
     @FXML
     public void initialize() {
         initialiseLabelNames();
+        setFillForImagesOnBoard();
+        nextAndPreviousButtonsInitialize();
+        clearTheWholeScene();
+        initialiseAnimationsOfSelectCard();
+        mouseDragControlling();
+        onMouseHoverForCardsOnBoard();
+        onMouseClickedForCardsInHand();
+        onMouseClickedForCardsInDeck();
+        new FadeInDown(rivalAvatar).play();
+        new FadeInUp(currentAvatar).play();
+        nextPhaseButton.setOnMouseClicked(event -> nextPhase());
+        drawPhasePlace.setFill(Color.GREEN);
+    }
+
+    private void setFillForImagesOnBoard() {
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
@@ -142,6 +158,9 @@ public class Game {
             summon();
             printBoard();
         });
+        attack.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                .getResource("/images/Icons/attack.png"))
+                .toExternalForm())));
         setAttack.setFill(new ImagePattern(new Image("/images/Icons/setAttack.png")));
         setAttack.setOnMouseClicked(event -> {
             set();
@@ -161,17 +180,6 @@ public class Game {
             flipSummon();
             printBoard();
         });
-        nextAndPreviousButtonsInitialize();
-        clearTheWholeScene();
-        initialiseAnimationsOfSelectCard();
-        mouseDragControlling();
-        onMouseHoverForCardsOnBoard();
-        onMouseClickedForCardsInHand();
-        onMouseClickedForCardsInDeck();
-        new FadeInDown(rivalAvatar).play();
-        new FadeInUp(currentAvatar).play();
-        nextPhaseButton.setOnMouseClicked(event -> nextPhase());
-        drawPhasePlace.setFill(Color.GREEN);
     }
 
     private void graveYardOnClick() {
