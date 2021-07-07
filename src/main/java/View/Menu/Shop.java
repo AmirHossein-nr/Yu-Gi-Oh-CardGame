@@ -363,7 +363,7 @@ public class Shop extends Menu {
     }
 
     public void alexandriteDragon(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card())
+//        loggedUser.getAllCards().add(new Card());
     }
 }
 
