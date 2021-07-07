@@ -244,6 +244,7 @@ public class Game {
                 .getResource("/images/Icons/attack.png"))
                 .toExternalForm())));
         attack.setOnMouseClicked(event -> {
+            playSwordSound();
             attack();
             printBoard();
         });
@@ -254,6 +255,7 @@ public class Game {
         });
         directAttack.setFill(new ImagePattern(new Image("/images/Icons/directAttack.png")));
         directAttack.setOnMouseClicked(event -> {
+            playSwordSound();
             directAttack();
             printBoard();
         });
@@ -1716,6 +1718,41 @@ public class Game {
         player.play();
     }
 
+    private void playClickSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/click1.mp3")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playFastClickSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/fastClick.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playPopSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/pop.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playDryPopSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/dryPop.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playSwordSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/sword.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
     private void runMainPhase() {
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             ((AI) currentUser).setOnBoard();
@@ -1772,6 +1809,7 @@ public class Game {
     }
 
     private void summon() {
+        playFastClickSound();
         if (selectedCard == null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
@@ -1783,6 +1821,7 @@ public class Game {
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
+            playPopSound();
             GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Error!",
                     "action not allowed in this phase");
             return;
@@ -1792,6 +1831,7 @@ public class Game {
             if (monster.getCardType() == Type.RITUAL) {
                 ritualSummon();
             } else {
+                playPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Error!",
                         "you should ritual summon right now");
             }
@@ -2157,10 +2197,12 @@ public class Game {
                     selectedCard = selectedRectangle.getRelatedCard();
                     if (isSummon) {
                         addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        playPopSound();
                         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successful !",
                                 "Summoned successfully");
                     } else {
                         addMonsterFromHandToMonsterZone(selectedCard, false, false);
+                        playPopSound();
                         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Successful !",
                                 "Set successfully");
                     }
@@ -2238,11 +2280,13 @@ public class Game {
             return;
         }
         if (selectedCard.getName().equals("Gate Guardian")) {
+            playPopSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                     "you can’t set this card");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
+            playPopSound();
             GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Error !",
                     "action not allowed in this phase");
             return;
@@ -2251,12 +2295,14 @@ public class Game {
             Monster monster = (Monster) selectedCard;
 
             if (normalSummonOrSetCard != null) {
+                playPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Error !",
                         "you already summoned/set on this turn");
                 return;
             }
             if (monster.getLevel() <= 4) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                    playPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Error !",
                             "monster card zone is full");
                 } else {
@@ -2392,6 +2438,7 @@ public class Game {
             return;
         }
         selectedCard.setAttackPosition(input.equals("attack"));
+        playPopSound();
         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Changed Successfully",
                 "monster card position changed successfully");
         setPositionedCards.add(selectedCard);
@@ -2400,16 +2447,19 @@ public class Game {
 
     private boolean changePosition() {
         if (activatedRitualCard != null) {
+            playPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you should ritual summon right now");
             return true;
         }
         if (selectedCard == null) {
+            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "no card is selected yet");
             return true;
         }
         if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
+            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you can’t change this card position");
             return true;
@@ -2418,12 +2468,15 @@ public class Game {
     }
 
     private void flipSummon() {
+        playFastClickSound();
         if (activatedRitualCard != null) {
+            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you should ritual summon right now");
             return;
         }
         if (selectedCard == null) {
+            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "no card is selected yet");
             return;
@@ -2434,6 +2487,7 @@ public class Game {
         }
         if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
                 || putOnMonsterZoneCards.contains(selectedCard)) {
+            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you can’t flip summon this card");
             return;
@@ -2443,6 +2497,7 @@ public class Game {
         if (selectedCard.getName().equals("Command Knight")) {
             activateCommandKnight(selectedCard, currentUser);
         }
+        playDryPopSound();
         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Changed Successfully",
                 "flip summoned successfully");
         selectedCard = null;
@@ -2535,6 +2590,7 @@ public class Game {
             }
             if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
                 if (((Monster) selectedCard).getAttackPower() >= 1500) {
+                    playDryPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Something Happened While Attacking!",
                             "Messenger of Peace does not let you attack with this card");
                     return false;
@@ -2552,6 +2608,7 @@ public class Game {
             new ChainController(this, scanner).run();
             if (magicCylinderActivated) {
                 setMagicCylinderActivated(false);
+                playDryPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Something Happened While Attacking!",
                         "Magic Cylinder stopped the attack and attacker took " +
                                 selectedMonster.getAttackPower() + "damage");
@@ -2565,12 +2622,14 @@ public class Game {
             }
             if (negateAttackActivated) {
                 setNegateAttackActivated(false);
+                playDryPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Something Happened While Attacking!",
                         "Negate Attack stopped the attack");
                 return false;
             }
             if (mirrorForceActivated) {
                 setMirrorForceActivated(false);
+                playDryPopSound();
                 GamePlay.showAlert(Alert.AlertType.WARNING, "Something Happened While Attacking!",
                         "Mirror Force stopped the attack and destroyed all attackers" +
                                 " attack positioned monsters");
@@ -2615,11 +2674,13 @@ public class Game {
             if (selectedMonster.getAttackPower() > enemyMonster.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getAttackPower());
+                playDryPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                         "your opponent’s monster is destroyed and your opponent receives " + damage
                                 + " battle damage");
                 if (enemyMonster.getName().equals("Yomi Ship")) {
                     addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
+                    playDryPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "Yomi Ship destroyed your monster");
                 } else {
@@ -2634,6 +2695,7 @@ public class Game {
             } else if (selectedMonster.getAttackPower() == enemyMonster.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
+                playDryPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                         "both you and your opponent monster cards are destroyed and no one receives damage");
                 attackedCards.add(selectedMonster);
@@ -2641,6 +2703,7 @@ public class Game {
             } else {
                 addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getAttackPower());
+                playPopSound();
                 GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                         "Your monster card is destroyed and you received " + damage + " battle damage");
                 attackedCards.add(selectedMonster);
@@ -2655,6 +2718,7 @@ public class Game {
             if (selectedMonster.getAttackPower() > enemyMonster.getDefencePower()) {
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
                 if (enemyMonster.getOccupied()) {
+                    playPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "the defense position monster is destroyed");
                 } else {
@@ -2662,12 +2726,14 @@ public class Game {
                     if (enemyMonster.getName().equals("Command Knight")) {
                         activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
                     }
+                    playPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "opponent’s monster card was " + enemyMonster.getName()
                                     + " and the defense position monster is destroyed");
                 }
                 if (enemyMonster.getName().equals("Yomi Ship")) {
                     addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
+                    playDryPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "Yomi Ship destroyed your monster");
                 } else {
@@ -2676,6 +2742,7 @@ public class Game {
                 return false;
             } else if (selectedMonster.getAttackPower() == enemyMonster.getDefencePower()) {
                 if (enemyMonster.getOccupied()) {
+                    playPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "no card is destroyed");
                 } else {
@@ -2683,6 +2750,7 @@ public class Game {
                     if (enemyMonster.getName().equals("Command Knight")) {
                         activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
                     }
+                    playDryPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "opponent’s monster card was " + enemyMonster.getName() +
                                     " and no card is destroyed");
@@ -2693,6 +2761,7 @@ public class Game {
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getDefencePower());
 
                 if (enemyMonster.getOccupied()) {
+                    playDryPopSound();
                     GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
                             "no card is destroyed and you received " + damage + " battle damage");
                 } else {
@@ -2945,12 +3014,16 @@ public class Game {
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
         if (doAttack()) return false;
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
-            System.out.println("you can’t attack the opponent directly");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "directAttack Error",
+                    "you can’t attack the opponent directly");
             return false;
         }
         if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
             if (((Monster) selectedCard).getAttackPower() >= 1500) {
-                System.out.println("Messenger of Peace does not let you attack wit this card");
+                playPopSound();
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "directAttack Error",
+                        "Messenger of Peace does not let you attack wit this card");
                 return false;
             }
         }
@@ -2958,7 +3031,10 @@ public class Game {
         new ChainController(this, scanner).run();
         if (magicCylinderActivated) {
             setMagicCylinderActivated(false);
-            System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+            playPopSound();
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "directAttack Error",
+                    "Magic Cylinder stopped the attack and attacker took " +
+                            selectedMonster.getAttackPower() + "damage");
             currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
             if (currentUser.getLifePoint() <= 0) {
                 winnerOfDuel = getOpponentOfCurrentUser();
@@ -2969,12 +3045,16 @@ public class Game {
         }
         if (negateAttackActivated) {
             setNegateAttackActivated(false);
-            System.out.println("Negate Attack stopped the attack");
+            playPopSound();
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "directAttack Error",
+                    "Negate Attack stopped the attack");
             return false;
         }
         if (mirrorForceActivated) {
             setMirrorForceActivated(false);
-            System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+            playPopSound();
+            GamePlay.showAlert(Alert.AlertType.INFORMATION, "directAttack Error",
+                    "Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
             return false;
         }
 
@@ -2983,7 +3063,9 @@ public class Game {
         attackedCards.add(selectedCard);
         int damage = ((Monster) selectedCard).getAttackPower();
         getOpponentOfCurrentUser().setLifePoint(getOpponentOfCurrentUser().getLifePoint() - damage);
-        System.out.println("you opponent receives " + damage + " battle damage");
+        playDryPopSound();
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "directAttack Error",
+                "you opponent receives " + damage + " battle damage");
         if (getOpponentOfCurrentUser().getLifePoint() <= 0) {
             winnerOfDuel = currentUser;
             return true;
@@ -3009,10 +3091,12 @@ public class Game {
             return true;
         }
         if (attackedCards.contains(selectedCard)) {
+            playPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Attack Error", "this card already attacked");
             return true;
         }
         if (!selectedCard.getAttackPosition()) {
+            playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
             return true;
         }
@@ -3078,58 +3162,11 @@ public class Game {
         new ChainController(this, scanner).run();
     }
 
-    private void showGraveyard() {
-        if (currentUser.getBoard().getGraveYard().size() == 0) {
-            System.out.println("graveyard empty");
-        } else {
-            int number = 1;
-            for (Card card : currentUser.getBoard().getGraveYard()) {
-                System.out.println(number + ". " + card.getName() + ":" + card.getDescription());
-                number++;
-            }
-        }
-        System.out.println("type back to return to game");
-        while (true) {
-            if (scanner.nextLine().equals("back")) {
-                return;
-            }
-        }
-    }
-
-    private void showSelectedCard() {
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-            return;
-        }
-        if (getOpponentOfCurrentUser().getBoard().getAllCards().contains(selectedCard) && !selectedCard.getOccupied()) {
-            System.out.println("card is not visible");
-            return;
-        }
-        System.out.println(selectedCard.getName() + ":" + selectedCard.getDescription());
-    }
-
     private void endPhaseRun() {
         int number = currentUser.getBoard().getCardsInHand().size();
         if (number > 6) {
             number -= 6;
             throwAwayExtraCards(number);
-//            while (currentUser.getBoard().getCardsInHand().size() > 6) {
-//                System.out.println("you have to throw away " + number + "cards");
-//                String numberString = editSpaces(scanner.nextLine());
-//                if (numberString.matches("\\d+")) {
-//                    int number1 = Integer.parseInt(numberString);
-//                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
-//                        System.out.println("enter a correct number");
-//                    } else {
-//                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
-//                        currentUser.getBoard().getCardsInHand().remove(card);
-//                        currentUser.getBoard().getGraveYard().add(card);
-//                        number--;
-//                    }
-//                } else {
-//                    System.out.println("enter a number");
-//                }
-//            }
         }
         currentPhase = Phase.END;
     }
