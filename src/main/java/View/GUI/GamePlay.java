@@ -24,7 +24,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;

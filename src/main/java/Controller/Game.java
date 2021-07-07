@@ -6,7 +6,6 @@ import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
 import animatefx.animation.*;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -89,6 +88,7 @@ public class Game {
     public Rectangle nextButton;
     public Rectangle previousButton;
     public Rectangle graveYardIcon;
+    public Label graveYardLabel;
     public Rectangle flipSummon;
     public ProgressBar rivalUserLifeBar;
     public ProgressBar currentUserLifeBar;
@@ -105,6 +105,7 @@ public class Game {
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
     private CardRectangle selectedCardFromEnemy;
+    private CardRectangle selectedCardToThrowAway;
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -763,6 +764,26 @@ public class Game {
         try {
             currentUserLifeBar.setProgress(currentUser.getLifePoint() / 8000.0);
             rivalUserLifeBar.setProgress(getOpponentOfCurrentUser().getLifePoint() / 8000.0);
+            if (currentUser.getLifePoint() > 6000) {
+                currentUserLifeBar.lookup(".bar").setStyle("-fx-background-color: Green");
+                currentUserLifePoint.setStyle("-fx-text-fill: Green");
+            } else if (currentUser.getLifePoint() > 4000 && currentUser.getLifePoint() <= 6000) {
+                currentUserLifeBar.lookup(".bar").setStyle("-fx-background-color: Yellow");
+                currentUserLifePoint.setStyle("-fx-text-fill: Yellow");
+            } else if (currentUser.getLifePoint() <= 4000) {
+                currentUserLifeBar.lookup(".bar").setStyle("-fx-background-color: RED");
+                currentUserLifePoint.setStyle("-fx-text-fill: RED");
+            }
+            if (getOpponentOfCurrentUser().getLifePoint() > 6000) {
+                rivalUserLifeBar.lookup(".bar").setStyle("-fx-background-color: GREEN");
+                rivalLifePoint.setStyle("-fx-text-fill: Green");
+            } else if (getOpponentOfCurrentUser().getLifePoint() > 4000 && getOpponentOfCurrentUser().getLifePoint() <= 6000) {
+                rivalUserLifeBar.lookup(".bar").setStyle("-fx-background-color: Yellow");
+                rivalLifePoint.setStyle("-fx-text-fill: Yellow");
+            } else if (getOpponentOfCurrentUser().getLifePoint() <= 4000) {
+                rivalUserLifeBar.lookup(".bar").setStyle("-fx-background-color: RED");
+                rivalLifePoint.setStyle("-fx-text-fill: RED");
+            }
             currentUserLifePoint.setText(String.valueOf(currentUser.getLifePoint()));
             rivalLifePoint.setText(String.valueOf(getOpponentOfCurrentUser().getLifePoint()));
             currentAvatar.setFill(new ImagePattern(currentUser.getAvatar()));
@@ -830,9 +851,13 @@ public class Game {
     public void test() {
         User user1 = new User("amirhossein", "12345", "AmirHNR");
         User user2 = new User("mammad", "1234", "Mamali");
+        user1.setAvatar(new Image(Objects.requireNonNull(getClass().getResource("/images/Characters/001.png"))
+                .toExternalForm()));
+        user2.setAvatar(new Image(Objects.requireNonNull(getClass().getResource("/images/Characters/002.png"))
+                .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 0; i < 41; i++) {
+        for (int i = 72; i > 10; i--) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -1114,18 +1139,6 @@ public class Game {
 
         // todo going back to duel menu
     }
-
-    public void playTurn() {
-
-    }
-
-    public void playFirstTurn() {
-        printBoard();
-        standbyPhaseRun();
-        mainPhaseOneRun();
-        endPhaseRun();
-    }
-
 
     private void printBoard() {
         clearTheWholeScene();
@@ -2993,6 +3006,10 @@ public class Game {
             GamePlay.showAlert(Alert.AlertType.WARNING, "Attack Error", "this card already attacked");
             return true;
         }
+        if (!selectedCard.getAttackPosition()) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
+            return true;
+        }
         return false;
     }
 
@@ -3022,7 +3039,8 @@ public class Game {
             System.out.println("you have already activated this card");
             return;
         }
-        if (selectedCard.getCardType() == Type.FIELD && currentUser.getBoard().getFieldZone() == selectedCard && selectedCard.getOccupied()) {
+        if (selectedCard.getCardType() == Type.FIELD && currentUser.getBoard().getFieldZone()
+                == selectedCard && selectedCard.getOccupied()) {
             System.out.println("you have already activated this card");
             return;
         }
@@ -3085,9 +3103,10 @@ public class Game {
     }
 
     private void endPhaseRun() {
-//        int number = currentUser.getBoard().getCardsInHand().size();
-//        if (number > 6) {
-//            number -= 6;
+        int number = currentUser.getBoard().getCardsInHand().size();
+        if (number > 6) {
+            number -= 6;
+            throwAwayExtraCards(number);
 //            while (currentUser.getBoard().getCardsInHand().size() > 6) {
 //                System.out.println("you have to throw away " + number + "cards");
 //                String numberString = editSpaces(scanner.nextLine());
@@ -3105,9 +3124,62 @@ public class Game {
 //                    System.out.println("enter a number");
 //                }
 //            }
-//        }
+        }
         currentPhase = Phase.END;
+    }
 
+    private void throwAwayExtraCards(int numberOfCards) {
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("throw " + numberOfCards + "\ncards");
+        box.getChildren().add(label);
+        ArrayList<CardRectangle> cardsInHand = new ArrayList<>();
+        for (Card card : currentUser.getBoard().getCardsInHand()) {
+            CardRectangle cardRectangle = new CardRectangle();
+            cardRectangle.setRelatedCard(card);
+            cardRectangle.setFill(new ImagePattern(card.getCardImage()));
+            cardRectangle.setWidth(90);
+            cardRectangle.setHeight(150);
+            cardRectangle.setOnMouseClicked(event1 -> {
+                if (selectedCardToThrowAway != null) selectedCardToThrowAway.setStroke(Color.TRANSPARENT);
+                selectedCardToThrowAway = cardRectangle;
+                selectedCardToThrowAway.setStroke(Color.GOLD);
+                selectedCard = selectedCardToThrowAway.getRelatedCard();
+            });
+            box.getChildren().add(cardRectangle);
+        }
+
+        Button tribute = new Button("throw");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (selectedCardToThrowAway == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "throw away error", "no card is selected yet");
+            } else {
+                currentUser.getBoard().getCardsInHand().remove(selectedCard);
+                currentUser.getBoard().getGraveYard().add(selectedCard);
+                selectedCardToThrowAway = null;
+                selectedCard = null;
+                printBoard();
+                if (numberOfCards == 1) {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                } else {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                    throwAwayExtraCards(numberOfCards - 1);
+                }
+            }
+        });
+        box.getChildren().add(tribute);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     public Phase getCurrentPhase() {
