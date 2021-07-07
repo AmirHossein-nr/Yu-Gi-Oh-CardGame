@@ -11,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -1851,129 +1848,157 @@ public class Game {
                         "there are not enough cards for tribute");
                 return;
             } else {
-                doTributeSummonOrSet(3, true, true);
-                specialSummonedCards.add(selectedCard);
+                HBox box = new HBox(50);
+                box.setAlignment(Pos.TOP_LEFT);
+                box.setPadding(new Insets(10));
+                Label label = new Label();
+                label.setText("Attack or Defence?");
+                box.getChildren().add(label);
+                ChoiceBox<String> choiceBox = new ChoiceBox<>();
+                choiceBox.getItems().addAll("Attack", "Defence");
+                box.getChildren().add(choiceBox);
+                Button select = new Button("select");
+                Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+                popupStage.initOwner(mainStage);
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                Scene question = new Scene(box, Color.TRANSPARENT);
+                question.getStylesheets().add("/Css/GamePlay.css");
+                popupStage.setScene(question);
+                select.setOnMouseClicked(event -> {
+                    if (choiceBox.getValue().equals("Attack")) {
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
+                        doTributeSummonOrSet(3, true, true, true);
+                    } else {
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
+                        doTributeSummonOrSet(3, true, true, false);
+                    }
+                });
+                box.getChildren().add(select);
+                popupStage.show();
+                new FadeIn(box).play();
                 return;
             }
         }
-        if (selectedCard.getName().equals("Beast King Barbaros")) {
-            System.out.println("do you want to summon this card with \"0\" or \"2\" or \"3\"  tributes?");
-            String answer;
-            while (true) {
-                answer = scanner.nextLine();
-                answer = editSpaces(answer);
-                switch (answer) {
-                    case "0":
-                        if (normalSummonOrSetCard != null) {
-                            System.out.println("you already summoned/set on this turn");
-                        } else if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                            System.out.println("monster card zone is full");
-                        } else {
-                            ((Monster) selectedCard).setAttackPower(1900);
-                            addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                            System.out.println("summoned successfully");
-                            normalSummonOrSetCard = selectedCard;
-                            selectedCard = null;
-                        }
-                        break;
-                    case "2":
-                        if (normalSummonOrSetCard != null) {
-                            System.out.println("you already summoned/set on this turn");
-                        } else if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                            System.out.println("there are not enough cards for tribute");
-                        } else {
-                            doTributeSummonOrSet(2, false, true);
-                        }
-                        break;
-                    case "3":
-                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                            System.out.println("there are not enough cards for tribute");
-                        } else {
-                            System.out.println("\"attack\" or \"defence\"?");
-                            String answer1 = scanner.nextLine();
-                            while (!answer1.equals("attack") && !answer1.equals("defence") && !answer1.equals("cancel")) {
-                                System.out.println("type \"attack\" or \"defence\" or cancel");
-                                answer1 = scanner.nextLine();
-                            }
-                            if (answer1.equals("cancel")) {
-                                System.out.println("action canceled");
-                                return;
-                            } else if (answer1.equals("attack")) {
-                                doTributeSummonOrSet(3, true, true);
-                            } else {
-                                doTributeSummonOrSet(3, true, false);
-                            }
-                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
-                                if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
-                                            .getBoard().getMonstersZone().get(i));
-                                    getOpponentOfCurrentUser().getBoard().getMonstersZone().set(i, null);
-                                }
-                            }
-                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
-                                if (getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
-                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
-                                            .getBoard().getSpellsAndTrapsZone().get(i));
-                                    getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().set(i, null);
-                                }
-                            }
-                            if (getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
-                                Card zoneSpell = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                                getOpponentOfCurrentUser().getBoard().getGraveYard().add(zoneSpell);
-                                getOpponentOfCurrentUser().getBoard().setFieldZone(null);
-                            }
-                            System.out.println("destroyed all cards that opponent control");
-                        }
-                        break;
-                    case "cancel":
-                        System.out.println("action canceled");
-                        return;
-                    default:
-                        System.out.println("type \"0\" or \"2\" or \"3\" or cancel");
-                        break;
-                }
-            }
-        }
-        if (selectedCard.getName().equals("The Tricky")) {
-            System.out.println("do you want to normal summon or special summon? (answer with \"normal\"/\"special\")");
-            String answer;
-            while (true) {
-                answer = scanner.nextLine();
-                answer = editSpaces(answer);
-                switch (answer) {
-                    case "normal":
-                        if (normalSummonOrSetCard != null) {
-                            System.out.println("you already summoned/set on this turn");
-                            return;
-                        } else {
-                            if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                                System.out.println("there are not enough cards for tribute");
-                                return;
-                            } else {
-                                doTributeSummonOrSet(1, false, true);
-                                return;
-                            }
-                        }
-                    case "special":
-                        if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                            System.out.println("monster card zone is full");
-                            return;
-                        }
-                        if (currentUser.getBoard().getCardsInHand().size() < 2) {
-                            System.out.println("there are not enough cards for tribute");
-                            return;
-                        }
-                        specialSummonTheTricky();
-                        return;
-                    case "cancel":
-                        System.out.println("action canceled");
-                        return;
-                    default:
-                        System.out.println("please type normal or special (or cancel)");
-                        break;
-                }
-            }
-        }
+//        if (selectedCard.getName().equals("Beast King Barbaros")) {
+//            System.out.println("do you want to summon this card with \"0\" or \"2\" or \"3\"  tributes?");
+//            String answer;
+//            while (true) {
+//                answer = scanner.nextLine();
+//                answer = editSpaces(answer);
+//                switch (answer) {
+//                    case "0":
+//                        if (normalSummonOrSetCard != null) {
+//                            System.out.println("you already summoned/set on this turn");
+//                        } else if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+//                            System.out.println("monster card zone is full");
+//                        } else {
+//                            ((Monster) selectedCard).setAttackPower(1900);
+//                            addMonsterFromHandToMonsterZone(selectedCard, true, true);
+//                            System.out.println("summoned successfully");
+//                            normalSummonOrSetCard = selectedCard;
+//                            selectedCard = null;
+//                        }
+//                        break;
+//                    case "2":
+//                        if (normalSummonOrSetCard != null) {
+//                            System.out.println("you already summoned/set on this turn");
+//                        } else if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+//                            System.out.println("there are not enough cards for tribute");
+//                        } else {
+//                            doTributeSummonOrSet(2, false, true);
+//                        }
+//                        break;
+//                    case "3":
+//                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+//                            System.out.println("there are not enough cards for tribute");
+//                        } else {
+//                            System.out.println("\"attack\" or \"defence\"?");
+//                            String answer1 = scanner.nextLine();
+//                            while (!answer1.equals("attack") && !answer1.equals("defence") && !answer1.equals("cancel")) {
+//                                System.out.println("type \"attack\" or \"defence\" or cancel");
+//                                answer1 = scanner.nextLine();
+//                            }
+//                            if (answer1.equals("cancel")) {
+//                                System.out.println("action canceled");
+//                                return;
+//                            } else if (answer1.equals("attack")) {
+//                                doTributeSummonOrSet(3, true, true);
+//                            } else {
+//                                doTributeSummonOrSet(3, true, false);
+//                            }
+//                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
+//                                if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
+//                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
+//                                            .getBoard().getMonstersZone().get(i));
+//                                    getOpponentOfCurrentUser().getBoard().getMonstersZone().set(i, null);
+//                                }
+//                            }
+//                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
+//                                if (getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
+//                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
+//                                            .getBoard().getSpellsAndTrapsZone().get(i));
+//                                    getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().set(i, null);
+//                                }
+//                            }
+//                            if (getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
+//                                Card zoneSpell = getOpponentOfCurrentUser().getBoard().getFieldZone();
+//                                getOpponentOfCurrentUser().getBoard().getGraveYard().add(zoneSpell);
+//                                getOpponentOfCurrentUser().getBoard().setFieldZone(null);
+//                            }
+//                            System.out.println("destroyed all cards that opponent control");
+//                        }
+//                        break;
+//                    case "cancel":
+//                        System.out.println("action canceled");
+//                        return;
+//                    default:
+//                        System.out.println("type \"0\" or \"2\" or \"3\" or cancel");
+//                        break;
+//                }
+//            }
+//        }
+//        if (selectedCard.getName().equals("The Tricky")) {
+//            System.out.println("do you want to normal summon or special summon? (answer with \"normal\"/\"special\")");
+//            String answer;
+//            while (true) {
+//                answer = scanner.nextLine();
+//                answer = editSpaces(answer);
+//                switch (answer) {
+//                    case "normal":
+//                        if (normalSummonOrSetCard != null) {
+//                            System.out.println("you already summoned/set on this turn");
+//                            return;
+//                        } else {
+//                            if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
+//                                System.out.println("there are not enough cards for tribute");
+//                                return;
+//                            } else {
+//                                doTributeSummonOrSet(1, false, true);
+//                                return;
+//                            }
+//                        }
+//                    case "special":
+//                        if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+//                            System.out.println("monster card zone is full");
+//                            return;
+//                        }
+//                        if (currentUser.getBoard().getCardsInHand().size() < 2) {
+//                            System.out.println("there are not enough cards for tribute");
+//                            return;
+//                        }
+//                        specialSummonTheTricky();
+//                        return;
+//                    case "cancel":
+//                        System.out.println("action canceled");
+//                        return;
+//                    default:
+//                        System.out.println("please type normal or special (or cancel)");
+//                        break;
+//                }
+//            }
+//        }
         if (normalSummonOrSetCard != null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
@@ -2001,7 +2026,7 @@ public class Game {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
-                doTributeSummonOrSet(1, false, true);
+                doTributeSummonOrSet(1, false, true, true);
             }
         } else if (monster.getLevel() > 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
@@ -2009,7 +2034,7 @@ public class Game {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
-                doTributeSummonOrSet(2, false, true);
+                doTributeSummonOrSet(2, false, true, true);
             }
         }
     }
@@ -2148,7 +2173,7 @@ public class Game {
         }
     }
 
-    private void doTributeSummonOrSet(int tributeNumber, boolean isSpecial, boolean isSummon) {
+    private void doTributeSummonOrSet(int tributeNumber, boolean isSpecial, boolean isSummon, boolean isAttack) {
         HBox box = new HBox(50);
         box.setAlignment(Pos.TOP_LEFT);
         box.setPadding(new Insets(10));
@@ -2196,7 +2221,11 @@ public class Game {
                 if (tributeNumber == 1) {
                     selectedCard = selectedRectangle.getRelatedCard();
                     if (isSummon) {
-                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        if (isAttack) {
+                            addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        } else {
+                            addMonsterFromHandToMonsterZone(selectedCard, true, false);
+                        }
                         playPopSound();
                         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successful !",
                                 "Summoned successfully");
@@ -2208,6 +2237,8 @@ public class Game {
                     }
                     if (!isSpecial) {
                         normalSummonOrSetCard = selectedCard;
+                    } else {
+                        specialSummonedCards.add(selectedCard);
                     }
                     selectedCard = null;
                     printBoard();
@@ -2217,7 +2248,7 @@ public class Game {
                     printBoard();
                     new FadeOutUp(box).play();
                     popupStage.hide();
-                    doTributeSummonOrSet(tributeNumber - 1, isSpecial, isSummon);
+                    doTributeSummonOrSet(tributeNumber - 1, isSpecial, isSummon, isAttack);
                 }
             }
         });
@@ -2316,7 +2347,7 @@ public class Game {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
-                    doTributeSummonOrSet(1, false, false);
+                    doTributeSummonOrSet(1, false, false, false);
                 }
             } else if (monster.getLevel() > 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
@@ -2324,7 +2355,7 @@ public class Game {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
-                    doTributeSummonOrSet(2, false, false);
+                    doTributeSummonOrSet(2, false, false, false);
                 }
             }
         } else {
