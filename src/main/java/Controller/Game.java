@@ -92,6 +92,8 @@ public class Game {
     public ProgressBar rivalUserLifeBar;
     public ProgressBar currentUserLifeBar;
     public Rectangle attack;
+    public Label currentUserLifePoint;
+    public Label rivalLifePoint;
 
     public static Stage mainStage;
 
@@ -235,6 +237,10 @@ public class Game {
         attack.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
                 .getResource("/images/Icons/attack.png"))
                 .toExternalForm())));
+        attack.setOnMouseClicked(event -> {
+            attack();
+            printBoard();
+        });
         setAttack.setFill(new ImagePattern(new Image("/images/Icons/setAttack.png")));
         setAttack.setOnMouseClicked(event -> {
             set();
@@ -742,40 +748,67 @@ public class Game {
     }
 
     private void clearTheWholeScene() {
-        // todo set cards null if needed
         try {
             currentUserLifeBar.setProgress(currentUser.getLifePoint() / 8000.0);
             rivalUserLifeBar.setProgress(getOpponentOfCurrentUser().getLifePoint() / 8000.0);
+            currentUserLifePoint.setText(String.valueOf(currentUser.getLifePoint()));
+            rivalLifePoint.setText(String.valueOf(getOpponentOfCurrentUser().getLifePoint()));
             currentAvatar.setFill(new ImagePattern(currentUser.getAvatar()));
             rivalAvatar.setFill(new ImagePattern(getOpponentOfCurrentUser().getAvatar()));
         } catch (Exception ignored) {
         }
-        currentCard1.setFill(Color.TRANSPARENT);
-        currentCard2.setFill(Color.TRANSPARENT);
-        currentCard3.setFill(Color.TRANSPARENT);
-        currentCard4.setFill(Color.TRANSPARENT);
-        currentCard5.setFill(Color.TRANSPARENT);
-        currentCard6.setFill(Color.TRANSPARENT);
-        currentSpell1.setFill(Color.TRANSPARENT);
-        currentSpell2.setFill(Color.TRANSPARENT);
-        currentSpell3.setFill(Color.TRANSPARENT);
-        currentSpell4.setFill(Color.TRANSPARENT);
-        currentSpell5.setFill(Color.TRANSPARENT);
-        currentMonster1.setFill(Color.TRANSPARENT);
-        currentMonster2.setFill(Color.TRANSPARENT);
-        currentMonster3.setFill(Color.TRANSPARENT);
-        currentMonster4.setFill(Color.TRANSPARENT);
-        currentMonster5.setFill(Color.TRANSPARENT);
-        rivalSpell1.setFill(Color.TRANSPARENT);
-        rivalSpell2.setFill(Color.TRANSPARENT);
-        rivalSpell3.setFill(Color.TRANSPARENT);
-        rivalSpell4.setFill(Color.TRANSPARENT);
-        rivalSpell5.setFill(Color.TRANSPARENT);
-        rivalMonster1.setFill(Color.TRANSPARENT);
-        rivalMonster2.setFill(Color.TRANSPARENT);
-        rivalMonster3.setFill(Color.TRANSPARENT);
-        rivalMonster4.setFill(Color.TRANSPARENT);
-        rivalMonster5.setFill(Color.TRANSPARENT);
+        currentCard1.setRelatedCard(null);
+        currentCard1.fillCard(true);
+        currentCard2.setRelatedCard(null);
+        currentCard2.fillCard(true);
+        currentCard3.setRelatedCard(null);
+        currentCard3.fillCard(true);
+        currentCard4.setRelatedCard(null);
+        currentCard4.fillCard(true);
+        currentCard5.setRelatedCard(null);
+        currentCard5.fillCard(true);
+        currentCard6.setRelatedCard(null);
+        currentCard6.fillCard(true);
+        currentSpell1.setRelatedCard(null);
+        currentSpell1.fillCard(false);
+        currentSpell2.setRelatedCard(null);
+        currentSpell2.fillCard(false);
+        currentSpell3.setRelatedCard(null);
+        currentSpell3.fillCard(false);
+        currentSpell4.setRelatedCard(null);
+        currentSpell4.fillCard(false);
+        currentSpell5.setRelatedCard(null);
+        currentSpell5.fillCard(false);
+        currentMonster1.setRelatedCard(null);
+        currentMonster1.fillCard(false);
+        currentMonster2.setRelatedCard(null);
+        currentMonster2.fillCard(false);
+        currentMonster3.setRelatedCard(null);
+        currentMonster3.fillCard(false);
+        currentMonster4.setRelatedCard(null);
+        currentMonster4.fillCard(false);
+        currentMonster5.setRelatedCard(null);
+        currentMonster5.fillCard(false);
+        rivalSpell1.setRelatedCard(null);
+        rivalSpell1.fillCard(false);
+        rivalSpell2.setRelatedCard(null);
+        rivalSpell2.fillCard(false);
+        rivalSpell3.setRelatedCard(null);
+        rivalSpell3.fillCard(false);
+        rivalSpell4.setRelatedCard(null);
+        rivalSpell4.fillCard(false);
+        rivalSpell5.setRelatedCard(null);
+        rivalSpell5.fillCard(false);
+        rivalMonster1.setRelatedCard(null);
+        rivalMonster1.fillCard(false);
+        rivalMonster2.setRelatedCard(null);
+        rivalMonster2.fillCard(false);
+        rivalMonster3.setRelatedCard(null);
+        rivalMonster3.fillCard(false);
+        rivalMonster4.setRelatedCard(null);
+        rivalMonster4.fillCard(false);
+        rivalMonster5.setRelatedCard(null);
+        rivalMonster5.fillCard(false);
     }
 
     public void test() {
@@ -1080,7 +1113,6 @@ public class Game {
 
     private void printBoard() {
         clearTheWholeScene();
-
         showCardsInHand(0);
         showCardsInMonsterZone();
         showCardsInSpellZone();
@@ -2414,6 +2446,11 @@ public class Game {
             return doAttackAction(cards.get(1), (Monster) cards.get(0));
         } else {
             if (doAttack()) return false;
+            if (selectedCardFromEnemy == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error !",
+                        "No Enemy Card is Selected Yet ..!");
+                return false;
+            }
             Card enemyCard = selectedCardFromEnemy.getRelatedCard();
             Monster selectedMonster = (Monster) selectedCard;
             if (enemyCard == null) {
@@ -2881,19 +2918,19 @@ public class Game {
 
     private boolean doAttack() {
         if (selectedCard == null) {
-            System.out.println("no card is selected yet");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "no card is selected yet");
             return true;
         }
         if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
-            System.out.println("you can’t attack with this card");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
             return true;
         }
         if (!(currentPhase == Phase.BATTLE)) {
-            System.out.println("you can’t do this action in this phase");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t do this action in this phase");
             return true;
         }
         if (attackedCards.contains(selectedCard)) {
-            System.out.println("this card already attacked");
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Attack Error", "this card already attacked");
             return true;
         }
         return false;
