@@ -18,7 +18,7 @@
         <Label fx:id="rivalLifePoint" layoutX="68.0" layoutY="14.0" text="8000"/>
         <Label layoutX="20.0" layoutY="715.0" text="LP :"/>
         <Label fx:id="currentUserLifePoint" layoutX="68.0" layoutY="715.0" text="8000"/>
-        <ProgressBar fx:id="RivalUserLifeBar" layoutX="14.0" layoutY="53.0" prefHeight="17.0" prefWidth="248.0"
+        <ProgressBar fx:id="rivalUserLifeBar" layoutX="14.0" layoutY="53.0" prefHeight="17.0" prefWidth="248.0"
                      progress="1.0"/>
         <ProgressBar fx:id="currentUserLifeBar" layoutX="20.0" layoutY="690.0" prefHeight="17.0" prefWidth="248.0"
                      progress="1.0"/>

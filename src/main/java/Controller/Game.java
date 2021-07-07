@@ -15,8 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -89,6 +89,8 @@ public class Game {
     public Rectangle graveYardIcon;
     public Label graveYardLabel;
     public Rectangle flipSummon;
+    public ProgressBar rivalUserLifeBar;
+    public ProgressBar currentUserLifeBar;
 
     public static Stage mainStage;
 
@@ -227,7 +229,7 @@ public class Game {
         });
         // todo deselect card when we get out of graveyard
     }
-    
+
     private void nextAndPreviousButtonsInitialize() {
         nextButton.setOnMouseClicked(event -> {
             if (index == currentUser.getBoard().getCardsInHand().size() - 6) return;
@@ -544,29 +546,47 @@ public class Game {
     }
 
     private void onMouseHoverForCardsOnBoard() {
-        mouseHoverControl(currentMonster1);
-        mouseHoverControl(currentMonster2);
-        mouseHoverControl(currentMonster3);
-        mouseHoverControl(currentMonster4);
-        mouseHoverControl(currentMonster5);
-        mouseHoverControl(rivalMonster1);
-        mouseHoverControl(rivalMonster2);
-        mouseHoverControl(rivalMonster3);
-        mouseHoverControl(rivalMonster4);
-        mouseHoverControl(rivalMonster5);
-        mouseHoverControl(currentSpell1);
-        mouseHoverControl(currentSpell2);
-        mouseHoverControl(currentSpell3);
-        mouseHoverControl(currentSpell4);
-        mouseHoverControl(currentSpell5);
-        mouseHoverControl(rivalSpell1);
-        mouseHoverControl(rivalSpell2);
-        mouseHoverControl(rivalSpell3);
-        mouseHoverControl(rivalSpell4);
-        mouseHoverControl(rivalSpell5);
+        mouseHoverControlForCurrent(currentMonster1);
+        mouseHoverControlForCurrent(currentMonster2);
+        mouseHoverControlForCurrent(currentMonster3);
+        mouseHoverControlForCurrent(currentMonster4);
+        mouseHoverControlForCurrent(currentMonster5);
+        mouseHoverControlForRival(rivalMonster1);
+        mouseHoverControlForRival(rivalMonster2);
+        mouseHoverControlForRival(rivalMonster3);
+        mouseHoverControlForRival(rivalMonster4);
+        mouseHoverControlForRival(rivalMonster5);
+        mouseHoverControlForCurrent(currentSpell1);
+        mouseHoverControlForCurrent(currentSpell2);
+        mouseHoverControlForCurrent(currentSpell3);
+        mouseHoverControlForCurrent(currentSpell4);
+        mouseHoverControlForCurrent(currentSpell5);
+        mouseHoverControlForRival(rivalSpell1);
+        mouseHoverControlForRival(rivalSpell2);
+        mouseHoverControlForRival(rivalSpell3);
+        mouseHoverControlForRival(rivalSpell4);
+        mouseHoverControlForRival(rivalSpell5);
     }
 
-    private void mouseHoverControl(Rectangle rectangle) {
+    private void mouseHoverControlForCurrent(CardRectangle rectangle) {
+        rectangle.setOnMouseEntered(event -> {
+            if (rectangle.getFill() != Color.TRANSPARENT) {
+                selectedCardImage.setFill(new ImagePattern(rectangle.getRelatedCard().getCardImage()));
+                new FlipInX(selectedCardImage).play();
+            }
+        });
+        rectangle.setOnMouseExited(event -> {
+            if (rectangle.getFill() != Color.TRANSPARENT) {
+                new FlipOutY(selectedCardImage).play();
+                selectedCardImage.setFill(new ImagePattern(new Image(Objects.requireNonNull(getClass()
+                        .getResource("/images/backCard.jpg"))
+                        .toExternalForm())));
+                new FlipInY(selectedCardImage).play();
+            }
+        });
+    }
+
+    private void mouseHoverControlForRival(CardRectangle rectangle) {
         rectangle.setOnMouseEntered(event -> {
             if (rectangle.getFill() != Color.TRANSPARENT) {
                 selectedCardImage.setFill(rectangle.getFill());
@@ -643,6 +663,13 @@ public class Game {
 
     private void clearTheWholeScene() {
         // todo set cards null if needed
+        try {
+            currentUserLifeBar.setProgress(currentUser.getLifePoint() / 8000.0);
+            rivalUserLifeBar.setProgress(getOpponentOfCurrentUser().getLifePoint() / 8000.0);
+            currentAvatar.setFill(new ImagePattern(currentUser.getAvatar()));
+            rivalAvatar.setFill(new ImagePattern(getOpponentOfCurrentUser().getAvatar()));
+        } catch (Exception ignored) {
+        }
         currentCard1.setFill(Color.TRANSPARENT);
         currentCard2.setFill(Color.TRANSPARENT);
         currentCard3.setFill(Color.TRANSPARENT);
@@ -949,8 +976,9 @@ public class Game {
             winner = rivalUser;
             loser = loggedUser;
         }
-        System.out.println(winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame()
-                + "-" + loser.getNumberOfWinsInGame());
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Game Finished !",
+                winner.getUsername() + " won the whole match with score: " + winner.getNumberOfWinsInGame()
+                        + "-" + loser.getNumberOfWinsInGame());
         winner.setScore(winner.getScore() + numberOfRounds * 1000L);
         winner.setMoney(winner.getMoney() + numberOfRounds * (1000L + winner.getMaxLifePoint()));
         loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
@@ -972,6 +1000,7 @@ public class Game {
 
     private void printBoard() {
         clearTheWholeScene();
+
         showCardsInHand(0);
         showCardsInMonsterZone();
         showCardsInSpellZone();
@@ -2601,7 +2630,7 @@ public class Game {
                 }
                 return false;
             }
-        } else { // enemy deffend position
+        } else { // enemy defend position
             if (selectedMonster.getAttackPower() > Marshmallon.getDefencePower()) {
                 if (Marshmallon.getOccupied()) {
                     System.out.println("no card is destroyed");
