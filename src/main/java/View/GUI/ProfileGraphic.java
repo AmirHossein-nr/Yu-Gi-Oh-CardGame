@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -17,16 +18,7 @@ public class ProfileGraphic extends Application {
     public void start(Stage primaryStage) throws Exception {
         URL fxmlURL = getClass().getResource("/fxml/profile.fxml");
         FXMLLoader loader = new FXMLLoader(fxmlURL);
-        Profile profile = new Profile();
-        loader.setController(profile);
-        Group root = loader.load();
-//        Label username = new Label("___");
-//        Label password = new Label("***");
-//        Label nickname = new Label("*&&");
-//        username.setLocation(386, 47);
-//        password.setLocation(386,17);
-//        nickname.setLocation(386, 107);
-//        root.getChildren().add((Node) username);
+        Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Yu-Gi-OH!");

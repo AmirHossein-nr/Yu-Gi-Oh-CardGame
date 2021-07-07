@@ -14,19 +14,26 @@ import java.util.regex.Matcher;
 public class Profile extends Menu {
     public static Stage mainStage;
     @FXML
-    public static Label profileUsername;
+    public Label profileUsername;
     @FXML
     public Label profileNickname;
     @FXML
     public Label profilePassword;
 
-    @FXML
-    public void initialize () {
+    String username, nickname, password;
 
+    public void initialize () {
+       // username = loggedUser.getUsername();
+//        nickname = loggedUser.getNickName();
+//        password = loggedUser.getPassword();
+//        profileUsername.setText(username);
     }
 
-    public static void f () {
-        profileUsername.setText(loggedUser.getUsername());
+    public void initializeLabels () {
+//        username = loggedUser.getUsername();
+//        nickname = loggedUser.getNickName();
+//        password = loggedUser.getPassword();
+//        profileUsername.setText(username);
     }
 
     public Profile () {
