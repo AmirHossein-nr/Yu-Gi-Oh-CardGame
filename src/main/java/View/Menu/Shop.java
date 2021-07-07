@@ -361,5 +361,9 @@ public class Shop extends Menu {
         scene.getStylesheets().add(css);
         mainStage.show();
     }
+
+    public void alexandriteDragon(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card())
+    }
 }
 
