@@ -97,6 +97,7 @@ public class Game {
 
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
+    private CardRectangle selectedCardFromEnemy;
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -126,7 +127,6 @@ public class Game {
     boolean negateAttackActivated = false;
     boolean mirrorForceActivated = false;
     boolean isSuijin = false;
-    private Timeline timeline = new Timeline();
 
     @FXML
     public void initialize() {
@@ -139,10 +139,84 @@ public class Game {
         onMouseHoverForCardsOnBoard();
         onMouseClickedForCardsInHand();
         onMouseClickedForCardsInDeck();
+        onMouseClickedForEnemyCards();
         new FadeInDown(rivalAvatar).play();
         new FadeInUp(currentAvatar).play();
         nextPhaseButton.setOnMouseClicked(event -> nextPhase());
         drawPhasePlace.setFill(Color.GREEN);
+    }
+
+    private void onMouseClickedForEnemyCards() {
+        rivalMonster1.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalMonster1;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalMonster2.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalMonster2;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalMonster3.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalMonster3;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalMonster4.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalMonster4;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalMonster5.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalMonster5;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalSpell5.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalSpell5;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalSpell4.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalSpell4;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalSpell3.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalSpell3;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalSpell2.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalSpell2;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
+        rivalSpell1.setOnMouseClicked(event -> {
+            if (currentPhase == Phase.BATTLE) {
+                if (selectedCardFromEnemy != null) selectedCardFromEnemy.setStroke(Color.TRANSPARENT);
+                selectedCardFromEnemy = rivalSpell1;
+                selectedCardFromEnemy.setStroke(Color.GOLDENROD);
+            }
+        });
     }
 
     private void setFillForImagesOnBoard() {
@@ -167,9 +241,7 @@ public class Game {
             printBoard();
         });
         changePosition.setFill(new ImagePattern(new Image("/images/Icons/changePosition.png")));
-        changePosition.setOnMouseClicked(event -> {
-            showChangePositionPopUp();
-        });
+        changePosition.setOnMouseClicked(event -> showChangePositionPopUp());
         nextButton.setFill(new ImagePattern(new Image("/images/Icons/next.png")));
         previousButton.setFill(new ImagePattern(new Image("/images/Icons/previous.png")));
         pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
@@ -2287,7 +2359,7 @@ public class Game {
     private void battlePhaseRun() {
         currentPhase = Phase.BATTLE;
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
-            attack(" ");
+            attack();
         } else {
             printBoard();
             if (currentPhase == Phase.BATTLE)
@@ -2335,37 +2407,41 @@ public class Game {
         }
     }
 
-    private boolean attack(String input) { // return true if duel has winner and false if duel does not have winner
+    private boolean attack() { // return true if duel has winner and false if duel does not have winner
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             ArrayList<Card> cards = ((AI) currentUser).attack(getOpponentOfCurrentUser().getBoard());
             if (cards == null) return false;
             return doAttackAction(cards.get(1), (Monster) cards.get(0));
         } else {
             if (doAttack()) return false;
-            String[] inputSplit = input.split("\\s");
-            int enemyCardNumber = Integer.parseInt(inputSplit[1]);
-            Card enemyCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(enemyCardNumber - 1);
+            Card enemyCard = selectedCardFromEnemy.getRelatedCard();
             Monster selectedMonster = (Monster) selectedCard;
             if (enemyCard == null) {
-                System.out.println("there is no card to attack here");
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error Occurred!",
+                        "there is no card to attack here");
                 return false;
             }
             if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
                 if (((Monster) selectedCard).getAttackPower() >= 1500) {
-                    System.out.println("Messenger of Peace does not let you attack wit this card");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Something Happened While Attacking!",
+                            "Messenger of Peace does not let you attack with this card");
                     return false;
                 }
             }
-            if (enemyCard.getName().equals("Command Knight") && getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() - getOpponentOfCurrentUser().getBoard().getCommandKnights().size() > 0) {
+            if (enemyCard.getName().equals("Command Knight") && getOpponentOfCurrentUser().getBoard()
+                    .numberOfMonstersOnBoard() - getOpponentOfCurrentUser().getBoard().getCommandKnights().size() > 0) {
                 if (enemyCard.getOccupied()) {
-                    System.out.println("you cant attack this card yet");
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error Occurred!",
+                            "you can't attack this card yet");
                     return false;
                 }
             }
             new ChainController(this, scanner).run();
             if (magicCylinderActivated) {
                 setMagicCylinderActivated(false);
-                System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Something Happened While Attacking!",
+                        "Magic Cylinder stopped the attack and attacker took " +
+                                selectedMonster.getAttackPower() + "damage");
                 currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
                 if (currentUser.getLifePoint() <= 0) {
                     winnerOfDuel = getOpponentOfCurrentUser();
@@ -2376,12 +2452,15 @@ public class Game {
             }
             if (negateAttackActivated) {
                 setNegateAttackActivated(false);
-                System.out.println("Negate Attack stopped the attack");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Something Happened While Attacking!",
+                        "Negate Attack stopped the attack");
                 return false;
             }
             if (mirrorForceActivated) {
                 setMirrorForceActivated(false);
-                System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+                GamePlay.showAlert(Alert.AlertType.WARNING, "Something Happened While Attacking!",
+                        "Mirror Force stopped the attack and destroyed all attackers" +
+                                " attack positioned monsters");
                 return false;
             }
             return doAttackAction(enemyCard, selectedMonster);
@@ -2423,11 +2502,13 @@ public class Game {
             if (selectedMonster.getAttackPower() > enemyMonster.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getAttackPower());
-                System.out.println("your opponent’s monster is destroyed and your opponent receives " + damage
-                        + " battle damage");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                        "your opponent’s monster is destroyed and your opponent receives " + damage
+                                + " battle damage");
                 if (enemyMonster.getName().equals("Yomi Ship")) {
                     addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
-                    System.out.println("Yomi Ship destroyed your monster");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "Yomi Ship destroyed your monster");
                 } else {
                     attackedCards.add(selectedMonster);
                 }
@@ -2440,13 +2521,15 @@ public class Game {
             } else if (selectedMonster.getAttackPower() == enemyMonster.getAttackPower()) {
                 addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
-                System.out.println("both you and your opponent monster cards are destroyed and no one receives damage");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                        "both you and your opponent monster cards are destroyed and no one receives damage");
                 attackedCards.add(selectedMonster);
                 return false;
             } else {
                 addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getAttackPower());
-                System.out.println("Your monster card is destroyed and you received " + damage + " battle damage");
+                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                        "Your monster card is destroyed and you received " + damage + " battle damage");
                 attackedCards.add(selectedMonster);
                 currentUser.setLifePoint(currentUser.getLifePoint() - damage);
                 if (currentUser.getLifePoint() <= 0) {
@@ -2459,31 +2542,37 @@ public class Game {
             if (selectedMonster.getAttackPower() > enemyMonster.getDefencePower()) {
                 addMonsterFromMonsterZoneToGraveyard(enemyMonster, getOpponentOfCurrentUser());
                 if (enemyMonster.getOccupied()) {
-                    System.out.println("the defense position monster is destroyed");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "the defense position monster is destroyed");
                 } else {
                     enemyMonster.setOccupied(true);
                     if (enemyMonster.getName().equals("Command Knight")) {
                         activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
                     }
-                    System.out.println("opponent’s monster card was " + enemyMonster.getName()
-                            + " and the defense position monster is destroyed");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "opponent’s monster card was " + enemyMonster.getName()
+                                    + " and the defense position monster is destroyed");
                 }
                 if (enemyMonster.getName().equals("Yomi Ship")) {
                     addMonsterFromMonsterZoneToGraveyard(selectedMonster, currentUser);
-                    System.out.println("Yomi Ship destroyed your monster");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "Yomi Ship destroyed your monster");
                 } else {
                     attackedCards.add(selectedMonster);
                 }
                 return false;
             } else if (selectedMonster.getAttackPower() == enemyMonster.getDefencePower()) {
                 if (enemyMonster.getOccupied()) {
-                    System.out.println("no card is destroyed");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "no card is destroyed");
                 } else {
                     enemyMonster.setOccupied(true);
                     if (enemyMonster.getName().equals("Command Knight")) {
                         activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
                     }
-                    System.out.println("opponent’s monster card was " + enemyMonster.getName() + " and no card is destroyed");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "opponent’s monster card was " + enemyMonster.getName() +
+                                    " and no card is destroyed");
                 }
                 attackedCards.add(selectedMonster);
                 return false;
@@ -2491,14 +2580,16 @@ public class Game {
                 int damage = Math.abs(selectedMonster.getAttackPower() - enemyMonster.getDefencePower());
 
                 if (enemyMonster.getOccupied()) {
-                    System.out.println("no card is destroyed and you received " + damage + " battle damage");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "no card is destroyed and you received " + damage + " battle damage");
                 } else {
                     enemyMonster.setOccupied(true);
                     if (enemyMonster.getName().equals("Command Knight")) {
                         activateCommandKnight(enemyMonster, getOpponentOfCurrentUser());
                     }
-                    System.out.println("opponent’s monster card was " + enemyMonster.getName()
-                            + " and no card is destroyed and you received " + damage + " battle damage");
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Attack Information!",
+                            "opponent’s monster card was " + enemyMonster.getName()
+                                    + " and no card is destroyed and you received " + damage + " battle damage");
                 }
                 currentUser.setLifePoint(currentUser.getLifePoint() - damage);
                 attackedCards.add(selectedMonster);
