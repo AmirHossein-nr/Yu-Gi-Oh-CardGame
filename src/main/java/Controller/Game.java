@@ -225,6 +225,24 @@ public class Game {
     }
 
     private void setFillForImagesOnBoard() {
+        surrenderButton.setOnMouseClicked(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You are Giving Up !!");
+            alert.setContentText("Are You Sure ?");
+            alert.getButtonTypes().set(0, ButtonType.YES);
+            alert.getButtonTypes().set(1, ButtonType.NO);
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                try {
+                    playSurrenderSound();
+                    surrender();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                playDontGiveUpSound();
+                alert.close();
+            }
+        });
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
@@ -241,7 +259,6 @@ public class Game {
                 .getResource("/images/Icons/attack.png"))
                 .toExternalForm())));
         attack.setOnMouseClicked(event -> {
-            playSwordSound();
             attack();
             printBoard();
         });
@@ -260,7 +277,10 @@ public class Game {
         changePosition.setOnMouseClicked(event -> showChangePositionPopUp());
         nextButton.setFill(new ImagePattern(new Image("/images/Icons/next.png")));
         previousButton.setFill(new ImagePattern(new Image("/images/Icons/previous.png")));
-        pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+        pauseButton.setOnMouseClicked(event -> {
+            playDryPopSound();
+            GamePlay.pauseButtonExecution();
+        });
         graveYardIcon.setFill(new ImagePattern(new Image("/images/Icons/graveYard.png")));
         graveYardOnClick();
         flipSummon.setFill(new ImagePattern(new Image("/images/Icons/flipSummon.png")));
@@ -1408,6 +1428,7 @@ public class Game {
     }
 
     private void changeTurn() {
+        playChangeTurnSound();
         currentUser = getOpponentOfCurrentUser();
         attackedCards.clear();
         normalSummonOrSetCard = null;
@@ -1550,40 +1571,6 @@ public class Game {
             drawCard(currentUser);
         }
         showCardsInHand(0);
-//            if (input.equals("select -d")) {
-//                deselectCard();
-//            } else if (input.startsWith("select")) {
-//                select(Regex.getMatcher(input, Regex.selectCard));
-//            } else if (input.equals("next phase")) {
-//                return;
-//            } else if (input.equals("show graveyard")) {
-//                showGraveyard();
-//            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-//                showSelectedCard();
-//            } else if (input.equals("surrender")) {
-//                winnerOfDuel = getOpponentOfCurrentUser();
-//                return;
-//            } else if (input.equals("summon")) {
-//                summon();
-//            } else if (input.equals("set")) {
-//                set();
-//            } else if (input.matches(Regex.setPositionAttackDefence)) {
-//                setPositionAttackDefense(input);
-//            } else if (input.equals("flip-summon")) {
-//                flipSummon();
-//            } else if (input.matches(Regex.attack)) {
-//                if (attack(input)) {
-//                    return;
-//                }
-//            } else if (input.equals("attack direct")) {
-//                if (directAttack()) {
-//                    return;
-//                }
-//            } else if (input.equals("activate effect")) {
-//                activateEffect();
-//            } else {
-//                System.out.println("invalid command");
-//            }
     }
 
     private boolean canCurrentUserDraw() {
@@ -1715,16 +1702,72 @@ public class Game {
         player.play();
     }
 
-    private void playClickSound() {
+    private void playAttackSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
-                .getResource("/music/click1.mp3")).toExternalForm()));
+                .getResource("/music/attack.wav")).toExternalForm()));
         player.setCycleCount(1);
         player.play();
     }
 
-    private void playFastClickSound() {
+    private void playMyTurnSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
-                .getResource("/music/fastClick.wav")).toExternalForm()));
+                .getResource("/music/myTurn.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playChangeTurnSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/endTurn.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playSetSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/set.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playSummonSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/summon2.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playSurrenderSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/surrender.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playDirectAttackSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/directAttack.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playDontGiveUpSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/notGiveUp.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playTributeSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/tribute.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
+    private void playDrawSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/draw.wav")).toExternalForm()));
         player.setCycleCount(1);
         player.play();
     }
@@ -1805,8 +1848,14 @@ public class Game {
 
     }
 
+    public void surrender() {
+        winnerOfDuel = getOpponentOfCurrentUser();
+        winnerOfDuel.setNumberOfWinsInGame(winnerOfDuel.getNumberOfWinsInGame() + 1);
+        finishGame();
+    }
+
     private void summon() {
-        playFastClickSound();
+        playSummonSound();
         if (selectedCard == null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
@@ -2216,6 +2265,7 @@ public class Game {
                 playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
             } else {
+                playTributeSound();
                 tributeMonster(selectedCardForTribute.getRelatedCard());
                 selectedCardForTribute = null;
                 if (tributeNumber == 1) {
@@ -2294,6 +2344,7 @@ public class Game {
     }
 
     private void set() {
+        playSetSound();
         if (activatedRitualCard != null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "you should ritual summon right now");
@@ -2499,7 +2550,7 @@ public class Game {
     }
 
     private void flipSummon() {
-        playFastClickSound();
+
         if (activatedRitualCard != null) {
             playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
@@ -2666,6 +2717,7 @@ public class Game {
                                 " attack positioned monsters");
                 return false;
             }
+            playAttackSound();
             return doAttackAction(enemyCard, selectedMonster);
         }
     }
@@ -3043,6 +3095,7 @@ public class Game {
     }
 
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
+        playDirectAttackSound();
         if (doAttack()) return false;
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
             playErrorSound();
@@ -3350,11 +3403,13 @@ public class Game {
             drawPhasePlace.setFill(Color.GREEN);
         }
         if (currentPhase == Phase.DRAW) {
+            playDrawSound();
             currentPhase = Phase.STANDBY;
             standByPhasePlace.setFill(Color.GREEN);
             standbyPhaseRun();
             drawPhasePlace.setFill(Color.RED);
         } else if (currentPhase == Phase.STANDBY) {
+            playMyTurnSound();
             currentPhase = Phase.MAIN_ONE;
             mainPhase1Place.setFill(Color.GREEN);
             mainPhaseOneRun();

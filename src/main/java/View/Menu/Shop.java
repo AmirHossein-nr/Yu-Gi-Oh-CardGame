@@ -357,13 +357,80 @@ public class Shop extends Menu {
         Scene scene = new Scene(root);
         mainStage.setScene(scene);
         mainStage.setTitle("YU-GI-OH");
-        String css = this.getClass().getResource("/Css/shop.css").toExternalForm();
-        scene.getStylesheets().add(css);
+        mainStage.show();
+    }
+
+    public void openMonsterShopThird(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopThird.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
         mainStage.show();
     }
 
     public void alexandriteDragon(ActionEvent actionEvent) {
-//        loggedUser.getAllCards().add(new Card());
+        loggedUser.getAllCards().add(new Card("Alexandrite Dragon", Type.DRAGON));
+    }
+
+    public void axeRaider(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Axe Raider", Type.WARRIOR));
+    }
+
+    public void babyDragon(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Baby dragon", Type.DRAGON));
+    }
+
+    public void battleOx(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Battle OX", Type.BEAST_WARRIOR));
+    }
+
+    public void battleWarrior(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Battle warrior", Type.WARRIOR));
+    }
+
+    public void beastKingBarbaros(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Beast King Barbaros", Type.BEAST_WARRIOR));
+    }
+
+    public void blueEyeWhiteDragon(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Blue-Eyes white dragon", Type.DRAGON));
+    }
+
+    public void bitron(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Bitron", Type.CYBERSE));
+    }
+
+    public void commandKnight(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Command Knight", Type.WARRIOR));
+    }
+
+    public void crabTurtle(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Crab Turtle", Type.AQUA));
+    }
+
+    public void crawlingDragon(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Crawling dragon", Type.DRAGON));
+    }
+
+    public void curtainOfTheDarkOnes(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Curtain of the dark ones", Type.SPELL_CASTER));
+    }
+
+    public void darkBlade(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Dark Blade", Type.WARRIOR));
+    }
+
+    public void darkMagician(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Dark magician", Type.SPELL_CASTER));
+    }
+
+    public void exploderDragon(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Exploder Dragon", Type.DRAGON));
+    }
+
+    public void feralImp(ActionEvent actionEvent) {
+        loggedUser.getAllCards().add(new Card("Feral Imp", Type.FIEND));
     }
 }
 
