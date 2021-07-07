@@ -850,7 +850,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 72; i > 10; i--) {
+        for (int i = 0; i < 30; i++) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -1785,6 +1785,7 @@ public class Game {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
                         "there are not enough cards for tribute");
+                return;
             } else {
                 doTributeSummonOrSet(3, true, true);
                 specialSummonedCards.add(selectedCard);
@@ -2202,7 +2203,12 @@ public class Game {
         }
         if (!currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
-                    "you can’t summon this card");
+                    "you can’t set this card");
+            return;
+        }
+        if (selectedCard.getName().equals("Gate Guardian")) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
+                    "you can’t set this card");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
