@@ -88,13 +88,13 @@ public class TestGame {
         Assert.assertEquals(game.getCurrentPhase(), Phase.DRAW);
     }
 
-    @Test
-    public void testSelectCard() {
-        initialise();
-        Game game = new Game(user1, user2, 1, new Scanner(System.in));
-        Assertions.assertNull(game.getActivatedRitualCard());
-        game.setSelectedCard(new Card("Test", Type.RITUAL));
-        game.deselectCard();
-        Assertions.assertNull(game.getSelectedCard());
-    }
+//    @Test
+//    public void testSelectCard() {
+//        initialise();
+//        Game game = new Game(user1, user2, 1, new Scanner(System.in));
+//        Assertions.assertNull(game.getActivatedRitualCard());
+//        game.setSelectedCard(new Card("Test", Type.RITUAL));
+//        game.deselectCard();
+//        Assertions.assertNull(game.getSelectedCard());
+//    }
 }

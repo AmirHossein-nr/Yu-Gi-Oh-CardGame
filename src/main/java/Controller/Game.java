@@ -1399,15 +1399,6 @@ public class Game {
         this.selectedCard = selectedCard;
     }
 
-    public void deselectCard() {
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-        } else {
-            setSelectedCard(null);
-            System.out.println("card deselected");
-        }
-    }
-
     private void changeTurn() {
         currentUser = getOpponentOfCurrentUser();
         attackedCards.clear();
@@ -1477,60 +1468,6 @@ public class Game {
         } catch (Exception ignored) {
         }
         rivalFieldZone.fillCard(false);
-    }
-
-    private void select(Matcher matcher) {
-        if (matcher.find()) {
-            try {
-                if (matcher.group(1) != null) {
-                    int number = Integer.parseInt(matcher.group(1));
-                    selectedCard = currentUser.getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(2) != null) {
-                    int number = Integer.parseInt(matcher.group(2));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(3) != null) {
-                    int number = Integer.parseInt(matcher.group(3));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(4) != null) {
-                    int number = Integer.parseInt(matcher.group(4));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(5) != null) {
-                    int number = Integer.parseInt(matcher.group(5));
-                    selectedCard = currentUser.getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(6) != null) {
-                    int number = Integer.parseInt(matcher.group(6));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(7) != null) {
-                    int number = Integer.parseInt(matcher.group(7));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(8) != null) {
-                    int number = Integer.parseInt(matcher.group(8));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(9) != null) {
-                    int number = Integer.parseInt(matcher.group(9));
-                    if (number <= currentUser.getBoard().getCardsInHand().size() && number > 0) {
-                        selectedCard = currentUser.getBoard().getCardsInHand().get(number - 1);
-                    } else {
-                        System.out.println("invalid selection");
-                        return;
-                    }
-                } else if (matcher.group(10) != null) {
-                    selectedCard = currentUser.getBoard().getFieldZone();
-                } else if (matcher.group(11) != null) {
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                } else if (matcher.group(12) != null) {
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                } else {
-                    System.out.println("invalid selection");
-                    return;
-                }
-                System.out.println("card Selected");
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("invalid selection");
-            }
-        } else {
-            System.out.println("invalid command");
-        }
     }
 
     public void drawPhaseRun() {
@@ -3078,58 +3015,11 @@ public class Game {
         new ChainController(this, scanner).run();
     }
 
-    private void showGraveyard() {
-        if (currentUser.getBoard().getGraveYard().size() == 0) {
-            System.out.println("graveyard empty");
-        } else {
-            int number = 1;
-            for (Card card : currentUser.getBoard().getGraveYard()) {
-                System.out.println(number + ". " + card.getName() + ":" + card.getDescription());
-                number++;
-            }
-        }
-        System.out.println("type back to return to game");
-        while (true) {
-            if (scanner.nextLine().equals("back")) {
-                return;
-            }
-        }
-    }
-
-    private void showSelectedCard() {
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-            return;
-        }
-        if (getOpponentOfCurrentUser().getBoard().getAllCards().contains(selectedCard) && !selectedCard.getOccupied()) {
-            System.out.println("card is not visible");
-            return;
-        }
-        System.out.println(selectedCard.getName() + ":" + selectedCard.getDescription());
-    }
-
     private void endPhaseRun() {
         int number = currentUser.getBoard().getCardsInHand().size();
         if (number > 6) {
             number -= 6;
             throwAwayExtraCards(number);
-//            while (currentUser.getBoard().getCardsInHand().size() > 6) {
-//                System.out.println("you have to throw away " + number + "cards");
-//                String numberString = editSpaces(scanner.nextLine());
-//                if (numberString.matches("\\d+")) {
-//                    int number1 = Integer.parseInt(numberString);
-//                    if (number1 < 1 || number1 > currentUser.getBoard().getCardsInHand().size()) {
-//                        System.out.println("enter a correct number");
-//                    } else {
-//                        Card card = currentUser.getBoard().getCardsInHand().get(number1 - 1);
-//                        currentUser.getBoard().getCardsInHand().remove(card);
-//                        currentUser.getBoard().getGraveYard().add(card);
-//                        number--;
-//                    }
-//                } else {
-//                    System.out.println("enter a number");
-//                }
-//            }
         }
         currentPhase = Phase.END;
     }
