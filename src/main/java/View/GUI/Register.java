@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
 import java.net.URL;
 
 public class Register extends Application {
@@ -23,7 +24,7 @@ public class Register extends Application {
         LoginMenu.mainStage = primaryStage;
     }
 
-    public static void createAlert (Alert.AlertType alertType, String header, String content) {
+    public static void createAlert(Alert.AlertType alertType, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(header);
         alert.setContentText(content);

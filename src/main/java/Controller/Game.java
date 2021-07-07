@@ -6,7 +6,6 @@ import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
 import animatefx.animation.*;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -61,6 +60,7 @@ public class Game {
     public Label currentFullName;
     public Label rivalUsername;
     public Label rivalFullName;
+    public CardRectangle currentFieldZone;
     public CardRectangle currentMonster1;
     public CardRectangle currentMonster2;
     public CardRectangle currentMonster3;
@@ -638,6 +638,7 @@ public class Game {
     }
 
     private void onMouseHoverForCardsOnBoard() {
+        mouseHoverControlForCurrent(currentFieldZone);
         mouseHoverControlForCurrent(currentMonster1);
         mouseHoverControlForCurrent(currentMonster2);
         mouseHoverControlForCurrent(currentMonster3);
@@ -783,6 +784,8 @@ public class Game {
             rivalAvatar.setFill(new ImagePattern(getOpponentOfCurrentUser().getAvatar()));
         } catch (Exception ignored) {
         }
+        currentFieldZone.setRelatedCard(null);
+        currentFieldZone.fillCard(true);
         currentCard1.setRelatedCard(null);
         currentCard1.fillCard(true);
         currentCard2.setRelatedCard(null);
@@ -846,7 +849,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 0; i < 41; i++) {
+        for (int i = 72; i > 10; i--) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -1301,6 +1304,12 @@ public class Game {
             currentCard6.setRelatedCard(null);
         }
         currentCard6.fillCard(true);
+        try {
+            currentFieldZone.setRelatedCard(currentUser.getBoard().getFieldZone());
+        } catch (Exception ignored) {
+            currentFieldZone.setRelatedCard(null);
+        }
+        currentFieldZone.fillCard(false);
     }
 
     private void showCardsInMonsterZone() {
@@ -2390,7 +2399,8 @@ public class Game {
                     "action not allowed in this phase");
             return;
         }
-        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied()) || !currentUser.getBoard().getMonstersZone().contains(selectedCard)
+        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
+                || !currentUser.getBoard().getMonstersZone().contains(selectedCard)
                 || putOnMonsterZoneCards.contains(selectedCard)) {
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you can’t flip summon this card");
@@ -2969,6 +2979,10 @@ public class Game {
         }
         if (attackedCards.contains(selectedCard)) {
             GamePlay.showAlert(Alert.AlertType.WARNING, "Attack Error", "this card already attacked");
+            return true;
+        }
+        if (!selectedCard.getAttackPosition()) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
             return true;
         }
         return false;

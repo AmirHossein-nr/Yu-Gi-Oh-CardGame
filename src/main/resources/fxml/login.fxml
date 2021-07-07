@@ -9,39 +9,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="582.0" prefWidth="709.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.LoginMenu">
+<AnchorPane prefHeight="582.0" prefWidth="709.0" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.LoginMenu">
     <children>
         <ImageView fitHeight="591.0" fitWidth="715.0" layoutX="-6.0" layoutY="-2.0" opacity="0.7">
             <image>
-                <Image url="@../images/menuBackground.jpg" />
+                <Image url="@../images/menuBackground.jpg"/>
             </image>
         </ImageView>
         <Label layoutX="185.0" layoutY="142.0" prefHeight="19.0" prefWidth="103.0" text="username :">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
         <Label layoutX="189.0" layoutY="203.0" text="password :">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <TextField layoutX="294.0" layoutY="153.0" prefHeight="31.0" prefWidth="149.0" />
-        <TextField layoutX="294.0" layoutY="214.0" prefHeight="31.0" prefWidth="149.0" />
-        <Button layoutX="284.0" layoutY="396.0" mnemonicParsing="false" onAction="#back" onMouseClicked="#back" prefHeight="31.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 2;" text="back">
+        <TextField layoutX="294.0" layoutY="153.0" prefHeight="31.0" prefWidth="149.0"/>
+        <TextField layoutX="294.0" layoutY="214.0" prefHeight="31.0" prefWidth="149.0"/>
+        <Button layoutX="284.0" layoutY="396.0" mnemonicParsing="false" onAction="#back" onMouseClicked="#back"
+                prefHeight="31.0" prefWidth="71.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 2;"
+                text="back">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
         </Button>
-        <Button layoutX="355.0" layoutY="396.0" mnemonicParsing="false" onAction="#login" onMouseClicked="#login" prefHeight="31.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 2;" text="login">
+        <Button layoutX="355.0" layoutY="396.0" mnemonicParsing="false" onAction="#login" onMouseClicked="#login"
+                prefHeight="31.0" prefWidth="71.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 2;"
+                text="login">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
         </Button>
     </children>
