@@ -6,7 +6,6 @@ import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
 import animatefx.animation.*;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,6 +20,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -95,12 +96,16 @@ public class Game {
     public Label currentUserLifePoint;
     public Label rivalLifePoint;
     public Rectangle directAttack;
+    public CardRectangle currentFieldZone;
+    public CardRectangle rivalFieldZone;
 
     public static Stage mainStage;
 
+    public MediaPlayer player;
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
     private CardRectangle selectedCardFromEnemy;
+    private CardRectangle selectedCardToThrowAway;
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
@@ -247,6 +252,11 @@ public class Game {
             set();
             printBoard();
         });
+        directAttack.setFill(new ImagePattern(new Image("/images/Icons/directAttack.png")));
+        directAttack.setOnMouseClicked(event -> {
+            directAttack();
+            printBoard();
+        });
         changePosition.setFill(new ImagePattern(new Image("/images/Icons/changePosition.png")));
         changePosition.setOnMouseClicked(event -> showChangePositionPopUp());
         nextButton.setFill(new ImagePattern(new Image("/images/Icons/next.png")));
@@ -257,11 +267,6 @@ public class Game {
         flipSummon.setFill(new ImagePattern(new Image("/images/Icons/flipSummon.png")));
         flipSummon.setOnMouseClicked(event -> {
             flipSummon();
-            printBoard();
-        });
-        directAttack.setFill(new ImagePattern(new Image("/images/Icons/directAttack.png")));
-        directAttack.setOnMouseClicked(event -> {
-            directAttack();
             printBoard();
         });
     }
@@ -638,11 +643,13 @@ public class Game {
     }
 
     private void onMouseHoverForCardsOnBoard() {
+        mouseHoverControlForCurrent(currentFieldZone);
         mouseHoverControlForCurrent(currentMonster1);
         mouseHoverControlForCurrent(currentMonster2);
         mouseHoverControlForCurrent(currentMonster3);
         mouseHoverControlForCurrent(currentMonster4);
         mouseHoverControlForCurrent(currentMonster5);
+        mouseHoverControlForRival(rivalFieldZone);
         mouseHoverControlForRival(rivalMonster1);
         mouseHoverControlForRival(rivalMonster2);
         mouseHoverControlForRival(rivalMonster3);
@@ -783,6 +790,10 @@ public class Game {
             rivalAvatar.setFill(new ImagePattern(getOpponentOfCurrentUser().getAvatar()));
         } catch (Exception ignored) {
         }
+        currentFieldZone.setRelatedCard(null);
+        currentFieldZone.fillCard(false);
+        rivalFieldZone.setRelatedCard(null);
+        rivalFieldZone.fillCard(false);
         currentCard1.setRelatedCard(null);
         currentCard1.fillCard(true);
         currentCard2.setRelatedCard(null);
@@ -846,7 +857,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 0; i < 41; i++) {
+        for (int i = 72; i > 10; i--) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -1129,18 +1140,6 @@ public class Game {
         // todo going back to duel menu
     }
 
-    public void playTurn() {
-
-    }
-
-    public void playFirstTurn() {
-        printBoard();
-        standbyPhaseRun();
-        mainPhaseOneRun();
-        endPhaseRun();
-    }
-
-
     private void printBoard() {
         clearTheWholeScene();
         showCardsInHand(0);
@@ -1301,6 +1300,12 @@ public class Game {
             currentCard6.setRelatedCard(null);
         }
         currentCard6.fillCard(true);
+        try {
+            currentFieldZone.setRelatedCard(currentUser.getBoard().getFieldZone());
+        } catch (Exception ignored) {
+            currentFieldZone.setRelatedCard(null);
+        }
+        currentFieldZone.fillCard(false);
     }
 
     private void showCardsInMonsterZone() {
@@ -1467,6 +1472,11 @@ public class Game {
         } catch (Exception ignored) {
         }
         rivalSpell5.fillCard(false);
+        try {
+            rivalFieldZone.setRelatedCard(getOpponentOfCurrentUser().getBoard().getFieldZone());
+        } catch (Exception ignored) {
+        }
+        rivalFieldZone.fillCard(false);
     }
 
     private void select(Matcher matcher) {
@@ -1699,6 +1709,13 @@ public class Game {
         runMainPhase();
     }
 
+    private void playErrorSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/error.mp3")).toExternalForm()));
+        player.setCycleCount(1);
+        player.play();
+    }
+
     private void runMainPhase() {
         if (playingWithAi && currentUser.getUsername().equalsIgnoreCase("ai")) {
             ((AI) currentUser).setOnBoard();
@@ -1707,6 +1724,7 @@ public class Game {
             printBoard();
             if (currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO) {
                 if (activatedRitualCard != null) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Can't Execute !",
                             "You Should Ritual Summon Right Now!");
                 } else return;
@@ -1755,10 +1773,12 @@ public class Game {
 
     private void summon() {
         if (selectedCard == null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
             return;
         }
         if (!(selectedCard instanceof Monster) || !currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "you can’t summon this card");
             return;
         }
@@ -1778,6 +1798,7 @@ public class Game {
             return;
         } else {
             if (monster.getCardType() == Type.RITUAL) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
                         "you can’t summon this card");
                 return;
@@ -1785,6 +1806,7 @@ public class Game {
         }
         if (selectedCard.getName().equals("Gate Guardian")) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
                         "there are not enough cards for tribute");
             } else {
@@ -1912,12 +1934,14 @@ public class Game {
             }
         }
         if (normalSummonOrSetCard != null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
                     "you already summoned/set on this turn");
             return;
         }
         if (monster.getLevel() <= 4) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
                         "monster card zone is full");
             } else {
@@ -1932,14 +1956,16 @@ public class Game {
             }
         } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
+                playErrorSound();
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
                 doTributeSummonOrSet(1, false, true);
             }
         } else if (monster.getLevel() > 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Successfull !",
+                playErrorSound();
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
                 doTributeSummonOrSet(2, false, true);
@@ -2121,6 +2147,7 @@ public class Game {
         popupStage.setScene(question);
         tribute.setOnMouseClicked(event1 -> {
             if (selectedCardForTribute == null) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
             } else {
                 tributeMonster(selectedCardForTribute.getRelatedCard());
@@ -2194,14 +2221,17 @@ public class Game {
 
     private void set() {
         if (activatedRitualCard != null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "you should ritual summon right now");
             return;
         }
         if (selectedCard == null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "no card is selected yet");
             return;
         }
         if (!currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                     "you can’t summon this card");
             return;
@@ -2230,6 +2260,7 @@ public class Game {
                 }
             } else if (monster.getLevel() == 5 || monster.getLevel() == 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
@@ -2237,6 +2268,7 @@ public class Game {
                 }
             } else if (monster.getLevel() > 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
@@ -2245,6 +2277,7 @@ public class Game {
             }
         } else {
             if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                         "Spell Card Zone Is Full");
                 return;
@@ -2328,22 +2361,26 @@ public class Game {
     private void setPositionAttackDefense(String input) {
         if (changePosition()) return;
         if (!selectedCard.getOccupied()) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "you can’t change this card position");
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "action not allowed in this phase");
             return;
         }
         if ((selectedCard.getAttackPosition() && input.equals("attack"))
                 || (!selectedCard.getAttackPosition() && input.equals("defense"))) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "this card is already in the wanted position");
             return;
         }
         if (setPositionedCards.contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error In Changing Position",
                     "you already changed this card position in this turn");
             return;
@@ -2386,11 +2423,10 @@ public class Game {
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
-            GamePlay.showAlert(Alert.AlertType.ERROR, "Error In flip summon",
-                    "action not allowed in this phase");
+            System.out.println("action not allowed in this phase");
             return;
         }
-        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied()) || !currentUser.getBoard().getMonstersZone().contains(selectedCard)
+        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
                 || putOnMonsterZoneCards.contains(selectedCard)) {
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you can’t flip summon this card");
@@ -2478,6 +2514,7 @@ public class Game {
         } else {
             if (doAttack()) return false;
             if (selectedCardFromEnemy == null) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error !",
                         "No Enemy Card is Selected Yet ..!");
                 return false;
@@ -2485,6 +2522,7 @@ public class Game {
             Card enemyCard = selectedCardFromEnemy.getRelatedCard();
             Monster selectedMonster = (Monster) selectedCard;
             if (enemyCard == null) {
+                playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error Occurred!",
                         "there is no card to attack here");
                 return false;
@@ -2499,6 +2537,7 @@ public class Game {
             if (enemyCard.getName().equals("Command Knight") && getOpponentOfCurrentUser().getBoard()
                     .numberOfMonstersOnBoard() - getOpponentOfCurrentUser().getBoard().getCommandKnights().size() > 0) {
                 if (enemyCard.getOccupied()) {
+                    playErrorSound();
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error Occurred!",
                             "you can't attack this card yet");
                     return false;
@@ -2900,14 +2939,12 @@ public class Game {
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
         if (doAttack()) return false;
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
-            GamePlay.showAlert(Alert.AlertType.ERROR, "Direct Attack Error!",
-                    "you can’t attack the opponent directly");
+            System.out.println("you can’t attack the opponent directly");
             return false;
         }
         if (getOpponentOfCurrentUser().getBoard().getActivatedMessengerOfPeaces().size() != 0) {
             if (((Monster) selectedCard).getAttackPower() >= 1500) {
-                GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
-                        "Messenger of Peace does not let you attack wit this card");
+                System.out.println("Messenger of Peace does not let you attack wit this card");
                 return false;
             }
         }
@@ -2915,9 +2952,7 @@ public class Game {
         new ChainController(this, scanner).run();
         if (magicCylinderActivated) {
             setMagicCylinderActivated(false);
-            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
-                    "Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower()
-                            + "damage");
+            System.out.println("Magic Cylinder stopped the attack and attacker took " + selectedMonster.getAttackPower() + "damage");
             currentUser.setLifePoint(currentUser.getLifePoint() - selectedMonster.getAttackPower());
             if (currentUser.getLifePoint() <= 0) {
                 winnerOfDuel = getOpponentOfCurrentUser();
@@ -2928,14 +2963,12 @@ public class Game {
         }
         if (negateAttackActivated) {
             setNegateAttackActivated(false);
-            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
-                    "Negate Attack stopped the attack");
+            System.out.println("Negate Attack stopped the attack");
             return false;
         }
         if (mirrorForceActivated) {
             setMirrorForceActivated(false);
-            GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
-                    "Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
+            System.out.println("Mirror Force stopped the attack and destroyed all attackers attack positioned monsters");
             return false;
         }
 
@@ -2944,8 +2977,7 @@ public class Game {
         attackedCards.add(selectedCard);
         int damage = ((Monster) selectedCard).getAttackPower();
         getOpponentOfCurrentUser().setLifePoint(getOpponentOfCurrentUser().getLifePoint() - damage);
-        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Direct Attack Info!",
-                "you opponent receives " + damage + " battle damage");
+        System.out.println("you opponent receives " + damage + " battle damage");
         if (getOpponentOfCurrentUser().getLifePoint() <= 0) {
             winnerOfDuel = currentUser;
             return true;
@@ -2956,19 +2988,26 @@ public class Game {
 
     private boolean doAttack() {
         if (selectedCard == null) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "no card is selected yet");
             return true;
         }
         if (!currentUser.getBoard().getMonstersZone().contains(selectedCard)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
             return true;
         }
         if (!(currentPhase == Phase.BATTLE)) {
+            playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t do this action in this phase");
             return true;
         }
         if (attackedCards.contains(selectedCard)) {
             GamePlay.showAlert(Alert.AlertType.WARNING, "Attack Error", "this card already attacked");
+            return true;
+        }
+        if (!selectedCard.getAttackPosition()) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Attack Error", "you can’t attack with this card");
             return true;
         }
         return false;
@@ -3064,9 +3103,10 @@ public class Game {
     }
 
     private void endPhaseRun() {
-//        int number = currentUser.getBoard().getCardsInHand().size();
-//        if (number > 6) {
-//            number -= 6;
+        int number = currentUser.getBoard().getCardsInHand().size();
+        if (number > 6) {
+            number -= 6;
+            throwAwayExtraCards(number);
 //            while (currentUser.getBoard().getCardsInHand().size() > 6) {
 //                System.out.println("you have to throw away " + number + "cards");
 //                String numberString = editSpaces(scanner.nextLine());
@@ -3084,9 +3124,62 @@ public class Game {
 //                    System.out.println("enter a number");
 //                }
 //            }
-//        }
+        }
         currentPhase = Phase.END;
+    }
 
+    private void throwAwayExtraCards(int numberOfCards) {
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("throw " + numberOfCards + "\ncards");
+        box.getChildren().add(label);
+        ArrayList<CardRectangle> cardsInHand = new ArrayList<>();
+        for (Card card : currentUser.getBoard().getCardsInHand()) {
+            CardRectangle cardRectangle = new CardRectangle();
+            cardRectangle.setRelatedCard(card);
+            cardRectangle.setFill(new ImagePattern(card.getCardImage()));
+            cardRectangle.setWidth(90);
+            cardRectangle.setHeight(150);
+            cardRectangle.setOnMouseClicked(event1 -> {
+                if (selectedCardToThrowAway != null) selectedCardToThrowAway.setStroke(Color.TRANSPARENT);
+                selectedCardToThrowAway = cardRectangle;
+                selectedCardToThrowAway.setStroke(Color.GOLD);
+                selectedCard = selectedCardToThrowAway.getRelatedCard();
+            });
+            box.getChildren().add(cardRectangle);
+        }
+
+        Button tribute = new Button("throw");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (selectedCardToThrowAway == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "throw away error", "no card is selected yet");
+            } else {
+                currentUser.getBoard().getCardsInHand().remove(selectedCard);
+                currentUser.getBoard().getGraveYard().add(selectedCard);
+                selectedCardToThrowAway = null;
+                selectedCard = null;
+                printBoard();
+                if (numberOfCards == 1) {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                } else {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                    throwAwayExtraCards(numberOfCards - 1);
+                }
+            }
+        });
+        box.getChildren().add(tribute);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     public Phase getCurrentPhase() {
@@ -3151,6 +3244,27 @@ public class Game {
         } else if (card instanceof Trap) {
             // destroy in chain
         }
+    }
+
+    public boolean processText(String text) {
+        Matcher matcher;
+        if ((matcher = Regex.getMatcher(text, Regex.increaseMoney)).find()) {
+            Integer amount = Integer.parseInt(matcher.group(2));
+            getCurrentUser().setMoney(currentUser.getMoney() + amount);
+            return true;
+        }
+        if ((matcher = Regex.getMatcher(text, Regex.increaseLife)).find()) {
+            Integer amount = Integer.parseInt(matcher.group(2));
+            getCurrentUser().setLifePoint(currentUser.getLifePoint() + amount);
+            return true;
+        }
+        if ((matcher = Regex.getMatcher(text, Regex.setWinnerCheat)).find()) {
+            String nickname = matcher.group(1);
+            if (User.getUserByNickname(nickname) == null) return false;
+            winnerOfDuel = User.getUserByNickname(nickname);
+            return true;
+        }
+        return false;
     }
 
     @FXML

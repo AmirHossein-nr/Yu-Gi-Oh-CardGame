@@ -16,6 +16,9 @@ public class Regex {
     public static String changeNickname = "(^profile change --nickname (\\w+)$)|(^profile change -n (\\w+)$)";
     public static String changePassword = "^profile change(?=.*( --password))(?=.*( --current (\\w+)))" +
             "(?=.*( --new (\\w+)))";
+    public static String increaseMoney = "^increase (?=.*(--money (\\d+)))";
+    public static String increaseLife = "^increase (?=.*(--LP (\\d+)))";
+    public static String setWinnerCheat = "^duel set-winner (\\w+)";
     public static String showCard = "^card show (\\w+)$";
     public static String createDeck = "^deck create (\\w+)$";
     public static String deleteDeck = "^deck delete (\\w+)$";

@@ -73,15 +73,15 @@ public class LoginMenu extends Menu {
     }
 
     private boolean login(String username, String password) {
-            User user = User.getUserByUsername(username);
-            if (user == null || !user.getPassword().equals(password)) {
-                String header = "No Match";
-                String content =  "Username and password didn't match!";
-                Login.createAlert(Alert.AlertType.ERROR, header, content);
-                return false;
-            }
-            loggedUser = user;
-            return true;
+        User user = User.getUserByUsername(username);
+        if (user == null || !user.getPassword().equals(password)) {
+            String header = "No Match";
+            String content = "Username and password didn't match!";
+            Login.createAlert(Alert.AlertType.ERROR, header, content);
+            return false;
+        }
+        loggedUser = user;
+        return true;
     }
 
     private String editSpaces(String string) {
@@ -131,7 +131,7 @@ public class LoginMenu extends Menu {
         openProfile();
     }
 
-    public void openProfile () throws Exception {
+    public void openProfile() throws Exception {
         ProfileGraphic profileGraphic = new ProfileGraphic();
         profileGraphic.start(mainStage);
     }
