@@ -2386,10 +2386,11 @@ public class Game {
             return;
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
-            System.out.println("action not allowed in this phase");
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error In flip summon",
+                    "action not allowed in this phase");
             return;
         }
-        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
+        if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied()) || !currentUser.getBoard().getMonstersZone().contains(selectedCard)
                 || putOnMonsterZoneCards.contains(selectedCard)) {
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
                     "you can’t flip summon this card");
