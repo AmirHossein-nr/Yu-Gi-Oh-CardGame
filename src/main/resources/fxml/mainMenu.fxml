@@ -30,7 +30,8 @@
             </effect>
         </Button>
         <Button layoutX="279.0" layoutY="168.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0"
-                onMouseClicked="#openDeckMenu" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
+                onMouseClicked="#openDeckMenu"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
                 text="deck menu">
             <font>
                 <Font name="Harlow Solid Italic" size="17.0"/>

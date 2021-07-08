@@ -279,6 +279,11 @@ public class DeckMenu extends Menu {
         updateView();
     }
 
+    @FXML
+    public void editDeck() {
+
+    }
+
     public void updateView() {
         pane.getChildren().clear();
         for (Deck deck : loggedUser.getDecks()) {

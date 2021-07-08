@@ -182,6 +182,15 @@ public class User {
         allUsers.add(user);
     }
 
+    public Card getCardByImage(Image image) {
+        for (Card card : this.getAllCards()) {
+            if (card.getCardImage() == image) {
+                return card;
+            }
+        }
+        return null;
+    }
+
     public void sortAllCardsOfUser() {
         Shop.sortCards(allCards);
     }
