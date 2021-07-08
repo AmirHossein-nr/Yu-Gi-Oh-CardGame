@@ -12,10 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -110,11 +107,10 @@ public class GamePlay extends Application {
             popUp.setScene(scene);
             popUp.show();
 
-            new FadeInRightBig(cheatRoot).play();
+            new ZoomInUp(cheatRoot).play();
 
             close.setOnAction(event1 -> {
-
-                FadeOutRight right = new FadeOutRight(cheatRoot);
+                ZoomOutDown right = new ZoomOutDown(cheatRoot);
                 right.setOnFinished(eventt -> {
                     popUp.hide();
                 });
@@ -136,16 +132,42 @@ public class GamePlay extends Application {
 
         Button resume = new Button("Resume");
         pauseRoot.getChildren().add(resume);
-
         Button surrender = new Button("Surrender !");
         pauseRoot.getChildren().add(surrender);
-
-        Button save = new Button("Save");
-        pauseRoot.getChildren().add(save);
-
+        surrender.setOnMouseClicked(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You are Giving Up !!");
+            alert.setContentText("Are You Sure ?");
+            alert.getButtonTypes().set(0, ButtonType.YES);
+            alert.getButtonTypes().set(1, ButtonType.NO);
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                try {
+                    game.surrender();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                alert.close();
+            }
+        });
         Button exit = new Button("Exit");
         pauseRoot.getChildren().add(exit);
-
+        exit.setOnMouseClicked(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Exiting ...");
+            alert.setContentText("Are You Sure ?");
+            alert.getButtonTypes().set(0, ButtonType.YES);
+            alert.getButtonTypes().set(1, ButtonType.NO);
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                try {
+                    new DuelMenuGraphic().start(mainStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                alert.close();
+            }
+        });
         Stage popupStage = new Stage(StageStyle.TRANSPARENT);
         popupStage.initOwner(mainStage);
         popupStage.initModality(Modality.APPLICATION_MODAL);

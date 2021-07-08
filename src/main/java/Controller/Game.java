@@ -11,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -101,6 +98,7 @@ public class Game {
 
     public static Stage mainStage;
 
+    private boolean mutePressed = false;
     public MediaPlayer player;
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
@@ -228,6 +226,41 @@ public class Game {
     }
 
     private void setFillForImagesOnBoard() {
+        surrenderButton.setOnMouseClicked(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You are Giving Up !!");
+            alert.setContentText("Are You Sure ?");
+            alert.getButtonTypes().set(0, ButtonType.YES);
+            alert.getButtonTypes().set(1, ButtonType.NO);
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                try {
+                    playSurrenderSound();
+                    surrender();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                playDontGiveUpSound();
+                alert.close();
+            }
+        });
+        muteButton.setOnMouseClicked(event -> {
+            if (!mutePressed) {
+                try {
+                    player.setMute(true);
+                    muteButton.setFill(new ImagePattern(new Image("/images/Icons/sound.png")));
+                    mutePressed = true;
+                } catch (Exception ignored) {
+                }
+            } else {
+                try {
+                    player.setMute(false);
+                    muteButton.setFill(new ImagePattern(new Image("/images/Icons/Mute.png")));
+                    mutePressed = false;
+                } catch (Exception ignored) {
+                }
+            }
+        });
         pauseButton.setFill(new ImagePattern(new Image("/images/Icons/_images_item_bg00.png")));
         muteButton.setFill(new ImagePattern(new Image("/images/Icons/mute.png")));
         surrenderButton.setFill(new ImagePattern(new Image("/images/Icons/surrender.png")));
@@ -244,7 +277,6 @@ public class Game {
                 .getResource("/images/Icons/attack.png"))
                 .toExternalForm())));
         attack.setOnMouseClicked(event -> {
-            playSwordSound();
             attack();
             printBoard();
         });
@@ -263,7 +295,10 @@ public class Game {
         changePosition.setOnMouseClicked(event -> showChangePositionPopUp());
         nextButton.setFill(new ImagePattern(new Image("/images/Icons/next.png")));
         previousButton.setFill(new ImagePattern(new Image("/images/Icons/previous.png")));
-        pauseButton.setOnMouseClicked(event -> GamePlay.pauseButtonExecution());
+        pauseButton.setOnMouseClicked(event -> {
+            playDryPopSound();
+            GamePlay.pauseButtonExecution();
+        });
         graveYardIcon.setFill(new ImagePattern(new Image("/images/Icons/graveYard.png")));
         graveYardOnClick();
         flipSummon.setFill(new ImagePattern(new Image("/images/Icons/flipSummon.png")));
@@ -859,7 +894,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 30; i < 41; i++) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -1411,6 +1446,7 @@ public class Game {
     }
 
     private void changeTurn() {
+        playChangeTurnSound();
         currentUser = getOpponentOfCurrentUser();
         attackedCards.clear();
         normalSummonOrSetCard = null;
@@ -1553,40 +1589,6 @@ public class Game {
             drawCard(currentUser);
         }
         showCardsInHand(0);
-//            if (input.equals("select -d")) {
-//                deselectCard();
-//            } else if (input.startsWith("select")) {
-//                select(Regex.getMatcher(input, Regex.selectCard));
-//            } else if (input.equals("next phase")) {
-//                return;
-//            } else if (input.equals("show graveyard")) {
-//                showGraveyard();
-//            } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-//                showSelectedCard();
-//            } else if (input.equals("surrender")) {
-//                winnerOfDuel = getOpponentOfCurrentUser();
-//                return;
-//            } else if (input.equals("summon")) {
-//                summon();
-//            } else if (input.equals("set")) {
-//                set();
-//            } else if (input.matches(Regex.setPositionAttackDefence)) {
-//                setPositionAttackDefense(input);
-//            } else if (input.equals("flip-summon")) {
-//                flipSummon();
-//            } else if (input.matches(Regex.attack)) {
-//                if (attack(input)) {
-//                    return;
-//                }
-//            } else if (input.equals("attack direct")) {
-//                if (directAttack()) {
-//                    return;
-//                }
-//            } else if (input.equals("activate effect")) {
-//                activateEffect();
-//            } else {
-//                System.out.println("invalid command");
-//            }
     }
 
     private boolean canCurrentUserDraw() {
@@ -1715,42 +1717,112 @@ public class Game {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/error.mp3")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
-    private void playClickSound() {
+    private void playAttackSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
-                .getResource("/music/click1.mp3")).toExternalForm()));
+                .getResource("/music/attack.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
-    private void playFastClickSound() {
+    private void playMyTurnSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
-                .getResource("/music/fastClick.wav")).toExternalForm()));
+                .getResource("/music/myTurn.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playChangeTurnSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/endTurn.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playSetSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/set.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playSummonSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/summon2.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playSurrenderSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/surrender.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playDirectAttackSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/directAttack.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playDontGiveUpSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/notGiveUp.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playTributeSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/tribute.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
+    }
+
+    private void playDrawSound() {
+        player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
+                .getResource("/music/draw.wav")).toExternalForm()));
+        player.setCycleCount(1);
+        if (!mutePressed)
+            player.play();
     }
 
     private void playPopSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/pop.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playDryPopSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/dryPop.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void playSwordSound() {
         player = new MediaPlayer(new Media(Objects.requireNonNull(getClass()
                 .getResource("/music/sword.wav")).toExternalForm()));
         player.setCycleCount(1);
-        player.play();
+        if (!mutePressed)
+            player.play();
     }
 
     private void runMainPhase() {
@@ -1808,8 +1880,14 @@ public class Game {
 
     }
 
+    public void surrender() {
+        winnerOfDuel = getOpponentOfCurrentUser();
+        winnerOfDuel.setNumberOfWinsInGame(winnerOfDuel.getNumberOfWinsInGame() + 1);
+        finishGame();
+    }
+
     private void summon() {
-        playFastClickSound();
+        playSummonSound();
         if (selectedCard == null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error", "no card is selected yet");
@@ -1851,23 +1929,72 @@ public class Game {
                         "there are not enough cards for tribute");
                 return;
             } else {
-                doTributeSummonOrSet(3, true, true);
-                specialSummonedCards.add(selectedCard);
+                HBox box = new HBox(50);
+                box.setAlignment(Pos.TOP_LEFT);
+                box.setPadding(new Insets(10));
+                Label label = new Label();
+                label.setText("Attack or Defence?");
+                box.getChildren().add(label);
+                ChoiceBox<String> choiceBox = new ChoiceBox<>();
+                choiceBox.getItems().addAll("Attack", "Defence");
+                choiceBox.setStyle("-fx-text-fill: black");
+                box.getChildren().add(choiceBox);
+                Button select = new Button("select");
+                Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+                popupStage.initOwner(mainStage);
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                Scene question = new Scene(box, Color.TRANSPARENT);
+                question.getStylesheets().add("/Css/GamePlay.css");
+                popupStage.setScene(question);
+                select.setOnMouseClicked(event -> {
+                    try {
+                        if (choiceBox.getValue().equals("Attack")) {
+                            new FadeOutUp(box).play();
+                            popupStage.hide();
+                            doTributeSummonOrSet(3, true, true, true);
+                        } else if (choiceBox.getValue().equals("Defence")) {
+                            new FadeOutUp(box).play();
+                            popupStage.hide();
+                            doTributeSummonOrSet(3, true, true, false);
+                        }
+                    } catch (Exception e) {
+                    }
+                });
+                box.getChildren().add(select);
+                popupStage.show();
+                new FadeIn(box).play();
                 return;
             }
         }
         if (selectedCard.getName().equals("Beast King Barbaros")) {
-            System.out.println("do you want to summon this card with \"0\" or \"2\" or \"3\"  tributes?");
-            String answer;
-            while (true) {
-                answer = scanner.nextLine();
-                answer = editSpaces(answer);
-                switch (answer) {
-                    case "0":
+            HBox box = new HBox(50);
+            box.setAlignment(Pos.TOP_LEFT);
+            box.setPadding(new Insets(10));
+            Label label = new Label();
+            label.setText("tribute\n0 or 2 or 3");
+            box.getChildren().add(label);
+            ChoiceBox<String> choiceBox = new ChoiceBox<>();
+            choiceBox.getItems().addAll("0", "2", "3");
+            choiceBox.setStyle("-fx-text-fill: black");
+            box.getChildren().add(choiceBox);
+            Button select = new Button("select");
+            Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+            popupStage.initOwner(mainStage);
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            Scene question = new Scene(box, Color.TRANSPARENT);
+            question.getStylesheets().add("/Css/GamePlay.css");
+            popupStage.setScene(question);
+            select.setOnMouseClicked(event -> {
+                try {
+                    if (choiceBox.getValue().equals("0")) {
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
                         if (normalSummonOrSetCard != null) {
-                            System.out.println("you already summoned/set on this turn");
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                                    "you already summoned/set on this turn");
                         } else if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                            System.out.println("monster card zone is full");
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                                    "monster card zone is full");
                         } else {
                             ((Monster) selectedCard).setAttackPower(1900);
                             addMonsterFromHandToMonsterZone(selectedCard, true, true);
@@ -1875,104 +2002,136 @@ public class Game {
                             normalSummonOrSetCard = selectedCard;
                             selectedCard = null;
                         }
-                        break;
-                    case "2":
+                    } else if (choiceBox.getValue().equals("2")) {
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
                         if (normalSummonOrSetCard != null) {
-                            System.out.println("you already summoned/set on this turn");
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                                    "you already summoned/set on this turn");
                         } else if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                            System.out.println("there are not enough cards for tribute");
+                            playErrorSound();
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
+                                    "there are not enough cards for tribute");
                         } else {
-                            doTributeSummonOrSet(2, false, true);
+                            doTributeSummonOrSet(2, false, true, true);
                         }
-                        break;
-                    case "3":
-                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
-                            System.out.println("there are not enough cards for tribute");
+                    } else if (choiceBox.getValue().equals("3")) {
+                        if (currentUser.getBoard().numberOfMonstersOnBoard() < 3) {
+                            new FadeOutUp(box).play();
+                            popupStage.hide();
+                            playErrorSound();
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error!",
+                                    "there are not enough cards for tribute");
                         } else {
                             System.out.println("\"attack\" or \"defence\"?");
-                            String answer1 = scanner.nextLine();
-                            while (!answer1.equals("attack") && !answer1.equals("defence") && !answer1.equals("cancel")) {
-                                System.out.println("type \"attack\" or \"defence\" or cancel");
-                                answer1 = scanner.nextLine();
-                            }
-                            if (answer1.equals("cancel")) {
-                                System.out.println("action canceled");
-                                return;
-                            } else if (answer1.equals("attack")) {
-                                doTributeSummonOrSet(3, true, true);
-                            } else {
-                                doTributeSummonOrSet(3, true, false);
-                            }
-                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
-                                if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
-                                            .getBoard().getMonstersZone().get(i));
-                                    getOpponentOfCurrentUser().getBoard().getMonstersZone().set(i, null);
+                            label.setText("attack or\ndefence?");
+                            choiceBox.getItems().clear();
+                            choiceBox.getItems().addAll("Attack", "Defence");
+                            select.setOnMouseClicked(event1 -> {
+                                try {
+                                    if (choiceBox.getValue().equals("Attack")) {
+                                        doTributeSummonOrSet(3, true, true, true);
+                                    } else if (choiceBox.getValue().equals("Defence")) {
+                                        doTributeSummonOrSet(3, true, true, false);
+                                    }
+                                    if (choiceBox.getValue().equals("Attack") || choiceBox.getValue().equals("Defence")) {
+                                        new FadeOutUp(box).play();
+                                        popupStage.hide();
+                                        for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
+                                            if (getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
+                                                addMonsterFromMonsterZoneToGraveyard(getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i), getOpponentOfCurrentUser());
+                                            }
+                                        }
+                                        for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
+                                            if (getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
+                                                addSpellOrTrapFromZoneToGraveyard(getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i), getOpponentOfCurrentUser());
+                                            }
+                                        }
+                                        if (getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
+                                            Card zoneSpell = getOpponentOfCurrentUser().getBoard().getFieldZone();
+                                            addMonsterFromMonsterZoneToGraveyard(zoneSpell, getOpponentOfCurrentUser());
+                                        }
+                                        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Beast King Barbaros effect!",
+                                                "destroyed all cards that opponent control");
+                                        printBoard();
+                                    }
+                                } catch (Exception e1) {
                                 }
-                            }
-                            for (int i = 0; i < getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
-                                if (getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
-                                    getOpponentOfCurrentUser().getBoard().getGraveYard().add(getOpponentOfCurrentUser()
-                                            .getBoard().getSpellsAndTrapsZone().get(i));
-                                    getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().set(i, null);
-                                }
-                            }
-                            if (getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
-                                Card zoneSpell = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                                getOpponentOfCurrentUser().getBoard().getGraveYard().add(zoneSpell);
-                                getOpponentOfCurrentUser().getBoard().setFieldZone(null);
-                            }
-                            System.out.println("destroyed all cards that opponent control");
+                            });
                         }
-                        break;
-                    case "cancel":
-                        System.out.println("action canceled");
-                        return;
-                    default:
-                        System.out.println("type \"0\" or \"2\" or \"3\" or cancel");
-                        break;
+                    }
+                } catch (Exception e) {
                 }
-            }
+            });
+            box.getChildren().add(select);
+            popupStage.show();
+            new FadeIn(box).play();
+            return;
         }
         if (selectedCard.getName().equals("The Tricky")) {
-            System.out.println("do you want to normal summon or special summon? (answer with \"normal\"/\"special\")");
-            String answer;
-            while (true) {
-                answer = scanner.nextLine();
-                answer = editSpaces(answer);
-                switch (answer) {
-                    case "normal":
+            HBox box = new HBox(50);
+            box.setAlignment(Pos.TOP_LEFT);
+            box.setPadding(new Insets(10));
+            Label label = new Label();
+            label.setText("Normal or Special?");
+            box.getChildren().add(label);
+            ChoiceBox<String> choiceBox = new ChoiceBox<>();
+            choiceBox.getItems().addAll("Normal", "Special");
+            choiceBox.setStyle("-fx-text-fill: Black");
+            box.getChildren().add(choiceBox);
+            Button select = new Button("select");
+            Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+            popupStage.initOwner(mainStage);
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            Scene question = new Scene(box, Color.TRANSPARENT);
+            question.getStylesheets().add("/Css/GamePlay.css");
+            popupStage.setScene(question);
+            select.setOnMouseClicked(event -> {
+                try {
+                    if (choiceBox.getValue().equals("Normal")) {
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
                         if (normalSummonOrSetCard != null) {
-                            System.out.println("you already summoned/set on this turn");
+                            playErrorSound();
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                                    "you already summoned/set on this turn");
                             return;
                         } else {
                             if (currentUser.getBoard().numberOfMonstersOnBoard() < 1) {
-                                System.out.println("there are not enough cards for tribute");
+                                playErrorSound();
+                                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
+                                        "there are not enough cards for tribute");
                                 return;
                             } else {
-                                doTributeSummonOrSet(1, false, true);
+                                doTributeSummonOrSet(1, false, true, true);
                                 return;
                             }
                         }
-                    case "special":
+                    } else if (choiceBox.getValue().equals("Special")) {
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
                         if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
-                            System.out.println("monster card zone is full");
+                            playErrorSound();
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
+                                    "monster card zone is full");
                             return;
                         }
                         if (currentUser.getBoard().getCardsInHand().size() < 2) {
-                            System.out.println("there are not enough cards for tribute");
+                            playErrorSound();
+                            GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
+                                    "there are not enough cards for tribute");
                             return;
                         }
                         specialSummonTheTricky();
                         return;
-                    case "cancel":
-                        System.out.println("action canceled");
-                        return;
-                    default:
-                        System.out.println("please type normal or special (or cancel)");
-                        break;
+                    }
+                } catch (Exception e) {
                 }
-            }
+            });
+            box.getChildren().add(select);
+            popupStage.show();
+            new FadeIn(box).play();
+            return;
         }
         if (normalSummonOrSetCard != null) {
             playErrorSound();
@@ -2001,7 +2160,7 @@ public class Game {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
-                doTributeSummonOrSet(1, false, true);
+                doTributeSummonOrSet(1, false, true, true);
             }
         } else if (monster.getLevel() > 6) {
             if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
@@ -2009,7 +2168,7 @@ public class Game {
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon UnSuccessful !",
                         "there are not enough cards for tribute");
             } else {
-                doTributeSummonOrSet(2, false, true);
+                doTributeSummonOrSet(2, false, true, true);
             }
         }
     }
@@ -2148,7 +2307,7 @@ public class Game {
         }
     }
 
-    private void doTributeSummonOrSet(int tributeNumber, boolean isSpecial, boolean isSummon) {
+    private void doTributeSummonOrSet(int tributeNumber, boolean isSpecial, boolean isSummon, boolean isAttack) {
         HBox box = new HBox(50);
         box.setAlignment(Pos.TOP_LEFT);
         box.setPadding(new Insets(10));
@@ -2191,12 +2350,17 @@ public class Game {
                 playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
             } else {
+                playTributeSound();
                 tributeMonster(selectedCardForTribute.getRelatedCard());
                 selectedCardForTribute = null;
                 if (tributeNumber == 1) {
                     selectedCard = selectedRectangle.getRelatedCard();
                     if (isSummon) {
-                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        if (isAttack) {
+                            addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                        } else {
+                            addMonsterFromHandToMonsterZone(selectedCard, true, false);
+                        }
                         playPopSound();
                         GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successful !",
                                 "Summoned successfully");
@@ -2208,6 +2372,8 @@ public class Game {
                     }
                     if (!isSpecial) {
                         normalSummonOrSetCard = selectedCard;
+                    } else {
+                        specialSummonedCards.add(selectedCard);
                     }
                     selectedCard = null;
                     printBoard();
@@ -2217,7 +2383,7 @@ public class Game {
                     printBoard();
                     new FadeOutUp(box).play();
                     popupStage.hide();
-                    doTributeSummonOrSet(tributeNumber - 1, isSpecial, isSummon);
+                    doTributeSummonOrSet(tributeNumber - 1, isSpecial, isSummon, isAttack);
                 }
             }
         });
@@ -2231,38 +2397,60 @@ public class Game {
     }
 
     private void specialSummonTheTricky() {
-        System.out.println("Enter the number of card in your hand to tribute (or cancel)");
-        String numberString;
-        while (true) {
-            numberString = scanner.nextLine();
-            numberString = editSpaces(numberString);
-            if (numberString.matches("\\d+")) {
-                int number = Integer.parseInt(numberString);
-                if (number >= 1 && number <= currentUser.getBoard().getCardsInHand().size()) {
-                    Card cardToTribute = currentUser.getBoard().getCardsInHand().get(number - 1);
-                    if (cardToTribute == selectedCard) {
-                        System.out.println("You cant tribute this card select another card");
-                    } else {
-                        currentUser.getBoard().getCardsInHand().remove(cardToTribute);
-                        currentUser.getBoard().getGraveYard().add(cardToTribute);
-                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                        System.out.println("summoned successfully");
-                        selectedCard = null;
-                        return;
-                    }
-                } else {
-                    System.out.println("please enter a correct number");
-                }
-            } else if (numberString.equals("cancel")) {
-                System.out.println("action canceled");
-                return;
-            } else {
-                System.out.println("enter a number");
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("tribute 1\ncards");
+        box.getChildren().add(label);
+        for (Card card : currentUser.getBoard().getCardsInHand()) {
+            if (card == selectedCard) {
+                continue;
             }
+            CardRectangle cardRectangle = new CardRectangle();
+            cardRectangle.setRelatedCard(card);
+            cardRectangle.setFill(new ImagePattern(card.getCardImage()));
+            cardRectangle.setWidth(90);
+            cardRectangle.setHeight(150);
+            cardRectangle.setOnMouseClicked(event1 -> {
+                if (selectedCardForTribute != null) selectedCardForTribute.setStroke(Color.TRANSPARENT);
+                selectedCardForTribute = cardRectangle;
+                selectedCardForTribute.setStroke(Color.GOLD);
+                selectedCard = selectedCardForTribute.getRelatedCard();
+            });
+            box.getChildren().add(cardRectangle);
         }
+
+        Button tribute = new Button("tribute");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (selectedCardForTribute == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "tribute away error", "no card is selected yet");
+            } else {
+                new FadeOutUp(box).play();
+                popupStage.hide();
+                currentUser.getBoard().getCardsInHand().remove(selectedCard);
+                currentUser.getBoard().getGraveYard().add(selectedCard);
+                selectedCardForTribute = null;
+                selectedCard = selectedRectangle.getRelatedCard();
+                addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                selectedCard = null;
+                selectedRectangle = null;
+                printBoard();
+            }
+        });
+        box.getChildren().add(tribute);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     private void set() {
+        playSetSound();
         if (activatedRitualCard != null) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !", "you should ritual summon right now");
@@ -2316,7 +2504,7 @@ public class Game {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
-                    doTributeSummonOrSet(1, false, false);
+                    doTributeSummonOrSet(1, false, false, false);
                 }
             } else if (monster.getLevel() > 6) {
                 if (currentUser.getBoard().numberOfMonstersOnBoard() < 2) {
@@ -2324,7 +2512,7 @@ public class Game {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                             "there are not enough cards for tribute");
                 } else {
-                    doTributeSummonOrSet(2, false, false);
+                    doTributeSummonOrSet(2, false, false, false);
                 }
             }
         } else {
@@ -2468,7 +2656,7 @@ public class Game {
     }
 
     private void flipSummon() {
-        playFastClickSound();
+
         if (activatedRitualCard != null) {
             playDryPopSound();
             GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
@@ -2635,6 +2823,7 @@ public class Game {
                                 " attack positioned monsters");
                 return false;
             }
+            playAttackSound();
             return doAttackAction(enemyCard, selectedMonster);
         }
     }
@@ -3012,6 +3201,7 @@ public class Game {
     }
 
     private boolean directAttack() { // returns true if duel has a winner and false if the duel has no winner
+        playDirectAttackSound();
         if (doAttack()) return false;
         if (getOpponentOfCurrentUser().getBoard().numberOfMonstersOnBoard() > 0) {
             playErrorSound();
@@ -3319,11 +3509,13 @@ public class Game {
             drawPhasePlace.setFill(Color.GREEN);
         }
         if (currentPhase == Phase.DRAW) {
+            playDrawSound();
             currentPhase = Phase.STANDBY;
             standByPhasePlace.setFill(Color.GREEN);
             standbyPhaseRun();
             drawPhasePlace.setFill(Color.RED);
         } else if (currentPhase == Phase.STANDBY) {
+            playMyTurnSound();
             currentPhase = Phase.MAIN_ONE;
             mainPhase1Place.setFill(Color.GREEN);
             mainPhaseOneRun();
