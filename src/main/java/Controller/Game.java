@@ -894,7 +894,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 30; i < 41; i++) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -2110,7 +2110,6 @@ public class Game {
                     } else if (choiceBox.getValue().equals("Special")) {
                         new FadeOutUp(box).play();
                         popupStage.hide();
-                        //////
                         if (currentUser.getBoard().numberOfMonstersOnBoard() == 5) {
                             playErrorSound();
                             GamePlay.showAlert(Alert.AlertType.ERROR, "Summon Error !",
@@ -2398,35 +2397,56 @@ public class Game {
     }
 
     private void specialSummonTheTricky() {
-        System.out.println("Enter the number of card in your hand to tribute (or cancel)");
-        String numberString;
-        while (true) {
-            numberString = scanner.nextLine();
-            numberString = editSpaces(numberString);
-            if (numberString.matches("\\d+")) {
-                int number = Integer.parseInt(numberString);
-                if (number >= 1 && number <= currentUser.getBoard().getCardsInHand().size()) {
-                    Card cardToTribute = currentUser.getBoard().getCardsInHand().get(number - 1);
-                    if (cardToTribute == selectedCard) {
-                        System.out.println("You cant tribute this card select another card");
-                    } else {
-                        currentUser.getBoard().getCardsInHand().remove(cardToTribute);
-                        currentUser.getBoard().getGraveYard().add(cardToTribute);
-                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                        System.out.println("summoned successfully");
-                        selectedCard = null;
-                        return;
-                    }
-                } else {
-                    System.out.println("please enter a correct number");
-                }
-            } else if (numberString.equals("cancel")) {
-                System.out.println("action canceled");
-                return;
-            } else {
-                System.out.println("enter a number");
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("tribute 1\ncards");
+        box.getChildren().add(label);
+        for (Card card : currentUser.getBoard().getCardsInHand()) {
+            if (card == selectedCard) {
+                continue;
             }
+            CardRectangle cardRectangle = new CardRectangle();
+            cardRectangle.setRelatedCard(card);
+            cardRectangle.setFill(new ImagePattern(card.getCardImage()));
+            cardRectangle.setWidth(90);
+            cardRectangle.setHeight(150);
+            cardRectangle.setOnMouseClicked(event1 -> {
+                if (selectedCardForTribute != null) selectedCardForTribute.setStroke(Color.TRANSPARENT);
+                selectedCardForTribute = cardRectangle;
+                selectedCardForTribute.setStroke(Color.GOLD);
+                selectedCard = selectedCardForTribute.getRelatedCard();
+            });
+            box.getChildren().add(cardRectangle);
         }
+
+        Button tribute = new Button("tribute");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (selectedCardForTribute == null) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "tribute away error", "no card is selected yet");
+            } else {
+                new FadeOutUp(box).play();
+                popupStage.hide();
+                currentUser.getBoard().getCardsInHand().remove(selectedCard);
+                currentUser.getBoard().getGraveYard().add(selectedCard);
+                selectedCardForTribute = null;
+                selectedCard = selectedRectangle.getRelatedCard();
+                addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                selectedCard = null;
+                selectedRectangle = null;
+                printBoard();
+            }
+        });
+        box.getChildren().add(tribute);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     private void set() {
