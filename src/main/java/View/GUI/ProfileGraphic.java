@@ -21,10 +21,10 @@ public class ProfileGraphic extends Application {
         FXMLLoader loader = new FXMLLoader(fxmlURL);
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/Css/profile.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Yu-Gi-OH!");
         primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         primaryStage.show();
-        Profile.mainStage = primaryStage;
     }
 }

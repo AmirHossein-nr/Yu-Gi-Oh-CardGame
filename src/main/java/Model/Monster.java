@@ -45,6 +45,8 @@ public class Monster extends Card {
         this.attribute = attribute;
     }
 
+
+
     public void setIsAttacked(boolean isAttacked) {
         this.isAttacked = isAttacked;
     }

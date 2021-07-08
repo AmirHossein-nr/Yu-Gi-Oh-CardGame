@@ -26,6 +26,7 @@ public class SignUpAndLoginGraphic extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setTitle("Yu-Gi-OH!");
+            primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

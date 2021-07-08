@@ -8,8 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="596.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.Menu.MainMenu">
+<AnchorPane prefHeight="596.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.MainMenu">
     <children>
         <ImageView fitHeight="603.0" fitWidth="728.0" layoutX="-3.0" layoutY="-1.0" opacity="0.7">
             <image>
@@ -112,8 +112,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button fx:id="cardMakerButton" layoutX="279.0" layoutY="401.0" mnemonicParsing="false"
-                onAction="#openCardCreator" onMouseClicked="#openShopMenu" prefHeight="33.0" prefWidth="155.0"
+        <Button fx:id="cardMakerButton" layoutX="279.0" layoutY="400.0" mnemonicParsing="false"
+                onAction="#openCardCreator" prefHeight="33.0" prefWidth="155.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
                 text="CardMaker">
             <font>

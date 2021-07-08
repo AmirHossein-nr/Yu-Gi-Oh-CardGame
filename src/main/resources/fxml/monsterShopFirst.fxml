@@ -139,7 +139,7 @@
         </Button>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="46.0" layoutY="354.0">
             <image>
-                <Image url="@../images/Monsters/Alexandrite Dragon.jpg"/>
+                <Image url="@../images/Monsters/Axe Raider.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="301.0" layoutY="39.0">

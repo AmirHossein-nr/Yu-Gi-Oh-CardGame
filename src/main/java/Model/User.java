@@ -35,6 +35,7 @@ public class User {
         decks = new ArrayList<>();
         allCards = new ArrayList<>();
         allUsers.add(this);
+        this.setAvatar(new Image(getClass().getResource("/images/character.png").toExternalForm()));
     }
 
     public void setPassword(String password) {
