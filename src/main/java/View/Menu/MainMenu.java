@@ -3,6 +3,7 @@ package View.Menu;
 import Controller.Regex;
 import View.GUI.*;
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -58,5 +59,9 @@ public class MainMenu extends Menu {
     public void backToFirstPage(ActionEvent actionEvent) throws Exception {
         SignUpAndLoginGraphic signUpAndLoginGraphic = new SignUpAndLoginGraphic();
         signUpAndLoginGraphic.start(mainStage);
+    }
+
+    public void openDeckMenu(MouseEvent mouseEvent) throws Exception {
+        new DeckGraphic().start(mainStage);
     }
 }
