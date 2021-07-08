@@ -82,6 +82,15 @@ public class User {
         this.allCards = allCards;
     }
 
+    public Deck getDeckByName(String name) {
+        for (Deck deck : getDecks()) {
+            if (deck.getName().equals(name)) {
+                return deck;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Card> getAllCards() {
         return allCards;
     }
@@ -172,6 +181,15 @@ public class User {
         user.setDecks(new ArrayList<>());
         user.setAllCards(new ArrayList<>());
         allUsers.add(user);
+    }
+
+    public Card getCardByImage(Image image) {
+        for (Card card : this.getAllCards()) {
+            if (card.getCardImage() == image) {
+                return card;
+            }
+        }
+        return null;
     }
 
     public void sortAllCardsOfUser() {
