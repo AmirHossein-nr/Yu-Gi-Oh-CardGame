@@ -15,7 +15,7 @@
     <children>
         <ImageView fitHeight="656.0" fitWidth="1175.0" layoutX="-2.0">
             <image>
-                <Image url="@../images/menuBackGroundBlurred.jpg"/>
+                <Image url="@../images/background2.jpg"/>
             </image>
         </ImageView>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="46.0" layoutY="39.0"
@@ -186,7 +186,7 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="1045.0" layoutY="354.0" mnemonicParsing="false" onAction="#backToMainMenu"
+        <Button layoutX="1045.0" layoutY="354.0" mnemonicParsing="false" onAction="#backToShopMenu"
                 onMouseClicked="#backToMainMenu" prefHeight="43.0" prefWidth="98.0"
                 style="-fx-background-color: white; -fx-border-style: solid; -fx-border-color: orange; -fx-border-width: 3;"
                 text="back">

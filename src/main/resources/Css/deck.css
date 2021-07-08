@@ -1,14 +1,43 @@
 #gridPane {
-    -fx-background-image: url("/images/back2.png");
+    -fx-background-image: url("/images/background2.jpg");
     -fx-opacity: 1;
 }
 
 #titleLabel {
-    -fx-background-color: #011818;
+    -fx-background-color: #9d0a8a;
     -fx-border-radius: 2;
     -fx-background-radius: 10;
-    -fx-text-fill: #e9d460;
+    -fx-text-fill: #d0b311;
     -fx-font-size: 40px;
+}
+
+#backButton {
+    -fx-background-color: #9d0a8a;
+    -fx-border-radius: 2;
+    -fx-background-radius: 10;
+    -fx-text-fill: #d0b311;
+    -fx-font-size: 30px;
+}
+
+#previousButton {
+    -fx-background-color: #9d0a8a;
+    -fx-border-radius: 2;
+    -fx-background-radius: 10;
+    -fx-text-fill: #d0b311;
+    -fx-font-size: 30px;
+}
+
+#nextButton {
+    -fx-background-color: #9d0a8a;
+    -fx-border-radius: 2;
+    -fx-background-radius: 10;
+    -fx-text-fill: #d0b311;
+    -fx-font-size: 30px;
+}
+
+#pane {
+    -fx-background-color: #6b6767;
+    -fx-opacity: 0.5;
 }
 
 .label {

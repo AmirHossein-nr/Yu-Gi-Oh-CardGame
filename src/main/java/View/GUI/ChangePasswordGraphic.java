@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -18,6 +19,7 @@ public class ChangePasswordGraphic extends Application {
         Parent root = FXMLLoader.load(fxmlURL);
         Scene scene = new Scene(root);
         primaryStage.setTitle("Yu-Gi-OH!");
+        primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         primaryStage.setScene(scene);
         ChangePassword.mainStage = primaryStage;
         primaryStage.show();

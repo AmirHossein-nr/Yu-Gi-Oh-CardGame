@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -26,6 +27,7 @@ public class ScoreBoardGraphic extends Application {
         createLabelsThird(anchorPane);
         createLabelsFourth(anchorPane);
         primaryStage.setTitle("Yu-Gi-OH!");
+        primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         primaryStage.show();
         ScoreBoard.mainStage = primaryStage;
     }
