@@ -10,7 +10,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -331,16 +334,6 @@ public class Shop extends Menu {
         mainMenuGraphic.start(mainStage);
     }
 
-    public void openSpellTrapShopFirst(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopFirst.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        mainStage.setTitle("YU-GI-OH");
-        mainStage.setScene(scene);
-        scene.getStylesheets().add("src/main/resources/Css/backgroundOpacity.css");
-        mainStage.show();
-    }
-
     @FXML
     public void openMonsterShopFirst(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopFirst.fxml"));
@@ -369,68 +362,817 @@ public class Shop extends Menu {
         mainStage.show();
     }
 
+    public void openMonsterShopFourth(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopFourth.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openMonsterShopFifth(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monsterShopFifth.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    @FXML
+    public void openSpellTrapFirst(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopFirstPage.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openSpellTrapShopSecond(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopSecond.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openSpellTrapShopThird(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopThird.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openSpellTrapShopFourth(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopFourth.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openSpellTrapShopFifth(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/spellTrapShopFifth.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+
     public void alexandriteDragon(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Alexandrite Dragon", Type.DRAGON));
+        Card card = new Card("Alexandrite Dragon", Type.DRAGON);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void axeRaider(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Axe Raider", Type.WARRIOR));
+        Card card = new Card("Axe Raider", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void babyDragon(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Baby dragon", Type.DRAGON));
+        Card card = new Card("Baby dragon", Type.DRAGON);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void battleOx(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Battle OX", Type.BEAST_WARRIOR));
+        Card card = new Card("Battle OX", Type.BEAST_WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void battleWarrior(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Battle warrior", Type.WARRIOR));
+        Card card = new Card("Battle warrior", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void beastKingBarbaros(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Beast King Barbaros", Type.BEAST_WARRIOR));
+        Card card = new Card("Beast King Barbaros", Type.BEAST_WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void blueEyeWhiteDragon(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Blue-Eyes white dragon", Type.DRAGON));
+        Card card = new Card("Blue-Eyes white dragon", Type.DRAGON);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void bitron(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Bitron", Type.CYBERSE));
+        Card card = new Card("Bitron", Type.CYBERSE);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void commandKnight(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Command Knight", Type.WARRIOR));
+        Card card = new Card("Command Knight", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void crabTurtle(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Crab Turtle", Type.AQUA));
+        Card card = new Card("Crab Turtle", Type.AQUA);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void crawlingDragon(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Crawling dragon", Type.DRAGON));
+        Card card = new Card("Crawling dragon", Type.DRAGON);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void curtainOfTheDarkOnes(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Curtain of the dark ones", Type.SPELL_CASTER));
+        Card card = new Card("Curtain of the dark ones", Type.SPELL_CASTER);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void darkBlade(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Dark Blade", Type.WARRIOR));
+        Card card = new Card("Dark Blade", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void darkMagician(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Dark magician", Type.SPELL_CASTER));
+        Card card = new Card("Dark magician", Type.SPELL_CASTER);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void exploderDragon(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Exploder Dragon", Type.DRAGON));
+        Card card = new Card("Exploder Dragon", Type.DRAGON);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
     }
 
     public void feralImp(ActionEvent actionEvent) {
-        loggedUser.getAllCards().add(new Card("Feral Imp", Type.FIEND));
+        Card card = new Card("Feral Imp", Type.FIEND);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void fireyarou(ActionEvent actionEvent) {
+        Card card = new Card("Fireyarou", Type.PYRO);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void flameManipulator(ActionEvent actionEvent) {
+        Card card = new Card("Flame manipulator", Type.SPELL_CASTER);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void gateGuardian(ActionEvent actionEvent) {
+        Card card = new Card("Gate Guardian", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void haniwa(ActionEvent actionEvent) {
+        Card card = new Card("Haniwa", Type.ROCK);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void hearldOfCreation(ActionEvent actionEvent) {
+        Card card = new Card("Herald of Creation", Type.SPELL_CASTER);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void heroOfTheEast(ActionEvent actionEvent) {
+        Card card = new Card("Hero of the east", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void HornImp(ActionEvent actionEvent) {
+        Card card = new Card("Horn Imp", Type.FIEND);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void leotron(ActionEvent actionEvent) {
+        Card card = new Card("Leotron", Type.CYBERSE);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void manEaterBug(ActionEvent actionEvent) {
+        Card card = new Card("Man-Eater Bug", Type.INSECT);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void marshmallon(ActionEvent actionEvent) {
+        Card card = new Card("Marshmallon", Type.FAIRY);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void mirageDragon(ActionEvent actionEvent) {
+        Card card = new Card("Mirage Dragon", Type.DRAGON);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void scanner(ActionEvent actionEvent) {
+        Card card = new Card("Scanner", Type.MACHINE);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void silverFang(ActionEvent actionEvent) {
+        Card card = new Card("Silver Fang", Type.BEAST);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void skullGuardian(ActionEvent actionEvent) {
+        Card card = new Card("Skull Guardian", Type.WARRIOR);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void slotMachine(ActionEvent actionEvent) {
+        Card card = new Card("Slot Machine", Type.MACHINE);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void spiralSerpent(ActionEvent actionEvent) {
+        Card card = new Card("Spiral Serpent", Type.SEA_SERPENT);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void advancedRitualArt(ActionEvent actionEvent) {
+        Card card = new Card("Advanced Ritual Art", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void blackPendant(ActionEvent actionEvent) {
+        Card card = new Card("Black Pendant", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void callOfTheHaunted(ActionEvent actionEvent) {
+        Card card = new Card("Call of The Haunted", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void chanceOfHeart(ActionEvent actionEvent) {
+        Card card = new Card("Change of Heart", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void closedForest(ActionEvent actionEvent) {
+        Card card = new Card("Closed Forest", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void darkHole(ActionEvent actionEvent) {
+        Card card = new Card("Dark Hole", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void forest(ActionEvent actionEvent) {
+        Card card = new Card("Forest", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void harpiesFeatherDuster(ActionEvent actionEvent) {
+        Card card = new Card("Harpie's Feather Duster", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void magicCylinder(ActionEvent actionEvent) {
+        Card card = new Card("Magic Cylinder", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void magicJammer(ActionEvent actionEvent) {
+        Card card = new Card("Magic Jamamer", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void magnumShield(ActionEvent actionEvent) {
+        Card card = new Card("Magnum Shield", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void messengerOfPeace(ActionEvent actionEvent) {
+        Card card = new Card("Messenger of peace", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void mindCrush(ActionEvent actionEvent) {
+        Card card = new Card("Mind Crush", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void mirrorForce(ActionEvent actionEvent) {
+        Card card = new Card("Mirror Force", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void monsterReborn(ActionEvent actionEvent) {
+        Card card = new Card("Monster Reborn", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void mysticalSpaceTyphoon(ActionEvent actionEvent) {
+        Card card = new Card("Mystical space typhoon", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void negateAttack(ActionEvent actionEvent) {
+        Card card = new Card("Negate Attack", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void potOfGreed(ActionEvent actionEvent) {
+        Card card = new Card("Pot of Greed", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void pajgeki(ActionEvent actionEvent) {
+        Card card = new Card("Raigeki", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void ringOfDefense(ActionEvent actionEvent) {
+        Card card = new Card("Ring of defense", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void solemnWarning(ActionEvent actionEvent) {
+        Card card = new Card("Solemn Warning", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void spellAbsorption(MouseEvent mouseEvent) {
+        Card card = new Card("Spell Absorption", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void supplySquad(ActionEvent actionEvent) {
+        Card card = new Card("Supply Squad", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void swordOfDark(ActionEvent actionEvent) {
+        Card card = new Card("Sword of dark destruction", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void swordsOfRevealingLight(ActionEvent actionEvent) {
+        Card card = new Card("Swords of Revealing Light", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void terraforming(ActionEvent actionEvent) {
+        Card card = new Card("Terraforming", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void torrentialTribute(ActionEvent actionEvent) {
+        Card card = new Card("Torrential Tribute", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void twinTwisters(ActionEvent actionEvent) {
+        Card card = new Card("Twin Twisters", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void timeSeal(ActionEvent actionEvent) {
+        Card card = new Card("Time Seal", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void trapHole(ActionEvent actionEvent) {
+        Card card = new Card("Trap Hole", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void umiruka(ActionEvent actionEvent) {
+        Card card = new Card("Umiiruka", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void unitedWeStand(ActionEvent actionEvent) {
+        Card card = new Card("United We Stand", Type.SPELL);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void vanityEmptiness(ActionEvent actionEvent) {
+        Card card = new Card("Vanity's Emptiness", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void wallOfRevealingLight(ActionEvent actionEvent) {
+        Card card = new Card("Wall of Revealing Light", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void yami(ActionEvent actionEvent) {
+        Card card = new Card("Yami", Type.TRAP);
+        if (card.getPrice() > loggedUser.getMoney()) {
+            createAlert();
+        }
+        else {
+            loggedUser.getAllCards().add(card);
+            loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+        }
+    }
+
+    public void createAlert () {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Money Error");
+            alert.setContentText("not enough money");
+            ImageView imageView = new ImageView("/images/alertHeader.png");
+            alert.setGraphic(imageView);
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add("/Css/dialogs.css");
+            dialogPane.getStyleClass().add("myDialog");
+            alert.show();
     }
 }
 
