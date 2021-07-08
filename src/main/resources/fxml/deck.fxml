@@ -38,7 +38,7 @@
             </children>
         </HBox>
         <Button fx:id="backButton" mnemonicParsing="false" text="Back" GridPane.columnIndex="4" GridPane.rowIndex="7"
-        onMouseClicked="#back">
+                onMouseClicked="#back">
         </Button>
         <ScrollPane fx:id="scroll" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="4"
                     GridPane.rowSpan="3">

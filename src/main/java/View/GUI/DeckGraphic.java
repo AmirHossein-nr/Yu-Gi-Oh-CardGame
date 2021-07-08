@@ -1,6 +1,7 @@
 package View.GUI;
 
 import View.Menu.DeckMenu;
+import View.Menu.EditDeckMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ public class DeckGraphic extends Application {
         scene.getStylesheets().add("/Css/deck.css");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
+        EditDeckMenu.mainStage = primaryStage;
         controller = (DeckMenu) loader.getController();
         primaryStage.show();
     }

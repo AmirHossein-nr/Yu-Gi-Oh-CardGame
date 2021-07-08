@@ -34,36 +34,36 @@ public class EditDeckMenu extends Menu {
     public EditDeckMenu() {
         super("Edit Deck", null);
         // --------------- Test ---------------
-        deck = new Deck(new MainDeck(false), new SideDeck(false));
-        loggedUser = new User("amirHossein", "1234", "amir");
-        new Shop(null);
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
-        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
+//        deck = new Deck(new MainDeck(false), new SideDeck(false));
+//        loggedUser = new User("amirHossein", "1234", "amir");
+//        new Shop(null);
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(10));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(15));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(14));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(13));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(25));
+//        loggedUser.getAllCards().add(Shop.getAllCards().get(35));
         // --------------- Test ---------------
     }
 
