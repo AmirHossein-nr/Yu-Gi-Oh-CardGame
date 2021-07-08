@@ -47,6 +47,7 @@ public class GamePlay extends Application {
         scene.getStylesheets().add("/Css/GamePlay.css");
         button.setStyle("-fx-text-fill: Black; -fx-opacity: 0; -fx-border-color: Black;");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         primaryStage.setOnShown(event -> {
             Task task = new Task() {
                 @Override

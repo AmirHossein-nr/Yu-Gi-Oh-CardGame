@@ -4,6 +4,7 @@ import Controller.Regex;
 import Model.*;
 import View.GUI.GamePlay;
 import View.GUI.MainMenuGraphic;
+import View.GUI.ShopGraphic;
 import com.opencsv.CSVReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -424,6 +425,11 @@ public class Shop extends Menu {
         mainStage.setTitle("YU-GI-OH");
         mainStage.setScene(scene);
         mainStage.show();
+    }
+
+    public void backToShopMenu(ActionEvent actionEvent) throws Exception {
+        ShopGraphic shopGraphic = new ShopGraphic();
+        shopGraphic.start(mainStage);
     }
 
     public void alexandriteDragon(ActionEvent actionEvent) {

@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -22,6 +23,7 @@ public class ProfileGraphic extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Yu-Gi-OH!");
+        primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         primaryStage.show();
         Profile.mainStage = primaryStage;
     }

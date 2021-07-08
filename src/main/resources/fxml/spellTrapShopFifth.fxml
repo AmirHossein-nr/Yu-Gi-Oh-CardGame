@@ -13,7 +13,7 @@
     <children>
         <ImageView fitHeight="663.0" fitWidth="798.0" layoutX="-1.0" layoutY="-1.0">
             <image>
-                <Image url="@../images/menuBackGroundBlurred.jpg" />
+                <Image url="@../images/background2.jpg" />
             </image>
         </ImageView>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="66.0" layoutY="43.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
@@ -63,7 +63,7 @@
                 <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="629.0" layoutY="349.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="45.0" prefWidth="98.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="back">
+        <Button layoutX="629.0" layoutY="349.0" mnemonicParsing="false" onAction="#backToShopMenu" prefHeight="45.0" prefWidth="98.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="back">
             <font>
                 <Font name="Harlow Solid Italic" size="16.0" />
             </font>

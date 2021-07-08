@@ -12,7 +12,7 @@
     <children>
         <ImageView fitHeight="603.0" fitWidth="728.0" layoutX="-3.0" layoutY="-1.0" opacity="0.7">
             <image>
-                <Image url="@../images/menuBackground.jpg" />
+                <Image url="@../images/background2.jpg" />
             </image>
         </ImageView>
         <Button layoutX="279.0" layoutY="109.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="duel menu">
