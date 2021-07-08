@@ -107,11 +107,10 @@ public class GamePlay extends Application {
             popUp.setScene(scene);
             popUp.show();
 
-            new FadeInRightBig(cheatRoot).play();
+            new ZoomInUp(cheatRoot).play();
 
             close.setOnAction(event1 -> {
-
-                FadeOutRight right = new FadeOutRight(cheatRoot);
+                ZoomOutDown right = new ZoomOutDown(cheatRoot);
                 right.setOnFinished(eventt -> {
                     popUp.hide();
                 });
