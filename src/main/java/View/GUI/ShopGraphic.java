@@ -26,5 +26,4 @@ public class ShopGraphic extends Application {
         Shop.mainStage = primaryStage;
         primaryStage.show();
     }
-
 }

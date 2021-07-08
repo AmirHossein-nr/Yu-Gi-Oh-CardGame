@@ -4,13 +4,11 @@ import Model.User;
 import View.Menu.ScoreBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.net.URL;
 
 public class ScoreBoardGraphic extends Application {
 
