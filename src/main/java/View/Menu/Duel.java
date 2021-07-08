@@ -3,10 +3,13 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 import Controller.Game;
+import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 
 public class Duel extends Menu {
+
+    public static Stage mainStage;
 
     public Duel(Menu parentMenu) {
         super("Duel Menu", parentMenu);

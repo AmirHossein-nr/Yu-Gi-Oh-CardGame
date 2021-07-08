@@ -5,11 +5,14 @@ import Controller.Regex;
 import Model.Monster;
 import Model.Spell;
 import Model.Trap;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 
 public class ImportExport extends Menu {
+    public static Stage mainStage;
+
     public ImportExport(Menu parentMenu) {
         super("Import/Export Menu", parentMenu);
     }

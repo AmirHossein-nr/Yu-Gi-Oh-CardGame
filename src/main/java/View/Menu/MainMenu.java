@@ -1,9 +1,7 @@
 package View.Menu;
 
 import Controller.Regex;
-import View.GUI.ProfileGraphic;
-import View.GUI.ScoreBoardGraphic;
-import View.GUI.SignUpAndLoginGraphic;
+import View.GUI.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
@@ -13,7 +11,7 @@ import java.util.regex.Matcher;
 public class MainMenu extends Menu {
     public static Stage mainStage;
 
-    public MainMenu () {
+    public MainMenu() {
         super("Main Menu", null);
     }
 
@@ -31,29 +29,34 @@ public class MainMenu extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
-        input = editSpaces(input);
-        if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-            this.showName();
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
-            this.menuExit();
-        } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
-            Matcher matcher = Regex.getMatcher(input, Regex.menuEnter);
-            if (matcher.find()) {
-                this.menuEnter(matcher.group(1));
-                this.execute();
-            }
-        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
-            this.logoutUser();
-        } else {
-            System.out.println("invalid command!");
-            this.execute();
-        }
     }
 
+    public void openProfileMenu(ActionEvent actionEvent) throws Exception {
+        openProfile();
+    }
 
-    private String editSpaces(String string) {
-        return string.replaceAll("(\\s)+", " ");
+    public void openProfile() throws Exception {
+        ProfileGraphic profileGraphic = new ProfileGraphic();
+        profileGraphic.start(mainStage);
+    }
+
+    public void openScoreBoard(ActionEvent actionEvent) throws Exception {
+        ScoreBoardGraphic scoreBoardGraphic = new ScoreBoardGraphic();
+        scoreBoardGraphic.start(mainStage);
+    }
+
+    public void openShopMenu(ActionEvent actionEvent) throws Exception {
+        ShopGraphic shopGraphic = new ShopGraphic();
+        shopGraphic.start(mainStage);
+    }
+
+    public void openCardCreator(ActionEvent actionEvent) throws Exception {
+        CardMakerGraphics cardMakerGraphics = new CardMakerGraphics();
+        cardMakerGraphics.start(mainStage);
+    }
+
+    public void backToFirstPage(ActionEvent actionEvent) throws Exception {
+        SignUpAndLoginGraphic signUpAndLoginGraphic = new SignUpAndLoginGraphic();
+        signUpAndLoginGraphic.start(mainStage);
     }
 }

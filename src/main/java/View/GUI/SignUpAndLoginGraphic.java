@@ -1,6 +1,8 @@
 package View.GUI;
 
 import View.Menu.LoginMenu;
+import View.Menu.RegisterMenu;
+import View.Menu.SignUpAndLoginMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,11 +18,13 @@ public class SignUpAndLoginGraphic extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            SignUpAndLoginMenu.mainStage = primaryStage;
+            RegisterMenu.mainStage = primaryStage;
+            LoginMenu.mainStage = primaryStage;
             URL fxmlURL = getClass().getResource("/fxml/signUpAndLogin.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlURL);
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            LoginMenu.mainStage = primaryStage;
             primaryStage.setTitle("Yu-Gi-OH!");
             primaryStage.setScene(scene);
             primaryStage.show();

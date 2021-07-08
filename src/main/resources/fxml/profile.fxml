@@ -11,101 +11,117 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="589.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Profile">
+<AnchorPane prefHeight="589.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Profile">
     <children>
         <ImageView fitHeight="596.0" fitWidth="720.0" layoutY="-1.0" opacity="0.7">
             <image>
-                <Image url="@../images/menuBackGroundBlurred.jpg" />
+                <Image url="@../images/menuBackGroundBlurred.jpg"/>
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e3a61e" height="179.0" layoutX="24.0" layoutY="44.0" stroke="#e3a61e" strokeType="INSIDE" width="156.0">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e3a61e" height="179.0" layoutX="24.0" layoutY="44.0"
+                   stroke="#e3a61e" strokeType="INSIDE" width="156.0">
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <Reflection />
+                <Reflection/>
             </effect>
         </Rectangle>
         <ImageView fitHeight="173.0" fitWidth="200.0" layoutY="47.0">
             <image>
-                <Image url="@../images/character.png" />
+                <Image url="@../images/character.png"/>
             </image>
             <effect>
-                <Reflection />
+                <Reflection/>
             </effect>
         </ImageView>
         <Label layoutX="234.0" layoutY="47.0" prefHeight="17.0" prefWidth="126.0" text="username: ">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
         <Label layoutX="234.0" layoutY="107.0" prefHeight="17.0" prefWidth="126.0" text="nickname:">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Label fx:id="profileUsername" layoutX="386.0" layoutY="47.0" prefHeight="17.0" prefWidth="126.0" text="username">
+        <Label fx:id="profileUsername" layoutX="386.0" layoutY="47.0" prefHeight="17.0" prefWidth="126.0"
+               text="username">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Label fx:id="profileNickname" layoutX="386.0" layoutY="107.0" prefHeight="17.0" prefWidth="126.0" text="nickanme">
+        <Label fx:id="profileNickname" layoutX="386.0" layoutY="107.0" prefHeight="17.0" prefWidth="126.0"
+               text="nickanme">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
         <Label layoutX="234.0" layoutY="223.0" prefHeight="17.0" prefWidth="126.0" text="password:">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Label fx:id="profilePassword" layoutX="386.0" layoutY="223.0" prefHeight="17.0" prefWidth="126.0" text="password">
+        <Label fx:id="profilePassword" layoutX="386.0" layoutY="223.0" prefHeight="17.0" prefWidth="126.0"
+               text="password">
             <font>
-                <Font name="Harlow Solid Italic" size="24.0" />
+                <Font name="Harlow Solid Italic" size="24.0"/>
             </font>
         </Label>
-        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="289.0" layoutY="168.0" mnemonicParsing="false" onAction="#changeNickname" prefHeight="36.0" prefWidth="142.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="change nickname">
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="289.0" layoutY="168.0" mnemonicParsing="false"
+                onAction="#changeNickname" prefHeight="36.0" prefWidth="142.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="change nickname">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
         </Button>
-        <Button layoutX="289.0" layoutY="277.0" mnemonicParsing="false" onAction="#changePassword" prefHeight="25.0" prefWidth="142.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-border-color: orange; -fx-border-width: 3;" text="change password">
+        <Button layoutX="289.0" layoutY="277.0" mnemonicParsing="false" onAction="#changePassword" prefHeight="25.0"
+                prefWidth="142.0"
+                style="-fx-background-color: white; -fx-border-style: solid; -fx-border-color: orange; -fx-border-width: 3;"
+                text="change password">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="29.0" layoutY="365.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="change profile">
+        <Button layoutX="29.0" layoutY="365.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
+                text="change profile">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="289.0" layoutY="492.0" mnemonicParsing="false" onAction="#backToMainMenu" onMouseClicked="#backToMainMenu" prefHeight="25.0" prefWidth="142.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-border-color: orange; -fx-border-width: 3;" text="back">
+        <Button layoutX="289.0" layoutY="492.0" mnemonicParsing="false" onAction="#backToMainMenu"
+                onMouseClicked="#backToMainMenu" prefHeight="25.0" prefWidth="142.0"
+                style="-fx-background-color: white; -fx-border-style: solid; -fx-border-color: orange; -fx-border-width: 3;"
+                text="back">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
     </children>
