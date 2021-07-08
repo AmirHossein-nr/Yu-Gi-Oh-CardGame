@@ -80,87 +80,49 @@ public class ChainController {
     }
 
     private void playTurnInChain() {
-//        HBox box = new HBox(50);
-//        box.setAlignment(Pos.TOP_LEFT);
-//        box.setPadding(new Insets(10));
-//        ArrayList<CardRectangle> spellTrapZoneRectangles = new ArrayList<>();
-//        spellTrapZoneRectangles.add(game.currentSpell1);
-//        spellTrapZoneRectangles.add(game.currentSpell2);
-//        spellTrapZoneRectangles.add(game.currentSpell3);
-//        spellTrapZoneRectangles.add(game.currentSpell4);
-//        spellTrapZoneRectangles.add(game.currentSpell5);
-//        for (CardRectangle cardRectangle : spellTrapZoneRectangles) {
-//            if (cardRectangle.getRelatedCard() != null) {
-//                if (!cardRectangle.getRelatedCard().getOccupied()) {
-//
-//                }
-//                CardRectangle cardRectangle1 = new CardRectangle();
-//                cardRectangle1.setRelatedCard(cardRectangle.getRelatedCard());
-//                cardRectangle1.setFill(new ImagePattern(cardRectangle.getRelatedCard().getCardImage()));
-//                cardRectangle1.setWidth(90);
-//                cardRectangle1.setHeight(150);
-//                cardRectangle1.setOnMouseClicked(event1 -> {
-//                    if (selectedCardForTribute != null) selectedCardForTribute.setStroke(Color.TRANSPARENT);
-//                    selectedCardForTribute = cardRectangle1;
-//                    selectedCardForTribute.setStroke(Color.GOLD);
-//                    selectedCard = selectedCardForTribute.getRelatedCard();
-//                });
-//                box.getChildren().add(cardRectangle1);
-//            }
-//        }
-//
-//        Button tribute = new Button("tribute");
-//        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
-//        popupStage.initOwner(mainStage);
-//        popupStage.initModality(Modality.APPLICATION_MODAL);
-//        Scene question = new Scene(box, Color.TRANSPARENT);
-//        question.getStylesheets().add("/Css/GamePlay.css");
-//        popupStage.setScene(question);
-//        tribute.setOnMouseClicked(event1 -> {
-//            if (selectedCardForTribute == null) {
-//                playErrorSound();
-//                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
-//            } else {
-//                playTributeSound();
-//                tributeMonster(selectedCardForTribute.getRelatedCard());
-//                selectedCardForTribute = null;
-//                if (tributeNumber == 1) {
-//                    selectedCard = selectedRectangle.getRelatedCard();
-//                    if (isSummon) {
-//                        if (isAttack) {
-//                            addMonsterFromHandToMonsterZone(selectedCard, true, true);
-//                        } else {
-//                            addMonsterFromHandToMonsterZone(selectedCard, true, false);
-//                        }
-//                        playPopSound();
-//                        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon Successful !",
-//                                "Summoned successfully");
-//                    } else {
-//                        addMonsterFromHandToMonsterZone(selectedCard, false, false);
-//                        playPopSound();
-//                        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Set Successful !",
-//                                "Set successfully");
-//                    }
-//                    if (!isSpecial) {
-//                        normalSummonOrSetCard = selectedCard;
-//                    } else {
-//                        specialSummonedCards.add(selectedCard);
-//                    }
-//                    selectedCard = null;
-//                    printBoard();
-//                    new FadeOutUp(box).play();
-//                    popupStage.hide();
-//                } else {
-//                    printBoard();
-//                    new FadeOutUp(box).play();
-//                    popupStage.hide();
-//                    doTributeSummonOrSet(tributeNumber - 1, isSpecial, isSummon, isAttack);
-//                }
-//            }
-//        });
-//        box.getChildren().add(tribute);
-//        popupStage.show();
-//        new FadeIn(box).play();
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        ArrayList<CardRectangle> spellTrapZoneRectangles = new ArrayList<>();
+        spellTrapZoneRectangles.add(game.currentSpell1);
+        spellTrapZoneRectangles.add(game.currentSpell2);
+        spellTrapZoneRectangles.add(game.currentSpell3);
+        spellTrapZoneRectangles.add(game.currentSpell4);
+        spellTrapZoneRectangles.add(game.currentSpell5);
+        for (CardRectangle cardRectangle : spellTrapZoneRectangles) {
+            if (cardRectangle.getRelatedCard() != null) {
+                if (!cardRectangle.getRelatedCard().getOccupied()) {
+                    CardRectangle cardRectangle1 = new CardRectangle();
+                    cardRectangle1.setRelatedCard(cardRectangle.getRelatedCard());
+                    cardRectangle1.setFill(new ImagePattern(cardRectangle.getRelatedCard().getCardImage()));
+                    cardRectangle1.setWidth(90);
+                    cardRectangle1.setHeight(150);
+                    cardRectangle1.setOnMouseClicked(event1 -> {
+                        if (selectedCardInChain != null) selectedCardInChain.setStroke(Color.TRANSPARENT);
+                        selectedCardInChain = cardRectangle1;
+                        selectedCardInChain.setStroke(Color.GOLD);
+                        selectedCard = selectedCardInChain.getRelatedCard();
+                    });
+                    box.getChildren().add(cardRectangle1);
+                }
+            }
+        }
+
+        Button Activate = new Button("Activate");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(Game.mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        Activate.setOnMouseClicked(event1 -> {
+            activateEffectInChain();
+            new FadeOutUp(box).play();
+            popupStage.hide();
+        });
+        box.getChildren().add(Activate);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     private void activateEffectInChain() {
