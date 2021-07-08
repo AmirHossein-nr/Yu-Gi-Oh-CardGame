@@ -73,7 +73,6 @@ public class DeckMenu extends Menu {
         updateView();
     }
 
-
     public void editDeck(ActionEvent event) throws Exception {
         String name = ((Label) (((GridPane) ((Button) event.getSource()).getParent()).getChildren().get(0))).getText();
         String deckName = "";
