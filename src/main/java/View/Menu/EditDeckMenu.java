@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Shadow;
@@ -102,7 +103,7 @@ public class EditDeckMenu extends Menu {
     }
 
     public void updateCards() {
-        allCardsPane.getChildren().removeIf(node -> !(node instanceof Button));
+        allCardsPane.getChildren().removeIf(node -> !(node instanceof Button || node instanceof Label));
         for (ImageView imageView : imageViews) {
             imageView.setFitWidth(100);
             imageView.setFitHeight(170);
