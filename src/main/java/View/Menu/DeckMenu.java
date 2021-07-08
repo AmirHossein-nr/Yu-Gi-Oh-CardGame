@@ -3,15 +3,27 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 import Model.SideDeck;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 
 public class DeckMenu extends Menu {
     public static Stage mainStage;
+    @FXML
+    public FlowPane deckContainer;
+    public Button backButton;
+    public ScrollPane scrollPane;
 
     public DeckMenu(Menu parentMenu) {
         super("Deck Menu", parentMenu);
+    }
+
+    public DeckMenu() {
+        super("Deck Menu", null);
     }
 
     @Override

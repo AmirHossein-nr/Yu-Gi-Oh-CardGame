@@ -1,0 +1,16 @@
+#gridPane {
+    -fx-background-image: url("/images/back2.png");
+    -fx-opacity: 1;
+}
+
+#titleLabel {
+    -fx-background-color: #011818;
+    -fx-border-radius: 2;
+    -fx-background-radius: 10;
+    -fx-text-fill: #e9d460;
+    -fx-font-size: 40px;
+}
+
+.label {
+    -fx-font-family: "Harlow Solid Italic";
+}

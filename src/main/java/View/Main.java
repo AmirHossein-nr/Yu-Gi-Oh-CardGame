@@ -1,7 +1,5 @@
 package View;
 
-import Controller.GameController;
-import View.GUI.Register;
 import View.GUI.SignUpAndLoginGraphic;
 import javafx.application.Application;
 import javafx.stage.Stage;

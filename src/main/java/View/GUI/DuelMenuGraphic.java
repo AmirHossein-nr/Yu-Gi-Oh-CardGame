@@ -12,7 +12,7 @@ public class DuelMenuGraphic extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL fxmlURL = getClass().getResource("/fxml/DuelMenuGraphic.fxml");
+        URL fxmlURL = getClass().getResource("/fxml/duelMenuGraphic.fxml");
         FXMLLoader loader = new FXMLLoader(fxmlURL);
         Parent root = loader.load();
         Scene scene = new Scene(root);

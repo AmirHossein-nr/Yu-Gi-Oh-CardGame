@@ -1,17 +1,24 @@
 package View.GUI;
 
-import View.Menu.LoginMenu;
+import View.Menu.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.net.URL;
 
 public class MainMenuGraphic extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        MainMenu.mainStage = primaryStage;
+        Shop.mainStage = primaryStage;
+        CardMakerMenu.mainStage = primaryStage;
+        Profile.mainStage = primaryStage;
+        ScoreBoard.mainStage = primaryStage;
+        DeckMenu.mainStage = primaryStage;
+        Duel.mainStage = primaryStage;
+        ImportExport.mainStage = primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainMenu.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

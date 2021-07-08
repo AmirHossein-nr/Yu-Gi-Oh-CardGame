@@ -1,23 +1,12 @@
 package View.Menu;
 
-import Controller.Regex;
 import Model.User;
 import View.GUI.*;
-import View.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
 
@@ -75,39 +64,7 @@ public class LoginMenu extends Menu {
         signUpAndLoginGraphic.start(mainStage);
     }
 
-    public void openRegisterMenu(ActionEvent actionEvent) throws Exception {
-        RegisterMenu.mainStage = mainStage;
-        Register register = new Register();
-        register.start(mainStage);
-    }
 
-    public void openLoginMenu(ActionEvent actionEvent) throws Exception {
-        Login login = new Login();
-        login.start(mainStage);
-    }
 
-    public void backToFirstPage(ActionEvent actionEvent) throws Exception {
-        SignUpAndLoginGraphic signUpAndLoginGraphic = new SignUpAndLoginGraphic();
-        signUpAndLoginGraphic.start(mainStage);
-    }
-
-    public void openProfileMenu(ActionEvent actionEvent) throws Exception {
-        openProfile();
-    }
-
-    public void openProfile() throws Exception {
-        ProfileGraphic profileGraphic = new ProfileGraphic();
-        profileGraphic.start(mainStage);
-    }
-
-    public void openScoreBoard(ActionEvent actionEvent) throws Exception {
-        ScoreBoardGraphic scoreBoardGraphic = new ScoreBoardGraphic();
-        scoreBoardGraphic.start(mainStage);
-    }
-
-    public void openShopMenu(ActionEvent actionEvent) throws Exception {
-        ShopGraphic shopGraphic = new ShopGraphic();
-        shopGraphic.start(mainStage);
-    }
 
 }
