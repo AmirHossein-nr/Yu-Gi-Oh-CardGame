@@ -1,10 +1,19 @@
 package View;
 
 import Controller.GameController;
+import View.GUI.Register;
+import View.GUI.SignUpAndLoginGraphic;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
 
     public static void main(String[] args) {
-        new GameController().run();
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        new SignUpAndLoginGraphic().start(primaryStage);
     }
 }
