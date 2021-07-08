@@ -243,26 +243,31 @@ public class ScoreBoardGraphic extends Application {
         if (label1.getText().contains(loggedUser.getNickName())) {
             label1.setStyle("-fx-border-width: 3");
             label1.setStyle("-fx-border-color: orange");
+            label1.setStyle("-fx-background-color: #9d0a8a");
             label1.setStyle("-fx-border-style: solid");
         }
         if (label2.getText().contains(loggedUser.getNickName())) {
             label2.setStyle("-fx-border-color: orange");
             label2.setStyle("-fx-border-width: 3");
+            label2.setStyle("-fx-background-color: #9d0a8a");
             label2.setStyle("-fx-border-style: solid");
         }
         if (label3.getText().contains(loggedUser.getNickName())) {
             label3.setStyle("-fx-border-color: orange");
             label3.setStyle("-fx-border-style: solid");
+            label3.setStyle("-fx-background-color: #9d0a8a");
             label3.setStyle("-fx-border-width: 3");
         }
         if (label4.getText().contains(loggedUser.getNickName())) {
             label4.setStyle("-fx-border-color: orange");
             label4.setStyle("-fx-border-style: solid");
+            label4.setStyle("-fx-background-color: #9d0a8a");
             label4.setStyle("-fx-border-width: 3");
         }
         if (label5.getText().contains(loggedUser.getNickName())) {
             label5.setStyle("-fx-border-color: orange");
             label5.setStyle("-fx-border-style: solid");
+            label5.setStyle("-fx-background-color: #9d0a8a");
             label5.setStyle("-fx-border-width: 3");
         }
     }
