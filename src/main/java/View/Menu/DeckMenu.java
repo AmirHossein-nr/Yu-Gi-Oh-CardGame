@@ -260,6 +260,11 @@ public class DeckMenu extends Menu {
         }
     }
 
+    @FXML
+    public void createADeck() {
+
+    }
+
     private void printAllDecks(User user) {
         Deck activeDeck = null;
         for (Deck deck : user.getDecks()) {
