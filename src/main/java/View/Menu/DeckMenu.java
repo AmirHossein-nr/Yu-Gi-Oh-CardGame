@@ -3,10 +3,13 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 import Model.SideDeck;
+import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
 
 public class DeckMenu extends Menu {
+    public static Stage mainStage;
+
     public DeckMenu(Menu parentMenu) {
         super("Deck Menu", parentMenu);
     }
