@@ -1,21 +1,28 @@
 package Controller;
 
 import Model.*;
+import Model.Animation.CoinToss;
 import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
 import View.GUI.GamePlay;
 import View.Menu.Shop;
 import animatefx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -26,6 +33,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,6 +105,7 @@ public class Game {
     public CardRectangle currentFieldZone;
     public CardRectangle rivalFieldZone;
 
+    public static boolean loggedStarts = false;
     public static Stage mainStage;
 
     private boolean mutePressed = false;
@@ -926,7 +935,6 @@ public class Game {
         user1.getBoard().setZones();
         user2.getBoard().setZones();
         this.loggedUser = user1;
-        this.currentUser = user1;
         this.rivalUser = user2;
         this.scanner = new Scanner(System.in);
         this.numberOfRounds = 3;
@@ -1018,6 +1026,7 @@ public class Game {
     }
 
     public void startADuel() {
+        showCoinsToss();
         if (round <= numberOfRounds) {
             if (numberOfRounds == 3) {
                 if (loggedUser.getNumberOfWinsInGame() == 2 || rivalUser.getNumberOfWinsInGame() == 2) {
@@ -1025,24 +1034,49 @@ public class Game {
                     return;
                 }
             }
-            if (round == 1) {
-                resetPlayersAttributes(loggedUser);
-            } else {
-                if (winnerOfDuel == loggedUser) {
-                    resetPlayersAttributes(rivalUser);
-                } else {
-                    resetPlayersAttributes(loggedUser);
-                }
-            }
+            resetPlayersAttributes(currentUser);
             printBoard();
-//            finishRound();
-//            round++;
+
 //            if (numberOfRounds == 3 && round <= 3) {
 //                takeABreak();
 //            }
         } else {
             finishGame();
         }
+    }
+
+    private void showCoinsToss() {
+        HBox root = new HBox();
+        root.setAlignment(Pos.CENTER);
+        root.setMinWidth(1000);
+        root.setMinHeight(500);
+        root.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
+        root.setPadding(new Insets(15));
+        Stage popUp = new Stage(StageStyle.TRANSPARENT);
+        popUp.initOwner(mainStage);
+        popUp.initModality(Modality.APPLICATION_MODAL);
+        Scene scene = new Scene(root, Color.TRANSPARENT);
+        ImageView imageView = new ImageView();
+        root.getChildren().add(imageView);
+        root.getChildren().add(new Rectangle(230, 150, Color.TRANSPARENT));
+        popUp.setScene(scene);
+        Label label = new Label();
+        Button exit = new Button("Close !");
+        CoinToss coinToss = new CoinToss(imageView, this, label, root, popUp);
+        coinToss.playFromStart();
+        label.setStyle("-fx-font-family: 'Harlow Solid Italic';-fx-font-size: 34px;");
+        exit.setStyle("-fx-font-family: 'Harlow Solid Italic';-fx-font-size: 34px;");
+        exit.setOnAction(event -> {
+            FadeOutRight fade = new FadeOutRight(root);
+            fade.play();
+            fade.setOnFinished(event1 -> {
+                popUp.hide();
+            });
+        });
+        root.getChildren().add(label);
+        root.getChildren().add(new Rectangle(40, 150, Color.TRANSPARENT));
+        root.getChildren().add(exit);
+        popUp.showAndWait();
     }
 
     public void run() {
@@ -1662,6 +1696,7 @@ public class Game {
             }
         }
     }
+
     private void activateHeraldOfCreation() { // false for stop activating and true for continue activating
         HBox box = new HBox(50);
         box.setAlignment(Pos.TOP_LEFT);

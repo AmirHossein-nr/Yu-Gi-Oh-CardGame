@@ -192,8 +192,7 @@ public class DeckMenu extends Menu {
                     System.out.println(deck.toString());
             }
     }
-
-
+    
     @FXML
     public void back(MouseEvent mouseEvent) throws Exception {
         new MainMenuGraphic().start(mainStage);
