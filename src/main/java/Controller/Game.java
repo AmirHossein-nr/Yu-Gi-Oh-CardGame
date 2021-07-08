@@ -1001,6 +1001,10 @@ public class Game {
         return currentUser;
     }
 
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
     public Spell getActivatedRitualCard() {
         return activatedRitualCard;
     }
@@ -1204,7 +1208,7 @@ public class Game {
         System.out.println("todo going back to duel menu");
     }
 
-    private void printBoard() {
+    public void printBoard() {
         clearTheWholeScene();
         showCardsInHand(0);
         showCardsInMonsterZone();
@@ -2782,7 +2786,7 @@ public class Game {
                     return false;
                 }
             }
-            new ChainController(this, scanner).run();
+            new ChainController(this).run();
             if (magicCylinderActivated) {
                 setMagicCylinderActivated(false);
                 playDryPopSound();
@@ -3207,7 +3211,7 @@ public class Game {
             }
         }
         Monster selectedMonster = (Monster) selectedCard;
-        new ChainController(this, scanner).run();
+        new ChainController(this).run();
         if (magicCylinderActivated) {
             setMagicCylinderActivated(false);
             playPopSound();
