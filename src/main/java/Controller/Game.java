@@ -287,6 +287,7 @@ public class Game {
         attack.setOnMouseClicked(event -> {
             attack();
             printBoard();
+            checkWinner();
         });
         setAttack.setFill(new ImagePattern(new Image("/images/Icons/setAttack.png")));
         setAttack.setOnMouseClicked(event -> {
@@ -298,6 +299,7 @@ public class Game {
             playSwordSound();
             directAttack();
             printBoard();
+            checkWinner();
         });
         changePosition.setFill(new ImagePattern(new Image("/images/Icons/changePosition.png")));
         changePosition.setOnMouseClicked(event -> showChangePositionPopUp());
@@ -921,7 +923,7 @@ public class Game {
         this.currentUser = user1;
         this.rivalUser = user2;
         this.scanner = new Scanner(System.in);
-        this.numberOfRounds = 1;
+        this.numberOfRounds = 3;
     }
 
     public Game() {
@@ -1026,6 +1028,7 @@ public class Game {
                     resetPlayersAttributes(loggedUser);
                 }
             }
+            printBoard();
 //            finishRound();
 //            round++;
 //            if (numberOfRounds == 3 && round <= 3) {
@@ -1135,11 +1138,16 @@ public class Game {
     private void checkWinner() {
         if (loggedUser.getLifePoint() <= 0) {
             winnerOfDuel = rivalUser;
-            // todo win game method and start new duel and finish round
+            finishRound();
         } else if (rivalUser.getLifePoint() <= 0) {
             winnerOfDuel = loggedUser;
-            // todo win game method and start new duel and finish round
+            finishRound();
         }
+    }
+
+    public void surrender() {
+        winnerOfDuel = getOpponentOfCurrentUser();
+        finishRound();
     }
 
     private void finishRound() {
@@ -1156,9 +1164,9 @@ public class Game {
         } else {
             loserOfDuel = loggedUser;
         }
-        System.out.println(winnerOfDuel.getUsername() + " won the game and the score is: "
-                + winnerOfDuel.getNumberOfWinsInGame() + "-" + loserOfDuel.getNumberOfWinsInGame());
-
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "Duel Ended",
+                winnerOfDuel.getUsername() + " won the game and the score is: "
+                        + winnerOfDuel.getNumberOfWinsInGame() + "-" + loserOfDuel.getNumberOfWinsInGame());
         round++;
 
         // starting a new duel and if game is finished finishing the game
@@ -1183,6 +1191,7 @@ public class Game {
         loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
 
         // todo going back to duel menu
+        System.out.println("todo going back to duel menu");
     }
 
     private void printBoard() {
@@ -1306,6 +1315,13 @@ public class Game {
         showCardsInHand(0);
         winnerOfDuel = null;
         turn = 1;
+        currentPhase = Phase.DRAW;
+        drawPhasePlace.setFill(Color.GREEN);
+        standByPhasePlace.setFill(Color.RED);
+        mainPhase1Place.setFill(Color.RED);
+        battlePhasePlace.setFill(Color.RED);
+        mainPhase2Place.setFill(Color.RED);
+        endPhasePlace.setFill(Color.RED);
     }
 
     private void showCardsInHand(int index) {
@@ -1886,12 +1902,6 @@ public class Game {
 //                }
         }
 
-    }
-
-    public void surrender() {
-        winnerOfDuel = getOpponentOfCurrentUser();
-        winnerOfDuel.setNumberOfWinsInGame(winnerOfDuel.getNumberOfWinsInGame() + 1);
-        finishGame();
     }
 
     private void summon() {
@@ -2720,46 +2730,6 @@ public class Game {
             printBoard();
             if (currentPhase == Phase.BATTLE)
                 return;
-
-//                if (input.equals("select -d")) {
-//                    deselectCard();
-//                } else if (input.startsWith("select")) {
-//                    select(Regex.getMatcher(input, Regex.selectCard));
-//                } else if (input.equals("next phase")) {
-//                    battlePhasePlace.setFill(Color.RED);
-//                    return;
-//                } else if (input.matches(Regex.attack)) {
-//                    if (attack(input)) {
-//                        battlePhasePlace.setFill(Color.RED);
-//                        return;
-//                    }
-//                } else if (input.equals("show graveyard")) {
-//                    showGraveyard();
-//                } else if (input.equals("attack direct")) {
-//                    if (directAttack()) {
-//                        battlePhasePlace.setFill(Color.RED);
-//                        return;
-//                    }
-//                } else if (input.equals("card show --selected") || input.equals("card show -s")) {
-//                    showSelectedCard();
-//                } else if (input.equals("surrender")) {
-//                    winnerOfDuel = getOpponentOfCurrentUser();
-//                    battlePhasePlace.setFill(Color.RED);
-//                    return;
-//                } else if (input.equals("summon")) {
-//                    summon();
-//                } else if (input.equals("set")) {
-//                    set();
-//                } else if (input.matches(Regex.setPositionAttackDefence)) {
-//                    setPositionAttackDefense(input);
-//                } else if (input.equals("flip-summon")) {
-//                    flipSummon();
-//                } else if (input.equals("activate effect")) {
-//                    activateEffect();
-//                } else {
-//                    System.out.println("invalid command");
-//                }
-
         }
     }
 
