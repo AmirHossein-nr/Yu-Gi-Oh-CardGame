@@ -33,13 +33,13 @@ public class TestUser {
         Matcher matcher = Regex.getMatcher(command, Regex.createUser);
         Menu.setScanner(new Scanner(System.in));
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.register(matcher);
+//        loginMenu.register(matcher);
 
         assertOutputEquals("user created successfully!");
 
         command = "user create --username amirhossein --nickname asghra --password 1223134";
         matcher = Regex.getMatcher(command, Regex.createUser);
-        loginMenu.register(matcher);
+//        loginMenu.register(matcher);
 
         assertOutputEquals("user with username amirhossein already exists");
         loginValidTest(matcher, loginMenu);

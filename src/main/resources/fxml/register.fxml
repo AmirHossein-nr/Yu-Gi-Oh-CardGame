@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="582.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.LoginMenu">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.RegisterMenu">
     <children>
         <ImageView fitHeight="582.0" fitWidth="694.0" layoutX="-3.0" opacity="0.7">
             <image>
@@ -49,7 +49,7 @@
         <TextField fx:id="usernameTextField" layoutX="267.0" layoutY="169.0" prefHeight="29.0" prefWidth="149.0"/>
         <TextField fx:id="nicknameTextField" layoutX="267.0" layoutY="233.0" prefHeight="29.0" prefWidth="149.0"/>
         <TextField fx:id="passwordTextField" layoutX="267.0" layoutY="301.0" prefHeight="29.0" prefWidth="149.0"/>
-        <Button layoutX="264.0" layoutY="406.0" mnemonicParsing="false" onAction="#back" onMouseClicked="#back"
+        <Button layoutX="264.0" layoutY="406.0" mnemonicParsing="false" onAction="#back"
                 prefHeight="36.0" prefWidth="80.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 2;"
                 text="back">
@@ -60,7 +60,7 @@
                 <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
         </Button>
-        <Button layoutX="344.0" layoutY="406.0" mnemonicParsing="false" onAction="#register" onMouseClicked="#register"
+        <Button layoutX="344.0" layoutY="406.0" mnemonicParsing="false" onAction="#register"
                 prefHeight="36.0" prefWidth="80.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 2; -fx-border-style: solid;"
                 text="register">

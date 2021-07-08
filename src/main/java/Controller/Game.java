@@ -100,6 +100,7 @@ public class Game {
 
     private boolean mutePressed = false;
     public MediaPlayer player;
+    private MediaPlayer theme;
     private CardRectangle selectedCardInGraveYard;
     private CardRectangle selectedCardForTribute;
     private CardRectangle selectedCardFromEnemy;
@@ -150,6 +151,11 @@ public class Game {
         new FadeInUp(currentAvatar).play();
         nextPhaseButton.setOnMouseClicked(event -> nextPhase());
         drawPhasePlace.setFill(Color.GREEN);
+        theme = new MediaPlayer(new Media(getClass().getResource("/music/themeMusic.mp3")
+                .toExternalForm()));
+        theme.setVolume(0.3);
+        theme.setCycleCount(MediaPlayer.INDEFINITE);
+        theme.play();
     }
 
     private void onMouseClickedForEnemyCards() {
@@ -248,12 +254,14 @@ public class Game {
             if (!mutePressed) {
                 try {
                     player.setMute(true);
+                    theme.pause();
                     muteButton.setFill(new ImagePattern(new Image("/images/Icons/sound.png")));
                     mutePressed = true;
                 } catch (Exception ignored) {
                 }
             } else {
                 try {
+                    theme.play();
                     player.setMute(false);
                     muteButton.setFill(new ImagePattern(new Image("/images/Icons/Mute.png")));
                     mutePressed = false;
