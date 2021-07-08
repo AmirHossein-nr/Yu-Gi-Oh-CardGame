@@ -8,7 +8,7 @@
     <children>
     <ImageView fitHeight="590.0" fitWidth="876.0" layoutX="-3.0" opacity="0.7">
         <image>
-            <Image url="@../images/background2.jpg" />
+            <Image url="@../images/background2 (1).jpg" />
         </image>
     </ImageView>
     </children>

@@ -15,7 +15,7 @@
     <children>
         <ImageView fitHeight="736.0" fitWidth="913.0" layoutX="-1.0" layoutY="-1.0" opacity="0.8">
             <image>
-                <Image url="@../images/background2.jpg"/>
+                <Image url="@../images/background2 (1).jpg"/>
             </image>
         </ImageView>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#171717" height="129.0" layoutX="42.0" layoutY="50.0"

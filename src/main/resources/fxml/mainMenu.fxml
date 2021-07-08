@@ -8,122 +8,99 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="596.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.MainMenu">
+<AnchorPane prefHeight="596.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.MainMenu">
     <children>
         <ImageView fitHeight="603.0" fitWidth="728.0" layoutX="-3.0" layoutY="-1.0" opacity="0.7">
             <image>
-                <Image url="@../images/background2.jpg"/>
+                <Image url="@../images/background2 (1).jpg" />
             </image>
         </ImageView>
-        <Button layoutX="279.0" layoutY="109.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="duel menu">
+        <Button layoutX="279.0" layoutY="109.0" mnemonicParsing="false" onAction="#openDuelMenu" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="duel menu">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="279.0" layoutY="168.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0"
-                onMouseClicked="#openDeckMenu"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="deck menu">
+        <Button layoutX="279.0" layoutY="168.0" mnemonicParsing="false" onMouseClicked="#openDeckMenu" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="deck menu">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="280.0" layoutY="223.0" mnemonicParsing="false" onAction="#openScoreBoard"
-                onMouseClicked="#openScoreBoard" prefHeight="33.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="scoreboard">
+        <Button layoutX="280.0" layoutY="223.0" mnemonicParsing="false" onAction="#openScoreBoard" onMouseClicked="#openScoreBoard" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="scoreboard">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="279.0" layoutY="284.0" mnemonicParsing="false" onAction="#openProfileMenu"
-                onMouseClicked="#openProfileMenu" prefHeight="33.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="profile">
+        <Button layoutX="279.0" layoutY="284.0" mnemonicParsing="false" onAction="#openProfileMenu" onMouseClicked="#openProfileMenu" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="profile">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="279.0" layoutY="341.0" mnemonicParsing="false" onAction="#openShopMenu"
-                onMouseClicked="#openShopMenu" prefHeight="33.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="shop">
+        <Button layoutX="279.0" layoutY="341.0" mnemonicParsing="false" onAction="#openShopMenu" onMouseClicked="#openShopMenu" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="shop">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="279.0" layoutY="461.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="import/export">
+        <Button layoutX="279.0" layoutY="461.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="import/export">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="279.0" layoutY="518.0" mnemonicParsing="false" onAction="#backToFirstPage"
-                onMouseClicked="#backToFirstPage" prefHeight="42.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="logout">
+        <Button layoutX="279.0" layoutY="518.0" mnemonicParsing="false" onAction="#backToFirstPage" onMouseClicked="#backToFirstPage" prefHeight="42.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="logout">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button fx:id="cardMakerButton" layoutX="279.0" layoutY="400.0" mnemonicParsing="false"
-                onAction="#openCardCreator" prefHeight="33.0" prefWidth="155.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;"
-                text="CardMaker">
+        <Button fx:id="cardMakerButton" layoutX="279.0" layoutY="400.0" mnemonicParsing="false" onAction="#openCardCreator" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-width: 3; -fx-border-style: solid;" text="CardMaker">
             <font>
-                <Font name="Harlow Solid Italic" size="17.0"/>
+                <Font name="Harlow Solid Italic" size="17.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
     </children>

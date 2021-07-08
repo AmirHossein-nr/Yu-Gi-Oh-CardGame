@@ -19,6 +19,7 @@ public class Login extends Application {
         Scene scene = new Scene(root);
         primaryStage.setTitle("Yu-Gi-OH!");
         primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
+        scene.getStylesheets().add("/Css/registerAndLogin.css");
         primaryStage.setScene(scene);
         primaryStage.show();
         LoginMenu.mainStage = primaryStage;

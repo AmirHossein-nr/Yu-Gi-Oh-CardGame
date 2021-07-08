@@ -37,6 +37,12 @@ public class RegisterMenu {
             Register.createAlert(Alert.AlertType.ERROR, header, content);
             return;
         }
+        if (username.equals("") || password.equals("") || nickname.equals("")) {
+            String header = "Fill Error";
+            String content = "fill all text fields!";
+            Register.createAlert(Alert.AlertType.ERROR, header, content);
+            return;
+        }
         user = new User(username, password, nickname);
         user.setMoney(100000);
         String header = "Register Done";

@@ -64,4 +64,10 @@ public class MainMenu extends Menu {
     public void openDeckMenu(MouseEvent mouseEvent) throws Exception {
         new DeckGraphic().start(mainStage);
     }
+
+    public void openDuelMenu(ActionEvent actionEvent) throws Exception {
+        DuelMenuGraphic.loggedUser = loggedUser;
+        DuelMenuGraphic duelMenuGraphic = new DuelMenuGraphic();
+        duelMenuGraphic.start(mainStage);
+    }
 }

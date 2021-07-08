@@ -15,7 +15,7 @@
     <children>
         <ImageView fitHeight="659.0" fitWidth="775.0" layoutX="-4.0" opacity="0.7">
             <image>
-                <Image url="@../images/background2.jpg"/>
+                <Image url="@../images/background2 (1).jpg"/>
             </image>
         </ImageView>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="103.0" prefHeight="31.0"

@@ -109,9 +109,9 @@ public class Game {
     private int index = 0;
     Scanner scanner;
     boolean playingWithAi = false;
-    User loggedUser;
-    User rivalUser;
-    User currentUser;
+    public User loggedUser;
+    public User rivalUser;
+    public User currentUser;
     User winnerOfDuel = null;
     int numberOfRounds;
     int round = 1;
