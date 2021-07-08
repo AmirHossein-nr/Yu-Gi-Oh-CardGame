@@ -364,6 +364,7 @@ public class Game {
             question.getStylesheets().add("/Css/GamePlay.css");
             popupStage.setScene(question);
             close.setOnMouseClicked(event1 -> {
+                selectedCardInGraveYard = null;
                 new FadeOutUp(box).play();
                 popupStage.hide();
             });
@@ -371,7 +372,6 @@ public class Game {
             popupStage.show();
             new FadeIn(box).play();
         });
-        // todo deselect card when we get out of graveyard
     }
 
     private void nextAndPreviousButtonsInitialize() {
@@ -1136,6 +1136,10 @@ public class Game {
     }
 
     private void checkWinner() {
+        if (winnerOfDuel != null) {
+            finishRound();
+            return;
+        }
         if (loggedUser.getLifePoint() <= 0) {
             winnerOfDuel = rivalUser;
             finishRound();
@@ -1460,15 +1464,6 @@ public class Game {
         this.selectedCard = selectedCard;
     }
 
-    public void deselectCard() {
-        if (selectedCard == null) {
-            System.out.println("no card is selected yet");
-        } else {
-            setSelectedCard(null);
-            System.out.println("card deselected");
-        }
-    }
-
     private void changeTurn() {
         playChangeTurnSound();
         currentUser = getOpponentOfCurrentUser();
@@ -1541,60 +1536,6 @@ public class Game {
         rivalFieldZone.fillCard(false);
     }
 
-    private void select(Matcher matcher) {
-        if (matcher.find()) {
-            try {
-                if (matcher.group(1) != null) {
-                    int number = Integer.parseInt(matcher.group(1));
-                    selectedCard = currentUser.getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(2) != null) {
-                    int number = Integer.parseInt(matcher.group(2));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(3) != null) {
-                    int number = Integer.parseInt(matcher.group(3));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(4) != null) {
-                    int number = Integer.parseInt(matcher.group(4));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getMonstersZone().get(number - 1);
-                } else if (matcher.group(5) != null) {
-                    int number = Integer.parseInt(matcher.group(5));
-                    selectedCard = currentUser.getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(6) != null) {
-                    int number = Integer.parseInt(matcher.group(6));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(7) != null) {
-                    int number = Integer.parseInt(matcher.group(7));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(8) != null) {
-                    int number = Integer.parseInt(matcher.group(8));
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(number - 1);
-                } else if (matcher.group(9) != null) {
-                    int number = Integer.parseInt(matcher.group(9));
-                    if (number <= currentUser.getBoard().getCardsInHand().size() && number > 0) {
-                        selectedCard = currentUser.getBoard().getCardsInHand().get(number - 1);
-                    } else {
-                        System.out.println("invalid selection");
-                        return;
-                    }
-                } else if (matcher.group(10) != null) {
-                    selectedCard = currentUser.getBoard().getFieldZone();
-                } else if (matcher.group(11) != null) {
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                } else if (matcher.group(12) != null) {
-                    selectedCard = getOpponentOfCurrentUser().getBoard().getFieldZone();
-                } else {
-                    System.out.println("invalid selection");
-                    return;
-                }
-                System.out.println("card Selected");
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("invalid selection");
-            }
-        } else {
-            System.out.println("invalid command");
-        }
-    }
-
     public void drawPhaseRun() {
         currentPhase = Phase.DRAW;
         if (turn == 2) {
@@ -1608,6 +1549,7 @@ public class Game {
         }
         if (!canCurrentUserDraw()) {
             winnerOfDuel = getOpponentOfCurrentUser();
+            finishRound();
             return;
         } else {
             drawCard(currentUser);
@@ -1633,103 +1575,155 @@ public class Game {
 
     private void standbyPhaseRun() {
         currentPhase = Phase.STANDBY;
-//        heraldOfCreationActivation();
-//        if (payForMessengerOfPeace()) {
-//            standByPhasePlace.setFill(Color.RED);
-//            return;
-//        }
-//        resetSupplySquads();
+        heraldOfCreationActivation();
+        if (payForMessengerOfPeace()) {
+            checkWinner();
+            return;
+        }
+        resetSupplySquads();
     }
 
     private void resetSupplySquads() {
         currentUser.getBoard().getActivatedSupplySquad().clear();
         for (int i = 0; i < 5; i++) {
             Card card = currentUser.getBoard().getSpellsAndTrapsZone().get(i);
-            if (card.getName().equals("Supply Squad")) {
-                if (card.getOccupied()) {
-                    currentUser.getBoard().getActivatedSupplySquad().add(card);
+            if (card != null) {
+                if (card.getName().equals("Supply Squad")) {
+                    if (card.getOccupied()) {
+                        currentUser.getBoard().getActivatedSupplySquad().add(card);
+                    }
                 }
             }
             card = getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i);
-            if (card.getName().equals("Supply Squad")) {
-                if (card.getOccupied()) {
-                    getOpponentOfCurrentUser().getBoard().getActivatedSupplySquad().add(card);
+            if (card != null) {
+                if (card.getName().equals("Supply Squad")) {
+                    if (card.getOccupied()) {
+                        getOpponentOfCurrentUser().getBoard().getActivatedSupplySquad().add(card);
+                    }
                 }
             }
         }
     }
 
-    private boolean payForMessengerOfPeace() {// true for 0 LP or less and false for more than 0 LP
+    private boolean payForMessengerOfPeace() {// true if someone is dead and false if no one is dead
         for (int i = 0; i < currentUser.getBoard().getActivatedMessengerOfPeaces().size(); i++) {
             Card card = currentUser.getBoard().getActivatedMessengerOfPeaces().get(i);
-            System.out.println("pay 100 LP or destroy Messenger of Peace: \"D\" for destroy and \"P\" to pay 100 LP");
-            while (true) {
-                String answer = editSpaces(scanner.nextLine());
-                if (answer.equals("D")) {
-                    addSpellOrTrapFromZoneToGraveyard(card, currentUser);
-                } else if (answer.equals("P")) {
-                    currentUser.setLifePoint(currentUser.getLifePoint() - 100);
-                    if (currentUser.getLifePoint() <= 0) {
-                        winnerOfDuel = getOpponentOfCurrentUser();
-                        return true;
-                    } else {
-                        break;
-                    }
-                } else {
-                    System.out.println("enter D or P");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You have Messenger of Peace");
+            alert.setContentText("pay 100 LP or destroy Messenger of Peace. Do you want to pay?");
+            alert.getButtonTypes().set(0, ButtonType.YES);
+            alert.getButtonTypes().set(1, ButtonType.NO);
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                currentUser.setLifePoint(currentUser.getLifePoint() - 100);
+                printBoard();
+                if (currentUser.getLifePoint() <= 0) {
+                    winnerOfDuel = getOpponentOfCurrentUser();
+                    return true;
                 }
+            } else {
+                addSpellOrTrapFromZoneToGraveyard(card, currentUser);
+                printBoard();
             }
         }
         return false;
     }
 
-    private void heraldOfCreationActivation() {
-        outer:
+    private void heraldOfCreationActivation() { // dar monster zone az i be badesh ro check kon ghabliash check shodan
         for (int i = 0; i < 5; i++) {
             Card card = currentUser.getBoard().getMonstersZone().get(i);
-            if (card.getName().equals("Herald of Creation")) {
-                System.out.println("do you want to activate your Herald of Creation? Y/N");
-                while (true) {
-                    String answer = editSpaces(scanner.nextLine());
-                    if (answer.equals("N")) {
-                        break outer;
-                    } else if (answer.equals("Y")) {
-                        System.out.println("enter number of a level 7 or more monster in your graveyard to bring to your hand");
-                        while (true) {
-                            String answer1 = editSpaces(scanner.nextLine());
-                            if (answer1.equals("cancel")) {
-                                System.out.println("canceled");
-                                break outer;
-                            }
-                            if (answer1.matches("\\d+")) {
-                                int number = Integer.parseInt(answer1);
-                                if (number < 1 || number > currentUser.getBoard().getGraveYard().size()) {
-                                    System.out.println("enter a correct number");
-                                } else {
-                                    if (!(currentUser.getBoard().getGraveYard().get(number - 1) instanceof Monster)) {
-                                        System.out.println("wrong card!");
-                                        continue;
-                                    }
-                                    Monster monster = (Monster) currentUser.getBoard().getGraveYard().get(number - 1);
-                                    if (monster.getLevel() < 7) {
-                                        System.out.println("level is less than 7");
-                                        continue;
-                                    }
-                                    currentUser.getBoard().getGraveYard().remove(monster);
-                                    currentUser.getBoard().getCardsInHand().add(monster);
-                                    System.out.println("card added to your hand");
-                                    break outer;
-                                }
-                            } else {
-                                System.out.println("enter a number");
-                            }
+            if (card != null) {
+                if (card.getName().equals("Herald of Creation")) {
+                    if (card.getOccupied()) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setHeaderText("You have Herald of Creation");
+                        alert.setContentText("do you want to activate your Herald of Creation?");
+                        alert.getButtonTypes().set(0, ButtonType.YES);
+                        alert.getButtonTypes().set(1, ButtonType.NO);
+                        if (alert.showAndWait().get() == ButtonType.YES) {
+                            activateHeraldOfCreation();
+                            return;
+                        } else {
+                            alert.close();
+                            return;
                         }
-                    } else {
-                        System.out.println("enter Y or N");
                     }
                 }
             }
         }
+    }
+    private void activateHeraldOfCreation() { // false for stop activating and true for continue activating
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        GridPane gridPane = new GridPane();
+        gridPane.setLayoutX(0);
+        gridPane.setLayoutY(0);
+        box.getChildren().add(gridPane);
+        ArrayList<CardRectangle> cardRectangles = new ArrayList<>();
+
+        for (int i = 0; i < currentUser.getBoard().getGraveYard().size(); i++) {
+            CardRectangle rectangle = new CardRectangle();
+            rectangle.setWidth(90);
+            rectangle.setHeight(150);
+            rectangle.setFill(new ImagePattern(currentUser.getBoard().getGraveYard().get(i).getCardImage()));
+            rectangle.setRelatedCard(currentUser.getBoard().getGraveYard().get(i));
+            rectangle.setOnMouseClicked(event1 -> {
+                if (selectedCardInGraveYard != null) selectedCardInGraveYard.setStroke(Color.TRANSPARENT);
+                selectedCardInGraveYard = rectangle;
+                selectedCardInGraveYard.setStroke(Color.GOLD);
+            });
+            cardRectangles.add(rectangle);
+        }
+        int z = 0;
+
+        outer:
+        for (int i = 0; ; i++) {
+            for (int j = 0; j < 13; j++) {
+                try {
+                    gridPane.add(cardRectangles.get(z), j, i);
+                    z++;
+                } catch (Exception e) {
+                    break outer;
+                }
+            }
+        }
+
+        Button close = new Button("Close");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        close.setOnMouseClicked(event1 -> {
+            selectedCardInGraveYard = null;
+            new FadeOutUp(box).play();
+            popupStage.hide();
+        });
+        Button select = new Button("select");
+        select.setOnMouseClicked(event2 -> {
+            if (selectedCardInGraveYard != null) {
+                if (selectedCardInGraveYard.getRelatedCard() instanceof Monster) {
+                    if (((Monster) selectedCardInGraveYard.getRelatedCard()).getLevel() >= 7) {
+                        currentUser.getBoard().getGraveYard().remove(selectedCardInGraveYard.getRelatedCard());
+                        currentUser.getBoard().getCardsInHand().add(selectedCardInGraveYard.getRelatedCard());
+                        printBoard();
+                        new FadeOutUp(box).play();
+                        popupStage.hide();
+                    } else {
+                        GamePlay.showAlert(Alert.AlertType.ERROR, "Error", "Wrong Card");
+                    }
+                } else {
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Error", "Wrong Card");
+                }
+            } else {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Error", "no card is selected");
+            }
+        });
+        box.getChildren().add(close);
+        box.getChildren().add(select);
+        popupStage.showAndWait();
+        new FadeIn(box).play();
     }
 
     private void mainPhaseOneRun() {
