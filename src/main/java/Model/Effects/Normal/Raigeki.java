@@ -14,20 +14,15 @@ public class Raigeki extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
-                if (game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                    Card card = game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i);
-                    game.addMonsterFromMonsterZoneToGraveyard(card, game.getOpponentOfCurrentUser());
-                }
+        for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getMonstersZone().size(); i++) {
+            if (game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i) != null) {
+                Card card = game.getOpponentOfCurrentUser().getBoard().getMonstersZone().get(i);
+                game.addMonsterFromMonsterZoneToGraveyard(card, game.getOpponentOfCurrentUser());
             }
-            System.out.println("spell activated");
-            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
-            return true;
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
         }
+        System.out.println("spell activated");
+        game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
+        return true;
     }
 
     @Override

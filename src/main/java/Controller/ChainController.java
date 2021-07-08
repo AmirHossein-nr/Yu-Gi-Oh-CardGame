@@ -17,15 +17,41 @@ public class ChainController {
     private User opponentInChain;
     private Card selectedCard = null;
 
+    private User originalCurrentUser;
+
     public ChainController(Game game, Scanner scanner) {
         this.game = game;
         chain = game.getChain();
         this.scanner = scanner;
+
+        this.originalCurrentUser = game.getCurrentUser();
+
         currentUser = game.getOpponentOfCurrentUser();
         opponentInChain = game.getCurrentUser();
     }
 
     public void run() {
+        game.changeTurnInChain();
+        if (canActivate(game.getCurrentUser())) {
+
+        } else {
+
+        }
+        if (chain.size() == 0) {
+            return;
+        }
+        // mitooni begi vaghti tamom shod bere to method execute chain va ina ro bokoni toosh
+        Collections.reverse(chain);
+        for (int i = 0; i < chain.size(); i++) {
+            Card card = chain.get(i);
+            if (card instanceof Spell) {
+                ((Spell) card).getEffect().finalActivate(game);
+            } else { // so its a trap
+                ((Trap) card).getEffect().finalActivate(game);
+            }
+        }
+        chain.clear();
+        //////////////
         outer:
         while (true) {
             if (canActivate(currentUser)) {

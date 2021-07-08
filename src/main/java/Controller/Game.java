@@ -87,6 +87,7 @@ public class Game {
     public Rectangle graveYardIcon;
     public Label graveYardLabel;
     public Rectangle flipSummon;
+    public Rectangle activateEffect;
     public ProgressBar rivalUserLifeBar;
     public ProgressBar currentUserLifeBar;
     public Rectangle attack;
@@ -127,7 +128,7 @@ public class Game {
     Spell activatedRitualCard = null;
     ArrayList<Card> chain = new ArrayList<>();
     ArrayList<Card> specialSummonedCards = new ArrayList<>();
-    boolean canSpeedOneBeActivated = false;
+    boolean canSpeedOneBeActivated = true;
     boolean timeSealActivated = false;
     boolean declaredAttack = false;
     boolean magicCylinderActivated = false;
@@ -314,6 +315,11 @@ public class Game {
         flipSummon.setFill(new ImagePattern(new Image("/images/Icons/flipSummon.png")));
         flipSummon.setOnMouseClicked(event -> {
             flipSummon();
+            printBoard();
+        });
+        activateEffect.setFill(new ImagePattern(new Image("/images/Icons/activateEffect.png")));
+        activateEffect.setOnMouseClicked(event -> {
+            activateEffect();
             printBoard();
         });
     }
@@ -904,7 +910,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 30; i < 41; i++) {
+        for (int i = 55; i < 65; i++) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);
@@ -1473,6 +1479,11 @@ public class Game {
         setPositionedCards.clear();
         printBoard();
         turn++;
+    }
+
+    public void changeTurnInChain() {
+        currentUser = getOpponentOfCurrentUser();
+        printBoard();
     }
 
     private void arrangeRivalMonsters() {
@@ -2226,7 +2237,7 @@ public class Game {
         }
     }
 
-    private void addMonsterFromHandToMonsterZone(Card monsterCard, Boolean isOccupied, Boolean isAttackPosition) {
+    public void addMonsterFromHandToMonsterZone(Card monsterCard, Boolean isOccupied, Boolean isAttackPosition) {
         currentUser.getBoard().getCardsInHand().remove(monsterCard);
         for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
             if (currentUser.getBoard().getMonstersZone().get(i) == null) {
@@ -2539,7 +2550,7 @@ public class Game {
         }
     }
 
-    private void addSpellOrTrapFromHandToZone(Card spellOrTrap, boolean isOccupied) {
+    public void addSpellOrTrapFromHandToZone(Card spellOrTrap, boolean isOccupied) {
         currentUser.getBoard().getCardsInHand().remove(spellOrTrap);
 
         if (spellOrTrap.getCardType() == Type.FIELD) {
@@ -2683,6 +2694,12 @@ public class Game {
         }
         if (!(currentPhase == Phase.MAIN_ONE || currentPhase == Phase.MAIN_TWO)) {
             System.out.println("action not allowed in this phase");
+            return;
+        }
+        if (!(selectedCard instanceof Monster)) {
+            playDryPopSound();
+            GamePlay.showAlert(Alert.AlertType.WARNING, "Select Error !",
+                    "you can’t flip summon this card");
             return;
         }
         if (!(!selectedCard.getAttackPosition() && !selectedCard.getOccupied())
@@ -3272,44 +3289,55 @@ public class Game {
 
     private void activateEffect() {
         if (activatedRitualCard != null) {
-            System.out.println("you should ritual summon right now");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error!",
+                    "you should ritual summon right now");
             return;
         }
         if (selectedCard == null) {
-            System.out.println("no card is selected yet");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "no card is selected yet");
             return;
         }
         if (!(selectedCard instanceof Spell)) {
-            System.out.println("activate effect is only for spell cards.");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "activate effect is only for spell cards.");
             return;
         }
         if (currentPhase != Phase.MAIN_ONE && currentPhase != Phase.MAIN_TWO) {
-            System.out.println("you can’t activate an effect on this turn");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "you can’t activate an effect in this phase");
             return;
         }
         if (currentUser.getBoard().getSpellsAndTrapsZone().contains(selectedCard) && selectedCard.getOccupied()) {
-            System.out.println("you have already activated this card");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "you have already activated this card");
             return;
         }
         if (selectedCard.getCardType() == Type.FIELD && currentUser.getBoard().getFieldZone()
                 == selectedCard && selectedCard.getOccupied()) {
-            System.out.println("you have already activated this card");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "you have already activated this card");
             return;
         }
         if (selectedCard.getCardType() != Type.FIELD && currentUser.getBoard().getCardsInHand().contains(selectedCard)) {
             if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
-                System.out.println("spell card zone is full");
+                playErrorSound();
+                GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "spell card zone is full");
                 return;
             }
         }
         if (!currentUser.getBoard().getAllCards().contains(selectedCard)) {
-            System.out.println("This card is not yours");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "This card is not yours");
             return;
         }
         ((Spell) selectedCard).giveEffect();
 
         if (!((Spell) selectedCard).getEffect().canBeActivated(this)) {
-            System.out.println("preparations of this spell are not done yet");
+            System.out.println("MMMMMMMMMMMMMMMMMMMMM");
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "preparations of this spell are not done yet");
             return;
         }
         if (selectedCard.getCardType() == Type.FIELD) {
@@ -3320,8 +3348,9 @@ public class Game {
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
+        ((Spell) chain.get(0)).getEffect().finalActivate(this);
         // activating the spells and chain
-        new ChainController(this, scanner).run();
+//        new ChainController(this, scanner).run();
     }
 
     private void endPhaseRun() {

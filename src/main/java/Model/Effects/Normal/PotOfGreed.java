@@ -13,16 +13,17 @@ public class PotOfGreed extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
+        try {
             game.drawCard(game.getCurrentUser());
-            game.drawCard(game.getCurrentUser());
-            System.out.println("spell activated");
-            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
-            return true;
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
+        } catch (Exception e) {
         }
+        try {
+            game.drawCard(game.getCurrentUser());
+        } catch (Exception e) {
+        }
+        System.out.println("spell activated");
+        game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
+        return true;
     }
 
     @Override

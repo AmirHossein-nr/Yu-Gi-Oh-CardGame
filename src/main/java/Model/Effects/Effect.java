@@ -41,8 +41,9 @@ public abstract class Effect {
         if (canBeActivated(game)) {
             game.getChain().add(card);
             card.setOccupied(true);
-            System.out.println("spell activated");
+            game.addSpellOrTrapFromHandToZone(card, true);
         } else {
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
             System.out.println("preparations of this spell are not done yet");
         }
     }

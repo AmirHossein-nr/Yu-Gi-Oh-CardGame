@@ -180,5 +180,6 @@
         <Rectangle fx:id="flipSummon" layoutX="1159.0" layoutY="305.0" fill="Black" width="80" height="80"/>
         <Rectangle fx:id="attack" layoutX="1225.0" layoutY="309.0" fill="Black" width="80" height="80"/>
         <Rectangle fx:id="directAttack" layoutX="1285.0" layoutY="309.0" fill="Black" width="80" height="80"/>
+        <Rectangle fx:id="activateEffect" layoutX="1355.0" layoutY="309.0" fill="Black" width="80" height="80" />
     </children>
 </AnchorPane>
