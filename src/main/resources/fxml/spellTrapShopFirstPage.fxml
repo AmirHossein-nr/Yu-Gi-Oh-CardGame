@@ -9,200 +9,169 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane opacity="1" prefHeight="657.0" prefWidth="1170.0" style="-fx-background-color: orange;"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fxml.SpellTrapShopFirstPage">
+<AnchorPane opacity="1" prefHeight="657.0" prefWidth="1170.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Shop">
     <children>
         <ImageView fitHeight="665.0" fitWidth="1170.0" layoutY="-3.0">
             <image>
-                <Image url="@../images/menuBackGroundBlurred.jpg"/>
+                <Image url="@../images/menuBackGroundBlurred.jpg" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="45.0" layoutY="49.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="45.0" layoutY="371.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="299.0" layoutY="49.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="299.0" layoutY="371.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="546.0" layoutY="49.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="546.0" layoutY="371.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="781.0" layoutY="49.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="781.0" layoutY="371.0"
-                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Button layoutX="93.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="45.0" layoutY="49.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="45.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="299.0" layoutY="49.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="299.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="546.0" layoutY="49.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="546.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="781.0" layoutY="49.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="781.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
+        <Button layoutX="93.0" layoutY="280.0" mnemonicParsing="false" onAction="#advancedRitualArt" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="93.0" layoutY="602.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="93.0" layoutY="602.0" mnemonicParsing="false" onAction="#blackPendant" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="347.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="347.0" layoutY="280.0" mnemonicParsing="false" onAction="#callOfTheHaunted" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="347.0" layoutY="602.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="347.0" layoutY="602.0" mnemonicParsing="false" onAction="#chanceOfHeart" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="594.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="594.0" layoutY="280.0" mnemonicParsing="false" onAction="#closedForest" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="594.0" layoutY="602.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="594.0" layoutY="602.0" mnemonicParsing="false" onAction="#darkHole" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="829.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="829.0" layoutY="280.0" mnemonicParsing="false" onAction="#forest" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="829.0" layoutY="602.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="buy">
+        <Button layoutX="829.0" layoutY="602.0" mnemonicParsing="false" onAction="#harpiesFeatherDuster" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0"/>
+                <Font name="Harlow Solid Italic" size="13.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="1010.0" layoutY="296.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="86.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="next page">
+        <Button layoutX="1010.0" layoutY="296.0" mnemonicParsing="false" onAction="#openSpellTrapShopSecond" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="next page">
             <font>
-                <Font name="Harlow Solid Italic" size="16.0"/>
+                <Font name="Harlow Solid Italic" size="16.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
-        <Button layoutX="1010.0" layoutY="349.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="86.0"
-                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="back">
+        <Button layoutX="1010.0" layoutY="349.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="back">
             <font>
-                <Font name="Harlow Solid Italic" size="16.0"/>
+                <Font name="Harlow Solid Italic" size="16.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <effect>
-                <InnerShadow/>
+                <InnerShadow />
             </effect>
         </Button>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="45.0" layoutY="49.0">
             <image>
-                <Image url="@../images/SpellTrap/Advanced Ritual Art.jpg"/>
+                <Image url="@../images/SpellTrap/Advanced Ritual Art.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="45.0" layoutY="371.0">
             <image>
-                <Image url="@../images/SpellTrap/Black Pendant.jpg"/>
+                <Image url="@../images/SpellTrap/Black Pendant.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="299.0" layoutY="49.0">
             <image>
-                <Image url="@../images/SpellTrap/Call of the Hunted.jpg"/>
+                <Image url="@../images/SpellTrap/Call of the Haunted.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="299.0" layoutY="371.0">
             <image>
-                <Image url="@../images/SpellTrap/Change Of Heart.jpg"/>
+                <Image url="@../images/SpellTrap/Change Of Heart.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="546.0" layoutY="49.0">
             <image>
-                <Image url="@../images/SpellTrap/Closed Forest.jpg"/>
+                <Image url="@../images/SpellTrap/Closed Forest.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="546.0" layoutY="371.0">
             <image>
-                <Image url="@../images/SpellTrap/Dark Hole.jpg"/>
+                <Image url="@../images/SpellTrap/Dark Hole.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="781.0" layoutY="49.0">
             <image>
-                <Image url="@../images/SpellTrap/Forest.jpg"/>
+                <Image url="@../images/SpellTrap/Forest.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="781.0" layoutY="371.0">
             <image>
-                <Image url="@../images/SpellTrap/Harpies Feather Duster.jpg"/>
+                <Image url="@../images/SpellTrap/Harpie's Feather Duster.jpg" />
             </image>
         </ImageView>
     </children>

@@ -3,6 +3,7 @@ package View.Menu;
 import Controller.Regex;
 import Model.User;
 import View.GUI.MainMenuGraphic;
+import View.GUI.ScoreBoardGraphic;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
@@ -65,5 +66,9 @@ public class ScoreBoard extends Menu {
     public void back(ActionEvent actionEvent) throws Exception {
         MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
         mainMenuGraphic.start(mainStage);
+    }
+
+    public static User getLoggedUser () {
+        return loggedUser;
     }
 }

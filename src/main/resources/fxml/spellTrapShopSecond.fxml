@@ -9,10 +9,8 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane opacity="1" prefHeight="656.0" prefWidth="1172.0" style="-fx-background-color: orange;"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fxml.SpellTrapShopSecond">
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Shop">
     <children>
         <ImageView fitHeight="656.0" fitWidth="1179.0" layoutX="-2.0" layoutY="-1.0">
             <image>
@@ -35,7 +33,8 @@
                    stroke="BLACK" strokeType="INSIDE" width="152.0"/>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="754.0" layoutY="362.0"
                    stroke="BLACK" strokeType="INSIDE" width="152.0"/>
-        <Button layoutX="84.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="84.0" layoutY="280.0" mnemonicParsing="false" onAction="#magicCylinder" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -48,7 +47,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="84.0" layoutY="592.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="84.0" layoutY="592.0" mnemonicParsing="false" onAction="#magicJammer" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -61,7 +61,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="325.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="325.0" layoutY="280.0" mnemonicParsing="false" onAction="#magnumShield" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -74,7 +75,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="316.0" layoutY="592.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="316.0" layoutY="592.0" mnemonicParsing="false" onAction="#messengerOfPeace" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -87,7 +89,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="560.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="560.0" layoutY="280.0" mnemonicParsing="false" onAction="#mindCrush" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -100,7 +103,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="561.0" layoutY="592.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="561.0" layoutY="592.0" mnemonicParsing="false" onAction="#mirrorForce" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -113,7 +117,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="802.0" layoutY="280.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="802.0" layoutY="280.0" mnemonicParsing="false" onAction="#monsterReborn" prefHeight="25.0"
+                prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -126,7 +131,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="802.0" layoutY="592.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0"
+        <Button layoutX="802.0" layoutY="592.0" mnemonicParsing="false" onAction="#mysticalSpaceTyphoon"
+                prefHeight="25.0" prefWidth="56.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="buy">
             <font>
@@ -139,7 +145,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="1011.0" layoutY="261.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="88.0"
+        <Button layoutX="1004.0" layoutY="258.0" mnemonicParsing="false" onAction="#openSpellTrapShopThird"
+                prefHeight="45.0" prefWidth="102.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="next page">
             <font>
@@ -152,7 +159,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="1011.0" layoutY="318.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="88.0"
+        <Button layoutX="1004.0" layoutY="315.0" mnemonicParsing="false" onAction="#openSpellTrapFirst"
+                prefHeight="45.0" prefWidth="102.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="previous">
             <font>
@@ -165,7 +173,8 @@
                 <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="1011.0" layoutY="374.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="88.0"
+        <Button layoutX="1004.0" layoutY="369.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="45.0"
+                prefWidth="102.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
                 text="back">
             <font>
