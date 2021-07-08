@@ -11,33 +11,33 @@
     -fx-font-size: 40px;
 }
 
-#backButton {
+.button {
     -fx-background-color: #9d0a8a;
     -fx-border-radius: 2;
     -fx-background-radius: 10;
     -fx-text-fill: #d0b311;
-    -fx-font-size: 30px;
+    -fx-font-size: 26px;
 }
 
-#previousButton {
-    -fx-background-color: #9d0a8a;
+.button:hover {
+    -fx-background-color: #55034a;
     -fx-border-radius: 2;
     -fx-background-radius: 10;
-    -fx-text-fill: #d0b311;
-    -fx-font-size: 30px;
+    -fx-text-fill: #ffffff;
 }
 
-#nextButton {
-    -fx-background-color: #9d0a8a;
-    -fx-border-radius: 2;
-    -fx-background-radius: 10;
-    -fx-text-fill: #d0b311;
-    -fx-font-size: 30px;
+#createDeck {
+    -fx-font-size: 20px;
 }
 
 #pane {
     -fx-background-color: #6b6767;
-    -fx-opacity: 0.5;
+    -fx-opacity: 1;
+}
+
+#scroll {
+    -fx-background-color: #6b6767;
+    -fx-opacity: 0.7;
 }
 
 .label {

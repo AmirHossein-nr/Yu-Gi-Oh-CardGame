@@ -1,0 +1,23 @@
+.root {
+    -fx-border-color: Green;
+    -fx-background-color: White;
+    -fx-opacity: 1;
+}
+
+#box {
+    -fx-opacity: 1;
+    -fx-border-color: BLack;
+}
+
+#activatedBox {
+    -fx-border-color: #f1f1f1;
+    -fx-background-color: #24ce24;
+}
+
+.label {
+    -fx-font-size: 30px;
+}
+
+.button {
+    -fx-font-size: 20px;
+}

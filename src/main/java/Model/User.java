@@ -81,6 +81,15 @@ public class User {
         this.allCards = allCards;
     }
 
+    public Deck getDeckByName(String name) {
+        for (Deck deck : getDecks()) {
+            if (deck.getName().equals(name)) {
+                return deck;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Card> getAllCards() {
         return allCards;
     }

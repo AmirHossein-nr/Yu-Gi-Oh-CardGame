@@ -3,20 +3,29 @@ package View.Menu;
 import Controller.Regex;
 import Model.*;
 import Model.SideDeck;
+import View.GUI.MainMenuGraphic;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class DeckMenu extends Menu {
     public static Stage mainStage;
+
+    private int column = 0;
+    private int row = 0;
+
     @FXML
-    public FlowPane deckContainer;
+    public GridPane pane;
     public Button backButton;
     public ScrollPane scrollPane;
+    public GridPane gridPane;
 
     public DeckMenu(Menu parentMenu) {
         super("Deck Menu", parentMenu);
@@ -24,6 +33,7 @@ public class DeckMenu extends Menu {
 
     public DeckMenu() {
         super("Deck Menu", null);
+        loggedUser = new User("Amirhossein", "123", "amir");
     }
 
     @Override
@@ -51,29 +61,8 @@ public class DeckMenu extends Menu {
                 this.execute();
             }
         } else if ((matcher = Regex.getMatcher(input, Regex.deleteDeck)).find()) {
-            String name = matcher.group(1);
-            if (name != null) {
-                boolean flag = false;
-                for (Deck deck : loggedUser.getDecks()) {
-                    if (deck.getName().equals(name)) {
-                        for (Card card : deck.getMainDeck().getCardsInMainDeck()) {
-                            loggedUser.getAllCards().add(card);
-                        }
-                        for (Card card : deck.getSideDeck().getCardsInSideDeck()) {
-                            loggedUser.getAllCards().add(card);
-                        }
 
-                        loggedUser.getDecks().remove(deck);
-                        System.out.println("deck deleted successfully");
-                        flag = true;
-                        break;
-                    }
-                }
-                if (!flag) {
-                    System.out.println("deck with name " + name + " does not exist");
-                }
-                this.execute();
-            }
+            this.execute();
         } else if ((matcher = Regex.getMatcher(input, Regex.activateDeck)).find()) {
             String name = matcher.group(1);
             boolean flag = false;
@@ -262,7 +251,108 @@ public class DeckMenu extends Menu {
 
     @FXML
     public void createADeck() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setHeaderText("Creating a New Deck");
+        dialog.setContentText("Enter Deck Name : ");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/Css/dialogs.css")).toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+        dialog.showAndWait();
+        String name = dialog.getEditor().getText();
+        if (name.isEmpty()) return;
+        Deck deck = Deck.getDeckByDeckName(name, loggedUser);
+        if (deck == null) {
+            deck = new Deck(new MainDeck(false), new SideDeck(false));
+            deck.setName(name);
+            loggedUser.getDecks().add(deck);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error !");
+            alert.setContentText("Deck With This Name Already Exists !");
+            dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(
+                    Objects.requireNonNull(getClass().getResource("/Css/dialogs.css")).toExternalForm());
+            dialogPane.getStyleClass().add("myDialog");
+            alert.show();
+        }
+        updateView();
+    }
 
+    public void updateView() {
+        pane.getChildren().clear();
+        for (Deck deck : loggedUser.getDecks()) {
+            GridPane box = new GridPane();
+            if (!deck.getActive())
+                box.setId("box");
+            else
+                box.setId("activatedBox");
+            box.getStylesheets().add("/Css/box.css");
+            box.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            Label nameLabel = new Label("Deck Name : " + deck.getName());
+            box.add(nameLabel, 1, 0);
+            Label mainDeck = new Label("Main Deck : " + loggedUser.getDeckByName(deck.getName()).getMainDeck()
+                    .getCardsInMainDeck().size() + "/60");
+            box.add(mainDeck, 0, 1);
+            Label sideDeck = new Label("Side Deck : " + loggedUser.getDeckByName(deck.getName()).getSideDeck()
+                    .getCardsInSideDeck().size() + "/15");
+            box.add(sideDeck, 0, 2);
+            Button edit = new Button("Edit Deck");
+            box.add(edit, 0, 4);
+            Button delete = new Button("Delete Deck");
+            delete.setOnMouseClicked(event -> deleteDeck(deck));
+            box.add(delete, 2, 4);
+            Button activate = new Button("Set Active");
+            activate.setOnMouseClicked(event -> activateADeck(deck));
+            box.add(activate, 1, 4);
+
+            pane.add(box, column, row);
+            column++;
+            if (column % 2 == 0) {
+                row++;
+                column = 0;
+            }
+        }
+        column = 0;
+        row = 0;
+    }
+
+    public void deleteDeck(Deck deck) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Deleting ...");
+        alert.setContentText("Are You Sure ?");
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/Css/dialogs.css")).toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+        alert.getButtonTypes().set(0, ButtonType.YES);
+        alert.getButtonTypes().set(1, ButtonType.NO);
+        if (alert.showAndWait().get() == ButtonType.YES) {
+            loggedUser.getDecks().remove(deck);
+            updateView();
+        } else {
+            alert.close();
+        }
+    }
+
+    public void activateADeck(Deck deck) {
+        for (Deck dec : loggedUser.getDecks()) {
+            if (dec.getActive()) {
+                dec.setActive(false);
+                break;
+            }
+        }
+        deck.setActive(true);
+        deck.getMainDeck().setActive(true);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Activated !");
+        alert.setContentText("Deck Activated Successfully!");
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/Css/dialogs.css")).toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+        alert.show();
+        updateView();
     }
 
     private void printAllDecks(User user) {
@@ -295,5 +385,10 @@ public class DeckMenu extends Menu {
 
     private String editSpaces(String string) {
         return string.replaceAll("(\\s)+", " ");
+    }
+
+    @FXML
+    public void back(MouseEvent mouseEvent) throws Exception {
+        new MainMenuGraphic().start(mainStage);
     }
 }
