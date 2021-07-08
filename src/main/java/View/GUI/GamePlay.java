@@ -1,7 +1,6 @@
 package View.GUI;
 
 import Controller.Game;
-import Controller.Regex;
 import View.Main;
 import animatefx.animation.*;
 import javafx.application.Application;
@@ -9,16 +8,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -26,7 +19,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 public class GamePlay extends Application {
 
@@ -43,7 +35,7 @@ public class GamePlay extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Yu-Gi-OH!");
         Game.mainStage = mainStage;
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/GamePlay.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/gamePlay.fxml")));
         loader.setController(game);
         root = loader.load();
         Scene scene = new Scene(root);
