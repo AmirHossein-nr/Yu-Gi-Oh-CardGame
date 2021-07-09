@@ -3413,9 +3413,10 @@ public class Game {
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
-        ((Spell) chain.get(0)).getEffect().finalActivate(this);
+//        ((Spell) chain.get(0)).getEffect().finalActivate(this);
+//        chain.clear();
         // activating the spells and chain
-//        new ChainController(this, scanner).run();
+        new ChainController(this).run();
     }
 
     private void endPhaseRun() {
