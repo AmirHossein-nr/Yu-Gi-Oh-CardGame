@@ -47,6 +47,10 @@ public class ImportExport extends Menu {
         super("Import/Export Menu", parentMenu);
     }
 
+    public ImportExport() {
+        super("import/Export Menu", null);
+    }
+
     @Override
     public void execute() {
     }

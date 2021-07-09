@@ -164,7 +164,7 @@ public class User {
     public static void sortAllUsers() {
         for (int i = allUsers.size() - 2; i >= 0; i--) {
             for (int j = 0; j <= allUsers.size() - 2; j++) {
-                if (allUsers.get(j).score > allUsers.get(j + 1).score) {
+                if (allUsers.get(j).score < allUsers.get(j + 1).score) {
                     Collections.swap(allUsers, j, j + 1);
                 }
                 if (allUsers.get(j).score == allUsers.get(j + 1).score) {

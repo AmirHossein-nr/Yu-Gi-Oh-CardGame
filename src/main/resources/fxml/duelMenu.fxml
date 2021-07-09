@@ -8,23 +8,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="707.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Duel">
-   <children>
-      <ImageView fitHeight="707.0" fitWidth="852.0" layoutX="-5.0">
-         <image>
-            <Image url="@../images/background-2.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="back" layoutX="709.0" layoutY="640.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="36.0" prefWidth="95.0" text="back">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Button>
-   </children>
+<AnchorPane prefHeight="707.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Duel">
+    <children>
+        <ImageView fitHeight="707.0" fitWidth="852.0" layoutX="-5.0">
+            <image>
+                <Image url="@../images/background-2.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="back" layoutX="709.0" layoutY="640.0" mnemonicParsing="false" onAction="#backToMainMenu"
+                prefHeight="36.0" prefWidth="95.0" text="back">
+            <font>
+                <Font size="20.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <effect>
+                <InnerShadow/>
+            </effect>
+        </Button>
+    </children>
 </AnchorPane>

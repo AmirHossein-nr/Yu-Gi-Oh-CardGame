@@ -4,7 +4,9 @@ import Model.*;
 import Model.Animation.CoinToss;
 import Model.Effects.Equipe.EquipEffect;
 import Model.Effects.Field.FieldEffect;
+import View.GUI.DuelMenuGraphic;
 import View.GUI.GamePlay;
+import View.Menu.Duel;
 import View.Menu.Shop;
 import animatefx.animation.*;
 import javafx.animation.KeyFrame;
@@ -93,7 +95,6 @@ public class Game {
     public Rectangle nextButton;
     public Rectangle previousButton;
     public Rectangle graveYardIcon;
-    public Label graveYardLabel;
     public Rectangle flipSummon;
     public Rectangle activateEffect;
     public ProgressBar rivalUserLifeBar;
@@ -945,12 +946,11 @@ public class Game {
 
     }
 
-    public Game(User loggedUser, User rivalUser, int numberOfRounds, Scanner scanner) {
+    public Game(User loggedUser, User rivalUser, int numberOfRounds) {
         this.loggedUser = loggedUser;
         this.rivalUser = rivalUser;
         currentUser = loggedUser;
         this.numberOfRounds = numberOfRounds;
-        this.scanner = scanner;
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
         loggedUser.setMaxLifePoint(0);
@@ -1239,8 +1239,13 @@ public class Game {
         winner.setMoney(winner.getMoney() + numberOfRounds * (1000L + winner.getMaxLifePoint()));
         loser.setMoney(loser.getMoney() + numberOfRounds * 100L);
 
-        // todo going back to duel menu
-        System.out.println("todo going back to duel menu");
+        try {
+            mainStage.close();
+            Stage stage = new Stage();
+            Duel.mainStage = stage;
+            new DuelMenuGraphic().start(stage);
+        } catch (Exception ignored) {
+        }
     }
 
     public void printBoard() {
@@ -1346,13 +1351,13 @@ public class Game {
     }
 
     private void resetPlayersAttributes(User user) {
+        setBoards(loggedUser, rivalUser);
         clearTheWholeScene();
         attackedCards.clear();
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
         setPositionedCards.clear();
         specialSummonedCards.clear();
-        setBoards(loggedUser, rivalUser);
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
         currentUser = user;
@@ -1485,7 +1490,7 @@ public class Game {
         Board board2 = new Board();
 
         for (Deck deck : user1.getDecks()) {
-            if (deck.isActive() || deck.getValid()) {
+            if (deck.getActive() || deck.getValid()) {
                 board1.setDeck(deck);
                 break;
             }
@@ -2614,6 +2619,11 @@ public class Game {
                         "Spell Card Zone Is Full");
                 return;
             }
+            if (selectedCard instanceof Spell) {
+                ((Spell) selectedCard).giveEffect();
+            } else {
+                ((Trap) selectedCard).giveEffect();
+            }
             addSpellOrTrapFromHandToZone(selectedCard, false);
             selectedCard = null;
         }
@@ -3573,12 +3583,12 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-        if (!canSpeedOneBeActivated) {
-            playErrorSound();
-            GamePlay.showAlert(Alert.AlertType.ERROR, "Error!",
-                    "You can not change phase now");
-            return;
-        }
+//        if (!canSpeedOneBeActivated) {
+//            playErrorSound();
+//            GamePlay.showAlert(Alert.AlertType.ERROR, "Error!",
+//                    "You can not change phase now");
+//            return;
+//        }
         if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;

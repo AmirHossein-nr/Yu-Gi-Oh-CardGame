@@ -153,6 +153,7 @@ public class DeckMenu extends Menu {
             }
         }
         deck.setActive(true);
+        deck.setValid(true);
         deck.getMainDeck().setActive(true);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Activated !");

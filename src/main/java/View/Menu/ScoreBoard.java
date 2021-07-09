@@ -1,14 +1,11 @@
 package View.Menu;
 
-import Controller.Regex;
 import Model.User;
 import View.GUI.MainMenuGraphic;
-import View.GUI.ScoreBoardGraphic;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-import java.util.regex.Matcher;
 
 public class ScoreBoard extends Menu {
     public static Stage mainStage;
@@ -23,29 +20,7 @@ public class ScoreBoard extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
-        input = editSpaces(input);
-        if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-            this.showName();
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
-            this.menuExit();
-        } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
-            Matcher matcher = Regex.getMatcher(input, Regex.menuEnter);
-            if (matcher.find()) {
-                this.menuEnter(matcher.group(1));
-                this.execute();
-            }
-        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
-            this.logoutUser();
-        } else if (Regex.getMatcher(input, Regex.showScoreBoard).find()) {
-            User.sortAllUsers();
-            showScoreBoard();
-            this.execute();
-        } else {
-            System.out.println("invalid command!");
-            this.execute();
-        }
+
     }
 
     private void showScoreBoard() {

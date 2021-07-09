@@ -1,6 +1,9 @@
 package View.GUI;
 
-import Model.User;
+import Controller.Game;
+import Model.*;
+import View.Menu.MainMenu;
+import View.Menu.Shop;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,6 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+import java.util.Scanner;
+
 public class DuelMenuGraphic extends Application {
 
     public static User loggedUser;
@@ -20,16 +26,17 @@ public class DuelMenuGraphic extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        mainStage = primaryStage;
+        MainMenu.mainStage = primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/duelMenu.fxml"));
         AnchorPane root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         createOtherPlayers(root);
         primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         scene.getStylesheets().add("/Css/duelMenu.css");
         primaryStage.show();
-        mainStage = primaryStage;
     }
 
     public void createOtherPlayers(AnchorPane anchorPane) {
@@ -48,8 +55,11 @@ public class DuelMenuGraphic extends Application {
                 button.setOnMouseClicked(event -> {
                     GamePlay gamePlay = new GamePlay();
                     try {
+                        GamePlay.rivalUser = User.getUserByNickname(label.getText());
+                        GamePlay.loggedUser = loggedUser;
+                        mainStage.close();
+                        mainStage = new Stage();
                         gamePlay.start(mainStage);
-                        GamePlay.game.rivalUser = User.getUserByNickname(label.getText());
                     } catch (Exception ignored) {
                     }
                 });

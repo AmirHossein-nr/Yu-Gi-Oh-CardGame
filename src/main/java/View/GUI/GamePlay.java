@@ -1,7 +1,9 @@
 package View.GUI;
 
 import Controller.Game;
+import Model.*;
 import View.Main;
+import View.Menu.Shop;
 import animatefx.animation.*;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -26,12 +28,15 @@ public class GamePlay extends Application {
     public static AnchorPane root;
     public static Game game;
 
+    public static User loggedUser;
+    public static User rivalUser;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         mainStage = primaryStage;
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResource
                 ("/images/Icons/_images_item_bg00.png")).toExternalForm()));
-        game = new Game();
+        game = new Game(loggedUser, rivalUser, 3);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Yu-Gi-OH!");
         Game.mainStage = mainStage;
@@ -48,11 +53,11 @@ public class GamePlay extends Application {
         button.setStyle("-fx-text-fill: Black; -fx-opacity: 0; -fx-border-color: Black;");
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
+
         primaryStage.setOnShown(event -> {
             Task task = new Task() {
                 @Override
                 protected Object call() throws Exception {
-                    game.test();
                     game.startADuel();
                     return null;
                 }
@@ -153,7 +158,9 @@ public class GamePlay extends Application {
             alert.getButtonTypes().set(1, ButtonType.NO);
             if (alert.showAndWait().get() == ButtonType.YES) {
                 try {
-                    new DuelMenuGraphic().start(mainStage);
+                    root.setEffect(null);
+                    mainStage.close();
+                    new DuelMenuGraphic().start(new Stage());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
