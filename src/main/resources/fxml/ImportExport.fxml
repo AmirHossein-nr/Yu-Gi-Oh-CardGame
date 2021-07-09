@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.ImportExport">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Menu.ImportExport">
     <children>
         <ImageView fitHeight="806.0" fitWidth="707.0">
             <image>

@@ -1,6 +1,6 @@
 package Model;
 
-import View.Menu.Shop;
+import Controller.Menu.Shop;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package Model;
 
-import View.Menu.Shop;
+import Controller.Menu.Shop;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;

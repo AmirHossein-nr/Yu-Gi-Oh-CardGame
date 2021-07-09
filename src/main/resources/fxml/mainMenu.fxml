@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="596.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.Menu.MainMenu">
+            fx:controller="Controller.Menu.MainMenu">
     <children>
         <ImageView fitHeight="603.0" fitWidth="728.0" layoutX="-3.0" layoutY="-1.0" opacity="0.7">
             <image>

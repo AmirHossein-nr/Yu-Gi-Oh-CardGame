@@ -3,7 +3,7 @@ package View.GUI;
 import Controller.Game;
 import Model.*;
 import View.Main;
-import View.Menu.Shop;
+import Controller.Menu.Shop;
 import animatefx.animation.*;
 import javafx.application.Application;
 import javafx.concurrent.Task;

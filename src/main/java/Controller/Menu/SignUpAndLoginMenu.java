@@ -1,4 +1,4 @@
-package View.Menu;
+package Controller.Menu;
 
 import View.GUI.Login;
 import View.GUI.Register;

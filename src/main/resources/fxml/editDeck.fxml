@@ -11,7 +11,7 @@
 
 <SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
            minWidth="-Infinity" prefHeight="755.0" prefWidth="943.0" xmlns="http://javafx.com/javafx/16"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.EditDeckMenu">
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Menu.EditDeckMenu">
     <items>
         <ScrollPane fx:id="allCardsScroll" prefHeight="753.0" prefWidth="333.0">
             <content>

@@ -1,6 +1,6 @@
 package View.GUI;
 
-import View.Menu.*;
+import Controller.Menu.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,4 +1,4 @@
-package View.Menu;
+package Controller.Menu;
 
 import Model.*;
 import View.GUI.GamePlay;
@@ -21,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 
 public class Shop extends Menu {

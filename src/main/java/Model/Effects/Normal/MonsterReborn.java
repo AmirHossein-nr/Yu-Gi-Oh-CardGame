@@ -91,8 +91,8 @@ public class MonsterReborn extends Effect {
             for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getGraveYard().size(); i++) {
                 if (game.getOpponentOfCurrentUser().getBoard().getGraveYard().get(i) instanceof Monster) {
                     CardRectangle rectangle = new CardRectangle();
-                    rectangle.setWidth(90);
-                    rectangle.setHeight(150);
+                    rectangle.setWidth(60);
+                    rectangle.setHeight(100);
                     rectangle.setFill(new ImagePattern(game.getOpponentOfCurrentUser().getBoard().getGraveYard().get(i).getCardImage()));
                     rectangle.setRelatedCard(game.getOpponentOfCurrentUser().getBoard().getGraveYard().get(i));
                     rectangle.setOnMouseClicked(event1 -> {

@@ -1,13 +1,11 @@
-package View.Menu;
+package Controller.Menu;
 
-import Controller.Regex;
 import View.GUI.*;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
     public static Stage mainStage;
