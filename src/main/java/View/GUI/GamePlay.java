@@ -41,7 +41,7 @@ public class GamePlay extends Application {
         rivalUser = new User("mostafa", "124", "MooSa");
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop();
-        for (int i = 0; i < 60; i++) {
+        for (int i = 69; i > 40; i--) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setActive(true);

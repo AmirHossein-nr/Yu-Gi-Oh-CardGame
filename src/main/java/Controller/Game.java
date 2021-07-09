@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -40,6 +41,7 @@ import java.util.regex.Matcher;
 public class Game {
 
     @FXML
+    public AnchorPane backOfMainBoard;
     public Rectangle pauseButton;
     public Rectangle muteButton;
     public Rectangle surrenderButton;
@@ -1258,6 +1260,23 @@ public class Game {
         showCardsInSpellZone();
         arrangeRivalMonsters();
         arrangeRivalSpellTrap();
+        showBackgroundOfField();
+    }
+
+    private void showBackgroundOfField() {
+        if (currentFieldZone.getRelatedCard() != null) {
+            if (currentFieldZone.getRelatedCard().getName().equals("Yami")) {
+                backOfMainBoard.setStyle("-fx-background-image: url(images/Field/Yami.jpg)");
+            } else if (currentFieldZone.getRelatedCard().getName().equals("Forest")) {
+                backOfMainBoard.setStyle("-fx-background-image: url(images/Field/Forest.jpg)");
+            } else if (currentFieldZone.getRelatedCard().getName().equals("Closed Forest")) {
+                backOfMainBoard.setStyle("-fx-background-image: url(images/Field/closedForest.jpg)");
+            } else { //Umiiruka
+                backOfMainBoard.setStyle("-fx-background-image: url(images/Field/Umiiruka.jpg)");
+            }
+        } else {
+            backOfMainBoard.setStyle("-fx-background-image: url(images/Field/Normal.jpg);");
+        }
     }
 
     public StringBuilder boardString(StringBuilder board) {
@@ -2616,7 +2635,7 @@ public class Game {
                 }
             }
         } else {
-            if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5) {
+            if (currentUser.getBoard().numberOfSpellAndTrapsOnBoard() == 5 && selectedCard.getCardType() != Type.FIELD) {
                 playErrorSound();
                 GamePlay.showAlert(Alert.AlertType.ERROR, "Set Error !",
                         "Spell Card Zone Is Full");

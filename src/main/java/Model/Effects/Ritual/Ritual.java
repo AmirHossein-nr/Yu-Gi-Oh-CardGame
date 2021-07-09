@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class Ritual extends Effect {
 
 
-
     public Ritual(Card card) {
         super(card);
         speed = 1;
