@@ -6,6 +6,8 @@ import Model.Effects.Effect;
 import Model.Spell;
 import Model.Trap;
 import Model.User;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class NegateAttack extends Effect {
 
@@ -19,15 +21,11 @@ public class NegateAttack extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            game.setNegateAttackActivated(true);
-            game.setDeclaredAttack(false);
-            System.out.println("trap activated");
-            game.addSpellOrTrapFromZoneToGraveyard(card, owner);
-            return true;
-        } else {
-            return false;
-        }
+        game.setNegateAttackActivated(true);
+        game.setDeclaredAttack(false);
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "trap activated");
+        game.addSpellOrTrapFromZoneToGraveyard(card, owner);
+        return true;
     }
 
     @Override
@@ -50,7 +48,7 @@ public class NegateAttack extends Effect {
                 }
             }
         }
-        if (game.getCurrentUser().getBoard().getAllCards().contains(card)) {
+        if (game.originalCurrentUser.getBoard().getAllCards().contains(card)) {
             return false;
         }
         if (!game.isDeclaredAttack()) {

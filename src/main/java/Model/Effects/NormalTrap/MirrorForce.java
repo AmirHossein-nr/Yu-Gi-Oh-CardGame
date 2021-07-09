@@ -6,6 +6,8 @@ import Model.Effects.Effect;
 import Model.Spell;
 import Model.Trap;
 import Model.User;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class MirrorForce extends Effect {
 
@@ -19,21 +21,19 @@ public class MirrorForce extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            game.setMirrorForceActivated(true);
-            game.setDeclaredAttack(false);
-            for (int i = 0; i < 5; i++) {
-                Card enemyMonsterCard = game.getCurrentUser().getBoard().getMonstersZone().get(i);
+        game.setMirrorForceActivated(true);
+        game.setDeclaredAttack(false);
+        for (int i = 0; i < 5; i++) {
+            Card enemyMonsterCard = game.originalCurrentUser.getBoard().getMonstersZone().get(i);
+            if (enemyMonsterCard != null) {
                 if (enemyMonsterCard.getOccupied()) {
-                    game.addMonsterFromMonsterZoneToGraveyard(enemyMonsterCard, game.getCurrentUser());
+                    game.addMonsterFromMonsterZoneToGraveyard(enemyMonsterCard, game.originalCurrentUser);
                 }
             }
-            System.out.println("trap activated");
-            game.addSpellOrTrapFromZoneToGraveyard(card, owner);
-            return true;
-        } else {
-            return false;
         }
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "trap activated");
+        game.addSpellOrTrapFromZoneToGraveyard(card, owner);
+        return true;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class MirrorForce extends Effect {
                 }
             }
         }
-        if (game.getCurrentUser().getBoard().getAllCards().contains(card)) {
+        if (game.originalCurrentUser.getBoard().getAllCards().contains(card)) {
             return false;
         }
         if (!game.isDeclaredAttack()) {
