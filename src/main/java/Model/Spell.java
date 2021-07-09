@@ -13,10 +13,8 @@ import Model.Effects.Field.Forest;
 import Model.Effects.Field.Umiiruka;
 import Model.Effects.Field.Yami;
 import Model.Effects.Normal.*;
-import Model.Effects.Quick.Mysticalspacetyphoon;
-import Model.Effects.Quick.TwinTwisters;
 import Model.Effects.Ritual.Ritual;
-import Model.Effects.falseEffect;
+import Model.Effects.FalseEffect;
 
 public class Spell extends Card {
 
@@ -82,17 +80,17 @@ public class Spell extends Card {
         } else if (this.getName().equals("Supply Squad")) {
             setEffect(new SupplySquad(this));
         } else if (this.getName().equals("Twin Twisters")) {
-            setEffect(new TwinTwisters(this));
+            setEffect(new FalseEffect(this));
         } else if (this.getName().equals("Mystical space typhoon")) {
-            setEffect(new Mysticalspacetyphoon(this));
+            setEffect(new FalseEffect(this));
         } else {
-            setEffect(new falseEffect(this));
+            setEffect(new FalseEffect(this));
         }
     }
 
     @Override
     public Object clone() {
-        Spell spell = new Spell(this.getName(),this.getCardType());
+        Spell spell = new Spell(this.getName(), this.getCardType());
         spell.setDescription(this.getDescription());
         spell.setPrice(this.getPrice());
         spell.setStatus(this.getStatus());

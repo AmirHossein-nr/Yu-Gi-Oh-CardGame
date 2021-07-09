@@ -5,7 +5,7 @@ import Model.Effects.Counter.MagicJammer;
 import Model.Effects.Counter.NegateAttack;
 import Model.Effects.Effect;
 import Model.Effects.NormalTrap.MirrorForce;
-import Model.Effects.falseEffect;
+import Model.Effects.FalseEffect;
 
 public class Trap extends Card {
 
@@ -60,7 +60,7 @@ public class Trap extends Card {
         } else if (this.getName().equals("Magic Jammer")) {
             setEffect(new MagicJammer(this));
         } else {
-            setEffect(new falseEffect(this));
+            setEffect(new FalseEffect(this));
         }
     }
 

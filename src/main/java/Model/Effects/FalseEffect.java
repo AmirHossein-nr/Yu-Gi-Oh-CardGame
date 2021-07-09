@@ -3,9 +3,9 @@ package Model.Effects;
 import Controller.Game;
 import Model.Card;
 
-public class falseEffect extends Effect {
+public class FalseEffect extends Effect {
 
-    public falseEffect(Card card) {
+    public FalseEffect(Card card) {
         super(card);
     }
 
