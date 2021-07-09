@@ -85,9 +85,7 @@ public class ImportExport extends Menu {
 
     @FXML
     public void exportACard(ActionEvent actionEvent) {
-        loggedUser = new User("amir", "123", "asas");
         new Shop();
-        loggedUser.getAllCards().add(Shop.getAllCards().get(5));
         GridPane pane = new GridPane();
         pane.setMinWidth(500);
         pane.setMinHeight(300);
@@ -147,7 +145,7 @@ public class ImportExport extends Menu {
         FileWriter fileWriter = null;
         File file;
         for (Card card : selectedCards) {
-            String path = "E:/1-ProgrammingExcercises/project-team-59/src/main/resources/Cards/" + card.getName() + ".Json";
+            String path = "src/main/resources/Cards/" + card.getName() + ".Json";
             try {
                 gson = builder.excludeFieldsWithoutExposeAnnotation().create();
                 file = (new File(path));
