@@ -118,13 +118,16 @@ public class MonsterReborn extends Effect {
         });
         summon.setOnMouseClicked(event -> {
             if (selectedCardInGraveYard == null) {
-
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Error !",
+                        "No Card is Selected!");
             } else {
                 Card monsterCard = selectedCardInGraveYard.getRelatedCard();
                 if ((card.getName().equals("Gate Guardian") || card.getCardType() == Type.RITUAL) && !game.getSpecialSummonedCards().contains(card)) {
                     GamePlay.showAlert(Alert.AlertType.ERROR, "Summon unSuccessful !",
                             "should be special summoned first");
                 } else {
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
                     if (isMyGraveyard) {
                         game.getCurrentUser().getBoard().getGraveYard().remove(monsterCard);
                         game.getCurrentUser().getBoard().getCardsInHand().add(monsterCard);

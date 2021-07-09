@@ -390,8 +390,8 @@ public class Shop extends Menu {
                 button.setLayoutX(imageView.getLayoutX() + 50);
                 button.setId("button");
                 button.setCursor(Cursor.HAND);
-                anchorPane.getChildren().addAll(imageView, button);
-                button.setOnMouseClicked(event -> {
+                anchorPane.getChildren().addAll(imageView, button, backButton);
+                button.setOnMouseClicked( event -> {
                     buyNewCard(event);
                 });
             }
@@ -407,6 +407,9 @@ public class Shop extends Menu {
         anchorPane.setId("anchorPane");
         mainStage.setTitle("YU-GI-OH");
         mainStage.setScene(scene);
+        Button backButton = new Button("back");
+        backButton.setLayoutX(1200);
+        backButton.setLayoutY(800);
         Button button;
         int count = 0;
         for (Card card : Shop.getAllCards()) {
@@ -422,8 +425,8 @@ public class Shop extends Menu {
                 button.setLayoutY(imageView.getLayoutY() + 233);
                 button.setId("button");
                 button.setCursor(Cursor.HAND);
-                anchorPane.getChildren().addAll(imageView, button);
-                button.setOnMouseClicked(event -> {
+                anchorPane.getChildren().addAll(imageView, button, backButton);
+                button.setOnMouseClicked( event -> {
                     buyNewCard(event);
                 });
             }
