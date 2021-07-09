@@ -81,7 +81,7 @@ public class ChainController {
     }
 
     private void playTurnInChain() {
-        HBox box = new HBox(50);
+        HBox box = new HBox(400);
         box.setAlignment(Pos.TOP_LEFT);
         box.setPadding(new Insets(10));
         ArrayList<CardRectangle> spellTrapZoneRectangles = new ArrayList<>();
@@ -108,7 +108,7 @@ public class ChainController {
                 }
             }
         }
-        VBox buttons = new VBox();
+        VBox buttons = new VBox(120);
         Button cancel = new Button("Cancel");
         Button Activate = new Button("Activate");
         Stage popupStage = new Stage(StageStyle.TRANSPARENT);
@@ -135,7 +135,8 @@ public class ChainController {
         });
         buttons.getChildren().add(cancel);
         buttons.getChildren().add(Activate);
-        popupStage.show();
+        box.getChildren().add(buttons);
+        popupStage.showAndWait();
         new FadeIn(box).play();
     }
 
