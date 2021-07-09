@@ -36,27 +36,6 @@ public class GamePlay extends Application {
         mainStage = primaryStage;
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResource
                 ("/images/Icons/_images_item_bg00.png")).toExternalForm()));
-        // ==================== TEST ===========================
-        loggedUser = new User("amirhossein", "123", "amir");
-        rivalUser = new User("mostafa", "124", "MooSa");
-        Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
-        new Shop();
-        for (int i = 69; i > 40; i--) {
-            deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
-        }
-        deck.setActive(true);
-        deck.setValid(true);
-        Board board1 = new Board();
-        Board board2 = new Board();
-        board1.setDeck(deck);
-        board2.setDeck(deck);
-        loggedUser.getDecks().add(deck);
-        rivalUser.getDecks().add(deck);
-        loggedUser.setBoard(board1);
-        rivalUser.setBoard(board2);
-        loggedUser.getBoard().setZones();
-        rivalUser.getBoard().setZones();
-        // ==================== TEST ===========================
         game = new Game(loggedUser, rivalUser, 3);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Yu-Gi-OH!");

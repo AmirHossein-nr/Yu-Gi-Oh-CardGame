@@ -2317,7 +2317,10 @@ public class Game {
         for (int i = 0; i < currentUser.getBoard().getMonstersZone().size(); i++) {
             if (currentUser.getBoard().getMonstersZone().get(i) == null) {
                 currentUser.getBoard().getMonstersZone().set(i, monsterCard);
-//                ((FieldEffect) (((Spell) currentUser.getBoard().getFieldZone()).getEffect())).addCardUnderEffect(monsterCard);
+                try {
+                    ((FieldEffect) (((Spell) currentUser.getBoard().getFieldZone()).getEffect())).addCardUnderEffect(monsterCard);
+                } catch (Exception ignored) {
+                }
                 break;
             }
         }
