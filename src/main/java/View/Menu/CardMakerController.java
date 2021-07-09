@@ -1,4 +1,4 @@
-package View.GUI;
+package View.Menu;
 
 import Model.Card;
 import Model.Monster;

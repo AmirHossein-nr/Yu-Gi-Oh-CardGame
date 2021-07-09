@@ -5,6 +5,7 @@ import Model.User;
 import View.GUI.MainMenuGraphic;
 import View.GUI.ScoreBoardGraphic;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 import java.util.regex.Matcher;
@@ -12,7 +13,7 @@ import java.util.regex.Matcher;
 public class ScoreBoard extends Menu {
     public static Stage mainStage;
 
-    public ScoreBoard () {
+    public ScoreBoard() {
         super("ScoreBoard Menu", null);
     }
 
@@ -63,12 +64,13 @@ public class ScoreBoard extends Menu {
         return string.replaceAll("(\\s)+", " ");
     }
 
+    @FXML
     public void back(ActionEvent actionEvent) throws Exception {
         MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();
         mainMenuGraphic.start(mainStage);
     }
 
-    public static User getLoggedUser () {
+    public static User getLoggedUser() {
         return loggedUser;
     }
 }
