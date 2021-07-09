@@ -2298,75 +2298,101 @@ public class Game {
     }
 
     private void ritualSummon() {
-        System.out.println("enter number of cards in monster zone to tribute (or cancel)");
-        ArrayList<Card> monstersToTribute = new ArrayList<>();
-        String numbersString;
-        while (true) {
-            numbersString = scanner.nextLine();
-            numbersString = editSpaces(numbersString);
-            if (numbersString.equals("cancel")) {
-                System.out.println("action canceled");
-                return;
-            } else if (!numbersString.matches("(\\d+ ?)+")) {
-                System.out.println("enter numbers");
-            } else {
-                String[] numbersStringArray = numbersString.split("\\s");
-                if (numbersStringArray.length > 5) {
-                    System.out.println("enter at most 5 numbers");
-                    continue;
-                }
-                for (String s : numbersStringArray) {
-                    int number = Integer.parseInt(s);
-                    if (number < 1 || number > 5) {
-                        System.out.println("enter a correct number");
-                    } else if (monstersToTribute.contains(currentUser.getBoard().getMonstersZone().get(number - 1))) {
-                        System.out.println("This card is already selected");
-                    } else if (currentUser.getBoard().getMonstersZone().get(number - 1) == null) {
-                        System.out.println("there is no monster on this address");
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setText("tribute\nmonsters");
+        box.getChildren().add(label);
+        ArrayList<CardRectangle> cardsToTribute = new ArrayList<>();
+        ArrayList<CardRectangle> monsterZoneRectangles = new ArrayList<>();
+        monsterZoneRectangles.add(currentMonster1);
+        monsterZoneRectangles.add(currentMonster2);
+        monsterZoneRectangles.add(currentMonster3);
+        monsterZoneRectangles.add(currentMonster4);
+        monsterZoneRectangles.add(currentMonster5);
+        for (CardRectangle cardRectangle : monsterZoneRectangles) {
+            if (cardRectangle.getRelatedCard() != null) {
+                CardRectangle cardRectangle1 = new CardRectangle();
+                cardRectangle1.setRelatedCard(cardRectangle.getRelatedCard());
+                cardRectangle1.setFill(new ImagePattern(cardRectangle.getRelatedCard().getCardImage()));
+                cardRectangle1.setWidth(90);
+                cardRectangle1.setHeight(150);
+                cardRectangle1.setOnMouseClicked(event1 -> {
+                    if (cardsToTribute.contains(cardRectangle1)) {
+                        cardRectangle1.setStroke(Color.TRANSPARENT);
+                        cardsToTribute.remove(cardRectangle1);
                     } else {
-                        monstersToTribute.add(currentUser.getBoard().getMonstersZone().get(number - 1));
+                        cardRectangle1.setStroke(Color.GOLD);
+                        cardsToTribute.add(cardRectangle1);
                     }
-                }
-                int sumOfLevels = 0;
-                for (Card card : monstersToTribute) {
-                    sumOfLevels += ((Monster) card).getLevel();
-                }
-                if (sumOfLevels < ((Monster) selectedCard).getLevel()) {
-                    System.out.println("selected monsters levels don’t match with ritual monster");
-                    continue;
-                }
-                while (true) {
-                    System.out.println("attack or defence (or cancel)");
-                    String answer = scanner.nextLine();
-                    answer = editSpaces(answer);
-                    if (answer.equals("attack")) {
-                        for (int i = 0; i < monstersToTribute.size(); i++) {
-                            tributeMonster(monstersToTribute.get(i));
-                        }
-                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
-                        addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
-                        activatedRitualCard = null;
-                        specialSummonedCards.add(selectedCard);
-                        System.out.println("summoned successfully");
-                        selectedCard = null;
-                    } else if (answer.equals("defence")) {
-                        for (int i = 0; i < monstersToTribute.size(); i++) {
-                            tributeMonster(monstersToTribute.get(i));
-                        }
-                        addMonsterFromHandToMonsterZone(selectedCard, true, false);
-                        addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
-                        activatedRitualCard = null;
-                        specialSummonedCards.add(selectedCard);
-                        System.out.println("summoned successfully");
-                        selectedCard = null;
-                    } else if (answer.equals("cancel")) {
-                        System.out.println("canceled");
-                        return;
-                    }
-                }
-
+                });
+                box.getChildren().add(cardRectangle1);
             }
         }
+
+        Button tribute = new Button("Tribute");
+        Button cancel = new Button("Cancel");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        tribute.setOnMouseClicked(event1 -> {
+            if (cardsToTribute.size() == 0) {
+                playErrorSound();
+                GamePlay.showAlert(Alert.AlertType.ERROR, "Summon/Set Error", "no card is selected yet");
+            } else {
+                selectedCard = selectedRectangle.getRelatedCard();
+                Monster monster = (Monster) selectedCard;
+                int level = monster.getLevel();
+                int sum = 0;
+                for (int i = 0; i < cardsToTribute.size(); i++) {
+                    sum += ((Monster) cardsToTribute.get(i).getRelatedCard()).getLevel();
+                }
+                if (sum >= level) {
+                    for (int i = 0; i < cardsToTribute.size(); i++) {
+                        tributeMonster(cardsToTribute.get(i).getRelatedCard());
+                    }
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText("Attack or Defence");
+                    alert.setContentText("do you want to summon in attack position?");
+                    alert.getButtonTypes().set(0, ButtonType.YES);
+                    alert.getButtonTypes().set(1, ButtonType.NO);
+                    if (alert.showAndWait().get() == ButtonType.YES) {
+                        addMonsterFromHandToMonsterZone(selectedCard, true, true);
+                    } else {
+                        addMonsterFromHandToMonsterZone(selectedCard, true, false);
+                    }
+                    addSpellOrTrapFromZoneToGraveyard(activatedRitualCard, currentUser);
+                    activatedRitualCard = null;
+                    specialSummonedCards.add(selectedCard);
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "Summon/Set Error", "summoned successfully");
+                    selectedCard = null;
+                    printBoard();
+                } else {
+                    playErrorSound();
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Summon unSuccessful !",
+                            "levels don't match");
+                    ritualSummon();
+                    new FadeOutUp(box).play();
+                    popupStage.hide();
+                }
+            }
+        });
+        cancel.setOnMouseClicked(event -> {
+            new FadeOutUp(box).play();
+            popupStage.hide();
+        });
+        VBox vBox = new VBox();
+        vBox.getChildren().add(tribute);
+        vBox.getChildren().add(cancel);
+        box.getChildren().add(vBox);
+        popupStage.show();
+        new FadeIn(box).play();
     }
 
     private void doTributeSummonOrSet(int tributeNumber, boolean isSpecial, boolean isSummon, boolean isAttack) {
