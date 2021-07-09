@@ -494,7 +494,7 @@ public class Shop extends Menu {
     }
 
     public void beastKingBarbaros(ActionEvent actionEvent) {
-        Card card = Shop.getCardByName("Beast King Barbarosr");
+        Card card = Shop.getCardByName("Beast King Barbaros");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
         } else {
@@ -854,7 +854,7 @@ public class Shop extends Menu {
     }
 
     public void magicJammer(ActionEvent actionEvent) {
-        Card card = Shop.getCardByName("Magic Jamamer");
+        Card card = Shop.getCardByName("Magic Jammer");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
         } else {
