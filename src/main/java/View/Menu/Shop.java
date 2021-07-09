@@ -203,9 +203,6 @@ public class Shop extends Menu {
         return null;
     }
 
-    private String editSpaces(String string) {
-        return string.replaceAll("(\\s)+", " ");
-    }
 
     private void iterateThroughArray() {
         for (Card card : allCards) {
@@ -239,55 +236,17 @@ public class Shop extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
-        input = editSpaces(input);
-        runShopMenu(input);
     }
 
     private void runShopMenu(String input) {
-
     }
 
     public void showAllCards() {
-        sortAllCards();
-        for (Card card : allCards) {
-            System.out.println(card.toString());
-            System.out.println("-----------------------");
-        }
     }
 
     private void buyCardForUser(Card finalCard) {
-        loggedUser.setMoney(loggedUser.getMoney() - finalCard.getPrice());
-        Card card = null;
-        if (finalCard instanceof Monster) {
-            Monster finalMonster = (Monster) finalCard;
-            card = (Monster) finalMonster.clone();
-        } else if (finalCard instanceof Spell) {
-            Spell finalSpell = (Spell) finalCard;
-            card = (Spell) finalSpell.clone();
-        } else if (finalCard instanceof Trap) {
-            Trap finalTrap = (Trap) finalCard;
-            card = (Trap) finalTrap.clone();
-        }
-        loggedUser.getAllCards().add(card);
     }
 
-    public Card getFinalCard(Matcher matcher) {
-        Card finalCard = null;
-        String name = matcher.group(1);
-        name = name.trim();
-        for (Card card : allCards) {
-            if (card.getName().equals(name)) {
-                finalCard = card;
-                break;
-            }
-        }
-        return finalCard;
-    }
-
-    private static void sortAllCards() {
-        sortCards(allCards);
-    }
 
     public static void sortCards(ArrayList<Card> allCards) {
         for (int i = allCards.size() - 2; i >= 0; i--) {
@@ -432,7 +391,7 @@ public class Shop extends Menu {
                 button.setId("button");
                 button.setCursor(Cursor.HAND);
                 anchorPane.getChildren().addAll(imageView, button);
-                button.setOnMouseClicked( event -> {
+                button.setOnMouseClicked(event -> {
                     buyNewCard(event);
                 });
             }
@@ -464,7 +423,7 @@ public class Shop extends Menu {
                 button.setId("button");
                 button.setCursor(Cursor.HAND);
                 anchorPane.getChildren().addAll(imageView, button);
-                button.setOnMouseClicked( event -> {
+                button.setOnMouseClicked(event -> {
                     buyNewCard(event);
                 });
             }

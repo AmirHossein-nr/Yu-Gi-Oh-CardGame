@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class JsonController {
 
-    public static boolean writeCard(String cardName) throws IOException {
+    public static boolean writeCard(String cardName) {
         String path;
         FileWriter writer;
         try {
@@ -26,7 +26,7 @@ public class JsonController {
             Gson gson = new Gson();
             File file = new File(path);
             writer = new FileWriter(file);
-            writer.write(gson.toJson(myCard, Card.class));
+            writer.write(gson.toJson(myCard));
             writer.close();
             return true;
         } catch (Exception e) {

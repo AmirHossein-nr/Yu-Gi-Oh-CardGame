@@ -1,11 +1,12 @@
 package View.Menu;
 
 import Controller.JsonController;
-import Controller.Regex;
 import Model.*;
 import View.GUI.ImportExportGraphic;
-import View.GUI.ProfileGraphic;
+import View.GUI.MainMenuGraphic;
 import animatefx.animation.BounceInLeft;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -14,14 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
@@ -30,9 +27,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class ImportExport extends Menu {
     public static Stage mainStage;
@@ -49,24 +47,10 @@ public class ImportExport extends Menu {
         super("Import/Export Menu", parentMenu);
     }
 
-    public ImportExport() {
-        super("Import/Export Menu", null);
-    }
-
     @Override
     public void execute() {
     }
 
-    private void exportCard(String group) throws IOException {
-
-    }
-
-    private void importCard(String group) throws Exception {
-    }
-
-    private String editSpaces(String string) {
-        return string.replaceAll("(\\s)+", " ");
-    }
 
     public static void createAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -77,15 +61,15 @@ public class ImportExport extends Menu {
 
     @FXML
     public void importACard(ActionEvent actionEvent) {
+        new Shop();
         final FileChooser f = new FileChooser();
         File file = f.showOpenDialog(mainStage);
         if (file != null) {
-
             Card card = JsonController.readCard(file.getPath());
             if (card != null) {
-                loggedUser.getAllCards().add(card);
-                cardImage.setImage(card.getCardImage());
+                cardImage.setImage(Shop.getCardByName(card.getName()).getCardImage());
                 showCardStage.setStroke(Color.GREEN);
+                loggedUser.getAllCards().add(card);
             } else {
                 createAlert();
                 showCardStage.setStroke(Color.TRANSPARENT);
@@ -98,6 +82,9 @@ public class ImportExport extends Menu {
 
     @FXML
     public void exportACard(ActionEvent actionEvent) {
+        loggedUser = new User("amir", "123", "asas");
+        new Shop();
+        loggedUser.getAllCards().add(Shop.getAllCards().get(5));
         GridPane pane = new GridPane();
         pane.setMinWidth(500);
         pane.setMinHeight(300);
@@ -108,29 +95,17 @@ public class ImportExport extends Menu {
         pane.setAlignment(Pos.CENTER);
         pane.setPadding(new Insets(25));
 
+        Gson gson = null;
+        File file = null;
+        FileWriter fileWriter = null;
+
         for (Card card : loggedUser.getAllCards()) {
             ImageView imageView = new ImageView();
             imageView.setImage(card.getCardImage());
             imageView.setFitWidth(70);
             imageView.setFitHeight(100);
-//            CardRectangle rectangle = new CardRectangle();
-//            rectangle.setRelatedCard(card);
-//            rectangle.fillCard(true);
             imageView.setOnMouseClicked(event -> {
                 selectedCards.add(loggedUser.getCardByImage(imageView.getImage()));
-                try {
-                    if (!JsonController.writeCard(card.getName())) {
-                        ImportExport.createAlert();
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setHeaderText("Successful !");
-                        alert.setContentText("Export Successful !");
-                        alert.show();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
             });
             pane.add(imageView, column, row);
             column++;
@@ -138,17 +113,58 @@ public class ImportExport extends Menu {
                 column = 0;
                 row++;
             }
-//            pane.getChildren().add(new Rectangle(80, 10, Color.TRANSPARENT));
         }
+
         Stage popupStage = new Stage(StageStyle.TRANSPARENT);
-        popupStage.initOwner(mainStage);
-        popupStage.initModality(Modality.APPLICATION_MODAL);
         Scene pause = new Scene(pane, Color.TRANSPARENT);
         pause.getStylesheets().add("/Css/Gameplay.css");
+        Button button = new Button("!!");
+        button.setOnAction(event -> {
+            try {
+                write();
+                new BounceInLeft(pane).play();
+                popupStage.close();
+                root.setEffect(null);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        });
+        pane.add(button, column, row + 1);
 
+        popupStage.initOwner(mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setScene(pause);
         popupStage.show();
-        new BounceInLeft(pane).play();
+    }
 
+
+    private void write() throws URISyntaxException {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson;
+        FileWriter fileWriter = null;
+        File file;
+        for (Card card : selectedCards) {
+            String path = "E:/1-ProgrammingExcercises/project-team-59/src/main/resources/Cards/" + card.getName() + ".Json";
+            try {
+                gson = builder.excludeFieldsWithoutExposeAnnotation().create();
+                file = (new File(path));
+                fileWriter = (new FileWriter(file));
+                fileWriter.write(gson.toJson(card));
+                fileWriter.flush();
+                fileWriter.close();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Successful !");
+                alert.setContentText("Export Successful !");
+                alert.show();
+            } catch (Exception e) {
+                ImportExport.createAlert();
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void exit(ActionEvent actionEvent) throws Exception {
+        new MainMenuGraphic().start(mainStage);
     }
 }

@@ -1,19 +1,30 @@
 package Model;
 
 
+import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 
 public class Card {
+    @Expose
     private String name;
+    @Expose
     private String description;
+    @Expose
     private Boolean isOccupied;
+    @Expose
     private Boolean newOccupationState;
+    @Expose
     private Boolean isAttackPosition;
+    @Expose
     private Boolean isSelected;
+    @Expose
     private Type cardType;
+    @Expose
     private Integer price;
-    private Image cardImage;
+    @Expose
     private boolean isUserMade = false;
+
+    private Image cardImage;
 
     public Card(String name, Type type) {
         setName(name);
