@@ -1,9 +1,7 @@
 package View.GUI;
 
-import Controller.Game;
 import Model.*;
-import View.Menu.MainMenu;
-import View.Menu.Shop;
+import Controller.Menu.MainMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -15,9 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
-import java.util.Objects;
-import java.util.Scanner;
 
 public class DuelMenuGraphic extends Application {
 

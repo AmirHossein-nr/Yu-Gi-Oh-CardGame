@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="556.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.SignUpAndLoginMenu">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Menu.SignUpAndLoginMenu">
     <children>
         <ImageView cache="true" fitHeight="556.0" fitWidth="679.0" layoutX="-1.0" mouseTransparent="true"
                    pickOnBounds="true">

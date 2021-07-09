@@ -1,4 +1,4 @@
-package View.Menu;
+package Controller.Menu;
 
 import javafx.stage.Stage;
 

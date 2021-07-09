@@ -1,8 +1,8 @@
 package Controller;
 
 import Model.Effects.Effect;
-import View.Menu.LoginMenu;
-import View.Menu.Menu;
+import Controller.Menu.LoginMenu;
+import Controller.Menu.Menu;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package View.Menu;
+package Controller.Menu;
 
 import Controller.JsonController;
 import Model.*;
@@ -28,7 +28,6 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 

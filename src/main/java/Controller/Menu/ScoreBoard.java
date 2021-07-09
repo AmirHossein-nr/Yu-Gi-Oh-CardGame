@@ -1,4 +1,4 @@
-package View.Menu;
+package Controller.Menu;
 
 import Model.User;
 import View.GUI.MainMenuGraphic;

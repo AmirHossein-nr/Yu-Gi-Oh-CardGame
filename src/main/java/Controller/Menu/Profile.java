@@ -1,17 +1,12 @@
-package View.Menu;
+package Controller.Menu;
 
-import Controller.Regex;
-import Model.User;
 import View.GUI.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
-import java.util.regex.Matcher;
 
 public class Profile extends Menu {
     public static Stage mainStage;

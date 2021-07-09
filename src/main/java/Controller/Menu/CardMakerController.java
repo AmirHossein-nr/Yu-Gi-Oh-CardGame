@@ -1,6 +1,5 @@
-package View.Menu;
+package Controller.Menu;
 
-import Model.Card;
 import Model.Monster;
 import Model.Spell;
 import Model.Type;
@@ -12,8 +11,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 
 public class CardMakerController {

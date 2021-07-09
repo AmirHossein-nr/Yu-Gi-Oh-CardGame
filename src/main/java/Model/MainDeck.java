@@ -1,9 +1,8 @@
 package Model;
 
-import View.Menu.Shop;
+import Controller.Menu.Shop;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MainDeck {
     private ArrayList<Card> cardsInMainDeck;

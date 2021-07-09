@@ -1,7 +1,7 @@
 package View.GUI;
 
-import View.Menu.DeckMenu;
-import View.Menu.EditDeckMenu;
+import Controller.Menu.DeckMenu;
+import Controller.Menu.EditDeckMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

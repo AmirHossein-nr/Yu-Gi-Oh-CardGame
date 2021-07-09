@@ -1,13 +1,9 @@
-package View.Menu;
+package Controller.Menu;
 
-import Controller.Regex;
 import Model.*;
-import Controller.Game;
 import View.GUI.MainMenuGraphic;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
-import java.util.regex.Matcher;
 
 public class Duel extends Menu {
 

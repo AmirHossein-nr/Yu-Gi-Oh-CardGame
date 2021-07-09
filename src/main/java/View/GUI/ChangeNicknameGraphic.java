@@ -1,7 +1,5 @@
 package View.GUI;
 
-import View.Menu.LoginMenu;
-import View.Menu.Profile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

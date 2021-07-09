@@ -1,6 +1,5 @@
-package View.Menu;
+package Controller.Menu;
 
-import Controller.Regex;
 import Model.*;
 import Model.SideDeck;
 import View.GUI.EditDeckGraphic;

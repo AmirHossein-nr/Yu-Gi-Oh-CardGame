@@ -6,7 +6,7 @@ import Model.Monster;
 import Model.Type;
 import Controller.Game;
 import View.GUI.GamePlay;
-import View.Menu.Shop;
+import Controller.Menu.Shop;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOutUp;
 import javafx.geometry.Insets;
