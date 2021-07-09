@@ -20,6 +20,7 @@ public abstract class EquipEffect extends Effect {
 
     public void addToChain(Game game) {
         if (canBeActivated(game)) {
+            TheOwner = game.getCurrentUser();
             game.getChain().add(card);
             card.setOccupied(true);
             System.out.println("spell activated");

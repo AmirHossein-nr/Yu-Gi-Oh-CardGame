@@ -4,6 +4,8 @@ import Controller.Game;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class SpellAbsorption extends Effect {
 
@@ -14,14 +16,9 @@ public class SpellAbsorption extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            game.getCurrentUser().getBoard().getActivatedSpellAbsorptions().add(card);
-            System.out.println("spell activated");
-            return true;
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
-        }
+        game.getCurrentUser().getBoard().getActivatedSpellAbsorptions().add(card);
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
+        return true;
     }
 
     @Override

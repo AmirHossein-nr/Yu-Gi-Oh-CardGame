@@ -3,10 +3,31 @@ package Model.Effects.Normal;
 import Model.*;
 import Model.Effects.Effect;
 import Controller.Game;
+import View.GUI.GamePlay;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOutUp;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 
 public class MonsterReborn extends Effect {
+
+    private CardRectangle selectedCardInGraveYard = null;
+    private boolean isMyGraveyard;
 
     public MonsterReborn(Card card) {
         super(card);
@@ -15,87 +36,127 @@ public class MonsterReborn extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            outer:
-            while (true) {
-                System.out.println("do you want to special summon from enemy's graveyard? (Y/N/cancel)");
-                String answer = editSpaces(scanner.nextLine());
-                if (answer.equals("cancel")) {
-                    System.out.println("canceled");
-                    return false;
-                } else if (answer.equals("Y") || answer.equals("N")) {
-                    while (true) {
-                        System.out.println("enter number of the monster in graveyard (or \"cancel\" or \"back\" to change graveyard)");
-                        String numberString = editSpaces(scanner.nextLine());
-                        if (numberString.equals("cancel")) {
-                            System.out.println("canceled");
-                            return false;
-                        } else if (numberString.matches("\\d+")) {
-                            int number = Integer.parseInt(numberString);
-                            ArrayList<Card> graveyard;
-                            if (answer.equals("Y")) { //enemy graveyard
-                                graveyard = game.getOpponentOfCurrentUser().getBoard().getGraveYard();
-                            } else { //my graveyard
-                                graveyard = game.getCurrentUser().getBoard().getGraveYard();
-                            }
-                            if (number < 0 || number > graveyard.size()) {
-                                System.out.println("enter a correct number");
-                                continue;
-                            }
-                            if (!(graveyard.get(number - 1) instanceof Monster)) {
-                                System.out.println("this card is not a monster");
-                                continue;
-                            }
-                            Card card = graveyard.get(number - 1);
-                            if ((card.getName().equals("Gate Guardian") || card.getCardType() == Type.RITUAL) && !game.getSpecialSummonedCards().contains(card)) {
-                                System.out.println("should be special summoned first");
-                                continue;
-                            }
-                            System.out.println("defence or attack?");
-                            while (true) {
-                                String answer1 = editSpaces(scanner.nextLine());
-                                if (answer1.equals("cancel")) {
-                                    System.out.println("canceled");
-                                    return true;
-                                } else if (answer1.equals("attack")) {
-                                    card.setAttackPosition(true);
-                                    break;
-                                } else if (answer1.equals("defence")) {
-                                    card.setAttackPosition(false);
-                                    break;
-                                } else {
-                                    System.out.println("enter attack or defence or cancel");
-                                }
-                            }
-                            if (answer.equals("Y")) {
-                                game.getOpponentOfCurrentUser().getBoard().getAllCards().remove(card);
-                                game.getCurrentUser().getBoard().getAllCards().add(card);
-                            }
-                            for (int i = 0; i < game.getCurrentUser().getBoard().getMonstersZone().size(); i++) {
-                                if (game.getCurrentUser().getBoard().getMonstersZone().get(i) == null) {
-                                    game.getCurrentUser().getBoard().getMonstersZone().set(i, card);
-                                    break;
-                                }
-                            }
-                            graveyard.remove(card);
-                            card.setOccupied(true);
-                            System.out.println("spell activated");
-                            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
-                            return true;
-                        } else if (numberString.equals("back")) {
-                            continue outer;
-                        } else {
-                            System.out.println("enter a number");
-                        }
-                    }
-                } else {
-                    System.out.println("enter Y or N or cancel");
+        HBox box = new HBox(50);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.setPadding(new Insets(10));
+        GridPane gridPane = new GridPane();
+        gridPane.setLayoutX(0);
+        gridPane.setLayoutY(0);
+        box.getChildren().add(gridPane);
+        Button summon = new Button("Summon");
+        Button myGraveyard = new Button("my graveyard");
+        Button enemyGraveyard = new Button("enemy graveyard");
+        Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+        popupStage.initOwner(Game.mainStage);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        Scene question = new Scene(box, Color.TRANSPARENT);
+        question.getStylesheets().add("/Css/GamePlay.css");
+        popupStage.setScene(question);
+        myGraveyard.setOnMouseClicked(event -> {
+            isMyGraveyard = true;
+            selectedCardInGraveYard = null;
+            ArrayList<CardRectangle> monsterRectangles = new ArrayList<>();
+            for (int i = 0; i < game.getCurrentUser().getBoard().getGraveYard().size(); i++) {
+                if (game.getCurrentUser().getBoard().getGraveYard().get(i) instanceof Monster) {
+                    CardRectangle rectangle = new CardRectangle();
+                    rectangle.setWidth(90);
+                    rectangle.setHeight(150);
+                    rectangle.setFill(new ImagePattern(game.getCurrentUser().getBoard().getGraveYard().get(i).getCardImage()));
+                    rectangle.setRelatedCard(game.getCurrentUser().getBoard().getGraveYard().get(i));
+                    rectangle.setOnMouseClicked(event1 -> {
+                        if (selectedCardInGraveYard != null) selectedCardInGraveYard.setStroke(Color.TRANSPARENT);
+                        selectedCardInGraveYard = rectangle;
+                        selectedCardInGraveYard.setStroke(Color.GOLD);
+                    });
+                    monsterRectangles.add(rectangle);
                 }
             }
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
-        }
+            int z = 0;
+            outer:
+            for (int i = 0; ; i++) {
+                for (int j = 0; j < 10; j++) {
+                    try {
+                        gridPane.add(monsterRectangles.get(z), j, i);
+                        z++;
+                    } catch (Exception e) {
+                        break outer;
+                    }
+                }
+            }
+        });
+        enemyGraveyard.setOnMouseClicked(event -> {
+            isMyGraveyard = false;
+            selectedCardInGraveYard = null;
+            ArrayList<CardRectangle> monsterRectangles = new ArrayList<>();
+            for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getGraveYard().size(); i++) {
+                if (game.getOpponentOfCurrentUser().getBoard().getGraveYard().get(i) instanceof Monster) {
+                    CardRectangle rectangle = new CardRectangle();
+                    rectangle.setWidth(90);
+                    rectangle.setHeight(150);
+                    rectangle.setFill(new ImagePattern(game.getOpponentOfCurrentUser().getBoard().getGraveYard().get(i).getCardImage()));
+                    rectangle.setRelatedCard(game.getOpponentOfCurrentUser().getBoard().getGraveYard().get(i));
+                    rectangle.setOnMouseClicked(event1 -> {
+                        if (selectedCardInGraveYard != null) selectedCardInGraveYard.setStroke(Color.TRANSPARENT);
+                        selectedCardInGraveYard = rectangle;
+                        selectedCardInGraveYard.setStroke(Color.GOLD);
+                    });
+                    monsterRectangles.add(rectangle);
+                }
+            }
+            int z = 0;
+            outer:
+            for (int i = 0; ; i++) {
+                for (int j = 0; j < 10; j++) {
+                    try {
+                        gridPane.add(monsterRectangles.get(z), j, i);
+                        z++;
+                    } catch (Exception e) {
+                        break outer;
+                    }
+                }
+            }
+        });
+        summon.setOnMouseClicked(event -> {
+            if (selectedCardInGraveYard == null) {
+
+            } else {
+                Card monsterCard = selectedCardInGraveYard.getRelatedCard();
+                if ((card.getName().equals("Gate Guardian") || card.getCardType() == Type.RITUAL) && !game.getSpecialSummonedCards().contains(card)) {
+                    GamePlay.showAlert(Alert.AlertType.ERROR, "Summon unSuccessful !",
+                            "should be special summoned first");
+                } else {
+                    if (isMyGraveyard) {
+                        game.getCurrentUser().getBoard().getGraveYard().remove(monsterCard);
+                        game.getCurrentUser().getBoard().getCardsInHand().add(monsterCard);
+                    } else {
+                        game.getOpponentOfCurrentUser().getBoard().getAllCards().remove(monsterCard);
+                        game.getOpponentOfCurrentUser().getBoard().getGraveYard().remove(monsterCard);
+                        game.getCurrentUser().getBoard().getAllCards().add(monsterCard);
+                        game.getCurrentUser().getBoard().getCardsInHand().add(monsterCard);
+                    }
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText("Attack or Defence");
+                    alert.setContentText("Do u want to summon in Attack position?");
+                    alert.getButtonTypes().set(0, ButtonType.YES);
+                    alert.getButtonTypes().set(1, ButtonType.NO);
+                    if (alert.showAndWait().get() == ButtonType.YES) {
+                        game.addMonsterFromHandToMonsterZone(monsterCard, true, true);
+                    } else {
+                        game.addMonsterFromHandToMonsterZone(monsterCard, true, false);
+                    }
+                    GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
+                    game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
+                }
+            }
+        });
+        VBox vBox = new VBox();
+        vBox.getChildren().add(summon);
+        vBox.getChildren().add(myGraveyard);
+        vBox.getChildren().add(enemyGraveyard);
+        box.getChildren().add(vBox);
+        popupStage.show();
+        new FadeIn(box).play();
+        return true;
     }
 
     @Override

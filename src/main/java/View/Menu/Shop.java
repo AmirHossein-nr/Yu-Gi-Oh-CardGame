@@ -6,17 +6,22 @@ import View.GUI.MainMenuGraphic;
 import View.GUI.ShopGraphic;
 import com.opencsv.CSVReader;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -401,6 +406,70 @@ public class Shop extends Menu {
         Scene scene = new Scene(root);
         mainStage.setTitle("YU-GI-OH");
         mainStage.setScene(scene);
+        mainStage.show();
+    }
+
+    public void openMadeMonstersShop(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seeMadeMonstersShop.fxml"));
+        AnchorPane anchorPane = loader.load();
+        Scene scene = new Scene(anchorPane);
+        anchorPane.setId("anchorPane");
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        Button button;
+        int count = 0;
+        for (Card card : Shop.getAllCards()) {
+            if (card.getUserMade()) {
+                ImageView imageView = new ImageView(getClass().getResource("/images/theTrump.jpg").toExternalForm());
+                imageView.setFitWidth(152);
+                imageView.setFitHeight(223);
+                imageView.setLayoutY(225 * count + 50);
+                imageView.setLayoutX(count * 200 + 10);
+                count += 1;
+                button = new Button("buy");
+                button.setLayoutY(imageView.getLayoutY() + 233);
+                button.setLayoutX(imageView.getLayoutX() + 50);
+                button.setId("button");
+                button.setCursor(Cursor.HAND);
+                anchorPane.getChildren().addAll(imageView, button);
+                button.setOnMouseClicked( event -> {
+                    buyNewCard(event);
+                });
+            }
+        }
+        scene.getStylesheets().add("/Css/shopMenu.css");
+        mainStage.show();
+    }
+
+    public void openMadeSpellTrapShop(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seeMadeSpellTrapShop.fxml"));
+        AnchorPane anchorPane = loader.load();
+        Scene scene = new Scene(anchorPane);
+        anchorPane.setId("anchorPane");
+        mainStage.setTitle("YU-GI-OH");
+        mainStage.setScene(scene);
+        Button button;
+        int count = 0;
+        for (Card card : Shop.getAllCards()) {
+            if (card.getUserMade()) {
+                ImageView imageView = new ImageView(getClass().getResource("/images/theTrump.jpg").toExternalForm());
+                imageView.setFitHeight(223);
+                imageView.setFitWidth(152);
+                imageView.setLayoutY(225 * count + 50);
+                imageView.setLayoutX(count * 200 + 10);
+                count += 1;
+                button = new Button("buy");
+                button.setLayoutX(imageView.getLayoutX() + 50);
+                button.setLayoutY(imageView.getLayoutY() + 233);
+                button.setId("button");
+                button.setCursor(Cursor.HAND);
+                anchorPane.getChildren().addAll(imageView, button);
+                button.setOnMouseClicked( event -> {
+                    buyNewCard(event);
+                });
+            }
+        }
+        scene.getStylesheets().add("/Css/shopMenu.css");
         mainStage.show();
     }
 
@@ -1091,7 +1160,7 @@ public class Shop extends Menu {
         alert.show();
     }
 
-    public void buyNewCard(ActionEvent actionEvent) {
+    public void buyNewCard(Event event) {
         Card card = null;
         for (Card card1 : getAllCards()) {
             if (card1.getUserMade()) {

@@ -27,9 +27,12 @@ public abstract class FieldEffect extends Effect {
 
     public void addToChain(Game game) {
         if (canBeActivated(game)) {
+            TheOwner = game.getCurrentUser();
             game.getChain().add(card);
             card.setOccupied(true);
-            System.out.println("spell activated");
+            if (game.getCurrentUser().getBoard().getCardsInHand().contains(card)) {
+                game.addSpellOrTrapFromHandToZone(card, true);
+            }
         } else {
             System.out.println("preparations of this spell are not done yet");
         }

@@ -4,6 +4,8 @@ import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
 import Controller.Game;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class HarpiesFeatherDuster extends Effect {
 
@@ -14,24 +16,19 @@ public class HarpiesFeatherDuster extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
-                if (game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
-                    Card card = game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i);
-                    game.addSpellOrTrapFromZoneToGraveyard(card, game.getOpponentOfCurrentUser());
-                }
+        for (int i = 0; i < game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().size(); i++) {
+            if (game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i) != null) {
+                Card card = game.getOpponentOfCurrentUser().getBoard().getSpellsAndTrapsZone().get(i);
+                game.addSpellOrTrapFromZoneToGraveyard(card, game.getOpponentOfCurrentUser());
             }
-            if (game.getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
-                Card fieldCard = game.getOpponentOfCurrentUser().getBoard().getFieldZone();
-                game.addSpellOrTrapFromZoneToGraveyard(fieldCard, game.getOpponentOfCurrentUser());
-            }
-            System.out.println("spell activated");
-            game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
-            return true;
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
         }
+        if (game.getOpponentOfCurrentUser().getBoard().getFieldZone() != null) {
+            Card fieldCard = game.getOpponentOfCurrentUser().getBoard().getFieldZone();
+            game.addSpellOrTrapFromZoneToGraveyard(fieldCard, game.getOpponentOfCurrentUser());
+        }
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
+        game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
+        return true;
     }
 
     @Override

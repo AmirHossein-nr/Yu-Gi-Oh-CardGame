@@ -3,6 +3,8 @@ package Model.Effects.Normal;
 import Model.*;
 import Model.Effects.Effect;
 import Controller.Game;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class PotOfGreed extends Effect {
 
@@ -21,7 +23,7 @@ public class PotOfGreed extends Effect {
             game.drawCard(game.getCurrentUser());
         } catch (Exception e) {
         }
-        System.out.println("spell activated");
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
         game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
         return true;
     }

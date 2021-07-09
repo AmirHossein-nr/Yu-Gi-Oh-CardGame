@@ -4,6 +4,8 @@ import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
 import Controller.Game;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class DarkHole extends Effect {
 
@@ -26,7 +28,7 @@ public class DarkHole extends Effect {
                 game.addMonsterFromMonsterZoneToGraveyard(card, game.getCurrentUser());
             }
         }
-        System.out.println("spell activated");
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
         game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
         return true;
     }

@@ -13,6 +13,7 @@ public abstract class Effect {
 
     protected Card card;
     protected int speed;
+    protected User TheOwner;
 
 
     public Effect(Card card) {
@@ -39,11 +40,14 @@ public abstract class Effect {
 
     public void addToChain(Game game) {
         if (canBeActivated(game)) {
+            TheOwner = game.getCurrentUser();
             game.getChain().add(card);
             card.setOccupied(true);
-            game.addSpellOrTrapFromHandToZone(card, true);
+            if (game.getCurrentUser().getBoard().getCardsInHand().contains(card)) {
+                game.addSpellOrTrapFromHandToZone(card, true);
+            }
         } else {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println("ADD TO CHAIN");
             System.out.println("preparations of this spell are not done yet");
         }
     }
@@ -57,6 +61,8 @@ public abstract class Effect {
         if (activate(game)) {
             game.getCurrentUser().setLifePoint(game.getCurrentUser().getLifePoint() + 500 * game.getCurrentUser().getBoard().getActivatedSpellAbsorptions().size());
             game.getOpponentOfCurrentUser().setLifePoint(game.getOpponentOfCurrentUser().getLifePoint() + 500 * game.getOpponentOfCurrentUser().getBoard().getActivatedSpellAbsorptions().size());
+        } else {
+            System.out.println("FINAL ACTIVATE");
         }
     }
 

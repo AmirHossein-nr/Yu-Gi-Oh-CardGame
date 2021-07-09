@@ -1,0 +1,12 @@
+#anchorPane {
+    -fx-background-image: url("/images/background22.jpg");
+    -fx-pref-width: 1282;
+    -fx-pref-height: 845;
+}
+
+#button {
+    -fx-background-color: white;
+    -fx-border-color: orange;
+    -fx-border-style: solid;
+    -fx-border-width: 3;
+}
