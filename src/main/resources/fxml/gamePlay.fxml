@@ -170,6 +170,7 @@
                    layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="69.0"/>
         <Rectangle fx:id="surrenderButton" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="65.0"
                    layoutX="1215.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="77.0"/>
+        <Label fx:id="cardsInDeck" layoutX="1080.0" layoutY="700.0"/>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="145.0" layoutX="979.0" layoutY="263.0"
                    opacity="0.38" stroke="BLACK" strokeType="INSIDE" width="498.0"/>
         <Button fx:id="nextPhaseButton" layoutX="983.0" layoutY="410.0" mnemonicParsing="false" prefHeight="60.0"
@@ -180,6 +181,6 @@
         <Rectangle fx:id="flipSummon" layoutX="1159.0" layoutY="305.0" fill="Black" width="80" height="80"/>
         <Rectangle fx:id="attack" layoutX="1225.0" layoutY="309.0" fill="Black" width="80" height="80"/>
         <Rectangle fx:id="directAttack" layoutX="1285.0" layoutY="309.0" fill="Black" width="80" height="80"/>
-        <Rectangle fx:id="activateEffect" layoutX="1355.0" layoutY="309.0" fill="Black" width="80" height="80" />
+        <Rectangle fx:id="activateEffect" layoutX="1355.0" layoutY="309.0" fill="Black" width="80" height="80"/>
     </children>
 </AnchorPane>

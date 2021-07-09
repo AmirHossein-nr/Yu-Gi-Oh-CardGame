@@ -101,6 +101,7 @@ public class Game {
     public Rectangle directAttack;
     public CardRectangle currentFieldZone;
     public CardRectangle rivalFieldZone;
+    public Label cardsInDeck;
 
     public static boolean loggedStarts = false;
     public static Stage mainStage;
@@ -1261,6 +1262,10 @@ public class Game {
         arrangeRivalMonsters();
         arrangeRivalSpellTrap();
         showBackgroundOfField();
+        try {
+            cardsInDeck.setText("Number : " + currentUser.getBoard().getDeckZone().size());
+        } catch (Exception ignored) {
+        }
     }
 
     private void showBackgroundOfField() {
@@ -3616,6 +3621,11 @@ public class Game {
 
     @FXML
     public void nextPhase() {
+        if (activatedRitualCard != null) {
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error !", "you should ritual summon right now");
+            return;
+        }
         if (!canSpeedOneBeActivated) {
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "Error!",
