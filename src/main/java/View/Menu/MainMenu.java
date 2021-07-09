@@ -70,4 +70,8 @@ public class MainMenu extends Menu {
         DuelMenuGraphic duelMenuGraphic = new DuelMenuGraphic();
         duelMenuGraphic.start(mainStage);
     }
+
+    public void openImportMenu(ActionEvent actionEvent) throws Exception {
+        new ImportExportGraphic().start(mainStage);
+    }
 }

@@ -30,7 +30,7 @@ public class TestJson {
         Assertions.assertNull(card);
         card = JsonController.readCard("jafar", "trap");
         Assertions.assertNull(card);
-        JsonController.writeCard("The Tricky", "monster");
+        JsonController.writeCard("The Tricky");
         card = JsonController.readCard("The Tricky", "monster");
         Assertions.assertNotNull(card);
     }

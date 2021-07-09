@@ -12,111 +12,42 @@ import java.util.Objects;
 
 public class JsonController {
 
-    public static boolean writeCard(String cardName, String type) throws IOException {
+    public static boolean writeCard(String cardName) throws IOException {
         String path;
         FileWriter writer;
         try {
             Card myCard;
-            if (type.equalsIgnoreCase("monster")) {
-                path = "src/main/resources/monsters/" + cardName + ".Json";
-                myCard = Shop.getCardByName(cardName);
-                if (!(myCard instanceof Monster) && myCard != null) {
-                    System.out.println("Wrong Type For This Card !");
-                    return false;
-                }
-                Monster card = (Monster) myCard;
+            path = "src/main/resources/Cards/" + cardName + ".Json";
+            myCard = Shop.getCardByName(cardName);
 
-                if (card == null) {
-                    System.out.println("This Card Doesn't Exist In DataBase ! Please try Again");
-                    return false;
-                }
-                Gson gson = new Gson();
-                File file = new File(path);
-                writer = new FileWriter(file);
-                writer.write(gson.toJson(card));
-            } else if (type.equalsIgnoreCase("spell")) {
-                path = "src/main/resources/spells/" + cardName + ".Json";
-                myCard = Shop.getCardByName(cardName);
-                if (!(myCard instanceof Spell) && myCard != null) {
-                    System.out.println("Wrong Type For This Card !");
-                    return false;
-                }
-                Spell card = (Spell) myCard;
-
-                if (card == null) {
-                    System.out.println("This Card Doesn't Exist In DataBase ! Please try Again");
-                    return false;
-                }
-                Gson gson = new Gson();
-                writer = new FileWriter(path);
-                writer.write(gson.toJson(card));
-            } else {
-                path = "src/main/resources/traps/" + cardName + ".Json";
-                myCard = Shop.getCardByName(cardName);
-                if (!(myCard instanceof Trap) && myCard != null) {
-                    System.out.println("Wrong Type For This Card !");
-                    return false;
-                }
-                Trap card = (Trap) myCard;
-                if (card == null) {
-                    System.out.println("This Card Doesn't Exist In DataBase ! Please try Again");
-                    return false;
-                }
-                Gson gson = new Gson();
-                writer = new FileWriter(path);
-                writer.write(gson.toJson(card));
+            if (myCard == null) {
+                return false;
             }
-            writer.flush();
+            Gson gson = new Gson();
+            File file = new File(path);
+            writer = new FileWriter(file);
+            writer.write(gson.toJson(myCard, Card.class));
             writer.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+
     }
 
     public static Card readCard(String cardName, String type) {
-        if (type.equalsIgnoreCase("monster")) {
-            return readMonsterCard("src/main/resources/monsters/" + cardName + ".JSON");
-        } else if (type.equalsIgnoreCase("spell")) {
-            return readSpellCard("src/main/resources/spells/" + cardName + ".JSON");
-        } else {
-            return readTrapCard("src/main/resources/traps/" + cardName + ".JSON");
-        }
+        return null;
     }
 
 
-    private static Monster readMonsterCard(String path) {
+    public static Card readCard(String path) {
         try {
             FileReader fileReader = new FileReader(path);
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            return gson.fromJson(bufferedReader, Monster.class);
-        } catch (Exception fileNotFoundException) {
-            return null;
-        }
-    }
-
-    private static Spell readSpellCard(String path) {
-        try {
-            FileReader fileReader = new FileReader(path);
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            Gson gson = gsonBuilder.create();
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            return gson.fromJson(bufferedReader, Spell.class);
-        } catch (Exception fileNotFoundException) {
-            return null;
-        }
-    }
-
-    private static Trap readTrapCard(String path) {
-        try {
-            FileReader fileReader = new FileReader(path);
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            Gson gson = gsonBuilder.create();
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            return gson.fromJson(bufferedReader, Trap.class);
+            return gson.fromJson(bufferedReader, Card.class);
         } catch (Exception fileNotFoundException) {
             return null;
         }

@@ -41,6 +41,12 @@ public class Shop extends Menu {
 
     public Shop() {
         super("Shop Menu", null);
+        final String monstersCsvFilePath = "src/main/resources/Monster.csv";
+        final String spellsAndTrapsCsvFilePath = "src/main/resources/SpellTrap.csv";
+
+        csvMonsterReader(monstersCsvFilePath);
+        csvSpellReader(spellsAndTrapsCsvFilePath);
+        iterateThroughArray();
     }
 
     public Shop(Menu parentMenu) {
