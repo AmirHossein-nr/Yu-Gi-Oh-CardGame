@@ -199,8 +199,4 @@ public class ChainController {
         }
         return false;
     }
-
-    static String editSpaces(String string) {
-        return string.replaceAll("(\\s)+", " ");
-    }
 }

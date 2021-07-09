@@ -499,6 +499,15 @@ public class Game {
             } catch (Exception ignored) {
             }
         });
+        currentFieldZone.setOnMouseClicked(event -> {
+            try {
+                selectedRectangle.setStroke(Color.TRANSPARENT);
+                selectedRectangle = currentFieldZone;
+                selectedRectangle.setStroke(Color.GOLD);
+                selectedCard = currentFieldZone.getRelatedCard();
+            } catch (Exception ignored) {
+            }
+        });
     }
 
     private void onMouseClickedForCardsInHand() {
@@ -2862,6 +2871,7 @@ public class Game {
                 }
             }
             new ChainController(this).run();
+            canSpeedOneBeActivated = true;
             if (magicCylinderActivated) {
                 setMagicCylinderActivated(false);
                 playDryPopSound();
@@ -2897,7 +2907,17 @@ public class Game {
     }
 
     public boolean doAttackAction(Card enemyCard, Monster selectedMonster) {
-        Monster enemyMonster = (Monster) enemyCard;
+        Monster enemyMonster = null;
+        try {
+            enemyMonster = (Monster) enemyCard;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("You're Not Attacking a monster !");
+            alert.show();
+            playErrorSound();
+            return false;
+        }
         if (enemyMonster.getName().equals("Texchanger")) {
             // will do
         }
@@ -3287,6 +3307,7 @@ public class Game {
         }
         Monster selectedMonster = (Monster) selectedCard;
         new ChainController(this).run();
+        canSpeedOneBeActivated = true;
         if (magicCylinderActivated) {
             setMagicCylinderActivated(false);
             playPopSound();
@@ -3414,7 +3435,6 @@ public class Game {
         ((Spell) selectedCard).giveEffect();
 
         if (!((Spell) selectedCard).getEffect().canBeActivated(this)) {
-            System.out.println("MMMMMMMMMMMMMMMMMMMMM");
             playErrorSound();
             GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "preparations of this spell are not done yet");
             return;
@@ -3427,10 +3447,10 @@ public class Game {
         }
 
         ((Spell) selectedCard).getEffect().addToChain(this);
-//        ((Spell) chain.get(0)).getEffect().finalActivate(this);
-//        chain.clear();
+
         // activating the spells and chain
         new ChainController(this).run();
+        canSpeedOneBeActivated = true;
     }
 
     private void endPhaseRun() {
@@ -3583,12 +3603,12 @@ public class Game {
 
     @FXML
     public void nextPhase() {
-//        if (!canSpeedOneBeActivated) {
-//            playErrorSound();
-//            GamePlay.showAlert(Alert.AlertType.ERROR, "Error!",
-//                    "You can not change phase now");
-//            return;
-//        }
+        if (!canSpeedOneBeActivated) {
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error!",
+                    "You can not change phase now");
+            return;
+        }
         if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;

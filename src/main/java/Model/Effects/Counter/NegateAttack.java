@@ -48,9 +48,9 @@ public class NegateAttack extends Effect {
                 }
             }
         }
-        if (game.originalCurrentUser.getBoard().getAllCards().contains(card)) {
-            return false;
-        }
+//        if (game.originalCurrentUser.getBoard().getAllCards().contains(card)) {
+//            return false;
+//        }
         if (!game.isDeclaredAttack()) {
             return false;
         }

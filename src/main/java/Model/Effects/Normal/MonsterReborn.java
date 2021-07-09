@@ -36,7 +36,7 @@ public class MonsterReborn extends Effect {
 
     @Override
     public boolean activate(Game game) {
-        HBox box = new HBox(50);
+        HBox box = new HBox(200);
         box.setAlignment(Pos.TOP_LEFT);
         box.setPadding(new Insets(10));
         GridPane gridPane = new GridPane();
