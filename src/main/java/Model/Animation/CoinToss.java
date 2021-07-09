@@ -54,6 +54,7 @@ public class CoinToss extends Transition {
                     if (random % 2 == 0) {
                         label.setText(game.loggedUser.getUsername() + " Starts The Game !");
                         game.currentUser = game.loggedUser;
+                        game.originalCurrentUser = game.currentUser;
                         this.stop();
                         return;
                     }
@@ -62,6 +63,7 @@ public class CoinToss extends Transition {
                     if (random % 2 == 1) {
                         label.setText(game.rivalUser.getUsername() + " Starts The Game !");
                         game.currentUser = game.rivalUser;
+                        game.originalCurrentUser = game.currentUser;
                         this.stop();
                     }
                 }

@@ -4,6 +4,8 @@ import Model.Card;
 import Model.Monster;
 import Model.Type;
 import Controller.Game;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class ClosedForest extends FieldEffect {
 
@@ -32,28 +34,23 @@ public class ClosedForest extends FieldEffect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            for (Card card : game.getCurrentUser().getBoard().getGraveYard()) {
-                if (card instanceof Monster) {
-                    damage++;
-                }
+        for (Card card : game.getCurrentUser().getBoard().getGraveYard()) {
+            if (card instanceof Monster) {
+                damage++;
             }
-            damage *= 100;
-            for (int i = 0; i < 5; i++) {
-                if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
-                    Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
-                    if (monster.getMonsterType() == Type.BEAST) {
-                        effectedMonsterCards.add(monster);
-                        monster.setAttackPower(monster.getAttackPower() + damage);
-                    }
-                }
-            }
-            System.out.println("spell activated");
-            return true;
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
         }
+        damage *= 100;
+        for (int i = 0; i < 5; i++) {
+            if (game.getCurrentUser().getBoard().getMonstersZone().get(i) != null) {
+                Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
+                if (monster.getMonsterType() == Type.BEAST) {
+                    effectedMonsterCards.add(monster);
+                    monster.setAttackPower(monster.getAttackPower() + damage);
+                }
+            }
+        }
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
+        return true;
     }
 
     @Override

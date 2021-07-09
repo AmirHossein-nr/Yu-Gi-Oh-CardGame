@@ -4,6 +4,8 @@ import Model.Card;
 import Model.Monster;
 import Model.Type;
 import Controller.Game;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class Yami extends FieldEffect {
 
@@ -37,19 +39,14 @@ public class Yami extends FieldEffect {
 
     @Override
     public boolean activate(Game game) {
-        if (canBeActivated(game)) {
-            for (int i = 0; i < 5; i++) {
-                if (game.getCurrentUser().getBoard().getMonstersZone() != null) {
-                    Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
-                    doAction(monster);
-                }
+        for (int i = 0; i < 5; i++) {
+            if (game.getCurrentUser().getBoard().getMonstersZone() != null) {
+                Monster monster = (Monster) game.getCurrentUser().getBoard().getMonstersZone().get(i);
+                doAction(monster);
             }
-            System.out.println("spell activated");
-            return true;
-        } else {
-            System.out.println("preparations of this spell are not done yet");
-            return false;
         }
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
+        return true;
     }
 
     private void doAction(Monster monster) {

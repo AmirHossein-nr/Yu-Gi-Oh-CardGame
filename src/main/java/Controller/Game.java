@@ -121,6 +121,7 @@ public class Game {
     public User loggedUser;
     public User rivalUser;
     public User currentUser;
+    public User originalCurrentUser = currentUser;
     User winnerOfDuel = null;
     int numberOfRounds;
     int round = 1;
@@ -1355,6 +1356,7 @@ public class Game {
         loggedUser.setLifePoint(8000);
         rivalUser.setLifePoint(8000);
         currentUser = user;
+        originalCurrentUser = currentUser;
         shuffleDeckZones();
         drawPhasePlace.setFill(Color.GREEN);
         for (int i = 0; i < 6; i++) {
@@ -1511,6 +1513,7 @@ public class Game {
     private void changeTurn() {
         playChangeTurnSound();
         currentUser = getOpponentOfCurrentUser();
+        originalCurrentUser = currentUser;
         attackedCards.clear();
         normalSummonOrSetCard = null;
         putOnMonsterZoneCards.clear();
@@ -2235,6 +2238,7 @@ public class Game {
         }
     }
 
+    // todo
     private void activateTerratiger() {
         System.out.println("do you want to summon a level 4 or less monster from your hand in defence position?" +
                 " (\"yes\"/\"no\")");
@@ -2489,7 +2493,7 @@ public class Game {
         box.setAlignment(Pos.TOP_LEFT);
         box.setPadding(new Insets(10));
         Label label = new Label();
-        label.setText("tribute 1\ncards");
+        label.setText("tribute 1\ncard");
         box.getChildren().add(label);
         for (Card card : currentUser.getBoard().getCardsInHand()) {
             if (card == selectedCard) {
@@ -3569,6 +3573,12 @@ public class Game {
 
     @FXML
     public void nextPhase() {
+        if (!canSpeedOneBeActivated) {
+            playErrorSound();
+            GamePlay.showAlert(Alert.AlertType.ERROR, "Error!",
+                    "You can not change phase now");
+            return;
+        }
         if (currentPhase == null) {
             initialiseLabelNames();
             currentPhase = Phase.DRAW;
