@@ -17,6 +17,7 @@ public class EditDeckGraphic extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editDeck.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/Css/editDeck.css");
         primaryStage.setScene(scene);
         controller = (EditDeckMenu) loader.getController();
         primaryStage.show();

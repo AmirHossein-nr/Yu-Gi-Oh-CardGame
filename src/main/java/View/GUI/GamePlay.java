@@ -24,7 +24,7 @@ public class GamePlay extends Application {
 
     protected static Stage mainStage;
     public static AnchorPane root;
-    private static Game game;
+    public static Game game;
 
     @Override
     public void start(Stage primaryStage) throws Exception {

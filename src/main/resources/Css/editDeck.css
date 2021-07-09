@@ -1,5 +1,8 @@
 #allCardsPane {
-    -fx-background-image: url("/images/background2.jpg") ;
+    -fx-background-image: url("/images/back3.png") ;
+    -fx-background-position: center;
+    -fx-background-color: black;
+    -fx-background-repeat: no-repeat;
 }
 
 .label {
@@ -11,4 +14,21 @@
 
 .button {
     -fx-background-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 3;
+    -fx-border-color: orange;
+}
+
+#mainDeck {
+    -fx-background-image: url("/images/back3.png") ;
+    -fx-background-position: center;
+    -fx-background-color: black;
+    -fx-background-repeat: no-repeat;
+}
+
+#sideDeck {
+    -fx-background-image: url("/images/back3.png") ;
+    -fx-background-position: center;
+    -fx-background-color: black;
+    -fx-background-repeat: no-repeat;
 }
