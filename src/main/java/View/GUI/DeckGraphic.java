@@ -23,6 +23,7 @@ public class DeckGraphic extends Application {
         primaryStage.setScene(scene);
         EditDeckMenu.mainStage = primaryStage;
         controller = (DeckMenu) loader.getController();
+        controller.updateView();
         primaryStage.show();
     }
 }
