@@ -1,23 +1,17 @@
 package View.GUI;
 
-import Model.AI;
 import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.net.URL;
 
 public class DuelMenuGraphic extends Application {
 
@@ -38,7 +32,7 @@ public class DuelMenuGraphic extends Application {
         mainStage = primaryStage;
     }
 
-    public void createOtherPlayers (AnchorPane anchorPane) {
+    public void createOtherPlayers(AnchorPane anchorPane) {
         int count = 1;
         for (User user : User.getAllUsers()) {
             if (user != loggedUser) {
@@ -64,4 +58,5 @@ public class DuelMenuGraphic extends Application {
             }
         }
     }
+
 }

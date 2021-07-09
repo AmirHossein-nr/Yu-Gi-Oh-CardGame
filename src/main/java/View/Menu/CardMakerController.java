@@ -1,13 +1,17 @@
-package View.GUI;
+package View.Menu;
 
 import Model.Card;
 import Model.Monster;
+import Model.Spell;
 import Model.Type;
+import View.GUI.CardMakerGraphics;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 
 public class CardMakerController {
@@ -30,10 +34,14 @@ public class CardMakerController {
     public TextField typeTextField;
     @FXML
     public TextField iconTextField;
+    public Label costLabel;
+    public Label costLabel2;
 
     String name, level, monsterType, cardType, attackPower, defensePower, description, type, icon;
 
-    public CardMakerController () {
+    public static Stage mainStage;
+
+    public CardMakerController() {
 
     }
 
@@ -45,10 +53,13 @@ public class CardMakerController {
         attackPower = attackPowerTextField.getText();
         defensePower = defensePowerTextField.getText();
         description = descriptionTextField.getText();
+        costLabel.setText("Cost : " + ((Integer.parseInt(attackPower) / 10) + (Integer.parseInt(defensePower) / 13)));
         Type monsterType = returnType(monsterTypeTextField.getText());
         Type cardType = returnType(cardTypeTextField.getText());
 
         Monster card = new Monster(name, monsterType);
+        card.setUserMade(true);
+        card.setPrice((Integer.parseInt(attackPower) / 10) + (Integer.parseInt(defensePower) / 13));
         card.setLevel(Integer.parseInt(level));
         card.setCardType(cardType);
         card.setAttackPower(Integer.parseInt(attackPower));
@@ -56,6 +67,8 @@ public class CardMakerController {
         card.setDescription(description);
         card.setPrice((Integer.parseInt(defensePower) + Integer.parseInt(attackPower)) / 2);
         card.setCardImage(new Image(getClass().getResource("/images/theTrump.jpg").toExternalForm()));
+        new Shop();
+        Shop.getAllCards().add(card);
     }
 
     public void createSpellTrapCard(ActionEvent actionEvent) {
@@ -63,12 +76,15 @@ public class CardMakerController {
         type = typeTextField.getText();
         icon = iconTextField.getText();
         description = descriptionTextField.getText();
+        costLabel2.setText("Cost : " + (3000));
         Type cardType = returnType(type);
 
-        Card card = new Card(name, cardType);
+        Spell card = new Spell(name, cardType);
+        card.setUserMade(true);
         card.setDescription(description);
-        card.setPrice(4000);
+        card.setPrice(3000);
         card.setCardImage(new Image(getClass().getResource("/images/theTrump.jpg").toExternalForm()));
+        Shop.getAllCards().add(card);
     }
 
     private Type returnType(String input) {
@@ -117,11 +133,15 @@ public class CardMakerController {
                 return Type.FIELD;
             case "equip":
                 return Type.EQUIP;
-            case "spell" :
+            case "spell":
                 return Type.SPELL;
             case "trap":
                 return Type.TRAP;
         }
         return null;
+    }
+
+    public void goBack(ActionEvent actionEvent) throws Exception {
+        new CardMakerGraphics().start(mainStage);
     }
 }

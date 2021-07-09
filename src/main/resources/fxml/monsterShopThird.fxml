@@ -9,180 +9,221 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="657.0" prefWidth="1170.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Shop">
+<AnchorPane prefHeight="657.0" prefWidth="1170.0" style="-fx-background-color: orange;"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.Shop">
     <children>
         <ImageView fitHeight="657.0" fitWidth="1170.0" layoutX="-3.0">
             <image>
-                <Image url="@../images/background2 (1).jpg" />
+                <Image url="@../images/background22.jpg"/>
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="53.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="53.0" layoutY="363.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="304.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="304.0" layoutY="363.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="561.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="561.0" layoutY="363.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="814.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="814.0" layoutY="363.0" stroke="BLACK" strokeType="INSIDE" width="152.0" />
-        <Button layoutX="101.0" layoutY="275.0" mnemonicParsing="false" onAction="#fireyarou" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="53.0" layoutY="40.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="53.0" layoutY="363.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="304.0" layoutY="40.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="304.0" layoutY="363.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="561.0" layoutY="40.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="561.0" layoutY="363.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="814.0" layoutY="40.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="223.0" layoutX="814.0" layoutY="363.0"
+                   stroke="BLACK" strokeType="INSIDE" width="152.0"/>
+        <Button layoutX="101.0" layoutY="275.0" mnemonicParsing="false" onAction="#fireyarou" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="101.0" layoutY="595.0" mnemonicParsing="false" onAction="#flameManipulator" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="101.0" layoutY="595.0" mnemonicParsing="false" onAction="#flameManipulator" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="352.0" layoutY="275.0" mnemonicParsing="false" onAction="#gateGuardian" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="352.0" layoutY="275.0" mnemonicParsing="false" onAction="#gateGuardian" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="352.0" layoutY="595.0" mnemonicParsing="false" onAction="#haniwa" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="352.0" layoutY="595.0" mnemonicParsing="false" onAction="#haniwa" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="609.0" layoutY="275.0" mnemonicParsing="false" onAction="#hearldOfCreation" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="609.0" layoutY="275.0" mnemonicParsing="false" onAction="#hearldOfCreation" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="609.0" layoutY="595.0" mnemonicParsing="false" onAction="#heroOfTheEast" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="609.0" layoutY="595.0" mnemonicParsing="false" onAction="#heroOfTheEast" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="862.0" layoutY="275.0" mnemonicParsing="false" onAction="#HornImp" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="862.0" layoutY="275.0" mnemonicParsing="false" onAction="#HornImp" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="862.0" layoutY="595.0" mnemonicParsing="false" onAction="#leotron" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="buy">
+        <Button layoutX="862.0" layoutY="595.0" mnemonicParsing="false" onAction="#leotron" prefHeight="25.0"
+                prefWidth="56.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="buy">
             <font>
-                <Font name="Harlow Solid Italic" size="13.0" />
+                <Font name="Harlow Solid Italic" size="13.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="53.0" layoutY="40.0">
             <image>
-                <Image url="@../images/Monsters/Fireyarou.jpg" />
+                <Image url="@../images/Monsters/Fireyarou.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="53.0" layoutY="363.0">
             <image>
-                <Image url="@../images/Monsters/Flame Manipulator.jpg" />
+                <Image url="@../images/Monsters/Flame Manipulator.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="304.0" layoutY="40.0">
             <image>
-                <Image url="@../images/Monsters/Gate Guardian.jpg" />
+                <Image url="@../images/Monsters/Gate Guardian.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="304.0" layoutY="363.0">
             <image>
-                <Image url="@../images/Monsters/Haniwa.jpg" />
+                <Image url="@../images/Monsters/Haniwa.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="561.0" layoutY="40.0">
             <image>
-                <Image url="@../images/Monsters/Herald Of Creation.jpg" />
+                <Image url="@../images/Monsters/Herald Of Creation.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="561.0" layoutY="363.0">
             <image>
-                <Image url="@../images/Monsters/Hero Of The East.jpg" />
+                <Image url="@../images/Monsters/Hero Of The East.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="814.0" layoutY="40.0">
             <image>
-                <Image url="@../images/Monsters/Horn Imp.jpg" />
+                <Image url="@../images/Monsters/Horn Imp.jpg"/>
             </image>
         </ImageView>
         <ImageView fitHeight="223.0" fitWidth="152.0" layoutX="814.0" layoutY="363.0">
             <image>
-                <Image url="@../images/Monsters/Leotron.jpg" />
+                <Image url="@../images/Monsters/Leotron.jpg"/>
             </image>
         </ImageView>
-        <Button layoutX="1035.0" layoutY="284.0" mnemonicParsing="false" onAction="#openMonsterShopFourth" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="next page">
+        <Button layoutX="1035.0" layoutY="284.0" mnemonicParsing="false" onAction="#openMonsterShopFourth"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="next page">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="1035.0" layoutY="329.0" mnemonicParsing="false" onAction="#openMonsterShopThird" prefHeight="42.0" prefWidth="92.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="previous">
+        <Button layoutX="1035.0" layoutY="329.0" mnemonicParsing="false" onAction="#openMonsterShopThird"
+                prefHeight="42.0" prefWidth="92.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="previous">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
-        <Button layoutX="1035.0" layoutY="380.0" mnemonicParsing="false" onAction="#backToShopMenu" prefHeight="42.0" prefWidth="92.0" style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;" text="back">
+        <Button layoutX="1035.0" layoutY="380.0" mnemonicParsing="false" onAction="#backToShopMenu" prefHeight="42.0"
+                prefWidth="92.0"
+                style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
+                text="back">
             <font>
-                <Font name="Harlow Solid Italic" size="15.0" />
+                <Font name="Harlow Solid Italic" size="15.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
     </children>

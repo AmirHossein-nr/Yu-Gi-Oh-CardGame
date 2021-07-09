@@ -11,50 +11,87 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="708.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.CardMakerController">
+<AnchorPane prefHeight="708.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="View.Menu.CardMakerController">
     <children>
         <ImageView fitHeight="725.0" fitWidth="898.0" layoutY="-6.0" opacity="0.7">
             <image>
-                <Image url="@../images/background2 (1).jpg" />
+                <Image url="@../images/background22.jpg"/>
             </image>
             <effect>
-                <InnerShadow height="255.0" radius="127.0" width="255.0" />
+                <InnerShadow height="255.0" radius="127.0" width="255.0"/>
             </effect>
         </ImageView>
-        <Label alignment="CENTER" layoutX="40.0" layoutY="52.0" prefHeight="34.0" prefWidth="161.0" style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;" text="name">
+        <Label alignment="CENTER" layoutX="40.0" layoutY="52.0" prefHeight="34.0" prefWidth="161.0"
+               style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;"
+               text="name">
             <font>
-                <Font size="23.0" />
+                <Font size="23.0"/>
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="40.0" layoutY="134.0" prefHeight="34.0" prefWidth="161.0" style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;" text="type">
+        <Label alignment="CENTER" layoutX="40.0" layoutY="134.0" prefHeight="34.0" prefWidth="161.0"
+               style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;"
+               text="type">
             <font>
-                <Font size="23.0" />
+                <Font size="23.0"/>
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="40.0" layoutY="219.0" prefHeight="34.0" prefWidth="161.0" style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;" text="icon">
+        <Label alignment="CENTER" layoutX="40.0" layoutY="219.0" prefHeight="34.0" prefWidth="161.0"
+               style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;"
+               text="icon">
             <font>
-                <Font size="23.0" />
+                <Font size="23.0"/>
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="40.0" layoutY="340.0" prefHeight="34.0" prefWidth="161.0" style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;" text="description">
+        <Label alignment="CENTER" layoutX="40.0" layoutY="340.0" prefHeight="34.0" prefWidth="161.0"
+               style="-fx-background-color: #9d0a8a; -fx-border-radius: 2; -fx-text-fill: #d0b311; -fx-background-radius: 5;"
+               text="description">
             <font>
-                <Font size="23.0" />
+                <Font size="23.0"/>
             </font>
         </Label>
-        <TextField fx:id="nameTextField" layoutX="347.0" layoutY="52.0" prefHeight="34.0" prefWidth="228.0" />
-        <TextField fx:id="typeTextField" layoutX="347.0" layoutY="134.0" prefHeight="34.0" prefWidth="228.0" />
-        <TextField fx:id="iconTextField" layoutX="347.0" layoutY="219.0" prefHeight="34.0" prefWidth="228.0" />
-        <TextArea fx:id="descriptionTextField" layoutX="347.0" layoutY="326.0" prefHeight="126.0" prefWidth="311.0" />
-        <Button layoutX="733.0" layoutY="616.0" mnemonicParsing="false" onAction="#createSpellTrapCard" style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;" text="create">
+        <TextField fx:id="nameTextField" layoutX="347.0" layoutY="52.0" prefHeight="34.0" prefWidth="228.0"/>
+        <TextField fx:id="typeTextField" layoutX="347.0" layoutY="134.0" prefHeight="34.0" prefWidth="228.0"/>
+        <TextField fx:id="iconTextField" layoutX="347.0" layoutY="219.0" prefHeight="34.0" prefWidth="228.0"/>
+        <TextArea fx:id="descriptionTextField" layoutX="347.0" layoutY="326.0" prefHeight="126.0" prefWidth="311.0"/>
+        <Button layoutX="733.0" layoutY="616.0" mnemonicParsing="false" onAction="#createSpellTrapCard"
+                style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;"
+                text="create">
             <font>
-                <Font size="30.0" />
+                <Font size="30.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
             <effect>
-                <InnerShadow />
+                <InnerShadow/>
             </effect>
         </Button>
+        <Button layoutX="611.0" layoutY="616.0" mnemonicParsing="false" onAction="#goBack" prefHeight="65.0"
+                prefWidth="122.0"
+                style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;"
+                text="Back!">
+            <font>
+                <Font size="30.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <effect>
+                <InnerShadow/>
+            </effect>
+        </Button>
+        <ImageView fitHeight="65.0" fitWidth="75.0" layoutX="812.0" layoutY="37.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../images/Gold/Gold_1.png"/>
+            </image>
+        </ImageView>
+        <Label fx:id="costLabel2" layoutX="611.0" layoutY="52.0" prefHeight="34.0" prefWidth="183.0" text="Cost : "
+               textFill="WHITE">
+            <font>
+                <Font name="Arial Rounded MT Bold" size="27.0"/>
+            </font>
+        </Label>
     </children>
 </AnchorPane>

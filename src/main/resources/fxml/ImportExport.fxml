@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.ImportExport">
+   <children>
+      <ImageView fitHeight="806.0" fitWidth="707.0">
+         <image>
+            <Image url="@../images/background-2.png" />
+         </image>
+      </ImageView>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <Rectangle fx:id="showCardStage" arcHeight="5.0" arcWidth="5.0" fill="#d2e9ff" height="391.0" layoutX="407.0" layoutY="131.0" stroke="BLACK" strokeType="INSIDE" style="-fx-opacity: 0.4;" width="255.0" />
+      <ImageView fx:id="cardImage" fitHeight="333.0" fitWidth="210.0" layoutX="430.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="importButton" layoutX="134.0" layoutY="182.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="133.0" style="-fx-background-color: Violet;" text="Import" textAlignment="CENTER">
+         <font>
+            <Font name="Bell MT" size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="exportButton" layoutX="134.0" layoutY="293.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="133.0" style="-fx-background-color: Violet;" text="Export">
+         <font>
+            <Font name="Bell MT" size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitButton" layoutX="134.0" layoutY="403.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="133.0" style="-fx-background-color: Violet;" text="Exit !">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

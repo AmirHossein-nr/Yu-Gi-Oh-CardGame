@@ -1,0 +1,32 @@
+.root {
+    -fx-background-image: url(/images/background22.jpg);
+}
+
+.label {
+    -fx-font-family: 'Agency FB';
+    -fx-font-size: 30px;
+    -fx-text-fill: White;
+    -fx-alignment: Center;
+}
+
+#selected {
+    -fx-border-width: 3;
+    -fx-border-color: orange;
+    -fx-background-color: #9d0a8a;
+    -fx-border-style: solid;
+}
+
+#pane {
+    -fx-graphic-text-gap: 10px;
+}
+
+.button {
+    -fx-text-fill: White;
+    -fx-background-color: #9d0a8a;
+    -fx-border-color: #ef4cd9;
+}
+
+.button:hover {
+    -fx-text-fill: Purple;
+    -fx-background-color: White;
+}

@@ -1,6 +1,8 @@
 package View.Menu;
 
 import Model.*;
+import View.GUI.DeckGraphic;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -145,6 +147,11 @@ public class EditDeckMenu extends Menu {
         updateCards();
     }
 
+    @FXML
+    public void goBack(ActionEvent event) throws Exception {
+        new DeckGraphic().start(mainStage);
+    }
+
     private void addImageView(Card card, FlowPane sideDeck) {
         ImageView imageView = new ImageView();
         imageView.setFitWidth(100);
@@ -183,4 +190,5 @@ public class EditDeckMenu extends Menu {
         }
         return false;
     }
+
 }

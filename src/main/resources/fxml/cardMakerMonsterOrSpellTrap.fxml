@@ -8,35 +8,54 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="682.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.CardMakerGraphics">
-   <children>
-      <ImageView fitHeight="682.0" fitWidth="836.0" layoutX="-2.0" opacity="0.7">
-         <image>
-            <Image url="@../images/background2 (1).jpg" />
-         </image>
-      </ImageView>
-      <Button layoutX="285.0" layoutY="271.0" mnemonicParsing="false" onAction="#openMonsterCreatingScene" prefHeight="54.0" prefWidth="265.0" style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;" text="create monster card">
-         <font>
-            <Font size="25.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Button>
-      <Button layoutX="285.0" layoutY="361.0" mnemonicParsing="false" onAction="#openSpellTrapCreatingScene" style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;" text="create spell trap card">
-         <font>
-            <Font size="25.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Button>
-   </children>
+<AnchorPane prefHeight="682.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="View.GUI.CardMakerGraphics">
+    <children>
+        <ImageView fitHeight="682.0" fitWidth="836.0" layoutX="-2.0" opacity="0.7">
+            <image>
+                <Image url="@../images/background22.jpg"/>
+            </image>
+        </ImageView>
+        <Button layoutX="299.0" layoutY="275.0" mnemonicParsing="false" onAction="#openMonsterCreatingScene"
+                prefHeight="54.0" prefWidth="265.0"
+                style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;"
+                text="create monster card">
+            <font>
+                <Font size="25.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <effect>
+                <InnerShadow/>
+            </effect>
+        </Button>
+        <Button layoutX="299.0" layoutY="369.0" mnemonicParsing="false" onAction="#openSpellTrapCreatingScene"
+                style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;"
+                text="create spell trap card">
+            <font>
+                <Font size="25.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <effect>
+                <InnerShadow/>
+            </effect>
+        </Button>
+        <Button layoutX="359.0" layoutY="458.0" mnemonicParsing="false" onAction="#goBack" prefHeight="34.0"
+                prefWidth="145.0"
+                style="-fx-background-color: #9d0a8a; -fx-text-fill: #d0b311; -fx-border-radius: 2; -fx-background-radius: 5;"
+                text="Back!">
+            <font>
+                <Font size="25.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <effect>
+                <InnerShadow/>
+            </effect>
+        </Button>
+    </children>
 </AnchorPane>

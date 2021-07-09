@@ -17,40 +17,12 @@ public class ImportExport extends Menu {
         super("Import/Export Menu", parentMenu);
     }
 
+    public ImportExport() {
+        super("Import/Export Menu", null);
+    }
+
     @Override
     public void execute() {
-        String input;
-        Matcher matcher;
-        input = scanner.nextLine().trim();
-        input = editSpaces(input);
-
-        if (Regex.getMatcher(input, Regex.menuExit).find()) {
-            this.menuExit();
-        } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
-            this.menuEnter(matcher.group(1));
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-            this.showName();
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
-            this.logoutUser();
-        } else if ((matcher = Regex.getMatcher(input, Regex.importCard)).find()) {
-            try {
-                importCard(matcher.group(1));
-            } catch (Exception ignored) {
-            }
-            this.execute();
-        } else if ((matcher = Regex.getMatcher(input, Regex.exportCard)).find()) {
-            try {
-                exportCard(matcher.group(1));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            this.execute();
-        } else {
-            System.out.println("invalid command!");
-            this.execute();
-        }
     }
 
     private void exportCard(String group) throws IOException {
