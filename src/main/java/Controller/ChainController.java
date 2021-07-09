@@ -13,6 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Modality;
@@ -50,7 +51,7 @@ public class ChainController {
             alert.getButtonTypes().set(0, ButtonType.YES);
             alert.getButtonTypes().set(1, ButtonType.NO);
             if (alert.showAndWait().get() == ButtonType.YES) {
-                // todo
+                playTurnInChain();
             } else {
                 executeChain();
             }
@@ -107,7 +108,8 @@ public class ChainController {
                 }
             }
         }
-
+        VBox buttons = new VBox();
+        Button cancel = new Button("Cancel");
         Button Activate = new Button("Activate");
         Stage popupStage = new Stage(StageStyle.TRANSPARENT);
         popupStage.initOwner(Game.mainStage);
@@ -115,54 +117,67 @@ public class ChainController {
         Scene question = new Scene(box, Color.TRANSPARENT);
         question.getStylesheets().add("/Css/GamePlay.css");
         popupStage.setScene(question);
-        Activate.setOnMouseClicked(event1 -> {
-            activateEffectInChain();
+        cancel.setOnMouseClicked(event -> {
+            selectedCardInChain = null;
+            selectedCard = null;
+            run();
             new FadeOutUp(box).play();
             popupStage.hide();
         });
-        box.getChildren().add(Activate);
+        Activate.setOnMouseClicked(event -> {
+            // todo check begaii XD
+            activateEffectInChain();
+            new FadeOutUp(box).play();
+            popupStage.hide();
+            selectedCardInChain = null;
+            selectedCard = null;
+            playTurnInChain();
+        });
+        buttons.getChildren().add(cancel);
+        buttons.getChildren().add(Activate);
         popupStage.show();
         new FadeIn(box).play();
     }
 
     private void activateEffectInChain() {
-//        if (selectedCard == null) {
-//            System.out.println("no card is selected yet");
-//            return;
-//        }
-//        if (selectedCard instanceof Monster) {
-//            System.out.println("activate effect is not for monster cards.");
-//            return;
-//        }
-//        if (!currentUser.getBoard().getAllCards().contains(selectedCard)) {
-//            System.out.println("This card is not yours");
-//            return;
-//        }
-//        if (currentUser.getBoard().getSpellsAndTrapsZone().contains(selectedCard) && selectedCard.getOccupied()) {
-//            System.out.println("you have already activated this card");
-//            return;
-//        }
-//        if (selectedCard instanceof Spell) {
-//            if (((Spell) selectedCard).getEffect().getSpeed() == 1) {
-//                System.out.println("preparations of this spell are not done yet");
-//                return;
-//            }
-//            if (!((Spell) selectedCard).getEffect().canBeActivated(game)) {
-//                System.out.println("preparations of this spell are not done yet");
-//                return;
-//            }
-//        } else { // so its a trap
-//            if (!((Trap) selectedCard).getEffect().canBeActivated(game)) {
-//                System.out.println("preparations of this trap are not done yet");
-//                return;
-//            }
-//        }
-//
-//        if (selectedCard instanceof Spell) {
-//            ((Spell) selectedCard).getEffect().addToChain(game);
-//        } else { // so its a trap
-//            ((Trap) selectedCard).getEffect().addToChain(game);
-//        }
+        if (selectedCard == null) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "no card is selected yet");
+            return;
+        }
+        if (selectedCard instanceof Monster) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "activate is not for monster cards.");
+            return;
+        }
+        if (!game.getCurrentUser().getBoard().getAllCards().contains(selectedCard)) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "This card is not yours");
+            return;
+        }
+        if (game.getCurrentUser().getBoard().getSpellsAndTrapsZone().contains(selectedCard) && selectedCard.getOccupied()) {
+            GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "you have already activated this card");
+            return;
+        }
+        if (selectedCard instanceof Spell) {
+            ((Spell) selectedCard).giveEffect();
+            if (((Spell) selectedCard).getEffect().getSpeed() == 1) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "preparations of this spell are not done yet");
+                return;
+            }
+            if (!((Spell) selectedCard).getEffect().canBeActivated(game)) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "preparations of this spell are not done yet");
+                return;
+            }
+        } else { // so its a trap
+            ((Trap) selectedCard).giveEffect();
+            if (!((Trap) selectedCard).getEffect().canBeActivated(game)) {
+                GamePlay.showAlert(Alert.AlertType.ERROR, "activate effect Error", "preparations of this trap are not done yet");
+                return;
+            }
+        }
+        if (selectedCard instanceof Spell) {
+            ((Spell) selectedCard).getEffect().addToChain(game);
+        } else { // so its a trap
+            ((Trap) selectedCard).getEffect().addToChain(game);
+        }
     }
 
     private boolean canActivate(User user) {

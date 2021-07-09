@@ -4,6 +4,8 @@ import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
 import Controller.Game;
+import View.GUI.GamePlay;
+import javafx.scene.control.Alert;
 
 public class Raigeki extends Effect {
 
@@ -20,7 +22,7 @@ public class Raigeki extends Effect {
                 game.addMonsterFromMonsterZoneToGraveyard(card, game.getOpponentOfCurrentUser());
             }
         }
-        System.out.println("spell activated");
+        GamePlay.showAlert(Alert.AlertType.INFORMATION, "activate effect message", "spell activated");
         game.addSpellOrTrapFromZoneToGraveyard(card, game.getCurrentUser());
         return true;
     }

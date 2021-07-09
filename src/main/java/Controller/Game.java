@@ -919,7 +919,7 @@ public class Game {
                 .toExternalForm()));
         Deck deck = new Deck(new MainDeck(true), new SideDeck(true));
         new Shop(null);
-        for (int i = 55; i < 65; i++) {
+        for (int i = 55; i < 69; i++) {
             deck.getMainDeck().getCardsInMainDeck().add(Shop.getAllCards().get(i));
         }
         deck.setValid(true);

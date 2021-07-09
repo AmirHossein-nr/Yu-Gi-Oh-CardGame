@@ -30,6 +30,7 @@ public class Ritual extends Effect {
     @Override
     public void addToChain(Game game) {
         if (canBeActivated(game)) {
+            TheOwner = game.getCurrentUser();
             game.getChain().add(card);
         } else {
             System.out.println("there is no way you could ritual summon a monster");
