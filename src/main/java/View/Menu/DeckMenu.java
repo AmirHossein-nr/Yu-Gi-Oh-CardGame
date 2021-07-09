@@ -165,34 +165,6 @@ public class DeckMenu extends Menu {
         updateView();
     }
 
-    private void printAllDecks(User user) {
-        Deck activeDeck = null;
-        for (Deck deck : user.getDecks()) {
-            if (deck.isActive()) {
-                activeDeck = deck;
-                break;
-            }
-        }
-        System.out.println("Decks: ");
-        System.out.println("Active deck: ");
-        if (activeDeck != null)
-            System.out.println(activeDeck.toString());
-
-        Deck otherDeck = null;
-        for (Deck deck : user.getDecks()) {
-            if (!deck.isActive()) {
-                otherDeck = deck;
-                break;
-            }
-        }
-        System.out.println("Other decks :");
-        if (otherDeck != null)
-            for (Deck deck : user.getDecks()) {
-                if (!deck.isActive())
-                    System.out.println(deck.toString());
-            }
-    }
-    
     @FXML
     public void back(MouseEvent mouseEvent) throws Exception {
         new MainMenuGraphic().start(mainStage);

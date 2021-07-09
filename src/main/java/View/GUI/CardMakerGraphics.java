@@ -2,7 +2,6 @@ package View.GUI;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,5 +40,9 @@ public class CardMakerGraphics extends Application {
         mainStage.setScene(scene);
         mainStage.getIcons().add(new Image("/images/Icons/_images_item_bg00.png"));
         mainStage.show();
+    }
+
+    public void goBack(ActionEvent actionEvent) throws Exception {
+        new MainMenuGraphic().start(mainStage);
     }
 }

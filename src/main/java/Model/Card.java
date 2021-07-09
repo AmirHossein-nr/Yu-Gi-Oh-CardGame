@@ -13,6 +13,7 @@ public class Card {
     private Type cardType;
     private Integer price;
     private Image cardImage;
+    private boolean isUserMade = false;
 
     public Card(String name, Type type) {
         setName(name);
@@ -47,6 +48,10 @@ public class Card {
         this.description = description;
     }
 
+    public void setUserMade(boolean userMade) {
+        isUserMade = userMade;
+    }
+
     public void setOccupied(Boolean occupied) {
         isOccupied = occupied;
     }
@@ -65,6 +70,10 @@ public class Card {
 
     public Image getCardImage() {
         return cardImage;
+    }
+
+    public boolean getUserMade() {
+        return isUserMade;
     }
 
     public Integer getPrice() {

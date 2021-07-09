@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.FlowPane?>
 
 <SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-           minWidth="-Infinity" prefHeight="755.0" prefWidth="943.0" xmlns="http://javafx.com/javafx/8.0.171"
+           minWidth="-Infinity" prefHeight="755.0" prefWidth="943.0" xmlns="http://javafx.com/javafx/16"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu.EditDeckMenu">
     <items>
         <ScrollPane fx:id="allCardsScroll" prefHeight="753.0" prefWidth="333.0">
@@ -29,8 +29,17 @@
                                 <InnerShadow/>
                             </effect>
                         </Button>
-                        <Button fx:id="sideButton" mnemonicParsing="false" onMouseClicked="#addCardsToSide"
+                        <Button fx:id="sideButton1" mnemonicParsing="false" onMouseClicked="#addCardsToSide"
                                 prefHeight="47.0" prefWidth="124.0" text="Add to Side">
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <effect>
+                                <InnerShadow/>
+                            </effect>
+                        </Button>
+                        <Button fx:id="finishButton" mnemonicParsing="false" onAction="#goBack"
+                                onMouseClicked="#addCardsToSide" prefHeight="40.0" prefWidth="250.0" text="Finish !">
                             <cursor>
                                 <Cursor fx:constant="HAND"/>
                             </cursor>

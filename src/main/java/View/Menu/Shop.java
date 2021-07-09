@@ -1,6 +1,5 @@
 package View.Menu;
 
-import Controller.Regex;
 import Model.*;
 import View.GUI.GamePlay;
 import View.GUI.MainMenuGraphic;
@@ -37,6 +36,8 @@ public class Shop extends Menu {
     static {
         allCards = new ArrayList<>();
     }
+
+    public ImageView newImage;
 
     public Shop() {
         super("Shop Menu", null);
@@ -234,36 +235,6 @@ public class Shop extends Menu {
 
     private void runShopMenu(String input) {
 
-        Matcher matcher;
-        if ((matcher = Regex.getMatcher(input, Regex.buyCardInShop)).find()) {
-
-            Card finalCard = getFinalCard(matcher);
-
-            if (finalCard == null) {
-                System.out.println("there is no card with this name");
-                this.execute();
-            } else if (loggedUser.getMoney() < finalCard.getPrice()) {
-                System.out.println("not enough money");
-                this.execute();
-            } else {
-                buyCardForUser(finalCard);
-                this.execute();
-            }
-        } else if ((Regex.getMatcher(input, Regex.showAllInShop)).find()) {
-
-            showAllCards();
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.menuExit).find()) {
-            this.menuExit();
-        } else if (Regex.getMatcher(input, Regex.menuEnter).find()) {
-            this.menuEnter(input);
-        } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-            showName();
-            this.execute();
-        } else {
-            System.out.println("invalid command!");
-            this.execute();
-        }
     }
 
     public void showAllCards() {
@@ -436,8 +407,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Alexandrite Dragon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -447,8 +417,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Axe Raider");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -458,8 +427,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Baby dragon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -469,8 +437,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Battle OX");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -480,8 +447,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Battle warrior");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -491,8 +457,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Beast King Barbarosr");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -502,8 +467,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Blue-Eyes white dragon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -513,8 +477,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Bitron");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -524,8 +487,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Command Knight");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -535,8 +497,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Crab Turtle");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -546,8 +507,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Crawling dragon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -557,8 +517,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Curtain of the dark ones");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -568,8 +527,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Dark Blade");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -579,8 +537,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Dark magician");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -590,8 +547,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Exploder Dragon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -601,8 +557,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Feral Imp");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -612,8 +567,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Fireyarou");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -623,8 +577,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Flame manipulator");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -634,8 +587,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Gate Guardian");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -645,8 +597,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Haniwa");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -656,8 +607,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Herald of Creation");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -667,8 +617,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Hero of the east");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -678,8 +627,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Horn Imp");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -689,8 +637,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Leotron");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -700,8 +647,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Man-Eater Bug");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -711,8 +657,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Marshmallon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -722,8 +667,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Mirage Dragon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -733,8 +677,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Scanner");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -744,8 +687,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Silver Fang");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -755,8 +697,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Skull Guardian");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -766,8 +707,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Slot Machine");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -777,8 +717,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Spiral Serpent");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -788,8 +727,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Advanced Ritual Art");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -799,8 +737,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Black Pendant");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -810,8 +747,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Call of The Haunted");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -821,8 +757,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Change of Heart");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -832,8 +767,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Closed Forest");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -843,8 +777,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Dark Hole");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -854,8 +787,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Forest");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -865,8 +797,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Harpie's Feather Duster");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -876,8 +807,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Magic Cylinder");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -887,8 +817,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Magic Jamamer");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -898,8 +827,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Magnum Shield");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -909,8 +837,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Messenger of peace");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -920,8 +847,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Mind Crush");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -931,8 +857,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Mirror Force");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -942,8 +867,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Monster Reborn");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -953,8 +877,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Mystical space typhoon");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -964,8 +887,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Negate Attack");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -975,8 +897,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Pot of Greed");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -986,8 +907,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Raigeki");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -997,8 +917,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Ring of defense");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1008,8 +927,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Solemn Warning");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1019,8 +937,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Spell Absorption");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1030,8 +947,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Supply Squad");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1041,8 +957,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Sword of dark destruction");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1052,8 +967,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Swords of Revealing Light");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1063,8 +977,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Terraforming");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1074,8 +987,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Torrential Tribute");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1085,8 +997,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Twin Twisters");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1096,8 +1007,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Time Seal");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1107,8 +1017,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Trap Hole");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1118,8 +1027,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Umiiruka");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1129,8 +1037,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("United We Stand");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1140,8 +1047,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Vanity's Emptiness");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1151,8 +1057,7 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Wall of Revealing Light");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
@@ -1162,23 +1067,42 @@ public class Shop extends Menu {
         Card card = Shop.getCardByName("Yami");
         if (card.getPrice() > loggedUser.getMoney()) {
             createAlert();
-        }
-        else {
+        } else {
             loggedUser.getAllCards().add(card);
             loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
         }
     }
 
-    public void createAlert () {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Money Error");
-            alert.setContentText("not enough money");
-            ImageView imageView = new ImageView("/images/alertHeader.png");
-            alert.setGraphic(imageView);
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getStylesheets().add("/Css/dialogs.css");
-            dialogPane.getStyleClass().add("myDialog");
-            alert.show();
+    public void createAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Money Error");
+        alert.setContentText("not enough money");
+        ImageView imageView = new ImageView("/images/alertHeader.png");
+        alert.setGraphic(imageView);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add("/Css/dialogs.css");
+        dialogPane.getStyleClass().add("myDialog");
+        alert.show();
+    }
+
+    public void buyNewCard(ActionEvent actionEvent) {
+        Card card = null;
+        for (Card card1 : getAllCards()) {
+            if (card1.getUserMade()) {
+                card = card1;
+                break;
+            }
+        }
+        try {
+            if (card.getPrice() > loggedUser.getMoney()) {
+                createAlert();
+            } else {
+                loggedUser.getAllCards().add(card);
+                loggedUser.setMoney(loggedUser.getMoney() - card.getPrice());
+            }
+        } catch (Exception ignored) {
+            newImage.setImage(null);
+        }
     }
 }
 

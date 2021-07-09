@@ -54,57 +54,9 @@ public class Profile extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
-        input = editSpaces(input);
 
-        Matcher matcher;
-        if (Regex.getMatcher(input, Regex.menuExit).find()) {
-            this.menuExit();
-        } else if (Regex.getMatcher(input, Regex.userLogout).find()) {
-            this.logoutUser();
-        } else if ((matcher = Regex.getMatcher(input, Regex.menuEnter)).find()) {
-            this.menuEnter(matcher.group(1));
-            this.execute();
-        } else if (Regex.getMatcher(input, Regex.showCurrentMenu).find()) {
-            this.showName();
-        } else if ((matcher = Regex.getMatcher(input, Regex.changeNickname)).find()) {
-            String nickName;
-            if (matcher.group(2) != null) {
-                nickName = matcher.group(2);
-            } else {
-                nickName = matcher.group(4);
-            }
-            User user = User.getUserByNickname(nickName);
-            if (user != null) {
-                System.out.println();
-                this.execute();
-            } else {
-                loggedUser.setNickName(nickName);
-                System.out.println();
-                this.execute();
-            }
-        } else if ((matcher = Regex.getMatcher(input, Regex.changePassword)).find()) {
-            String oldPassWord = matcher.group(3), newPassWord = matcher.group(5);
-            if (!loggedUser.getPassword().equals(oldPassWord)) {
-                System.out.println();
-                this.execute();
-            } else if (oldPassWord.equals(newPassWord)) {
-                System.out.println("please enter a new password");
-                this.execute();
-            } else {
-                loggedUser.setPassword(newPassWord);
-                System.out.println("password changed successfully!");
-                this.execute();
-            }
-        } else {
-            System.out.println("invalid command!");
-            this.execute();
-        }
     }
 
-    private String editSpaces(String string) {
-        return string.replaceAll("(\\s)+", " ");
-    }
 
     public void backToMainMenu(ActionEvent actionEvent) throws Exception {
         MainMenuGraphic mainMenuGraphic = new MainMenuGraphic();

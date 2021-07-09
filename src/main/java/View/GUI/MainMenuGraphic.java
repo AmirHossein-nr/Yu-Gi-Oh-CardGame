@@ -16,6 +16,7 @@ public class MainMenuGraphic extends Application {
         Shop.mainStage = primaryStage;
         CardMakerMenu.mainStage = primaryStage;
         Profile.mainStage = primaryStage;
+        CardMakerController.mainStage = primaryStage;
         ScoreBoard.mainStage = primaryStage;
         DeckMenu.mainStage = primaryStage;
         Duel.mainStage = primaryStage;
