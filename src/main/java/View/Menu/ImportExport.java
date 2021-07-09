@@ -33,23 +33,18 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class ImportExport extends Menu {
-
     public static Stage mainStage;
-
     @FXML
     public ImageView cardImage;
     public Rectangle showCardStage;
     public AnchorPane root;
 
+    public ImportExportGraphic graphic;
 
     private ArrayList<Card> selectedCards = new ArrayList<>();
 
     public ImportExport(Menu parentMenu) {
         super("Import/Export Menu", parentMenu);
-    }
-
-    public ImportExport() {
-        super("Import/Export", null);
     }
 
     @Override
@@ -74,7 +69,7 @@ public class ImportExport extends Menu {
             if (card != null) {
                 cardImage.setImage(Shop.getCardByName(card.getName()).getCardImage());
                 showCardStage.setStroke(Color.GREEN);
-                loggedUser.getAllCards().add(Shop.getCardByName(card.getName()));
+                loggedUser.getAllCards().add(card);
             } else {
                 createAlert();
                 showCardStage.setStroke(Color.TRANSPARENT);
@@ -87,7 +82,9 @@ public class ImportExport extends Menu {
 
     @FXML
     public void exportACard(ActionEvent actionEvent) {
+        loggedUser = new User("amir", "123", "asas");
         new Shop();
+        loggedUser.getAllCards().add(Shop.getAllCards().get(5));
         GridPane pane = new GridPane();
         pane.setMinWidth(500);
         pane.setMinHeight(300);
