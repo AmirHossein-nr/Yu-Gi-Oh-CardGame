@@ -4,7 +4,7 @@
     -fx-pref-height: 845;
 }
 
-#button {
+.button {
     -fx-background-color: white;
     -fx-border-color: orange;
     -fx-border-style: solid;
