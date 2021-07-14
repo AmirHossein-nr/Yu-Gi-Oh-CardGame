@@ -28,14 +28,12 @@ public class ServerMain {
                         }
                         objectOutputStream.close();
                         socket.close();
-                        serverSocket.close();
+//                        serverSocket.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }).start();
-
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,6 +48,9 @@ public class ServerMain {
             split = input.split(" ");
             ServerController.login(split[1], split[2]);
             return "";
+        } else if (input.startsWith("buy card")) {
+            split = input.split(" ");
+            return String.valueOf(ServerController.buyCard(split[2], split[3]));
         }
         return "";
     }

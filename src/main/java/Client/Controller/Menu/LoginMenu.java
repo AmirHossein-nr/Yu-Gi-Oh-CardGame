@@ -39,7 +39,6 @@ public class LoginMenu extends Menu {
     public void execute() {
     }
 
-
     private boolean login(String username, String password) throws IOException, ClassNotFoundException {
         getObjectOutputStream().writeUTF("login" + " " + username + " " + password);
         getObjectOutputStream().flush();
@@ -51,6 +50,7 @@ public class LoginMenu extends Menu {
             Login.createAlert(Alert.AlertType.ERROR, header, content);
             return false;
         } else {
+            token = getObjectInputStream().readUTF();
             loggedUser = User.getUserByUsername(username);
             assert loggedUser != null;
             loggedUser.setAvatar(new Image(Objects.requireNonNull(getClass().getResource

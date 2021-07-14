@@ -13,6 +13,7 @@ public abstract class Menu {
     private ArrayList<Menu> subMenus;
     protected static Scanner scanner;
     protected static User loggedUser;
+    protected static String token;
     private static Socket socket;
     private static ObjectInputStream objectInputStream;
     private static ObjectOutputStream objectOutputStream;

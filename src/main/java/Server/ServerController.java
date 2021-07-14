@@ -26,8 +26,11 @@ public class ServerController {
     public static boolean login(String username, String password) throws IOException {
         for (User user : allUsers) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                loggedInUsers.put(UUID.randomUUID().toString(), user);
+                String token = UUID.randomUUID().toString();
+                loggedInUsers.put(token, user);
                 ServerMain.objectOutputStream.writeUTF("true");
+                ServerMain.objectOutputStream.flush();
+                ServerMain.objectOutputStream.writeUTF(token);
                 ServerMain.objectOutputStream.flush();
                 return true;
             }
@@ -37,4 +40,12 @@ public class ServerController {
         return false;
     }
 
+    public static boolean buyCard(String price, String token) {
+        Integer cardPrice = Integer.parseInt(price);
+        User user = loggedInUsers.get(token);
+        if (user.getMoney() < cardPrice) return false;
+
+        user.setMoney(user.getMoney() - cardPrice);
+        return true;
+    }
 }

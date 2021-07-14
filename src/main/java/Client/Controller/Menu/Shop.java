@@ -201,7 +201,6 @@ public class Shop extends Menu {
         return null;
     }
 
-
     private void iterateThroughArray() {
         for (Card card : allCards) {
             try {
@@ -234,15 +233,6 @@ public class Shop extends Menu {
 
     @Override
     public void execute() {
-    }
-
-    private void runShopMenu(String input) {
-    }
-
-    public void showAllCards() {
-    }
-
-    private void buyCardForUser(Card finalCard) {
     }
 
 
@@ -441,9 +431,10 @@ public class Shop extends Menu {
         shopGraphic.start(mainStage);
     }
 
-    public void alexandriteDragon(ActionEvent actionEvent) {
+    public void alexandriteDragon(ActionEvent actionEvent) throws IOException {
         Card card = Shop.getCardByName("Alexandrite Dragon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -451,9 +442,20 @@ public class Shop extends Menu {
         }
     }
 
+    private String requestToBuy(Card card) {
+        try {
+            getObjectOutputStream().writeUTF("buy card " + card.getPrice() + " " + token);
+            getObjectOutputStream().flush();
+            return getObjectInputStream().readUTF();
+        } catch (Exception ignored) {
+        }
+        return "";
+    }
+
     public void axeRaider(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Axe Raider");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -463,7 +465,8 @@ public class Shop extends Menu {
 
     public void babyDragon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Baby dragon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -473,7 +476,8 @@ public class Shop extends Menu {
 
     public void battleOx(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Battle OX");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -483,7 +487,8 @@ public class Shop extends Menu {
 
     public void battleWarrior(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Battle warrior");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -493,7 +498,8 @@ public class Shop extends Menu {
 
     public void beastKingBarbaros(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Beast King Barbaros");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -503,7 +509,8 @@ public class Shop extends Menu {
 
     public void blueEyeWhiteDragon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Blue-Eyes white dragon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -523,7 +530,8 @@ public class Shop extends Menu {
 
     public void commandKnight(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Command Knight");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -533,7 +541,8 @@ public class Shop extends Menu {
 
     public void crabTurtle(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Crab Turtle");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -543,7 +552,8 @@ public class Shop extends Menu {
 
     public void crawlingDragon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Crawling dragon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -553,7 +563,8 @@ public class Shop extends Menu {
 
     public void curtainOfTheDarkOnes(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Curtain of the dark ones");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -563,7 +574,8 @@ public class Shop extends Menu {
 
     public void darkBlade(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Dark Blade");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -573,7 +585,8 @@ public class Shop extends Menu {
 
     public void darkMagician(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Dark magician");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -583,7 +596,8 @@ public class Shop extends Menu {
 
     public void exploderDragon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Exploder Dragon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -593,7 +607,8 @@ public class Shop extends Menu {
 
     public void feralImp(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Feral Imp");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -603,7 +618,8 @@ public class Shop extends Menu {
 
     public void fireyarou(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Fireyarou");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -613,7 +629,8 @@ public class Shop extends Menu {
 
     public void flameManipulator(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Flame manipulator");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -623,7 +640,8 @@ public class Shop extends Menu {
 
     public void gateGuardian(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Gate Guardian");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -633,7 +651,8 @@ public class Shop extends Menu {
 
     public void haniwa(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Haniwa");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -643,7 +662,8 @@ public class Shop extends Menu {
 
     public void hearldOfCreation(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Herald of Creation");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -653,7 +673,8 @@ public class Shop extends Menu {
 
     public void heroOfTheEast(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Hero of the east");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -663,7 +684,8 @@ public class Shop extends Menu {
 
     public void HornImp(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Horn Imp");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -673,7 +695,8 @@ public class Shop extends Menu {
 
     public void leotron(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Leotron");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -683,7 +706,8 @@ public class Shop extends Menu {
 
     public void manEaterBug(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Man-Eater Bug");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -693,7 +717,8 @@ public class Shop extends Menu {
 
     public void marshmallon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Marshmallon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -703,7 +728,8 @@ public class Shop extends Menu {
 
     public void mirageDragon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Mirage Dragon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -713,7 +739,8 @@ public class Shop extends Menu {
 
     public void scanner(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Scanner");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -723,7 +750,8 @@ public class Shop extends Menu {
 
     public void silverFang(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Silver Fang");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -733,7 +761,8 @@ public class Shop extends Menu {
 
     public void skullGuardian(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Skull Guardian");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -743,7 +772,8 @@ public class Shop extends Menu {
 
     public void slotMachine(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Slot Machine");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -753,7 +783,8 @@ public class Shop extends Menu {
 
     public void spiralSerpent(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Spiral Serpent");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -763,7 +794,8 @@ public class Shop extends Menu {
 
     public void advancedRitualArt(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Advanced Ritual Art");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -773,7 +805,8 @@ public class Shop extends Menu {
 
     public void blackPendant(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Black Pendant");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -783,7 +816,8 @@ public class Shop extends Menu {
 
     public void callOfTheHaunted(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Call of The Haunted");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -793,7 +827,8 @@ public class Shop extends Menu {
 
     public void chanceOfHeart(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Change of Heart");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -803,7 +838,8 @@ public class Shop extends Menu {
 
     public void closedForest(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Closed Forest");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -813,7 +849,8 @@ public class Shop extends Menu {
 
     public void darkHole(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Dark Hole");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -823,7 +860,8 @@ public class Shop extends Menu {
 
     public void forest(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Forest");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -833,7 +871,8 @@ public class Shop extends Menu {
 
     public void harpiesFeatherDuster(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Harpie's Feather Duster");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -843,7 +882,8 @@ public class Shop extends Menu {
 
     public void magicCylinder(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Magic Cylinder");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -853,7 +893,8 @@ public class Shop extends Menu {
 
     public void magicJammer(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Magic Jammer");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -863,7 +904,8 @@ public class Shop extends Menu {
 
     public void magnumShield(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Magnum Shield");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -873,7 +915,8 @@ public class Shop extends Menu {
 
     public void messengerOfPeace(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Messenger of peace");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -883,7 +926,8 @@ public class Shop extends Menu {
 
     public void mindCrush(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Mind Crush");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -893,7 +937,8 @@ public class Shop extends Menu {
 
     public void mirrorForce(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Mirror Force");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -903,7 +948,8 @@ public class Shop extends Menu {
 
     public void monsterReborn(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Monster Reborn");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -913,7 +959,8 @@ public class Shop extends Menu {
 
     public void mysticalSpaceTyphoon(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Mystical space typhoon");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -923,7 +970,8 @@ public class Shop extends Menu {
 
     public void negateAttack(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Negate Attack");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -933,7 +981,8 @@ public class Shop extends Menu {
 
     public void potOfGreed(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Pot of Greed");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -943,7 +992,8 @@ public class Shop extends Menu {
 
     public void pajgeki(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Raigeki");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -953,7 +1003,8 @@ public class Shop extends Menu {
 
     public void ringOfDefense(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Ring of defense");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -963,7 +1014,8 @@ public class Shop extends Menu {
 
     public void solemnWarning(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Solemn Warning");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -973,7 +1025,8 @@ public class Shop extends Menu {
 
     public void spellAbsorption(MouseEvent mouseEvent) {
         Card card = Shop.getCardByName("Spell Absorption");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -983,7 +1036,8 @@ public class Shop extends Menu {
 
     public void supplySquad(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Supply Squad");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -993,7 +1047,8 @@ public class Shop extends Menu {
 
     public void swordOfDark(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Sword of dark destruction");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1003,7 +1058,8 @@ public class Shop extends Menu {
 
     public void swordsOfRevealingLight(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Swords of Revealing Light");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1013,7 +1069,8 @@ public class Shop extends Menu {
 
     public void terraforming(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Terraforming");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1023,7 +1080,8 @@ public class Shop extends Menu {
 
     public void torrentialTribute(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Torrential Tribute");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1033,7 +1091,8 @@ public class Shop extends Menu {
 
     public void twinTwisters(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Twin Twisters");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1043,7 +1102,8 @@ public class Shop extends Menu {
 
     public void timeSeal(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Time Seal");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1053,7 +1113,8 @@ public class Shop extends Menu {
 
     public void trapHole(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Trap Hole");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1063,7 +1124,8 @@ public class Shop extends Menu {
 
     public void umiruka(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Umiiruka");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1073,7 +1135,8 @@ public class Shop extends Menu {
 
     public void unitedWeStand(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("United We Stand");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1083,7 +1146,8 @@ public class Shop extends Menu {
 
     public void vanityEmptiness(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Vanity's Emptiness");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1093,7 +1157,8 @@ public class Shop extends Menu {
 
     public void wallOfRevealingLight(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Wall of Revealing Light");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1103,7 +1168,8 @@ public class Shop extends Menu {
 
     public void yami(ActionEvent actionEvent) {
         Card card = Shop.getCardByName("Yami");
-        if (card.getPrice() > loggedUser.getMoney()) {
+        String result = requestToBuy(card);
+        if (result.equals("false")) {
             createAlert();
         } else {
             loggedUser.getAllCards().add(card);
@@ -1132,7 +1198,8 @@ public class Shop extends Menu {
             }
         }
         try {
-            if (card.getPrice() > loggedUser.getMoney()) {
+            String result = requestToBuy(card);
+            if (result.equals("false")) {
                 createAlert();
             } else {
                 loggedUser.getAllCards().add(card);
