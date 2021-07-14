@@ -2,8 +2,8 @@ package Model.Effects.Normal;
 
 import Model.*;
 import Model.Effects.Effect;
-import Controller.Game;
-import View.GUI.GamePlay;
+import Client.Controller.Game;
+import Client.View.GUI.GamePlay;
 import javafx.scene.control.Alert;
 
 public class PotOfGreed extends Effect {

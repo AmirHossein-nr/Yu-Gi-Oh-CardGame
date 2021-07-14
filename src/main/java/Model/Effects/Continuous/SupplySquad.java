@@ -1,10 +1,9 @@
 package Model.Effects.Continuous;
 
-import Controller.Game;
+import Client.Controller.Game;
 import Model.Card;
 import Model.Effects.Effect;
-import Model.Spell;
-import View.GUI.GamePlay;
+import Client.View.GUI.GamePlay;
 import javafx.scene.control.Alert;
 
 public class SupplySquad extends Effect {

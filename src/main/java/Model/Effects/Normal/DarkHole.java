@@ -2,9 +2,8 @@ package Model.Effects.Normal;
 
 import Model.Card;
 import Model.Effects.Effect;
-import Model.Spell;
-import Controller.Game;
-import View.GUI.GamePlay;
+import Client.Controller.Game;
+import Client.View.GUI.GamePlay;
 import javafx.scene.control.Alert;
 
 public class DarkHole extends Effect {

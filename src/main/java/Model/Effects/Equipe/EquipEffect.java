@@ -3,7 +3,7 @@ package Model.Effects.Equipe;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Monster;
-import Controller.Game;
+import Client.Controller.Game;
 
 public abstract class EquipEffect extends Effect {
 

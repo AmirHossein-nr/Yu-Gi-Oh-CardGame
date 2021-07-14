@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="682.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.GUI.CardMakerGraphics">
+            fx:controller="Client.View.GUI.CardMakerGraphics">
     <children>
         <ImageView fitHeight="682.0" fitWidth="836.0" layoutX="-2.0" opacity="0.7">
             <image>

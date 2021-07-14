@@ -6,7 +6,7 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="584.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controller.Menu.ScoreBoard">
+            fx:controller="Client.Controller.Menu.ScoreBoard">
     <children>
         <Button fx:id="backButton" layoutX="386.0" layoutY="700.0" mnemonicParsing="false" onAction="#back"
                 prefHeight="48.0" prefWidth="95.0" text="Back !"/>

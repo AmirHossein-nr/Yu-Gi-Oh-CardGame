@@ -1,9 +1,9 @@
 package Model.Effects.Counter;
 
-import Controller.Game;
+import Client.Controller.Game;
 import Model.*;
 import Model.Effects.Effect;
-import View.GUI.GamePlay;
+import Client.View.GUI.GamePlay;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOutUp;
 import javafx.geometry.Insets;

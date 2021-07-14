@@ -1,10 +1,10 @@
 package Model.Effects.Field;
 
-import Controller.Game;
+import Client.Controller.Game;
 import Model.Card;
 import Model.Monster;
 import Model.Type;
-import View.GUI.GamePlay;
+import Client.View.GUI.GamePlay;
 import javafx.scene.control.Alert;
 
 public class Forest extends FieldEffect {

@@ -1,26 +1,45 @@
 package Model;
 
-import Controller.Menu.Shop;
+import Client.Controller.Menu.Shop;
+import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class User {
 
-    private static ArrayList<User> allUsers;
+    @Expose
+    public static ArrayList<User> allUsers;
+    @Expose
     private ArrayList<Deck> decks;
+    @Expose
     private ArrayList<Card> allCards;
+    @Expose
     private String username;
+    @Expose
     private String password;
+    @Expose
     private String nickName;
+    @Expose
     private long score;
+    @Expose
     private int lifePoint;
+    @Expose
     private int maxLifePoint;
+    @Expose
     private int numberOfWinsInGame;
+    @Expose
     private long money;
+    @Expose
     private boolean isArtificial;
+    @Expose
+    private String avatarAddress;
+    @Expose
     private Board board;
+
+
     private Image avatar;
 
     static {
@@ -35,7 +54,14 @@ public class User {
         decks = new ArrayList<>();
         allCards = new ArrayList<>();
         allUsers.add(this);
-        this.setAvatar(new Image(getClass().getResource("/images/character.png").toExternalForm()));
+    }
+
+    public void setAvatarAddress(String avatarAddress) {
+        this.avatarAddress = avatarAddress;
+    }
+
+    public String getAvatarAddress() {
+        return avatarAddress;
     }
 
     public void setPassword(String password) {

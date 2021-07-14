@@ -1,6 +1,6 @@
 package Model.Effects.Quick;
 
-import Controller.Game;
+import Client.Controller.Game;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;

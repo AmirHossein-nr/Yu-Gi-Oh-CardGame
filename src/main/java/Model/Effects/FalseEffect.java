@@ -1,6 +1,6 @@
 package Model.Effects;
 
-import Controller.Game;
+import Client.Controller.Game;
 import Model.Card;
 
 public class FalseEffect extends Effect {

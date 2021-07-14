@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="665.0" prefWidth="1206.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Menu.Shop">
+<AnchorPane prefHeight="665.0" prefWidth="1206.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Menu.Shop">
     <children>
         <ImageView fitHeight="667.0" fitWidth="1206.0" layoutX="-1.0" layoutY="-2.0">
             <image>

@@ -2,7 +2,7 @@ package Model.Effects.Field;
 
 import Model.Card;
 import Model.Effects.Effect;
-import Controller.Game;
+import Client.Controller.Game;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="659.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.ChangeNickname">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.GUI.ChangeNickname">
     <children>
         <ImageView fitHeight="659.0" fitWidth="775.0" layoutX="-4.0" opacity="0.7">
             <image>

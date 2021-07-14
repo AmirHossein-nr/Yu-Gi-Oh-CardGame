@@ -1,7 +1,6 @@
 package Model.Animation;
 
-import Controller.Game;
-import animatefx.animation.FadeOutDown;
+import Client.Controller.Game;
 import javafx.animation.Transition;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

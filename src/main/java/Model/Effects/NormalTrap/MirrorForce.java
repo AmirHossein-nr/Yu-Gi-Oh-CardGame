@@ -1,12 +1,12 @@
 package Model.Effects.NormalTrap;
 
-import Controller.Game;
+import Client.Controller.Game;
 import Model.Card;
 import Model.Effects.Effect;
 import Model.Spell;
 import Model.Trap;
 import Model.User;
-import View.GUI.GamePlay;
+import Client.View.GUI.GamePlay;
 import javafx.scene.control.Alert;
 
 public class MirrorForce extends Effect {

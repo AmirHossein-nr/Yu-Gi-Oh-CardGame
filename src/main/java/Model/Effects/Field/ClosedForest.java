@@ -3,8 +3,8 @@ package Model.Effects.Field;
 import Model.Card;
 import Model.Monster;
 import Model.Type;
-import Controller.Game;
-import View.GUI.GamePlay;
+import Client.Controller.Game;
+import Client.View.GUI.GamePlay;
 import javafx.scene.control.Alert;
 
 public class ClosedForest extends FieldEffect {

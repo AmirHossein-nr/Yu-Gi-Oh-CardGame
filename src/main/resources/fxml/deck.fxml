@@ -10,7 +10,7 @@
 
 <GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
           minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Menu.DeckMenu">
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Menu.DeckMenu">
     <columnConstraints>
         <ColumnConstraints/>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0"/>
