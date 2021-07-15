@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class ServerController {
 
-    private static ArrayList<User> allUsers = new ArrayList<>();
+    public static ArrayList<User> allUsers = new ArrayList<>();
     private static HashMap<String, User> loggedInUsers = new HashMap<>();
 
     public static synchronized boolean register(String username, String password, String nickName) throws IOException {
@@ -28,9 +28,9 @@ public class ServerController {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 String token = UUID.randomUUID().toString();
                 loggedInUsers.put(token, user);
-                ServerMain.objectOutputStream.writeUTF("true");
+                ServerMain.objectOutputStream.writeUTF("true " + token);
                 ServerMain.objectOutputStream.flush();
-                ServerMain.objectOutputStream.writeUTF(token);
+                ServerMain.objectOutputStream.writeObject(user);
                 ServerMain.objectOutputStream.flush();
                 return true;
             }

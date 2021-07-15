@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 public abstract class Menu {
     private String name;

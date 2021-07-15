@@ -5,17 +5,18 @@ import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 
 import java.beans.Transient;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class User {
+public class User implements Serializable {
 
     @Expose
-    public static ArrayList<User> allUsers;
+    public static transient ArrayList<User> allUsers;
     @Expose
-    private ArrayList<Deck> decks;
+    private transient ArrayList<Deck> decks;
     @Expose
-    private ArrayList<Card> allCards;
+    private transient ArrayList<Card> allCards;
     @Expose
     private String username;
     @Expose
@@ -37,10 +38,10 @@ public class User {
     @Expose
     private String avatarAddress;
     @Expose
-    private Board board;
+    private transient Board board;
 
 
-    private Image avatar;
+    private transient Image avatar;
 
     static {
         allUsers = new ArrayList<>();

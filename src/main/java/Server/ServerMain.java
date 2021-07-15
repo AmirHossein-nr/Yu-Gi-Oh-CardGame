@@ -28,7 +28,7 @@ public class ServerMain {
                         }
                         objectOutputStream.close();
                         socket.close();
-//                        serverSocket.close();
+                        serverSocket.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -54,4 +54,5 @@ public class ServerMain {
         }
         return "";
     }
+
 }
