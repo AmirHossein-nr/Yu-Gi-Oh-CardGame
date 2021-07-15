@@ -50,6 +50,9 @@ public class ServerMain {
         } else if (input.startsWith("buy card")) {
             split = input.split(" ");
             return String.valueOf(ServerController.buyCard(split[2], split[3]));
+        } else if (input.startsWith("logout")) {
+            split = input.split(" ");
+            return String.valueOf(ServerController.logout(split[1]));
         }
         return "";
     }

@@ -40,7 +40,6 @@ public class User implements Serializable {
     @Expose
     private transient Board board;
 
-
     private transient Image avatar;
 
     static {

@@ -55,6 +55,10 @@ public class MainMenu extends Menu {
     }
 
     public void backToFirstPage(ActionEvent actionEvent) throws Exception {
+        loggedUser = null;
+        getObjectOutputStream().writeUTF("logout" + " " + token);
+        token = null;
+        getObjectOutputStream().flush();
         SignUpAndLoginGraphic signUpAndLoginGraphic = new SignUpAndLoginGraphic();
         signUpAndLoginGraphic.start(mainStage);
     }

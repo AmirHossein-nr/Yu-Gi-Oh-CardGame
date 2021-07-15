@@ -40,6 +40,15 @@ public class ServerController {
         return false;
     }
 
+    public static boolean logout(String token) {
+        if (loggedInUsers.containsKey(token)) {
+            loggedInUsers.remove(token);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static boolean buyCard(String price, String token) {
         Integer cardPrice = Integer.parseInt(price);
         User user = loggedInUsers.get(token);
