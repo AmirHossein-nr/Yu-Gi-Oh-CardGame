@@ -52,10 +52,7 @@ public class LoginMenu extends Menu {
         } else {
             String[] split = result.split(" ");
             token = split[1];
-            System.out.println("A");
-            User temp = (User) getObjectInputStream().readObject();
-            System.out.println("B");
-            loggedUser = new User(temp.getUsername(), temp.getPassword(), temp.getNickName());
+            loggedUser = (User) getObjectInputStream().readObject();
             loggedUser.setAvatar(new Image(Objects.requireNonNull(getClass().getResource
                     ("/images/character.png")).toExternalForm()));
         }
