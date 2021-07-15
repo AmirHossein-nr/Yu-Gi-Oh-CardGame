@@ -29,7 +29,9 @@ public class RegisterMenu extends Menu {
     private boolean createUser(String username, String password, String nickname) throws IOException {
         getObjectOutputStream().writeUTF("register" + " " + username + " " + password + " " + nickname);
         getObjectOutputStream().flush();
+        System.out.println("AA");
         String result = getObjectInputStream().readUTF();
+        System.out.println("BB");
 
         if (result.equals("true")) {
             new User(username, password, nickname);

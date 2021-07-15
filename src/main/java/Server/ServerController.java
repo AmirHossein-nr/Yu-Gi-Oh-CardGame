@@ -3,13 +3,13 @@ package Server;
 import Model.User;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class ServerController {
 
-    public static ArrayList<User> allUsers = new ArrayList<>();
     private static HashMap<String, User> loggedInUsers = new HashMap<>();
 
     public static synchronized boolean register(String username, String password, String nickName) throws IOException {
@@ -19,24 +19,24 @@ public class ServerController {
         if (user != null) return false;
         user = new User(username, password, nickName);
         user.setMoney(100000);
-        allUsers.add(user);
+        User.allUsers.add(user);
         return true;
     }
 
-    public static boolean login(String username, String password) throws IOException {
-        for (User user : allUsers) {
+    public static boolean login(String username, String password, ObjectOutputStream objectOutputStream) throws IOException {
+        for (User user : User.allUsers) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 String token = UUID.randomUUID().toString();
                 loggedInUsers.put(token, user);
-                ServerMain.objectOutputStream.writeUTF("true " + token);
-                ServerMain.objectOutputStream.flush();
-                ServerMain.objectOutputStream.writeObject(user);
-                ServerMain.objectOutputStream.flush();
+                objectOutputStream.writeUTF("true " + token);
+                objectOutputStream.flush();
+                objectOutputStream.writeObject(user);
+                objectOutputStream.flush();
                 return true;
             }
         }
-        ServerMain.objectOutputStream.writeUTF("false");
-        ServerMain.objectOutputStream.flush();
+        objectOutputStream.writeUTF("false");
+        objectOutputStream.flush();
         return false;
     }
 

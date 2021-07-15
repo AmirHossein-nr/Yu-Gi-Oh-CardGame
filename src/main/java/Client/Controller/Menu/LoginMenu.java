@@ -2,7 +2,6 @@ package Client.Controller.Menu;
 
 import Model.User;
 import Client.View.GUI.*;
-import Server.ServerController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -53,7 +52,10 @@ public class LoginMenu extends Menu {
         } else {
             String[] split = result.split(" ");
             token = split[1];
-            loggedUser = (User) getObjectInputStream().readObject();
+            System.out.println("A");
+            User temp = (User) getObjectInputStream().readObject();
+            System.out.println("B");
+            loggedUser = new User(temp.getUsername(), temp.getPassword(), temp.getNickName());
             loggedUser.setAvatar(new Image(Objects.requireNonNull(getClass().getResource
                     ("/images/character.png")).toExternalForm()));
         }

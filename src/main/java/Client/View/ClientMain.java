@@ -16,5 +16,4 @@ public class ClientMain extends Application {
         Menu.initializeNetwork();
         new SignUpAndLoginGraphic().start(primaryStage);
     }
-
 }

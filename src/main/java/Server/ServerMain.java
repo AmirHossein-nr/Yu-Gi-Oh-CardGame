@@ -6,8 +6,6 @@ import java.net.Socket;
 
 public class ServerMain {
 
-    private static ObjectInputStream objectInputStream;
-    public static ObjectOutputStream objectOutputStream;
 
     public static void main(String[] args) {
         try {
@@ -16,11 +14,12 @@ public class ServerMain {
                 Socket socket = serverSocket.accept();
                 new Thread(() -> {
                     try {
-                        objectInputStream = new ObjectInputStream(socket.getInputStream());
-                        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
                         while (true) {
                             String input = objectInputStream.readUTF();
-                            String result = process(input);
+                            String result = process(input, objectOutputStream);
                             if (result.equals("")) continue;
                             else if (result.equals("end")) break;
                             objectOutputStream.writeUTF(result);
@@ -39,14 +38,14 @@ public class ServerMain {
         }
     }
 
-    private static String process(String input) throws Exception {
+    private static String process(String input, ObjectOutputStream objectOutputStream) throws Exception {
         String[] split;
         if (input.startsWith("register")) {
             split = input.split(" ");
             return String.valueOf(ServerController.register(split[1], split[2], split[3]));
         } else if (input.startsWith("login")) {
             split = input.split(" ");
-            ServerController.login(split[1], split[2]);
+            ServerController.login(split[1], split[2], objectOutputStream);
             return "";
         } else if (input.startsWith("buy card")) {
             split = input.split(" ");
