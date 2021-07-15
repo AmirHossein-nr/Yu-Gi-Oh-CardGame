@@ -19,7 +19,6 @@ public class ServerController {
         if (user != null) return false;
         user = new User(username, password, nickName);
         user.setMoney(100000);
-        User.allUsers.add(user);
         return true;
     }
 
@@ -56,5 +55,25 @@ public class ServerController {
 
         user.setMoney(user.getMoney() - cardPrice);
         return true;
+    }
+
+    public static void scoreboard(ObjectOutputStream objectOutputStream) throws IOException {
+        User.sortAllUsers();
+        boolean[] isOnline = new boolean[20];
+        for (int i = 0; i < 20; i++) {
+            try {
+                if (loggedInUsers.containsValue(User.allUsers.get(i))) {
+                    isOnline[i] = true;
+                } else {
+                    isOnline[i] = false;
+                }
+            } catch (Exception e) {
+                isOnline[i] = false;
+            }
+        }
+        objectOutputStream.writeObject(User.allUsers);
+        objectOutputStream.flush();
+        objectOutputStream.writeObject(isOnline);
+        objectOutputStream.flush();
     }
 }
