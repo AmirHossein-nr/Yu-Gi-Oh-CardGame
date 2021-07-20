@@ -6,7 +6,6 @@ import java.net.Socket;
 
 public class ServerMain {
 
-
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(7777);
@@ -29,6 +28,11 @@ public class ServerMain {
                         socket.close();
                         serverSocket.close();
                     } catch (Exception e) {
+                        try {
+                            socket.close();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                         e.printStackTrace();
                     }
                 }).start();
