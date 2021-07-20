@@ -57,6 +57,9 @@ public class ServerMain {
         } else if (input.startsWith("logout")) {
             split = input.split(" ");
             return String.valueOf(ServerController.logout(split[1]));
+        } else if (input.startsWith("scoreboard")) {
+            ServerController.scoreboard(objectOutputStream);
+            return "";
         }
         return "";
     }
