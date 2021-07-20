@@ -1,5 +1,6 @@
 package Client.Controller.Menu;
 
+import Client.View.GUI.ScoreBoardGraphic;
 import Model.User;
 import Client.View.GUI.MainMenuGraphic;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 
 public class ScoreBoard extends Menu {
     public static Stage mainStage;
+    @FXML
+    public AnchorPane pane;
 
     ArrayList<User> scoreboardUsers;
     boolean[] isOnline;
@@ -57,10 +60,19 @@ public class ScoreBoard extends Menu {
         return loggedUser;
     }
 
+    public void reMake() {
+        ScoreBoardGraphic scoreBoardGraphic = new ScoreBoardGraphic();
+        try {
+            scoreBoardGraphic.start(mainStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void refresh(AnchorPane anchorPane) throws IOException, ClassNotFoundException {
         getObjectOutputStream().writeUTF("scoreboard");
         getObjectOutputStream().flush();
-        scoreboardUsers = (ArrayList) getObjectInputStream().readObject();
+        scoreboardUsers = (ArrayList<User>) getObjectInputStream().readObject();
         isOnline = (boolean[]) getObjectInputStream().readObject();
         createLabelsFirst(anchorPane);
         createLabelsSecond(anchorPane);
@@ -150,6 +162,8 @@ public class ScoreBoard extends Menu {
             label1 = new Label(scoreboardUsers.get(0).getNickName() + "        " + scoreboardUsers.get(0).getScore());
             if (isOnline[0]) {
                 label1 = new Label(label1.getText() + "  " + "ONLINE");
+            } else {
+                label1 = new Label(label1.getText() + "  ");
             }
         } catch (Exception e) {
             label1 = new Label("-         -");
@@ -158,6 +172,8 @@ public class ScoreBoard extends Menu {
             label2 = new Label(scoreboardUsers.get(1).getNickName() + "        " + scoreboardUsers.get(1).getScore());
             if (isOnline[1]) {
                 label2 = new Label(label2.getText() + "  " + "ONLINE");
+            } else {
+                label2 = new Label(label2.getText() + "  ");
             }
         } catch (Exception e) {
             label2 = new Label("-         -");
@@ -166,6 +182,8 @@ public class ScoreBoard extends Menu {
             label3 = new Label(scoreboardUsers.get(2).getNickName() + "        " + scoreboardUsers.get(2).getScore());
             if (isOnline[2]) {
                 label3 = new Label(label3.getText() + "  " + "ONLINE");
+            } else {
+                label3 = new Label(label3.getText() + "  ");
             }
         } catch (Exception e) {
             label3 = new Label("-         -");
@@ -174,6 +192,8 @@ public class ScoreBoard extends Menu {
             label4 = new Label(scoreboardUsers.get(3).getNickName() + "        " + scoreboardUsers.get(3).getScore());
             if (isOnline[3]) {
                 label4 = new Label(label4.getText() + "  " + "ONLINE");
+            } else {
+                label4 = new Label(label4.getText() + "  ");
             }
         } catch (Exception e) {
             label4 = new Label("-         -");
@@ -182,6 +202,8 @@ public class ScoreBoard extends Menu {
             label5 = new Label(scoreboardUsers.get(4).getNickName() + "        " + scoreboardUsers.get(4).getScore());
             if (isOnline[4]) {
                 label5 = new Label(label5.getText() + "  " + "ONLINE");
+            } else {
+                label5 = new Label(label5.getText() + "  ");
             }
         } catch (Exception e) {
             label5 = new Label("-         -");
@@ -190,6 +212,8 @@ public class ScoreBoard extends Menu {
             label6 = new Label(scoreboardUsers.get(5).getNickName() + "        " + scoreboardUsers.get(5).getScore());
             if (isOnline[5]) {
                 label6 = new Label(label6.getText() + "  " + "ONLINE");
+            } else {
+                label6 = new Label(label6.getText() + "  ");
             }
         } catch (Exception e) {
             label6 = new Label("-         -");
@@ -198,6 +222,8 @@ public class ScoreBoard extends Menu {
             label7 = new Label(scoreboardUsers.get(6).getNickName() + "        " + scoreboardUsers.get(6).getScore());
             if (isOnline[6]) {
                 label7 = new Label(label7.getText() + "  " + "ONLINE");
+            } else {
+                label7 = new Label(label7.getText() + "  ");
             }
         } catch (Exception e) {
             label7 = new Label("-         -");
@@ -206,6 +232,8 @@ public class ScoreBoard extends Menu {
             label8 = new Label(scoreboardUsers.get(7).getNickName() + "        " + scoreboardUsers.get(7).getScore());
             if (isOnline[7]) {
                 label8 = new Label(label8.getText() + "  " + "ONLINE");
+            } else {
+                label8 = new Label(label8.getText() + "  ");
             }
         } catch (Exception e) {
             label8 = new Label("-         -");
@@ -214,6 +242,8 @@ public class ScoreBoard extends Menu {
             label9 = new Label(scoreboardUsers.get(8).getNickName() + "        " + scoreboardUsers.get(8).getScore());
             if (isOnline[8]) {
                 label9 = new Label(label9.getText() + "  " + "ONLINE");
+            } else {
+                label9 = new Label(label9.getText() + "  ");
             }
         } catch (Exception e) {
             label9 = new Label("-         -");
@@ -222,6 +252,8 @@ public class ScoreBoard extends Menu {
             label10 = new Label(scoreboardUsers.get(9).getNickName() + "        " + scoreboardUsers.get(9).getScore());
             if (isOnline[9]) {
                 label10 = new Label(label10.getText() + "  " + "ONLINE");
+            } else {
+                label10 = new Label(label10.getText() + "  ");
             }
         } catch (Exception e) {
             label10 = new Label("-         -");
@@ -255,6 +287,8 @@ public class ScoreBoard extends Menu {
             label11 = new Label(scoreboardUsers.get(10).getNickName() + "        " + scoreboardUsers.get(10).getScore());
             if (isOnline[10]) {
                 label11 = new Label(label11.getText() + "  " + "ONLINE");
+            } else {
+                label11 = new Label(label11.getText() + "  ");
             }
         } catch (Exception e) {
             label11 = new Label("-         -");
@@ -263,6 +297,8 @@ public class ScoreBoard extends Menu {
             label12 = new Label(scoreboardUsers.get(11).getNickName() + "        " + scoreboardUsers.get(11).getScore());
             if (isOnline[11]) {
                 label12 = new Label(label12.getText() + "  " + "ONLINE");
+            } else {
+                label12 = new Label(label12.getText() + "  ");
             }
         } catch (Exception e) {
             label12 = new Label("-         -");
@@ -271,6 +307,8 @@ public class ScoreBoard extends Menu {
             label13 = new Label(scoreboardUsers.get(12).getNickName() + "        " + scoreboardUsers.get(12).getScore());
             if (isOnline[12]) {
                 label13 = new Label(label13.getText() + "  " + "ONLINE");
+            } else {
+                label13 = new Label(label13.getText() + "  ");
             }
         } catch (Exception e) {
             label13 = new Label("-         -");
@@ -279,6 +317,8 @@ public class ScoreBoard extends Menu {
             label14 = new Label(scoreboardUsers.get(13).getNickName() + "        " + scoreboardUsers.get(13).getScore());
             if (isOnline[13]) {
                 label14 = new Label(label14.getText() + "  " + "ONLINE");
+            } else {
+                label14 = new Label(label14.getText() + "  ");
             }
         } catch (Exception e) {
             label14 = new Label("-         -");
@@ -287,6 +327,8 @@ public class ScoreBoard extends Menu {
             label15 = new Label(scoreboardUsers.get(14).getNickName() + "        " + scoreboardUsers.get(14).getScore());
             if (isOnline[14]) {
                 label15 = new Label(label15.getText() + "  " + "ONLINE");
+            } else {
+                label15 = new Label(label15.getText() + "  ");
             }
         } catch (Exception e) {
             label15 = new Label("-         -");
@@ -295,6 +337,8 @@ public class ScoreBoard extends Menu {
             label16 = new Label(scoreboardUsers.get(15).getNickName() + "        " + scoreboardUsers.get(15).getScore());
             if (isOnline[15]) {
                 label16 = new Label(label16.getText() + "  " + "ONLINE");
+            } else {
+                label16 = new Label(label16.getText() + "  ");
             }
         } catch (Exception e) {
             label16 = new Label("-         -");
@@ -303,6 +347,8 @@ public class ScoreBoard extends Menu {
             label17 = new Label(scoreboardUsers.get(16).getNickName() + "        " + scoreboardUsers.get(16).getScore());
             if (isOnline[16]) {
                 label17 = new Label(label17.getText() + "  " + "ONLINE");
+            } else {
+                label17 = new Label(label17.getText() + "  ");
             }
         } catch (Exception e) {
             label17 = new Label("-         -");
@@ -311,6 +357,8 @@ public class ScoreBoard extends Menu {
             label18 = new Label(scoreboardUsers.get(17).getNickName() + "        " + scoreboardUsers.get(17).getScore());
             if (isOnline[17]) {
                 label18 = new Label(label18.getText() + "  " + "ONLINE");
+            } else {
+                label18 = new Label(label18.getText() + "  ");
             }
         } catch (Exception e) {
             label18 = new Label("-         -");
@@ -319,6 +367,8 @@ public class ScoreBoard extends Menu {
             label19 = new Label(scoreboardUsers.get(18).getNickName() + "        " + scoreboardUsers.get(18).getScore());
             if (isOnline[18]) {
                 label19 = new Label(label19.getText() + "  " + "ONLINE");
+            } else {
+                label19 = new Label(label19.getText() + "  ");
             }
         } catch (Exception e) {
             label19 = new Label("-         -");
@@ -327,6 +377,8 @@ public class ScoreBoard extends Menu {
             label20 = new Label(scoreboardUsers.get(19).getNickName() + "        " + scoreboardUsers.get(19).getScore());
             if (isOnline[19]) {
                 label20 = new Label(label20.getText() + "  " + "ONLINE");
+            } else {
+                label20 = new Label(label20.getText() + "  ");
             }
         } catch (Exception e) {
             label20 = new Label("-         -");

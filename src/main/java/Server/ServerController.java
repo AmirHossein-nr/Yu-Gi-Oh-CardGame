@@ -75,11 +75,7 @@ public class ServerController {
         boolean[] isOnline = new boolean[20];
         for (int i = 0; i < 20; i++) {
             try {
-                if (loggedInUsers.containsValue(User.allUsers.get(i))) {
-                    isOnline[i] = true;
-                } else {
-                    isOnline[i] = false;
-                }
+                isOnline[i] = loggedInUsers.containsValue(User.allUsers.get(i));
             } catch (Exception e) {
                 isOnline[i] = false;
             }

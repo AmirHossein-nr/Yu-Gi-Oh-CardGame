@@ -29,14 +29,14 @@ public class ScoreBoardGraphic extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Css/back.css"))
                 .toExternalForm());
         primaryStage.setScene(scene);
-
+        ScoreBoard.mainStage = primaryStage;
         Button refresh = new Button("Refresh");
         refresh.setLayoutX(400.0);
-        refresh.setLayoutY(700.0);
+        refresh.setLayoutY(672.0);
         refresh.setOnMouseClicked(event -> {
             try {
-                controller.refresh(anchorPane);
-            } catch (IOException | ClassNotFoundException e) {
+                controller.reMake();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
