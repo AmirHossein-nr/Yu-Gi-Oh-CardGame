@@ -60,6 +60,9 @@ public class ServerMain {
         } else if (input.startsWith("scoreboard")) {
             ServerController.scoreboard(objectOutputStream);
             return "";
+        } else if (input.startsWith("duel")) {
+            ServerController.duelMenu(objectOutputStream);
+            return "";
         }
         return "";
     }

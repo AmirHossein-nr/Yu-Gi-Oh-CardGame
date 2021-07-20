@@ -1,11 +1,17 @@
 package Client.Controller.Menu;
 
 import Client.View.GUI.*;
+import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu extends Menu {
     public static Stage mainStage;
@@ -68,6 +74,12 @@ public class MainMenu extends Menu {
     }
 
     public void openDuelMenu(ActionEvent actionEvent) throws Exception {
+        try {
+            getObjectOutputStream().writeUTF("duel");
+            getObjectOutputStream().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         DuelMenuGraphic.loggedUser = loggedUser;
         DuelMenuGraphic duelMenuGraphic = new DuelMenuGraphic();
         duelMenuGraphic.start(mainStage);

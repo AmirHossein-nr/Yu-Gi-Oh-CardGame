@@ -12,12 +12,6 @@ import java.util.Collections;
 public class User implements Serializable {
 
     @Expose
-    public static transient ArrayList<User> allUsers;
-    @Expose
-    private transient ArrayList<Deck> decks;
-    @Expose
-    private transient ArrayList<Card> allCards;
-    @Expose
     private String username;
     @Expose
     private String password;
@@ -37,9 +31,11 @@ public class User implements Serializable {
     private boolean isArtificial;
     @Expose
     private String avatarAddress;
-    @Expose
-    private transient Board board;
 
+    public static transient ArrayList<User> allUsers;
+    private transient ArrayList<Deck> decks;
+    private transient ArrayList<Card> allCards;
+    private transient Board board;
     private transient Image avatar;
 
     static {

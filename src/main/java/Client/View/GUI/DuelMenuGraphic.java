@@ -14,10 +14,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class DuelMenuGraphic extends Application {
 
     public static User loggedUser;
     public static Stage mainStage;
+    public static ArrayList<String> users = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -37,7 +40,7 @@ public class DuelMenuGraphic extends Application {
     public void createOtherPlayers(AnchorPane anchorPane) {
         int count = 1;
         for (User user : User.getAllUsers()) {
-            if (user != loggedUser) {
+            if (!user.equals(loggedUser.getNickName())) {
                 Label label = new Label(user.getNickName());
                 label.setLayoutX(10);
                 label.setLayoutY(count * 45 + 5);

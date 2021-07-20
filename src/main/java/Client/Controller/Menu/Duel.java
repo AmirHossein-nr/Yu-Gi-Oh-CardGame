@@ -1,15 +1,19 @@
 package Client.Controller.Menu;
 
+import Client.View.GUI.DuelMenuGraphic;
 import Model.*;
 import Client.View.GUI.MainMenuGraphic;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Duel extends Menu {
 
     public static Stage mainStage;
 
-    public Duel () {
+    public Duel() {
         super("Duel Menu", null);
     }
 

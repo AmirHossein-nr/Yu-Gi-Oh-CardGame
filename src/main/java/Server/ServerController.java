@@ -1,7 +1,11 @@
 package Server;
 
 import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -55,6 +59,22 @@ public class ServerController {
 
         user.setMoney(user.getMoney() - cardPrice);
         return true;
+    }
+
+    public static void duelMenu(ObjectOutputStream objectOutputStream) throws IOException {
+        ArrayList<String> users = new ArrayList<>();
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson;
+        FileWriter writer = new FileWriter(new File("src/main/resources/Users/allUsers.Json"));
+        try {
+            for (User user : User.getAllUsers()) {
+                users.add(user.getNickName());
+            }
+            gson = builder.excludeFieldsWithoutExposeAnnotation().create();
+            writer.write(gson.toJson(users));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void scoreboard(ObjectOutputStream objectOutputStream) throws IOException {
