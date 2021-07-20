@@ -74,12 +74,9 @@ public class MainMenu extends Menu {
     }
 
     public void openDuelMenu(ActionEvent actionEvent) throws Exception {
-        try {
-            getObjectOutputStream().writeUTF("duel");
-            getObjectOutputStream().flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        getObjectOutputStream().writeUTF("duel");
+        getObjectOutputStream().flush();
+        DuelMenuGraphic.users = (ArrayList) getObjectInputStream().readObject();
         DuelMenuGraphic.loggedUser = loggedUser;
         DuelMenuGraphic duelMenuGraphic = new DuelMenuGraphic();
         duelMenuGraphic.start(mainStage);

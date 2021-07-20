@@ -1,6 +1,5 @@
 package Client.Controller.Menu;
 
-import Client.View.GUI.ScoreBoardGraphic;
 import Model.User;
 import Client.View.GUI.MainMenuGraphic;
 import javafx.event.ActionEvent;
@@ -89,15 +88,15 @@ public class ScoreBoard extends Menu {
     private void labelMakerSecond(Label label1, Label label2, Label label3, Label label4, Label label5, Label label6,
                                   Label label7, Label label8, Label label9, Label label10) {
         label1.setLayoutY(10);
-        label2.setLayoutY(40);
-        label3.setLayoutY(70);
-        label4.setLayoutY(100);
-        label5.setLayoutY(130);
-        label6.setLayoutY(160);
-        label7.setLayoutY(190);
-        label8.setLayoutY(220);
-        label9.setLayoutY(250);
-        label10.setLayoutY(280);
+        label2.setLayoutY(60);
+        label3.setLayoutY(90);
+        label4.setLayoutY(120);
+        label5.setLayoutY(150);
+        label6.setLayoutY(180);
+        label7.setLayoutY(210);
+        label8.setLayoutY(240);
+        label9.setLayoutY(270);
+        label10.setLayoutY(300);
     }
 
     private void labelMakerFirst(Label label1, Label label2, Label label3, Label label4, Label label5, Label label6,
@@ -133,16 +132,16 @@ public class ScoreBoard extends Menu {
 
     private void labelMakerThird(Label label11, Label label12, Label label13, Label label14, Label label15,
                                  Label label16, Label label17, Label label18, Label label19, Label label20) {
-        label11.setLayoutY(310);
-        label12.setLayoutY(340);
-        label13.setLayoutY(370);
-        label14.setLayoutY(400);
-        label15.setLayoutY(430);
-        label16.setLayoutY(460);
-        label17.setLayoutY(490);
-        label18.setLayoutY(520);
-        label19.setLayoutY(550);
-        label20.setLayoutY(580);
+        label11.setLayoutY(330);
+        label12.setLayoutY(370);
+        label13.setLayoutY(390);
+        label14.setLayoutY(420);
+        label15.setLayoutY(450);
+        label16.setLayoutY(480);
+        label17.setLayoutY(510);
+        label18.setLayoutY(540);
+        label19.setLayoutY(570);
+        label20.setLayoutY(600);
     }
 
     public void createLabelsThird(AnchorPane anchorPane) {

@@ -62,16 +62,9 @@ public class ServerController {
     }
 
     public static void duelMenu(ObjectOutputStream objectOutputStream) throws IOException {
-        ArrayList<String> users = new ArrayList<>();
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson;
-        FileWriter writer = new FileWriter(new File("src/main/resources/Users/allUsers.Json"));
         try {
-            for (User user : User.getAllUsers()) {
-                users.add(user.getNickName());
-            }
-            gson = builder.excludeFieldsWithoutExposeAnnotation().create();
-            writer.write(gson.toJson(users));
+            objectOutputStream.writeObject(User.allUsers);
+            objectOutputStream.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }

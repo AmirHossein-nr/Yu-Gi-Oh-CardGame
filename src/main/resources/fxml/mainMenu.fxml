@@ -19,7 +19,7 @@
         <Button layoutX="279.0" layoutY="109.0" mnemonicParsing="false" onAction="#openDuelMenu" prefHeight="33.0"
                 prefWidth="155.0"
                 style="-fx-background-color: white; -fx-border-color: orange; -fx-border-style: solid; -fx-border-width: 3;"
-                text="duel menu">
+                text="Lobby !">
             <font>
                 <Font name="Harlow Solid Italic" size="17.0"/>
             </font>
